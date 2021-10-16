@@ -4,10 +4,10 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <style>
          body {
-         color: LightPink;
+         color: White;
          font-family: 'Arial';
          font-size: large;
-         text-align: right;	
+         text-align: center;	
          background-image: url('w3css.gif');
          background-repeat: no-repeat;
          background-attachment: fixed;
@@ -16,30 +16,17 @@
          .pos {
          margin: 0;
          position: absolute;
-         top: 70%;
+         top: 100%;
          left: 50%;
          -ms-transform: translate(-50%, -50%);
          transform: translate(-50%, -50%);
          }
          #myVideo {
-         position: fixed;
-         right: 0;
-         bottom: 0;
-         min-width: 100%; 
-         min-height: 100%;
-         }
-         #myBtn {
-         width: 200px;
-         font-size: 18px;
-         padding: 10px;
-         border: none;
-         background: #000;
-         color: #fff;
-         cursor: pointer;
-         }
-         #myBtn:hover {
-         background: #ddd;
-         color: black;
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         -ms-transform: translate(-50%, -50%);
+         transform: translate(-50%, -50%);
          }
       </style>
    </head>
@@ -58,7 +45,6 @@
       </main>
       <script>
          var video = document.getElementById("myVideo");
-         var btn = document.getElementById("myBtn");
          
          function myFunction() {
            if (video.paused) {
