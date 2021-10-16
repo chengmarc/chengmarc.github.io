@@ -7,8 +7,8 @@
          color: White;
          font-family: 'Arial';
          font-size: large;
-         text-align: right;	
-         background-image: url('w3css.gif');
+         text-align: left;	
+         background-image: url('https://chengmarc.github.io/utacg/static_bg.png');
          background-repeat: no-repeat;
          background-attachment: fixed;
          background-position: center; 
@@ -16,25 +16,14 @@
          .pos {
          margin: 0;
          position: absolute;
-         top: 30%;
-         left: 80%;
-         -ms-transform: translate(-50%, -50%);
-         transform: translate(-50%, -50%);
-         }
-         #myVideo {
-         position: absolute;
-         top: 50%;
-         left: 20%;
+         top: 80%;
+         left: 50%;
          -ms-transform: translate(-50%, -50%);
          transform: translate(-50%, -50%);
          }
       </style>
    </head>
    <body>
-      <video autoplay muted loop id="myVideo">
-         <source src="https://chengmarc.github.io/utacg/dynamic_bg.mp4" type="video/mp4">
-         Your browser does not support HTML5 video.
-      </video>
       <main>
          <div class="pos">
             <p><strong>UTACG</strong></p>
@@ -43,18 +32,5 @@
             </p>
          </div>
       </main>
-      <script>
-         var video = document.getElementById("myVideo");
-         
-         function myFunction() {
-           if (video.paused) {
-             video.play();
-             btn.innerHTML = "Pause";
-           } else {
-             video.pause();
-             btn.innerHTML = "Play";
-           }
-         }
-      </script>
    </body>
 </html>
