@@ -1,36 +1,74 @@
 <!DOCTYPE html>
-<html><head>
-	
-<style>
-body {
-  color: LightPink;
-  font-family: 'Arial';
-  font-size: large;
-  text-align: center;	
-  background-image: url('w3css.gif');
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: center; 
-}
-.center {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-}
-</style>
-</head>
-
-<body>
-	<main>
-    	<div class="center">
-		<p><strong>UTACG</strong></p>
-		<p>University of Toronto Animation Comic and Game<br>
-		Permenant Prime Member</p>
-        </div>
-	</main>
-</body>
-
+<html>
+   <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <style>
+         body {
+         color: LightPink;
+         font-family: 'Arial';
+         font-size: large;
+         text-align: right;	
+         background-image: url('w3css.gif');
+         background-repeat: no-repeat;
+         background-attachment: fixed;
+         background-position: center; 
+         }
+         .pos {
+         margin: 0;
+         position: absolute;
+         top: 70%;
+         left: 50%;
+         -ms-transform: translate(-50%, -50%);
+         transform: translate(-50%, -50%);
+         }
+         #myVideo {
+         position: fixed;
+         right: 0;
+         bottom: 0;
+         min-width: 100%; 
+         min-height: 100%;
+         }
+         #myBtn {
+         width: 200px;
+         font-size: 18px;
+         padding: 10px;
+         border: none;
+         background: #000;
+         color: #fff;
+         cursor: pointer;
+         }
+         #myBtn:hover {
+         background: #ddd;
+         color: black;
+         }
+      </style>
+   </head>
+   <body>
+      <video autoplay muted loop id="myVideo">
+         <source src="https://chengmarc.github.io/utacg/dynamic_bg.mp4" type="video/mp4">
+         Your browser does not support HTML5 video.
+      </video>
+      <main>
+         <div class="pos">
+            <p><strong>UTACG</strong></p>
+            <p>University of Toronto Animation Comic and Game<br>
+               Permenant Prime Member
+            </p>
+         </div>
+      </main>
+      <script>
+         var video = document.getElementById("myVideo");
+         var btn = document.getElementById("myBtn");
+         
+         function myFunction() {
+           if (video.paused) {
+             video.play();
+             btn.innerHTML = "Pause";
+           } else {
+             video.pause();
+             btn.innerHTML = "Play";
+           }
+         }
+      </script>
+   </body>
 </html>
