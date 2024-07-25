@@ -1,0 +1,46 @@
+/*!
+   * Bootstrap  v5.2.0 (https://getbootstrap.com/)
+   * Copyright 2011-2022 The Bootstrap Authors
+   * Copyright 2011-2022 Twitter, Inc.
+   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+   */
+body{color:white;background-color:black}
+
+        .navbar-nav .nav-link {
+            color: white; /* Set default text color of navbar links to white */
+            text-decoration: none; /* Remove default underline */
+            position: relative; /* Ensure relative positioning for pseudo-element */
+        }
+
+        .navbar-nav .nav-link:hover {
+            text-decoration: none; /* Remove underline on hover */
+        }
+
+        .navbar-nav .nav-link::before {
+            content: ''; /* Create pseudo-element for underline */
+            position: absolute;
+            bottom: -2px; /* Adjust to move underline below text */
+            left: 0;
+            width: 100%;
+            height: 2px; /* Height of the underline */
+            background-color: transparent; /* Initially transparent */
+            transition: background-color 0.3s ease-in-out; /* Add transition for smooth effect */
+        }
+
+        .navbar-nav .nav-link:hover::before {
+            background-color: white; /* Change background color of underline on hover */
+        }
+		
+.link-fancy{color:#EAEAEA;text-decoration:none;display:inline-block;position:relative}
+
+.link-fancy:hover{color:#938a82}
+
+.link-fancy:before{content:'';display:block;height:1px;width:100%;transform-origin:left;position:absolute;left:0;bottom:0;background-image:linear-gradient(90deg,#EAEAEA 0,#EAEAEA 25%,transparent 0,transparent 50%,#EAEAEA 0,#EAEAEA 75%,transparent 0,transparent);background-repeat:no-repeat;background-position:0;background-size:400% 1px;transition:background-position .8s ease-in-out}
+
+.link-fancy:hover:before{background-position:100%}
+
+.navbar-brand {color:white !important;}
+.nav-link {color:white !important;}
+
+.display-6 {color:white !important;}
+.display-4 {font-size:calc(1.475rem + 2.7vw);font-weight:300;line-height:1.2}@media (min-width:1200px){.display-4{font-size:3.5rem}}

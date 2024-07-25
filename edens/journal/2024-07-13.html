@@ -12,6 +12,7 @@
         <meta name="HandheldFriendly" content="true">
         <title>Summer, Fireworks, My Corpse</title>
         <link rel="stylesheet" href="../css/theme.min.css">
+        <link rel="stylesheet" href="../css/theme.min.dark.css">
         <style>
             /* inter-300 - latin */
             @font-face {
@@ -57,7 +58,7 @@
         <nav id="navScroll" class="navbar navbar-expand-lg navbar-light py-vh-3 pb-0 px-vw-5" tabindex="0">
             <div class="container-fluid">
                 <a class="navbar-brand pe-4 fs-4" href="/">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
                     </svg>
@@ -118,18 +119,34 @@
                         <p>
 						<style>
 						.video-container {
-						display: flex;
-						justify-content: center;
-						align-items: center;
-						height: 100vh; /* Adjust the height as needed */
+							display: flex;
+							justify-content: center;
+							align-items: center; 
+							max-width: 100%; /* Ensure the container does not exceed the viewport width */
+							overflow: hidden; /* Hide any overflow */
+						}
+						
+						.video-container video {
+							width: 100%; /* Ensure the video fills the container width */
+							height: auto; /* Maintain aspect ratio */
 						}
 						</style>
-							<div class="video-container">
-								<video width="1080" height="720" controls>
-									<source src="../vid/summer.mpeg" type="video/mpeg">
-									Your browser does not support the video tag.
-								</video>
-							</div>
+						<div class="video-container">
+							<video width="1080" height="720" controls>
+								<source src="../vid/summer.mp4" type="video/mp4">
+								Your browser does not support the video tag.
+							</video>
+						</div>
+						<script>
+						// JavaScript to control autoplay due to browser restrictions
+						document.addEventListener('DOMContentLoaded', function() {
+							var video = document.querySelector('video');
+							video.play().catch(function(error) {
+								console.error('Autoplay was prevented:', error);
+								// Normally, you would handle the error here (e.g., by showing a play button for user interaction)
+								});
+							});
+						</script>
                        </p>
                     </div>
                 </div>
@@ -137,7 +154,7 @@
         </main>
         <div class="container d-flex justify-content-between">
             <div class="col border-top border-end py-vh-3 d-flex align-items-center">
-                <div class="h1 text-muted display-4 opacity-25 fw-bolder">This is the most recent post.</div>
+                <div class="h1 display-4 opacity-25 fw-bolder">This is the most recent post.</div>
             </div>
             <div class="col border-top text-end py-vh-3 d-flex align-items-center justify-content-end">
                 <a href="./2024-02-10.html" class="me-2 display-6">逆飞的流星</a>
