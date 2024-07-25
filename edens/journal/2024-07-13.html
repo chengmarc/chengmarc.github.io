@@ -10,7 +10,7 @@
         <meta name="author" content="Marc Cheng">
         <meta name="generator" content="Eleventy v2.0.0">
         <meta name="HandheldFriendly" content="true">
-        <title>Summer, Fireworks, My Corpse</title>
+        <title>A Never-ending Summer</title>
         <link rel="stylesheet" href="../css/theme.min.css">
         <link rel="stylesheet" href="../css/theme.min.dark.css">
         <style>
@@ -112,7 +112,7 @@
             <div class="row d-flex justify-content-center text-center">
                 <div class="col-12 col-lg-10 col-xl-6">
                     <small class="text-muted">2024 July 13th</small>
-                    <h1 class="display-huge">夏天 烟火 我的尸体</h1>
+                    <h1 class="display-huge">漫无止尽的夏天</h1>
                 </div>
                 <div class="row d-flex justify-content-center text-start">
                     <div class="col-12 col-lg-10 col-xl-6 py-vh-2">
@@ -132,11 +132,14 @@
 						}
 						</style>
 						<div class="video-container">
-							<video controls autoplay loop>
+							<video controls autoplay loop id="vid">
 								<source src="../vid/summer.mp4" type="video/mp4">
 								Your browser does not support the video tag.
 							</video>
 						</div>
+						<script>
+							document.getElementById('vid').play();
+						</script>
                        </p>
                     </div>
                 </div>
