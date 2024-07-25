@@ -132,21 +132,11 @@
 						}
 						</style>
 						<div class="video-container">
-							<video width="1080" height="720" controls>
+							<video controls autoplay loop>
 								<source src="../vid/summer.mp4" type="video/mp4">
 								Your browser does not support the video tag.
 							</video>
 						</div>
-						<script>
-						// JavaScript to control autoplay due to browser restrictions
-						document.addEventListener('DOMContentLoaded', function() {
-							var video = document.querySelector('video');
-							video.play().catch(function(error) {
-								console.error('Autoplay was prevented:', error);
-								// Normally, you would handle the error here (e.g., by showing a play button for user interaction)
-								});
-							});
-						</script>
                        </p>
                     </div>
                 </div>
