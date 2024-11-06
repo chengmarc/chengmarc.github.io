@@ -7,8 +7,9 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-image: url('https://images8.alphacoders.com/133/1336966.jpeg');
+            background-image: url('./main.jpg');
             background-size: cover;
+            background-size: 120%;
             background-position: center;
             margin: 0;
             padding: 20px;
@@ -33,13 +34,13 @@
             width: calc(100%);
         }
         .block {
-            background-color: rgba(255, 255, 255, 0.2); /* Transparent white background */
+            background-color: rgba(0, 0, 0, 0.3); /* Transparent white background */
             border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: 10px;
             padding: 1px;
             margin: 10px 0;
             width: 15%;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
 			transition: width 0.3s ease; /* Optional: smooth transition */
         }
 		@media (max-width: 768px) { /* Adjust the max-width as needed */
@@ -48,13 +49,13 @@
 			}
 		}
         .insideblock {
-            background-color: rgba(255, 255, 255, 0.2); /* Transparent white background */
+            background-color: rgba(0, 0, 0, 0.3); /* Transparent white background */
             border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: 10px;
             padding: 15px;
             margin: 10px;
             width: calc(80% - 8px);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
 			margin-inline: auto;
         }
         .block h3 {
@@ -87,10 +88,10 @@
             background-color: rgba(0, 123, 255, 1);
         }
 		.logo-container {
-            background-color: rgba(255, 255, 255, 0.2); /* Transparent white background */
+            background-color: rgba(0, 0, 0, 0.3); /* Transparent white background */
             border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: 10px;
-            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.7);
 			transition: width 0.3s ease; /* Optional: smooth transition */
 			display: flex;
 			justify-content: space-around;
@@ -100,10 +101,10 @@
 			margin: 0 auto;
 		}
 		.text-container {
-            background-color: rgba(255, 255, 255, 0.2); /* Transparent white background */
+            background-color: rgba(0, 0, 0, 0.3); /* Transparent white background */
             border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: 10px;
-            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.7);
 			transition: width 0.3s ease; /* Optional: smooth transition */
 			display: flex;
 			justify-content: space-around;
@@ -116,6 +117,7 @@
 		.logo {
 			width: auto;
 			height: 50px;
+			filter: invert(1) brightness(1000%) contrast(1000%);
 		}
 		@media (max-width: 768px) { /* Adjust the max-width as needed */
 			.logo-container {
@@ -130,6 +132,8 @@
 		}
 		h1 {
 			font-size: 7vh;
+			color: black;
+			text-shadow: 0 2px 5px rgba(255, 255, 255, 0.5);
 		}
 		h2 {
 			font-size: 3vh;
