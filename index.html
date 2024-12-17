@@ -11,67 +11,15 @@
             background-size: cover;
             background-size: 120%;
             background-position: center;
-	    background-attachment: fixed;
+			background-attachment: fixed;
             margin: 0;
             padding: 20px;
             color: white; /* Change text color for better visibility */
-        }
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            max-width: 100%;
-			margin-left: auto;
-			margin-right: auto;
         }
 		.vertical-center {
 			height: 90vh; /* Specify the height */
 			margin-top: 5vh; /* Adjust with half of height */
 		}
-        .container-special {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            width: calc(100%);
-        }
-        .block {
-            background-color: rgba(0, 0, 0, 0.3); /* Transparent white background */
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 10px;
-            padding: 1px;
-            margin: 10px 0;
-            width: 15%;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
-			transition: width 0.3s ease; /* Optional: smooth transition */
-        }
-		@media (max-width: 768px) { /* Adjust the max-width as needed */
-			.block {
-				width: 100%; /* Width for mobile */
-			}
-		}
-        .insideblock {
-            background-color: rgba(0, 0, 0, 0.3); /* Transparent white background */
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 10px;
-            padding: 15px;
-            margin: 10px;
-            width: calc(80% - 8px);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
-			margin-inline: auto;
-        }
-        .block h3 {
-            margin-top: 0;
-        }
-        a {
-            display: block;
-            margin: 5px 0;
-            text-decoration: none;
-            color: #ffffff; /* Change link color for better visibility */
-        }
-        a:hover {
-            text-decoration: underline;
-            color: #0000FF; /* Change hover color */
-        }
         .more-links {
             display: none; /* Hide additional links by default */
             margin-top: 10px;
@@ -88,20 +36,133 @@
         .toggle-button:hover {
             background-color: rgba(0, 123, 255, 1);
         }
-		.logo-container {
+		@media (max-width: 768px) { /* Adjust the max-width as needed */
+			body {
+				background-size: 350%;
+			}
+		}
+		
+		
+		/**************** TEXTS ****************/
+        a {
+            display: block;
+            margin: 5px 0;
+            text-decoration: none;
+            color: #ffffff; /* Change link color for better visibility */
+        }
+        a:hover {
+            text-decoration: underline;
+            color: #0000FF; /* Change hover color */
+        }
+		h1 {
+			font-size: 7vh;
+			color: black;
+			text-shadow: 0 2px 5px rgba(255, 255, 255, 0.5);
+		}
+		h2 {
+			font-size: 3vh;
+		}
+		h3 {
+			font-size: 2vh;
+			margin-top: 0;
+		}
+		@media (max-width: 768px) { /* Adjust the max-width as needed */
+			h1 {
+				font-size: 0vh;
+				width: 0vh;
+			}
+			h2 {
+				font-size: 2vh;
+			}
+			h3 {
+				font-size: 2vh;
+			}
+			a {
+				font-size: 1.7vh;
+			}
+		}
+		
+		
+		/**************** CONTAINERS ****************/
+        .master-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 100%;
+        }
+        .container {
+            background-color: rgba(0, 0, 0, 0.3); /* Transparent white background */
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+            height: auto;
+            width: 15vw;
+			margin-top: 1vh; 
+			margin-bottom: 1vh; 
+			padding-top: 0.5vh;
+			padding-bottom: 0.5vh;
+			transition: width 0.3s ease; /* Optional: smooth transition */
+        }
+        .container-special {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+			height: auto;
+            width: 100vw;
+			margin-top: 1vh; 
+			margin-bottom: 1vh; 
+        }
+
+		@media (max-width: 768px) { /* Adjust the max-width as needed */
+			.container {
+				width: 42vw;
+			}
+			.container-special {
+				width: 100vw;
+			}
+		}
+		
+		
+		/**************** BLOCKS ****************/
+        .block {
+            background-color: rgba(0, 0, 0, 0.3); /* Transparent white background */
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            margin: 10px;
+            width: calc(80% - 8px);
+			margin-inline: auto;
+        }
+		.logo-block {
             background-color: rgba(0, 0, 0, 0.3); /* Transparent white background */
             border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: 10px;
             box-shadow: 0 1px 5px rgba(0, 0, 0, 0.7);
 			transition: width 0.3s ease; /* Optional: smooth transition */
 			display: flex;
-			justify-content: space-around;
+			justify-content: center;
 			align-items: center;
 			padding: 20px;
 			width: 200px;
-			margin: 0 auto;
+			margin: auto;
 		}
-		.text-container {
+		.title-block {
+			background-color: rgba(255, 255, 255, 0); 
+			border: 1px solid rgba(255, 255, 255, 0); 
+			box-shadow: 0 1px 5px rgba(0, 0, 0, 0)
+            border-radius: 10px;
+			transition: width 0.3s ease; /* Optional: smooth transition */
+			display: flex;
+			justify-content: space-around;
+			align-items: center;
+			padding: 20px;
+			height: 50px;
+			width: auto;
+			margin: auto;
+			filter: invert(1) brightness(1000%) contrast(1000%);
+		}
+		.text-block {
             background-color: rgba(0, 0, 0, 0.3); /* Transparent white background */
             border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: 10px;
@@ -112,67 +173,64 @@
 			align-items: center;
 			padding: 20px;
 			height: 20px; 
-			width: 280px;
+			width: 16vw;
 			margin: 0 auto;
 		}
 		.logo {
 			width: auto;
-			height: 50px;
+			height: 6vh;
 			filter: invert(1) brightness(1000%) contrast(1000%);
 		}
+		.github {
+			width: auto;
+			height: 4vh;
+			padding-left: 8px;
+			filter: invert(1) brightness(1000%) contrast(1000%);
+		}
+		
 		@media (max-width: 768px) { /* Adjust the max-width as needed */
-			.logo-container {
-				width: 10vh;
+			.logo-block {
+				height: 8vh;
+				width: 42vw;
+				padding: 0;
 			}
-			.text-container {
-				width: 10vh;
+			.title-block {
+				padding: 0;
+				width: 0;
 			}
 			.logo {
-				height: 15px; /* Width for mobile */
+				height: 4vh;
 			}
-		}
-		h1 {
-			font-size: 7vh;
-			color: black;
-			text-shadow: 0 2px 5px rgba(255, 255, 255, 0.5);
-		}
-		h2 {
-			font-size: 3vh;
-		}
-		@media (max-width: 768px) { /* Adjust the max-width as needed */
-			h1 {
-				font-size: 2vh;
-			}
-			h2 {
-				font-size: 3vh;
+			.github {
+				height: 2.8vh;
 			}
 		}
     </style>
 </head>
 <body>
 	
-<div class="container" style="margin-top: 1vh; margin-bottom: 1vh; height: 75vh">
+<div class="master-container">
 
-	<div class="container-special" style="margin-bottom: 5vh; height: 10vh">
+	<div class="container-special">
 	
-		<a href="https://chat.openai.com"><div class="logo-container">
+		<a href="https://chat.openai.com"><div class="logo-block">
 			<img src="https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg" alt="OpenAI Logo" class="logo">
 		</div></a>
 		
-		<a href="https://www.google.com"><div class="logo-container logo" style="background-color: rgba(255, 255, 255, 0); border: 1px solid rgba(255, 255, 255, 0); box-shadow: 0 1px 5px rgba(0, 0, 0, 0)">
+		<a href="https://www.google.com"><div class="title-block" >
 			<h1>我倒，你也网上冲浪啊</h1>
 		</div></a>
 		
-		<a href="https://github.com/"><div class="logo-container">
+		<a href="https://github.com/"><div class="logo-block" style="">
 			<img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub Logo" class="logo">
-			<img src="https://upload.wikimedia.org/wikipedia/commons/2/29/GitHub_logo_2013.svg" alt="GitHub Logo" class="logo" style="height: 4vh">
+			<img src="https://upload.wikimedia.org/wikipedia/commons/2/29/GitHub_logo_2013.svg" alt="GitHub Logo" class="github">
 		</div></a>
 		
 	</div>
 	
-    <div class="block">
+    <div class="container">
 
-		<div class="insideblock">
+		<div class="block">
 			<h3>简中互联网</h3>
 			<a href="https://www.douyin.com/" style="display: inline;">抖音</a> | <a href="https://www.kuaishou.com/" style="display: inline;">快手</a> <a></a>
 			<a href="https://www.xiaohongshu.com/explore">小红书</a>
@@ -182,7 +240,7 @@
 			<a href="https://aweidao1.com/" style="display: inline;">阿苇岛</a> | <a href="https://www.nmbxd1.com/Forum" style="display: inline;">X岛</a> <a></a>
 		</div>
 		
-		<div class="insideblock">
+		<div class="block">
 			<h3>Social Media</h3>
 			<a href="https://www.instagram.com/">Instagram</a>
 			<a href="https://www.reddit.com/">Reddit</a>
@@ -191,7 +249,7 @@
 			<a href="https://x.com/" style="display: inline;">X</a> | <a href="https://www.threads.net/?hl=en" style="display: inline;">Threads</a> <a></a>
 		</div>
 		
-		<div class="insideblock">
+		<div class="block">
 			<h3>Streaming</h3>
 			<a href="https://www.youtube.com/" style="display: inline;">YouTube</a> | <a href="https://www.twitch.tv/" style="display: inline;">Twitch</a> <a></a>
 			<a href="http://www.netflix.com/" style="display: inline;">Netflix</a> | <a href="https://www.iyf.tv/" style="display: inline;">爱壹帆</a> <a></a>
@@ -199,10 +257,9 @@
 		
     </div>
 	
-    <div class="block">
-	
+    <div class="container">
 		
-		<div class="insideblock">
+		<div class="block">
 			<h3>Weeb Stuff</h3>
 			<a href="https://www.bilibili.com/">哔哩哔哩</a>
 			<a href="https://schara.sunrockgo.com">ニコニコ</a>
@@ -214,7 +271,7 @@
 			<a href="https://picrew.me/">Picrew</a>
 		</div>
 		
-		<div class="insideblock">
+		<div class="block">
 			<h3>Piracy</h3>
 			<a href="https://www.reddit.com/r/Piracy/wiki/megathread#">Piracy Index (Reddit)</a>
 			<a href="https://github.com/HarborLibrary">HarborLibrary (Repo)</a>
@@ -228,9 +285,9 @@
 		
     </div>
 	
-    <div class="block">
+    <div class="container">
 		
-		<div class="insideblock">
+		<div class="block">
 			<h3>Digital Design Tools</h3>
 			<a href="https://www.canva.com/">Canvas</a>
 			<a href="https://www.chuangkit.com/">创可贴</a>
@@ -238,26 +295,28 @@
 			<a href="https://www.photopea.com/">Photoshop Online</a>
 		</div>
 		
-		<div class="insideblock">
-			<h3>Digital Design Resources</h3>
-			<a href="https://www.artstation.com/?sort_by=community&dimension=all">Art Station</a>
-			<a href="https://iconsvg.xyz/">ICON SVG</a>
-			<a href="https://c.r74n.com/emoji-colors">Emoji Copy Paste</a>
-			<a href="https://symbl.cc/en/unicode-table/">Unicode Dictionary</a>
+		<div class="block">
+			<h3>UI/UX Design Tools</h3>
+			<a href="https://michaelcurrin.github.io/badge-generator/#/">Shield.io Generator</a>
+			<a href="https://simpleicons.org/" style="display: inline;">Simple Icons</a> | <a href="https://iconsvg.xyz/" style="display: inline;">Icon SVG</a> <a></a>
 			<a href="https://fonts.google.com/">Google Fonts</a>
-			<a href="https://www.transparenttextures.com/">Transparent Textures</a>
-			<a href="https://giventofly.github.io/pixelit/#tryit">Pixel Art Convertor</a>
-			<a href="https://wangyasai.github.io/designtools.html">设计工具</a>
 			<a href="https://www.landingfolio.com/">Landing Folio</a>
+			<a href="https://symbl.cc/en/unicode-table/">Unicode Dictionary</a>
+		</div>
+		
+		<div class="block">
+			<h3>Other Resources</h3>
+			<a href="https://www.artstation.com/?sort_by=community&dimension=all">Art Station</a>
+			<a href="https://www.transparenttextures.com/">Transparent Textures</a>
 			<a href="http://musmus.main.jp/">BGM・音楽素材</a>
 			<a href="https://imslp.org/wiki/Main_Page">Classical Music Recordings</a>
 		</div>
 		
     </div>
 	
-    <div class="block">
+    <div class="container">
 		
-		<div class="insideblock">
+		<div class="block">
 			<h3>Models & Datasets</h3>
 			<a href="https://huggingface.co/models">Hugging Face</a>
 			<a href="https://www.kaggle.com/">Kaggle</a>
@@ -270,7 +329,7 @@
 			<button class="toggle-button" onclick="toggleLinks(this)">Show More Links</button>
         </div>
 		
-		<div class="insideblock">
+		<div class="block">
 			<h3>Papers</h3>
 			<a href="https://github.com/qiulinzhang/TopPaper">TopPaper (Repo)</a>
 			<a href="https://paperswithcode.com/sota">State-of-the-Art</a>
@@ -278,7 +337,7 @@
 			<a href="https://scihub.wikicn.top/">Sci-Hub</a>
 		</div>
 		
-		<div class="insideblock">
+		<div class="block">
 			<h3>Live Earth</h3>
 			<a href="https://satellitemap.space/">Satellite Tracker</a>
 			<a href="https://planefinder.net/">Live Air Traffic</a>
@@ -296,16 +355,16 @@
 		
     </div>
 	
-    <div class="block">
+    <div class="container">
 	
-		<div class="insideblock">
+		<div class="block">
 			<h3>Graphers</h3>
 			<a href="https://www.desmos.com/calculator">Desmos</a>
 			<a href="https://www.math3d.org/">Math3D</a>
 			<a href="http://davidbau.com/archives/2013/02/10/conformal_map_viewer.html">Conformal Map Viewer</a>
         </div>
 		
-		<div class="insideblock">
+		<div class="block">
 			<h3>Calculators</h3>
 			<a href="https://www.wolframalpha.com/">Wolfram Alpha</a>
 			<a href="https://www.integral-calculator.com/">Integral Calculator</a>
@@ -314,7 +373,7 @@
 			<a href="https://www.omnicalculator.com/math/spherical-coordinates">Coordinates Conversion</a>
         </div>
 		
-		<div class="insideblock">
+		<div class="block">
 			<h3>Math Notes</h3>
 			<a href="https://tutorial.math.lamar.edu/">Pauls Online Math Notes</a>
 			<a href="https://oeis.org/">Encyclopedia of Integer Sequences</a>
@@ -323,9 +382,9 @@
 		
 	</div>
 
-    <div class="block">
+    <div class="container">
 	
-		<div class="insideblock">
+		<div class="block">
 			<h3>Charts</h3>
 			<a href="https://www.tradingview.com/">TradingView</a>
 			<a href="https://www.coingecko.com/">CoinGecko</a>
@@ -333,7 +392,7 @@
 			<a href="https://bitcoincharts.com/charts/bitstampUSD#tgSzm1g10zm2g25zv">Bitcoincharts</a>
 		</div>
 		
-		<div class="insideblock">
+		<div class="block">
 			<h3>Blockchain Scanners</h3>
 			<a href="https://www.blockchain.com/explorer">Bitcoin Chain</a>
 			<a href="https://etherscan.io/">Ethereum Chain</a>
@@ -341,7 +400,7 @@
 			<a href="https://bloxy.info/zh">Bloxy</a>
         </div>
 		
-		<div class="insideblock">
+		<div class="block">
 			<h3>Tools & Analysis</h3>
 			<a href="https://www.dextools.io/app/en/pairs">DEX Tools</a>
 			<a href="https://www.alphaspread.com/dcf-value-calculator">DCF Calculator</a>
@@ -350,17 +409,17 @@
 		
     </div>
 
-	<div class="container-special" style="margin-top: 5vh; height: 10vh">
+	<div id="parent" class="container-special">
 		
-		<a href="./edens/promise.html"><div class="text-container">
+		<a id="child1" href="./edens/promise.html"><div class="text-block">
 			<h2>Eden's Promise</h2>
 		</div></a>
 		
-		<a href="./main/index.html"><div class="text-container">
+		<a id="child2" href="./main/index.html"><div class="text-block">
 			<h2>Personal Website</h2>
 		</div></a>
 		
-		<a href="./data-service/index.html"><div class="text-container">
+		<a id="child3" href="./data-service/index.html"><div class="text-block">
 			<h2>Cheng's Data Service</h2>
 		</div></a>
 		
