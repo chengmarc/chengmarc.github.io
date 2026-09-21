@@ -130,7 +130,7 @@ function applyFavicon(sharp, domain, onFail) {
 // Polished local SVG tiles, chosen deterministically from the domain. They
 // appear only when every favicon route fails, so restricted networks still get
 // icons that look intentional without generating SVG artwork at runtime.
-const FALLBACK_ICON_BASE = 'media/icons_fallback/';
+const FALLBACK_ICON_BASE = 'media/icons/';
 const FALLBACK_ICON_FILES = [
 	'search',
 	'video',
@@ -214,4 +214,4 @@ function iconArtFromSrc(src) {
 
 // All-Bookmarks launcher uses the site's own favicon (a 3×3 grid),
 // rendered through the same tile pipeline as every other icon.
-const ALL_APPS_ICON = 'media/favicon-directory.svg';
+const ALL_APPS_ICON = 'media/app-icon.svg';
