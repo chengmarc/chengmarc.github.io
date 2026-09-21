@@ -1,0 +1,1152 @@
+﻿/* ===================================================================
+   Merged stylesheet — WebOS directory desktop + About panel (profile).
+   Fonts, tokens, reset and body live here; the About-panel section at
+   the bottom holds the profile card CSS, scoped so it can't leak.
+   =================================================================== */
+
+@font-face {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 300 700;
+    font-display: swap;
+    src: url('../media/fonts/dm-sans-latin-ext.woff2') format('woff2');
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 300 700;
+    font-display: swap;
+    src: url('../media/fonts/dm-sans-latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+    /* ---- Design tokens --------------------------------------------- */
+    --font-sans: 'DM Sans', system-ui, sans-serif;
+    --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+
+    /* White overlays — backgrounds, borders, text (alpha scale) */
+    --w-05: rgba(255,255,255,0.05);  --w-08: rgba(255,255,255,0.08);
+    --w-12: rgba(255,255,255,0.12);  --w-15: rgba(255,255,255,0.15);
+    --w-20: rgba(255,255,255,0.20);  --w-24: rgba(255,255,255,0.24);
+    --w-30: rgba(255,255,255,0.30);  --w-35: rgba(255,255,255,0.35);
+    --w-40: rgba(255,255,255,0.40);  --w-45: rgba(255,255,255,0.45);
+    --w-50: rgba(255,255,255,0.50);  --w-55: rgba(255,255,255,0.55);
+    --w-62: rgba(255,255,255,0.62);  --w-82: rgba(255,255,255,0.82);
+    --w-85: rgba(255,255,255,0.85);  --w-90: rgba(255,255,255,0.90);
+
+    /* Black shadows / scrims (alpha scale) */
+    --k-12: rgba(0,0,0,0.12);  --k-15: rgba(0,0,0,0.15);  --k-18: rgba(0,0,0,0.18);
+    --k-30: rgba(0,0,0,0.30);  --k-35: rgba(0,0,0,0.35);  --k-40: rgba(0,0,0,0.40);
+    --k-45: rgba(0,0,0,0.45);  --k-55: rgba(0,0,0,0.55);  --k-85: rgba(0,0,0,0.85);
+
+    /* Frosted surfaces */
+    /* backdrop-filter blur is one of the most expensive things the compositor
+       runs, and the menu bar + dock are always on screen — cost scales with
+       radius, so these are kept as low as the glass look tolerates. */
+    --blur-glass: blur(12px) saturate(100%);
+    --blur-menu:  blur(12px) saturate(100%);
+    --blur-panel: blur(20px) saturate(100%);
+    --blur-dock:  blur(12px) saturate(100%);
+    --surface-window:  rgba(20,20,26,0.62);
+    --surface-menu:    rgba(18,18,24,0.28);
+    --surface-card:    rgba(26,26,32,0.55);
+    --surface-tooltip: rgba(20,20,20,0.82);
+    --badge-bg:        rgba(10,10,10,0.82);
+    --shadow-window: 0 30px 80px var(--k-55), inset 0 1px 0 var(--w-12);
+
+    /* Accents */
+    --tl-red:   #ff5f57;
+    --tl-amber: #febc2e;
+    --tl-green: #28c840;
+    --danger:        #ff6b6b;
+    --danger-soft:   rgba(255,90,90,0.8);
+    --danger-strong: rgb(255,70,70);
+    --danger-badge:  rgba(200,50,50,0.9);
+    --pick-blue: rgba(40,110,255,0.22);
+    --drop-blue: rgba(96,165,250,0.30);
+
+    /* Profile-card color tokens (overridden per-theme in .about-panel) */
+    --color-name:     #1a1a1a;
+    --color-subtitle: #3a3a3a;
+    --color-body:     #666;
+    --color-sep:      rgba(0, 0, 0, 0.08);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: var(--font-sans);
+    color: white;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url('../media/background.jpeg');
+    background-size: cover;
+    background-position: top center;
+    z-index: -2;
+}
+
+/* Ambient scrim: vignette + subtle top-to-bottom darkening so glass
+   pops and labels stay legible over any wallpaper. */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 50% 38%, transparent 45%, var(--k-40) 100%),
+        linear-gradient(var(--k-12), var(--k-30));
+    z-index: -1;
+    pointer-events: none;
+}
+			/**************** 玻璃 ****************/
+			.glass {
+				background: linear-gradient(135deg, var(--w-15), var(--w-05));
+				backdrop-filter: var(--blur-glass);
+				-webkit-backdrop-filter: var(--blur-glass);
+				border: 1px solid var(--w-20);
+				border-radius: 14px;
+				box-shadow: 0 8px 32px var(--k-35),
+				            inset 0 1px 0 var(--w-30),
+				            inset 0 -1px 0 var(--k-15);
+			}
+
+			/**************** 菜单栏 ****************/
+			.menu-bar {
+				position: fixed;
+				top: 0; left: 0; right: 0;
+				height: 33px;
+				z-index: 200;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 0 15px;
+				background: var(--surface-menu);
+				backdrop-filter: var(--blur-menu);
+				-webkit-backdrop-filter: var(--blur-menu);
+				border-bottom: 1px solid var(--w-12);
+				box-shadow: 0 1px 3px var(--k-18);
+				font-size: 0.88rem;
+				line-height: 1;
+				color: var(--w-90);
+				user-select: none;
+				-webkit-user-select: none;
+			}
+			.menu-left  { display: flex; align-items: center; gap: 4px; }
+			.menu-right { display: flex; align-items: center; gap: 15px; }
+			.menu-item.menu-brand { font-weight: 700; }
+			.menu-item {
+				background: none;
+				border: none;
+				font: inherit;
+				color: var(--w-82);
+				cursor: pointer;
+				padding: 3px 9px;
+				border-radius: 6px;
+				transition: background 0.12s, color 0.12s;
+			}
+			.menu-item:hover  { background: var(--w-15); color: #fff; }
+			.menu-item.active { background: var(--w-24); color: #fff; }
+			.menu-status {
+				display: flex;
+				align-items: center;
+				color: var(--w-85);
+				transition: opacity 0.2s ease;
+			}
+			.menu-status svg { display: block; }
+			.menu-loc {
+				gap: 6px;
+				font-size: 0.82rem;
+				letter-spacing: 0.02em;
+			}
+			.menu-loc img {
+				width: 20px; height: 15px;
+				border-radius: 2px;
+				display: block;
+				object-fit: cover;
+				box-shadow: 0 0 0 1px var(--w-20);
+			}
+			.menu-ip {
+				background: none;
+				border: none;
+				font: inherit;
+				font-size: 0.82rem;
+				letter-spacing: 0.02em;
+				font-variant-numeric: tabular-nums;
+				color: var(--w-85);
+				cursor: pointer;
+				padding: 2px 7px;
+				border-radius: 5px;
+				transition: background 0.12s, color 0.12s;
+			}
+			.menu-ip:hover  { background: var(--w-15); color: #fff; }
+			.menu-ip.copied { color: #7ee87e; }
+			.menu-status.offline { opacity: 0.35; }
+			.menu-clock {
+				background: none;
+				border: none;
+				font: inherit;
+				line-height: 1;
+				font-variant-numeric: tabular-nums;
+				color: var(--w-90);
+				letter-spacing: 0.01em;
+				cursor: pointer;
+				padding: 3px 8px;
+				border-radius: 6px;
+				transition: background 0.12s, color 0.12s;
+			}
+			.menu-clock:hover  { background: var(--w-15); color: #fff; }
+			.menu-clock.active { background: var(--w-20); color: #fff; }
+
+			/**************** 日历 ****************/
+			.cal-popover {
+				position: fixed;
+				top: 42px; right: 12px;
+				width: 288px;
+				padding: 16px;
+				z-index: 250;
+				color: #fff;
+				opacity: 0;
+				transform: scale(0.96) translateY(-6px);
+				transform-origin: top right;
+				pointer-events: none;
+				transition: opacity 0.2s ease, transform 0.24s var(--ease-spring);
+			}
+			.cal-popover.open { opacity: 1; transform: none; pointer-events: auto; }
+			.cal-head {
+				display: flex; align-items: center; justify-content: space-between;
+				margin-bottom: 12px;
+			}
+			.cal-title { font-size: 1rem; font-weight: 500; letter-spacing: 0.01em; }
+			.cal-nav { display: flex; align-items: center; gap: 4px; }
+			.cal-arrow, .cal-today {
+				background: none; border: none;
+				color: var(--w-82);
+				cursor: pointer; font: inherit;
+				border-radius: 6px;
+				transition: background 0.12s, color 0.12s;
+			}
+			.cal-arrow {
+				width: 26px; height: 26px;
+				font-size: 1.15rem; line-height: 1;
+				display: flex; align-items: center; justify-content: center;
+			}
+			.cal-today { font-size: 0.74rem; padding: 5px 10px; }
+			.cal-arrow:hover, .cal-today:hover { background: var(--w-15); color: #fff; }
+			.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+			.cal-dow {
+				text-align: center;
+				font-size: 0.66rem; font-weight: 600;
+				color: var(--w-45);
+				text-transform: uppercase; letter-spacing: 0.04em;
+				padding: 2px 0 6px;
+			}
+			.cal-day {
+				aspect-ratio: 1 / 1;
+				display: flex; align-items: center; justify-content: center;
+				font-size: 0.8rem;
+				border-radius: 50%;
+				color: var(--w-90);
+				font-variant-numeric: tabular-nums;
+			}
+			.cal-day.other { color: var(--w-30); }
+			.cal-day.today { background: #fff; color: #14141a; font-weight: 600; }
+
+			/**************** 桌面 ****************/
+			.desktop {
+				position: fixed;
+				inset: 0;
+				overflow: hidden;
+			}
+
+			.desktop-grid {
+				position: absolute;
+				inset: 0;
+			}
+
+			/* Drop-target ghost shown during icon drag */
+			.desktop-icon-ghost {
+				position: absolute;
+				width: 114px; height: 109px;
+				border: 2px dashed var(--w-45);
+				border-radius: 16px;
+				pointer-events: none;
+				z-index: 50;
+				transition: left 0.06s ease, top 0.06s ease;
+			}
+
+			/**************** Icons ****************/
+			.desktop-icon {
+				position: relative;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 8px;
+				padding: 13px 8px 10px;
+				border-radius: 16px;
+				text-decoration: none;
+				color: white;
+				transition: background 0.15s ease, transform 0.18s cubic-bezier(0.34, 1.4, 0.64, 1);
+				width: 114px;
+				cursor: pointer;
+				user-select: none;
+				-webkit-user-select: none;
+			}
+			.desktop-icon:hover { background: var(--w-12); color: white; transform: scale(1.06); }
+			.desktop-icon.pressed { transform: scale(0.91) !important; transition: transform 0.07s ease !important; }
+
+			.icon-img-wrap {
+				position: relative;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				flex-shrink: 0;
+			}
+
+			/* Icon tile: a consistent rounded container whose *fill* is a blurred,
+			   zoomed copy of the favicon, with the crisp favicon floating on top.
+			   The container unifies everything; the frosted self-fill keeps it from
+			   reading as a plain box. */
+			.icon-art {
+				position: relative;
+				border-radius: 23%;
+				overflow: hidden;
+				/* Opaque fill lives on the bloom layer, not the tile — a solid tile
+				   background bleeds a thin light fringe through the anti-aliased
+				   rounded corners on dark, full-bleed icons. */
+				background: transparent;
+				/* Two-layer drop shadow (tight contact + soft ambient) for depth, plus a
+				   top inset highlight for a glassy lit edge. (No full inset ring — it
+				   was another source of the corner fringe.) */
+				box-shadow: 0 1px 2px var(--k-30),
+				            0 6px 16px var(--k-40),
+				            inset 0 1px 0 var(--w-30);
+				transition: box-shadow 0.18s ease;
+			}
+			/* Glassy specular sheen laid over the whole tile so every icon reads as a
+			   single lit piece of glass, regardless of its favicon. Kept subtle so it
+			   doesn't wash out dark logos. */
+			.icon-art::after {
+				content: '';
+				position: absolute; inset: 0;
+				z-index: 2;
+				pointer-events: none;
+				border-radius: inherit;
+				background: linear-gradient(157deg,
+					var(--w-24) 0%,
+					var(--w-05) 24%,
+					rgba(255,255,255,0) 48%);
+			}
+			/* Lift on hover: shadow deepens as the icon scales up. */
+			.desktop-icon:hover .icon-art,
+			.dock-icon:hover    .icon-art {
+				box-shadow: 0 2px 4px var(--k-30),
+				            0 12px 26px var(--k-45),
+				            inset 0 1px 0 var(--w-40);
+			}
+			/* blurred colored fill = a zoomed, blurred copy of the favicon */
+			.icon-bloom {
+				position: absolute; inset: 0;
+				width: 100%; height: 100%;
+				object-fit: cover;
+				/* Opaque white fill carried here (not on the tile) so a dark, full-bleed
+				   favicon's bloom covers it and no white shows at the clipped corners;
+				   where the favicon is transparent, this white still fills the tile. */
+				background: #fff;
+				transform: scale(1.7);
+				/* On a white tile the bloom's soft edges would wash out toward white,
+				   so push saturation + contrast to keep the color reading opaque. */
+				filter: blur(14px) saturate(2) contrast(1.05);
+				z-index: 0; pointer-events: none;
+			}
+			/* crisp favicon, original prominence, centered on top. The drop-shadow
+			   crisps perceived edges and lifts the glyph off the noisy bloom. */
+			.icon-sharp {
+				position: absolute;
+				top: 12%; left: 12%;
+				width: 76%; height: 76%;   /* ≈ 8px inset on a 68px tile */
+				object-fit: contain;
+				object-position: center;
+				/* Round the favicon at its OWN box, not the tile. A full-bleed square
+				   favicon fills this box so its opaque corners get rounded; a glyph
+				   with transparent corners is unaffected — the alpha does the sorting
+				   for free, so no detection is needed. */
+				border-radius: 20%;
+				z-index: 2;
+				filter: drop-shadow(0 1px 1.5px var(--k-30));
+				}
+			/* Static app-icon fallback assets use this same bloom + sharp pipeline,
+			   so restricted-network icons keep the colored tile background instead
+			   of entering a separate placeholder rendering mode. */
+			/* per-context sizing */
+			.desktop-icon  .icon-art { width: 68px; height: 68px; }
+			.dock-icon     .icon-art { width: 68px; height: 68px; }
+			.dock-all-apps .icon-art { width: 68px; height: 68px; }
+			.miller-link   .icon-art { width: 20px; height: 20px; }
+			.miller-link  .icon-bloom { filter: blur(6px) saturate(2); }
+			.desktop-icon-label {
+				font-size: 0.78rem;
+				font-weight: 400;
+				text-align: center;
+				line-height: 1.2;
+				text-shadow: 0 1px 4px var(--k-85);
+				max-width: 104px;
+				display: block;
+			}
+
+			/**************** Edit mode ****************/
+			@keyframes jiggle {
+				0%, 100% { transform: rotate(-2deg); }
+				50%       { transform: rotate(2deg); }
+			}
+			.desktop.editing .desktop-icon {
+				animation: jiggle 0.22s ease-in-out infinite;
+			}
+			.desktop.editing .desktop-grid .desktop-icon:nth-child(even) {
+				animation-delay: 0.11s;
+			}
+
+			/* ✕ badge on icons */
+			.icon-delete {
+				position: absolute;
+				top: 7px; left: 17px;
+				width: 18px; height: 18px;
+				background: var(--badge-bg);
+				border: 1.5px solid var(--w-55);
+				border-radius: 50%;
+				color: white;
+				font-size: 10px; font-weight: 700;
+				display: none;
+				align-items: center; justify-content: center;
+				cursor: pointer;
+				z-index: 5;
+				font-family: inherit; line-height: 1; padding: 0;
+				transition: background 0.12s;
+			}
+			.icon-delete:hover { background: var(--danger-badge); }
+			.desktop.editing .icon-delete { display: flex; }
+
+			/**************** 坞 ****************/
+			.dock {
+				position: fixed;
+				left: 50%;
+				bottom: 18px;
+				transform: translateX(-50%);
+				display: flex;
+				flex-direction: row;
+				align-items: flex-end;
+				gap: 12px;
+				max-width: calc(100vw - 40px);
+				padding: 10px 14px;
+				background: linear-gradient(180deg, var(--w-20), var(--w-12));
+				backdrop-filter: var(--blur-dock);
+				-webkit-backdrop-filter: var(--blur-dock);
+				border: 1px solid var(--w-30);
+				border-radius: 24px;
+				box-shadow: 0 12px 40px var(--k-40),
+				            inset 0 1px 0 var(--w-20),
+				            inset 0 -1px 0 var(--k-15);
+				z-index: 100;
+				user-select: none;
+				overflow: visible;
+			}
+
+			.dock-icon {
+				position: relative;
+				display: flex;
+				align-items: center; justify-content: center;
+				width: 68px; height: 68px;
+				text-decoration: none;
+				transition: transform 0.09s ease, margin 0.09s ease;
+				transform-origin: center bottom;
+				overflow: visible;
+				flex-shrink: 0;
+			}
+			.dock-icon:hover { z-index: 10; }
+
+			/* macOS-style launch bounce on click */
+			@keyframes dockBounce {
+				0%, 100% { transform: translateY(0)     scale(1);    }
+				30%      { transform: translateY(-20px) scale(1.06); }
+				55%      { transform: translateY(0)     scale(1);    }
+				75%      { transform: translateY(-8px)  scale(1.02); }
+			}
+			.dock-icon.bouncing, .dock-all-apps.bouncing { animation: dockBounce 0.6s ease; }
+
+			/* ✕ badge on dock icons */
+			.dock-icon-delete {
+				position: absolute;
+				top: -4px; left: -4px;
+				width: 18px; height: 18px;
+				background: var(--badge-bg);
+				border: 1.5px solid var(--w-55);
+				border-radius: 50%;
+				color: white;
+				font-size: 10px; font-weight: 700;
+				display: none;
+				align-items: center; justify-content: center;
+				cursor: pointer;
+				z-index: 5;
+				font-family: inherit; line-height: 1; padding: 0;
+				transition: background 0.12s;
+			}
+			.dock-icon-delete:hover { background: var(--danger-badge); }
+			.dock.editing .dock-icon { animation: jiggle 0.22s ease-in-out infinite; transform-origin: center center; }
+			.dock.editing .dock-icon:hover { transform: none; }
+			.dock.editing .dock-icon:nth-child(even) { animation-delay: 0.11s; }
+			.dock.editing .dock-icon-delete { display: flex; }
+			.dock.editing .dock-icon.locked { animation: none; }
+
+			/* Insertion indicator for horizontal dock reorder */
+			.dock-icon.drag-over {
+				box-shadow: -3px 0 0 0 var(--w-82);
+			}
+
+			.dock-sep {
+				width: 1px; height: 44px;
+				background: var(--w-20);
+				margin: 0 4px;
+				align-self: center;
+				flex-shrink: 0;
+			}
+
+			/* Highlight the dock as a drop target while dragging a desktop icon over it */
+			.dock.drop-target {
+				box-shadow: 0 12px 40px var(--k-40),
+				            inset 0 1px 0 var(--w-20),
+				            inset 0 -1px 0 var(--k-15),
+				            0 0 0 2px var(--w-62);
+			}
+
+			/* Bare container like .dock-icon — the inner .icon-art provides the tile,
+			   border, shadow and sheen, so this matches every other icon exactly. */
+			.dock-all-apps {
+				position: relative;
+				width: 68px; height: 68px;
+				display: flex;
+				align-items: center; justify-content: center;
+				cursor: pointer;
+				background: none; border: none;
+				transition: transform 0.09s ease, margin 0.09s ease;
+				transform-origin: center bottom;
+				padding: 0;
+				flex-shrink: 0;
+			}
+			.dock-all-apps:hover { z-index: 10; }
+			.dock.editing .dock-all-apps { transform: none !important; }
+
+			/* Tooltips — appear above the horizontal dock */
+			.dock-icon::after, .dock-all-apps::after {
+				content: attr(title);
+				position: absolute;
+				bottom: calc(100% + 12px);
+				left: 50%;
+				transform: translateX(-50%);
+				background: var(--surface-tooltip);
+				color: white;
+				font-size: 0.7rem;
+				padding: 3px 8px;
+				border-radius: 6px;
+				white-space: nowrap;
+				opacity: 0;
+				pointer-events: none;
+				transition: opacity 0.15s;
+				font-family: var(--font-sans);
+				letter-spacing: 0.02em;
+			}
+			.dock-icon:hover::after, .dock-all-apps:hover::after { opacity: 1; }
+			.dock.editing .dock-icon::after { display: none; }
+
+			/**************** 全部书签 ****************/
+			/* Transparent layer that just centers the window — no desktop dim/blur,
+			   exactly like opening a normal window in a real OS. */
+			.all-apps {
+				position: fixed;
+				inset: 0;
+				z-index: 400;
+				pointer-events: none;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				padding-bottom: 8vh;   /* nudge the window up from dead-center */
+				background: transparent;
+			}
+			.all-apps.open { /* pointer-events handled per child */ }
+
+			/* The floating window itself — draggable, glass, springs in on open.
+			   `scale` (entrance) and `translate` (dragging) are independent CSS
+			   properties, so they compose without fighting over `transform`. */
+			.all-apps-window {
+				display: flex;
+				flex-direction: column;
+				width: min(770px, 92vw);
+				height: min(608px, 67vh);
+				border-radius: 16px;
+				overflow: hidden;
+				background: var(--surface-window);
+				backdrop-filter: var(--blur-panel);
+				-webkit-backdrop-filter: var(--blur-panel);
+				border: 1px solid var(--w-15);
+				box-shadow: var(--shadow-window);
+				scale: 0.96;
+				opacity: 0;
+				transition: scale 0.3s var(--ease-spring),
+				            opacity 0.28s ease,
+				            width 0.22s ease, height 0.22s ease;
+				pointer-events: none;   /* only interactive once open (below) */
+			}
+			.all-apps.open .all-apps-window { scale: 1; opacity: 1; pointer-events: auto; }
+
+			.all-apps-bar {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				padding: 13px 16px;
+				background: var(--w-05);
+				border-bottom: 1px solid var(--w-12);
+				flex-shrink: 0;
+				cursor: grab;
+				user-select: none; -webkit-user-select: none;
+			}
+			.all-apps-bar.grabbing { cursor: grabbing; }
+			.all-apps-bar input  { cursor: text; }
+			.all-apps-bar button { cursor: pointer; }
+
+			/* macOS traffic lights — glyphs reveal on hover over the cluster */
+			.traffic-lights { display: flex; align-items: center; gap: 9px; margin-right: 9px; flex-shrink: 0; }
+			.tl {
+				width: 14px; height: 14px;
+				border: none; border-radius: 50%; padding: 0;
+				box-shadow: inset 0 0 0 0.5px var(--k-18);
+				display: flex; align-items: center; justify-content: center;
+				font-size: 11px; font-weight: 700; line-height: 1;
+				color: var(--k-55);
+			}
+			.tl-close    { background: var(--tl-red); }
+			.tl-minimize { background: var(--tl-amber); }
+			.tl-zoom     { background: var(--tl-green); }
+			.tl::before { opacity: 0; transition: opacity 0.12s; }
+			.traffic-lights:hover .tl-close::before    { content: '\00d7'; opacity: 1; }
+			.traffic-lights:hover .tl-minimize::before { content: '\2013'; opacity: 1; }
+			.traffic-lights:hover .tl-zoom::before     { content: '\002b'; opacity: 1; }
+			.all-apps-bar h2 {
+				font-size: 1.3rem; font-weight: 500;
+				letter-spacing: 0.01em;
+				flex-shrink: 0;
+			}
+			.all-apps-search {
+				width: 220px;
+				flex-shrink: 0;
+				padding: 4px 12px;
+				background: var(--w-12);
+				border: 1px solid var(--w-20);
+				border-radius: 8px;
+				color: white;
+				font-family: var(--font-sans);
+				font-size: 0.8rem; outline: none;
+				transition: background 0.15s, border-color 0.15s;
+			}
+			.all-apps-search::placeholder { color: var(--w-40); }
+			.all-apps-search:focus { border-color: var(--w-45); background: var(--w-15); }
+			.all-apps-bar-btn {
+				background: var(--w-12);
+				border: 1px solid var(--w-20);
+				color: var(--w-82);
+				padding: 4px 13px;
+				border-radius: 8px;
+				cursor: pointer;
+				font-family: inherit; font-size: 0.8rem;
+				flex-shrink: 0;
+				transition: background 0.15s, color 0.15s;
+				white-space: nowrap;
+			}
+			.all-apps-bar-btn:hover { background: var(--w-20); color: white; }
+			.all-apps-bar .all-apps-search { margin-left: auto; }
+
+			/* Pick mode banner */
+			.pick-banner {
+				display: none;
+				align-items: center; justify-content: center;
+				gap: 14px;
+				padding: 9px 20px;
+				background: var(--pick-blue);
+				border-bottom: 1px solid var(--w-12);
+				font-size: 0.85rem; color: var(--w-90);
+				flex-shrink: 0;
+			}
+			.all-apps.pick-mode .pick-banner { display: flex; }
+			.pick-banner button {
+				background: var(--w-15);
+				border: 1px solid var(--w-24);
+				color: white; padding: 3px 11px;
+				border-radius: 8px; cursor: pointer;
+				font-family: inherit; font-size: 0.78rem;
+				transition: background 0.15s;
+			}
+			.pick-banner button:hover { background: var(--w-24); }
+
+			.all-apps-scroll {
+				flex: 1;
+				display: flex;
+				overflow: hidden;
+				min-height: 0;
+			}
+
+			/* Miller columns */
+			.miller { display: flex; flex: 1; min-height: 0; }
+			.miller-col {
+				overflow-y: auto;
+				padding: 8px;
+				scrollbar-width: thin;
+				scrollbar-color: var(--w-20) transparent;
+			}
+			.miller-col::-webkit-scrollbar { width: 6px; }
+			.miller-col::-webkit-scrollbar-track { background: transparent; }
+			.miller-col::-webkit-scrollbar-thumb { background: var(--w-20); border-radius: 3px; }
+			.miller-col::-webkit-scrollbar-thumb:hover { background: var(--w-40); }
+			.miller-cats { width: 236px; flex-shrink: 0; border-right: 1px solid var(--w-12); }
+			.miller-links { flex: 1; }
+
+			.miller-cat {
+				display: flex; align-items: center; gap: 9px;
+				width: 100%;
+				padding: 7px 9px;
+				border: none; background: none;
+				color: var(--w-90);
+				font: inherit; font-size: 0.9rem;
+				text-align: left; cursor: pointer;
+				border-radius: 8px;
+				transition: background 0.12s, opacity 0.12s;
+			}
+			.miller-cat:hover { background: var(--w-08); }
+			.miller-cat.sel  { background: var(--w-15); }
+			.miller-cat.dim  { opacity: 0.3; }
+			.miller-cat-ico    { display: flex; color: var(--w-62); flex-shrink: 0; }
+			.miller-cat-label  { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+			.miller-cat-count  { font-size: 0.72rem; color: var(--w-40); font-variant-numeric: tabular-nums; }
+			.miller-chevron    { color: var(--w-35); font-size: 0.95rem; line-height: 1; }
+
+			.miller-link {
+				display: flex; align-items: center; gap: 10px;
+				padding: 6px 10px;
+				border-radius: 8px;
+				text-decoration: none;
+				color: var(--w-90);
+				font-size: 0.9rem;
+				transition: background 0.12s;
+			}
+			.miller-link:hover { background: var(--w-08); color: #fff; }
+			.miller-link-ico { flex-shrink: 0; }
+			.miller-link-label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+			.miller-link-cat   { font-size: 0.72rem; color: var(--w-40); flex-shrink: 0; }
+			.miller-empty { padding: 44px 16px; text-align: center; color: var(--w-30); font-size: 0.9rem; }
+
+			/* Pick mode: ＋ affordance on links */
+			.all-apps.pick-mode .miller-link::after {
+				content: '＋'; margin-left: 6px; font-size: 0.8em;
+				color: var(--w-62); opacity: 0; transition: opacity 0.15s;
+			}
+			.all-apps.pick-mode .miller-link:hover::after { opacity: 1; }
+			.miller-link.just-picked { animation: pickFlash 0.8s ease-out forwards; }
+
+			/* Editing affordances */
+			.miller-link-row { display: flex; align-items: center; }
+			.miller-link-row .miller-link { flex: 1; min-width: 0; }
+			.all-apps.bm-editing .miller-cat,
+			.all-apps.bm-editing .miller-link-row { cursor: grab; }
+			.miller-cat-rename, .miller-cat-delete,
+			.miller-link-rename, .miller-link-delete {
+				background: none; border: none; cursor: pointer;
+				font: inherit; font-size: 0.78rem; line-height: 1;
+				padding: 3px 5px; border-radius: 5px;
+				color: var(--w-50); flex-shrink: 0;
+				transition: color 0.12s, background 0.12s;
+			}
+			.miller-cat-rename:hover, .miller-link-rename:hover { color: #fff; background: var(--w-15); }
+			.miller-cat-delete:hover, .miller-link-delete:hover { color: var(--danger); background: var(--w-12); }
+			.miller-cat.bm-dragging, .miller-link-row.bm-dragging { opacity: 0.4; }
+			.miller-cat.drag-over, .miller-link-row.drag-over { box-shadow: inset 0 2px 0 var(--w-85); }
+			.miller-cat.drop-into {
+				background: var(--drop-blue);
+				box-shadow: inset 0 0 0 1px var(--w-55);
+			}
+			.miller-rename-input {
+				flex: 1; min-width: 0;
+				background: var(--w-12);
+				border: 1px solid var(--w-40);
+				border-radius: 5px; color: #fff;
+				font: inherit; font-size: 0.9rem; padding: 2px 6px; outline: none;
+			}
+			.miller-link-editor { display: flex; gap: 6px; flex: 1; min-width: 0; align-items: center; }
+			.miller-link-editor .miller-rename-input:first-child { flex: 1; }
+			.miller-link-editor .miller-rename-input:last-child  { flex: 2; font-size: 0.82rem; }
+			.miller-add-cat, .miller-add-link { display: flex; gap: 6px; padding: 8px; flex-wrap: wrap; }
+			.miller-add-input {
+				flex: 1; min-width: 0;
+				background: var(--w-08);
+				border: 1px solid var(--w-15);
+				border-radius: 7px; color: #fff;
+				padding: 5px 8px; font: inherit; font-size: 0.82rem; outline: none;
+				transition: border-color 0.12s, background 0.12s;
+			}
+			.miller-add-input:focus { border-color: var(--w-40); background: var(--w-12); }
+			.miller-add-input::placeholder { color: var(--w-35); }
+			.miller-add-btn {
+				background: var(--w-15); border: 1px solid var(--w-20);
+				color: #fff; border-radius: 7px; padding: 5px 12px; cursor: pointer;
+				font: inherit; font-size: 0.82rem; white-space: nowrap;
+				transition: background 0.12s;
+			}
+			.miller-add-btn:hover { background: var(--w-24); }
+			.all-apps-scroll h3 {
+				font-size: 0.7rem; font-weight: 500;
+				margin: 0 0 8px;
+				text-transform: uppercase; letter-spacing: 0.1em;
+				color: var(--w-50);
+			}
+			.all-apps-scroll h2 { font-size: 1.6rem; font-weight: 600; margin: 0; letter-spacing: 0.01em; }
+			.all-apps-scroll .master-container { display: flex; flex-wrap: wrap; justify-content: space-between; }
+			/* Container is layout-only — no glass/blur — so cards don't stack
+			   backdrop-filter passes on top of the overlay's own blur. */
+			.all-apps-scroll .container { width: 13vw; margin: 0.8vh 0; }
+			/* Card fill is a solid translucent panel (no backdrop-filter); the
+			   overlay's single blur shows through it and reads as frosted glass. */
+			.all-apps-scroll .block {
+				padding: 14px; margin: 0 0 14px;
+				background: var(--surface-card);
+				border: 1px solid var(--w-12);
+				border-radius: 14px;
+				box-shadow: 0 4px 16px var(--k-30), inset 0 1px 0 var(--w-12);
+			}
+			/* Staggered entrance: while the overlay is .entering, each card runs a
+			   slide-fade with a per-card delay set via --i in JS. `backwards` keeps
+			   it hidden through the delay; the animation holds its final state, so
+			   removing .entering afterwards is safe and doesn't touch drag styles. */
+			@keyframes cardIn {
+				from { opacity: 0; transform: translateY(12px); }
+				to   { opacity: 1; transform: none; }
+			}
+			.all-apps.entering .block {
+				animation: cardIn 0.4s var(--ease-spring) backwards;
+				animation-delay: calc(var(--i, 0) * 20ms);
+			}
+
+			.link-row {
+				display: block;
+				margin: 2px -6px;
+				padding: 3px 6px;
+				border-radius: 6px;
+				transition: background 0.12s;
+			}
+			.link-row:hover { background: var(--w-08); }
+			.all-apps.bm-editing .link-row:hover { background: var(--w-05); }
+			.link-row a { display: inline; }
+
+			.link-drag {
+				display: none; background: none; border: none;
+				color: var(--w-35);
+				cursor: grab; font-size: 0.78rem;
+				padding: 0 3px 0 0;
+				font-family: inherit; vertical-align: middle; line-height: 1;
+			}
+			.link-drag:active { cursor: grabbing; }
+			.all-apps.bm-editing .link-drag { display: inline; }
+			.all-apps.searching .link-drag { display: none !important; }
+			.link-row.bm-dragging { opacity: 0.35; }
+			.link-row.bm-drag-over { border-top: 2px solid var(--w-62); margin-top: -2px; }
+
+			.block-drag {
+				display: none; background: none; border: none;
+				color: var(--w-30);
+				cursor: grab; font-size: 0.8rem;
+				padding: 0 5px 0 0;
+				font-family: inherit; vertical-align: middle; line-height: 1;
+			}
+			.block-drag:active { cursor: grabbing; }
+			.all-apps.bm-editing .block-drag { display: inline; }
+			.all-apps.searching .block-drag { display: none !important; }
+			.block.bm-block-dragging { opacity: 0.3; }
+			.block.bm-block-drag-over { outline: 2px solid var(--w-55); outline-offset: 2px; }
+
+			.block-delete {
+				display: none; background: none; border: none;
+				color: var(--danger-soft);
+				cursor: pointer; font-size: 0.72rem;
+				padding: 0 0 0 4px;
+				font-family: inherit; vertical-align: middle; line-height: 1;
+				float: right; transition: color 0.12s;
+			}
+			.block-delete:hover { color: var(--danger-strong); }
+			.all-apps.bm-editing .block-delete { display: inline; }
+			.all-apps.searching .block-delete,
+			.all-apps.pick-mode .block-delete { display: none !important; }
+
+			.add-block-form {
+				display: none; margin: 0 14px 14px; padding: 4px 0;
+			}
+			.all-apps.bm-editing .add-block-form { display: flex; gap: 6px; align-items: center; }
+			.all-apps.searching .add-block-form,
+			.all-apps.pick-mode .add-block-form { display: none !important; }
+			.add-block-input {
+				flex: 1; background: var(--w-08);
+				border: 1px solid var(--w-15);
+				border-radius: 7px; color: white;
+				padding: 4px 8px;
+				font-family: var(--font-sans); font-size: 0.75rem;
+				outline: none; transition: border-color 0.15s, background 0.15s;
+			}
+			.add-block-input:focus { border-color: var(--w-40); background: var(--w-12); }
+			.add-block-input::placeholder { color: var(--w-30); }
+			.add-block-submit {
+				background: var(--w-12);
+				border: 1px solid var(--w-20);
+				color: white; border-radius: 7px;
+				padding: 4px 10px; cursor: pointer;
+				font-family: inherit; font-size: 0.75rem;
+				white-space: nowrap; transition: background 0.15s;
+			}
+			.add-block-submit:hover { background: var(--w-20); }
+
+			.block-empty-slot {
+				min-height: 18px;
+				margin: 0 14px 10px;
+				border-radius: 6px;
+				border: 1px dashed var(--w-12);
+				transition: border-color 0.15s, background 0.15s;
+			}
+			.block-empty-slot.bm-block-drag-over {
+				border-color: var(--w-50);
+				background: var(--w-05);
+			}
+
+			.link-rename {
+				display: none; background: none; border: none;
+				color: var(--w-45);
+				cursor: pointer; font-size: 0.72rem;
+				margin-left: 2px; padding: 0 2px;
+				font-family: inherit; vertical-align: middle; line-height: 1;
+				transition: color 0.12s;
+			}
+			.link-rename:hover { color: var(--w-90); }
+			.all-apps.bm-editing .link-rename { display: inline; }
+			.all-apps.searching .link-rename { display: none !important; }
+
+			.link-delete {
+				display: none; background: none; border: none;
+				color: var(--danger-soft);
+				cursor: pointer; font-size: 0.72rem;
+				padding: 0 3px 0 1px;
+				font-family: inherit; vertical-align: middle; line-height: 1;
+				transition: color 0.12s;
+			}
+			.link-delete:hover { color: var(--danger-strong); }
+			.all-apps.bm-editing .link-delete { display: inline; }
+			.all-apps.searching .link-delete { display: none !important; }
+
+			@keyframes pickFlash {
+				0%   { color: rgba(120,230,120,0.95); }
+				100% { color: var(--w-90); }
+			}
+			a.just-picked { animation: pickFlash 0.8s ease-out forwards; }
+
+			.all-apps.pick-mode .link-row a::after {
+				content: ' ＋'; font-size: 0.75em;
+				opacity: 0; transition: opacity 0.15s;
+			}
+			.all-apps.pick-mode .link-row a:hover::after { opacity: 0.7; }
+			.all-apps.pick-mode .link-delete,
+			.all-apps.pick-mode .link-rename,
+			.all-apps.pick-mode .link-drag,
+			.all-apps.pick-mode .add-link-form,
+			.all-apps.pick-mode #bmEditBtn { display: none !important; }
+
+			.all-apps.searching .add-link-form { display: none; }
+
+			.add-link-form {
+				display: none; flex-direction: column;
+				gap: 5px; margin-top: 10px; padding-top: 8px;
+				border-top: 1px solid var(--w-12);
+			}
+			.all-apps.bm-editing .add-link-form { display: flex; }
+			.add-link-input {
+				background: var(--w-08);
+				border: 1px solid var(--w-20);
+				border-radius: 8px; color: white;
+				padding: 5px 9px;
+				font-family: var(--font-sans); font-size: 0.8rem;
+				outline: none;
+				transition: border-color 0.15s, background 0.15s;
+			}
+			.add-link-input:focus { border-color: var(--w-40); background: var(--w-15); }
+			.add-link-input::placeholder { color: var(--w-30); }
+			.add-link-submit {
+				background: var(--w-15);
+				border: 1px solid var(--w-20);
+				color: white; border-radius: 8px;
+				padding: 4px 12px; cursor: pointer;
+				font-family: inherit; font-size: 0.78rem;
+				align-self: flex-start;
+				transition: background 0.15s;
+			}
+			.add-link-submit:hover { background: var(--w-24); }
+
+
+/* ===================================================================
+   About panel — the profile card, opened from the ✦ Bookmark OS
+   wordmark. Every selector is scoped under .about-panel so the card
+   styles never touch the desktop. Content is authored as static HTML
+   in index.html so crawlers/LLMs read it even with scripts stripped.
+   =================================================================== */
+.about-panel {
+    position: fixed;
+    top: 0; left: 0;
+    z-index: 500;
+    max-width: 860px;
+    width: calc(100vw - 48px);
+    /* Spring-in on open: scale only here; opacity lives on .card (same
+       element as backdrop-filter) so the blur is composited throughout
+       the animation rather than popping in when it settles. */
+    scale: 0.96;
+    pointer-events: none;
+    transition: scale 0.3s var(--ease-spring),
+                max-width 0.22s ease;
+    /* Dark theme, matching the All Bookmarks window. Overriding the color
+       tokens here flips every scoped card rule to light-on-dark at once. */
+    --color-name:     #f5f5f7;
+    --color-subtitle: rgba(255, 255, 255, 0.82);
+    --color-body:     rgba(255, 255, 255, 0.60);
+    --color-sep:      rgba(255, 255, 255, 0.12);
+}
+.about-panel.open { scale: 1; pointer-events: auto; }
+
+.about-panel .card {
+    position: relative;
+    width: 100%;
+    background: var(--surface-window);
+    backdrop-filter: var(--blur-panel);
+    -webkit-backdrop-filter: var(--blur-panel);
+    border: 1px solid var(--w-15);
+    border-radius: 16px;
+    box-shadow: var(--shadow-window);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    color: var(--color-name);
+    opacity: 0;
+    transition: opacity 0.28s ease;
+}
+.about-panel.open .card { opacity: 1; }
+
+.about-panel .about-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 16px;
+    background: var(--w-05);
+    border-bottom: 1px solid var(--w-12);
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+}
+.about-panel.grabbing .about-bar { cursor: grabbing; }
+.about-panel .about-bar h2 {
+    font-size: 1.3rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: #fff;
+}
+
+.about-panel .card-top   { display: flex; align-items: stretch; }
+.about-panel .card-left  { width: 360px; flex-shrink: 0; padding: 48px 40px 40px 48px; }
+.about-panel .card-vsep  { width: 1px; background: var(--color-sep); margin: 32px 0; flex-shrink: 0; }
+.about-panel .card-right { flex: 1; padding: 48px 48px 40px 36px; display: flex; align-items: center; }
+.about-panel .card-hsep  { height: 1px; background: var(--color-sep); margin: 0 36px; }
+.about-panel .card-bottom{ padding: 22px 48px 28px; }
+
+.about-panel .icon-strip { display: flex; align-items: center; flex-wrap: wrap; }
+.about-panel .icon-group { display: flex; flex-direction: column; gap: 8px; padding: 0 24px; }
+.about-panel .icon-group:first-child { padding-left: 0; }
+.about-panel .icon-group-label,
+.about-panel .contact-label { font-size: 0.62rem; letter-spacing: 2.5px; text-transform: uppercase; font-weight: 600; color: var(--color-subtitle); }
+.about-panel .icons { display: flex; flex-wrap: nowrap; gap: 8px; }
+.about-panel .strip-sep { color: var(--w-20); font-size: 1.2rem; font-weight: 200; line-height: 1; margin-top: 22px; flex-shrink: 0; }
+
+.about-panel h1 { font-size: 2.2rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--color-name); margin-bottom: 6px; line-height: 1.1; }
+.about-panel .name-alt { font-size: 1rem; color: var(--color-subtitle); letter-spacing: 3.5px; text-transform: uppercase; font-weight: 400; margin-bottom: 24px; }
+.about-panel .note { font-size: 0.8rem; color: var(--color-body); letter-spacing: 0.1px; line-height: 1.2; }
+.about-panel .note p + p { margin-top: 1em; }
+
+.about-panel .contact { display: flex; flex-direction: column; gap: 6px; margin-bottom: 24px; }
+.about-panel .contact-row { display: flex; align-items: baseline; gap: 10px; text-decoration: none; }
+.about-panel .contact-label { flex-shrink: 0; }
+.about-panel .contact-email { font-size: 0.72rem; color: var(--color-body); }
+.about-panel .contact-row:hover .contact-email { color: var(--color-subtitle); }
+
+.about-panel .instructions { border-top: 1px solid var(--color-sep); padding-top: 20px; display: flex; flex-direction: column; gap: 14px; }
+.about-panel .inst-title { font-size: 0.91rem; font-weight: 600; color: var(--color-subtitle); margin-bottom: 2px; }
+.about-panel .inst-desc { font-size: 0.75rem; color: var(--color-body); line-height: 1.5; }
+
+.about-panel .icon-link { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 10px; background: var(--w-08); border: 1px solid var(--w-15); transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease; text-decoration: none; flex-shrink: 0; }
+.about-panel .icon-link:hover { background: var(--w-20); transform: translateY(-3px); box-shadow: 0 6px 18px var(--k-35); }
+.about-panel .icon-link img,
+.about-panel .icon-link svg { width: 22px; height: 22px; display: block; filter: brightness(0) invert(0.75); }
+/* Paragraph is an opaque blue tile (not a transparent glyph): the silhouette
+   filter would flatten it to a featureless square, so desaturate instead —
+   drops the color to gray while keeping the fan glyph readable. */
+.about-panel .icon-link img.icon-img-filtered { border-radius: 4px; filter: grayscale(1); }
+
+/* ─────────────────────────────────────────────────────────────────────
+   Mobile: drop the desktop metaphor entirely — no menu bar, dock, windows,
+   or About panel. All that's left is the home-screen icons, flattened out
+   of their absolute col/row positions into a simple 3-wide grid. Purely a
+   CSS reshape of the same markup; the JS still renders icons the same way.
+   ───────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .menu-bar,
+    .dock,
+    .all-apps,
+    .about-panel,
+    .cal-popover,
+    .desktop-icon-ghost { display: none !important; }
+
+    /* The desktop becomes the scrolling surface for the grid; contain the
+       overscroll so dragging the grid doesn't rubber-band the whole page. */
+    .desktop { overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+    .desktop-grid {
+        position: static;
+        inset: auto;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px 4px;
+        /* Cap + center so the three columns stay grouped instead of spreading
+           edge-to-edge on wider tablets (a 768px iPad would otherwise leave
+           huge gaps around each 68px tile). */
+        max-width: 420px;
+        margin-inline: auto;
+        padding: calc(24px + env(safe-area-inset-top)) 12px
+                 calc(24px + env(safe-area-inset-bottom));
+    }
+
+    /* Neutralize the inline absolute positioning set in renderDesktopIcons
+       so icons flow into grid cells instead of sitting at their col/row. */
+    .desktop-icon {
+        position: static !important;
+        left: auto !important;
+        top:  auto !important;
+        width: auto;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    /* No hover lift on touch; the JS press-scale still gives tap feedback. */
+    .desktop-icon:hover { background: none; transform: none; }
+    .desktop-icon:hover .icon-art { box-shadow: 0 1px 2px var(--k-30),
+                                                 0 6px 16px var(--k-40),
+                                                 inset 0 1px 0 var(--w-30); }
+}
