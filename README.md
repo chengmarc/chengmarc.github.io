@@ -1,6 +1,5 @@
 <div align="center">
   <h1>Bookmark OS - Desktop Experience in your Browser</h1>
-  <img src="media/app-icon.svg" alt="Bookmark OS" width="180">
   <h3>
     Interactive Demo -> <a href="https://chengmarc.com"><ins>chengmarc.com</ins></a> or <a href="https://chengmarc.github.io"><ins>chengmarc.github.io</ins></a> 
   </h3>
