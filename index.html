@@ -30,7 +30,7 @@
     <link rel="me" href="https://farcaster.xyz/chengmarc">
     <link rel="me" href="https://paragraph.com/@chengmarc">
     <link rel="me" href="https://steamcommunity.com/id/everwith/">
-    <link rel="stylesheet" href="scripts/styles.css">
+    <link rel="stylesheet" href="src/styles.css">
     <style>
         /* Boot splash — a plain dark cover shown until app.js has assembled the
            desktop, dock and About card, so the first paint isn't a half-built
@@ -553,14 +553,15 @@
     }
     </script>
 
-	<!-- defer: download all seven in parallel during HTML parse, then execute
+	<!-- defer: download all eight in parallel during HTML parse, then execute
 	     in source order after the DOM is ready (app.js's init runs last). -->
-	<script defer src="scripts/config.js"></script>
-	<script defer src="scripts/state.js"></script>
-	<script defer src="scripts/favicon.js"></script>
-	<script defer src="scripts/desktop.js"></script>
-	<script defer src="scripts/bookmarks.js"></script>
-	<script defer src="scripts/menubar.js"></script>
-	<script defer src="scripts/app.js"></script>
+	<script defer src="src/util.js"></script>
+	<script defer src="src/config.js"></script>
+	<script defer src="src/state.js"></script>
+	<script defer src="src/favicon.js"></script>
+	<script defer src="src/desktop.js"></script>
+	<script defer src="src/bookmarks.js"></script>
+	<script defer src="src/menubar.js"></script>
+	<script defer src="src/app.js"></script>
 </body>
 </html>

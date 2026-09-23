@@ -22,6 +22,13 @@ const faviconCache = (() => {
 // next visit instead of being stuck on the identicon forever.
 const faviconFailed = new Set();
 
+// Forget every resolved and failed favicon so the next render re-fetches all.
+function clearFaviconCache() {
+	for (const d in faviconCache) delete faviconCache[d];
+	faviconFailed.clear();
+	try { localStorage.removeItem(FAVICON_STORE); } catch (_) {}
+}
+
 // Stage 1 (the site's own domain) should answer fast if it answers at all —
 // a blocked host never will, so a short cap just falls through to stage 2
 // sooner. Stage 2 (Google s2) and a cached URL are off the boot path, so
@@ -211,7 +218,3 @@ function iconArtFromSrc(src) {
 	bloom.src = src; sharp.src = src;
 	return wrap;
 }
-
-// All-Bookmarks launcher uses the site's own favicon (a 3×3 grid),
-// rendered through the same tile pipeline as every other icon.
-const ALL_APPS_ICON = 'media/app-icon.svg';

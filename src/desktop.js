@@ -29,6 +29,17 @@ function renderDesktopIcons() {
 // ─────────────────────────────────────────────────────────────────────
 // Render: dock
 // ─────────────────────────────────────────────────────────────────────
+// All-Bookmarks launcher uses the site's own favicon (a 3×3 grid),
+// rendered through the same tile pipeline as every other icon.
+const ALL_APPS_ICON = 'media/app-icon.svg';
+
+// Locked items can't be deleted or dragged out. The flag lives on the item, but
+// is also honoured from the default config so a saved dock that predates the
+// flag still keeps its defaults locked.
+function isLockedDockItem(item) {
+	return item.locked || CFG.dock.some(d => d !== 'separator' && d.url === item.url && d.locked);
+}
+
 function renderDock() {
 	const dock = $('dock');
 	dock.innerHTML = '';
@@ -43,8 +54,7 @@ function renderDock() {
 		}
 		const a = el('a', { class: 'dock-icon', href: item.url, target: '_blank', rel: 'noopener noreferrer', title: item.label, data: { dockIdx } });
 
-		const isLocked = item.locked || CFG.dock.some(d => d !== 'separator' && d.url === item.url && d.locked);
-		if (isLocked) a.classList.add('locked');
+		if (isLockedDockItem(item)) a.classList.add('locked');
 		else a.appendChild(el('button', { class: 'dock-icon-delete', text: '✕', data: { dockIdx } }));
 
 		a.appendChild(iconArt(item.favicon));
@@ -82,7 +92,7 @@ function removeDesktopIcon(key) {
 function addDesktopIcon(label, url) {
 	const domain = domainFrom(url);
 	if (S.desktopIcons.some(i => i.url === url)) return false;
-	const { col, row } = findFreeCell();
+	const { col, row } = nextFreeCell(occupiedCells());
 	S.desktopIcons.push({ key: 'icon-' + domain.replace(/\./g,'-') + '-' + Date.now(), label, url, favicon: domain, col, row });
 	saveState(); renderDesktopIcons(); return true;
 }
@@ -93,13 +103,6 @@ function addDesktopIcon(label, url) {
 function removeDockItem(dockIdx) {
 	S.dock.splice(dockIdx, 1);
 	saveState(); renderDock();
-}
-
-function addDockIcon(label, url) {
-	const domain = domainFrom(url);
-	if (S.dock.some(i => i !== 'separator' && i.url === url)) return false;
-	S.dock.push({ label, url, favicon: domain });
-	saveState(); renderDock(); return true;
 }
 
 function moveDesktopIconToDock(key) {
@@ -115,7 +118,7 @@ function moveDesktopIconToDock(key) {
 
 function moveDockItemToDesktop(dockIdx) {
 	const item = S.dock[dockIdx];
-	if (!item || item === 'separator' || item.locked) return;
+	if (!item || item === 'separator' || isLockedDockItem(item)) return;
 	S.dock.splice(dockIdx, 1);
 	if (!addDesktopIcon(item.label, item.url)) { saveState(); renderDesktopIcons(); }
 	renderDock();
