@@ -1,4 +1,14 @@
 // ─────────────────────────────────────────────────────────────────────
+// Config reset — shared by Import and Restore
+// ─────────────────────────────────────────────────────────────────────
+function applyConfig(cfg) {
+	replaceState(cfg);
+	millerSel = 0;
+	renderDesktopIcons(); renderDock(); renderAllBookmarks();
+	exitDesktopEdit();
+}
+
+// ─────────────────────────────────────────────────────────────────────
 // Event wiring
 // ─────────────────────────────────────────────────────────────────────
 function setupEvents() {
@@ -18,25 +28,17 @@ function setupEvents() {
 	});
 
 	$('mbAdd').addEventListener('click', () => {
-		renderAllBookmarks(); openPickMode('desktop');
+		renderAllBookmarks(); openPickMode();
 	});
 
-	$('mbImport').addEventListener('click', importConfig);
+	$('mbImport').addEventListener('click', () => importConfig(applyConfig));
 	$('mbExport').addEventListener('click', exportConfig);
 
 	$('mbRestore').addEventListener('click', () => {
 		if (!confirm('Restore all icons and bookmarks to default? This cannot be undone.')) return;
-		S = clone({ desktopIcons: CFG.desktopIcons, dock: CFG.dock, bookmarkSections: CFG.bookmarkSections });
-		ensureIconPositions();
-		normalizeBookmarks();
-		millerSel = 0;
 		// Drop the cached favicons so a restore re-fetches every icon fresh.
-		for (const d in faviconCache) delete faviconCache[d];
-		faviconFailed.clear();
-		try { localStorage.removeItem(FAVICON_STORE); } catch(_) {}
-		saveState();
-		renderDesktopIcons(); renderDock(); renderAllBookmarks();
-		exitDesktopEdit();
+		clearFaviconCache();
+		applyConfig(CFG);
 	});
 
 	$('dock').addEventListener('click', e => {
@@ -106,8 +108,7 @@ function setupEvents() {
 			if (a) {
 				e.preventDefault();
 				const label = (a.querySelector('.miller-link-label') || a).textContent.trim();
-				const added = pickTarget === 'dock' ? addDockIcon(label, a.href) : addDesktopIcon(label, a.href);
-				if (added) { a.classList.add('just-picked'); setTimeout(() => a.classList.remove('just-picked'), 800); }
+				if (addDesktopIcon(label, a.href)) { a.classList.add('just-picked'); setTimeout(() => a.classList.remove('just-picked'), 800); }
 			}
 		}
 	});

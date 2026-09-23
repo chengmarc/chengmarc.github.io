@@ -58,11 +58,6 @@ function startLinkEdit(btn) {
 }
 
 // ── Accessors ─────────────────────────────────────────────────────────
-function flatCategories() {
-	return cats().map((b, bi) => ({ bi, title: b.title, block: b }));
-}
-
-function blockLinks(block) { return block.links || []; }
 function cats() { return S.bookmarkSections[0].blocks; }
 
 // ── Renderers ─────────────────────────────────────────────────────────
@@ -70,22 +65,22 @@ function renderMillerCats() {
 	const col = $('millerCats');
 	if (!col) return;
 	col.innerHTML = '';
-	flatCategories().forEach(c => {
-		const links   = blockLinks(c.block);
+	cats().forEach((c, bi) => {
+		const links   = c.links;
 		const matches = bookmarkQuery
 			? links.filter(l => l.label.toLowerCase().includes(bookmarkQuery)).length
 			: links.length;
 		const item = document.createElement('div');
 		item.className  = 'miller-cat';
-		item.dataset.bi = c.bi;
+		item.dataset.bi = bi;
 		if (bmEditing) item.draggable = true;
 		if (bookmarkQuery && matches === 0) item.classList.add('dim');
-		if (!bookmarkQuery && c.bi === millerSel) item.classList.add('sel');
+		if (!bookmarkQuery && bi === millerSel) item.classList.add('sel');
 		item.innerHTML = '<span class="miller-cat-ico">' + FOLDER_SVG + '</span>';
 		item.appendChild(el('span', { class: 'miller-cat-label', text: c.title }));
 		if (bmEditing) {
-			item.appendChild(el('button', { class: 'miller-cat-rename', text: '✎', data: { bi: c.bi } }));
-			item.appendChild(el('button', { class: 'miller-cat-delete', text: '✕', data: { bi: c.bi } }));
+			item.appendChild(el('button', { class: 'miller-cat-rename', text: '✎', data: { bi } }));
+			item.appendChild(el('button', { class: 'miller-cat-delete', text: '✕', data: { bi } }));
 		} else {
 			item.appendChild(el('span', { class: 'miller-cat-count', text: matches }));
 			item.appendChild(el('span', { class: 'miller-chevron', text: '›' }));
@@ -107,12 +102,12 @@ function renderMillerLinks() {
 	col.innerHTML = '';
 	const entries = [];
 	if (bookmarkQuery) {
-		flatCategories().forEach(c => blockLinks(c.block).forEach((l, li) => {
-			if (l.label.toLowerCase().includes(bookmarkQuery)) entries.push({ link: l, cat: c.title, bi: c.bi, li });
+		cats().forEach((c, bi) => c.links.forEach((l, li) => {
+			if (l.label.toLowerCase().includes(bookmarkQuery)) entries.push({ link: l, cat: c.title, bi, li });
 		}));
 	} else {
 		const blk = cats()[millerSel];
-		if (blk) blockLinks(blk).forEach((l, li) => entries.push({ link: l, cat: null, bi: millerSel, li }));
+		if (blk) blk.links.forEach((l, li) => entries.push({ link: l, cat: null, bi: millerSel, li }));
 	}
 	if (!entries.length) {
 		const empty = document.createElement('div');
@@ -225,11 +220,8 @@ function linkMoveToCat(fromBi, li, toBi) {
 function openAllBookmarks() {
 	const overlay = $('allApps');
 	$('allAppsWindow').style.translate = '';
-	overlay.classList.add('entering');
 	renderAllBookmarks();
 	overlay.classList.add('open');
-	clearTimeout(overlay._enterTimer);
-	overlay._enterTimer = setTimeout(() => overlay.classList.remove('entering'), 1000);
 	setTimeout(() => $('bookmarkSearch').focus(), 260);
 }
 
@@ -263,16 +255,14 @@ function exitBmEdit() {
 	renderMillerCats(); renderMillerLinks();
 }
 
-function openPickMode(target) {
-	pickTarget = target || 'desktop';
-	pickMode   = true;
+function openPickMode() {
+	pickMode = true;
 	if (bmEditing) exitBmEdit();
 	const overlay = $('allApps');
 	$('allAppsWindow').style.translate = '';
 	overlay.classList.add('open', 'pick-mode');
-	$('allAppsTitle').textContent   = pickTarget === 'dock' ? 'Add to Dock' : 'Add to Home Screen';
-	$('pickBannerText').textContent = pickTarget === 'dock' ? 'Tap any bookmark to add it to the dock' : 'Tap any bookmark to add it to the home screen';
-	$('bmEditBtn').style.display    = 'none';
+	$('allAppsTitle').textContent = 'Add to Home Screen';
+	$('bmEditBtn').style.display  = 'none';
 	setTimeout(() => $('bookmarkSearch').focus(), 260);
 }
 
