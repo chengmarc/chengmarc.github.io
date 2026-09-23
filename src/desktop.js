@@ -31,7 +31,7 @@ function renderDesktopIcons() {
 // ─────────────────────────────────────────────────────────────────────
 // All-Bookmarks launcher uses the site's own favicon (a 3×3 grid),
 // rendered through the same tile pipeline as every other icon.
-const ALL_APPS_ICON = 'media/app-icon.svg';
+const ALL_APPS_ICON = 'media/icons/all-apps.svg';
 
 // Locked items can't be deleted or dragged out. The flag lives on the item, but
 // is also honoured from the default config so a saved dock that predates the
