@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="256" height="256">
+  <rect width="64" height="64" rx="14" fill="#F5F0E8"/>
+  <!-- 3x3 grid: cell=14, gap=4, stride=18, start=7 -->
+  <!-- Row 0 -->
+  <rect x="7"  y="7"  width="14" height="14" rx="3" fill="#2D2D2D"/>
+  <rect x="25" y="7"  width="14" height="14" rx="3" fill="#FF6B6B"/>
+  <rect x="43" y="7"  width="14" height="14" rx="3" fill="#FFD166"/>
+  <!-- Row 1 -->
+  <rect x="7"  y="25" width="14" height="14" rx="3" fill="#06D6A0"/>
+  <rect x="25" y="25" width="14" height="14" rx="3" fill="#2D2D2D"/>
+  <rect x="43" y="25" width="14" height="14" rx="3" fill="#118AB2"/>
+  <!-- Row 2 -->
+  <rect x="7"  y="43" width="14" height="14" rx="3" fill="#FFD166"/>
+  <rect x="25" y="43" width="14" height="14" rx="3" fill="#118AB2"/>
+  <rect x="43" y="43" width="14" height="14" rx="3" fill="#2D2D2D"/>
+</svg>
