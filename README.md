@@ -2,14 +2,21 @@
   <h1>Bookmark OS - Desktop Experience in your Browser</h1>
   <img src="media/app-icon.svg" alt="Bookmark OS" width="180">
   <h3>
-    Interactive Demo: <a href="https://chengmarc.github.io">chengmarc.github.io</a> or <a href="https://chengmarc.com">chengmarc.com</a>
+    Interactive Demo -> <a href="https://chengmarc.com"><ins>chengmarc.com</ins></a> or <a href="https://chengmarc.github.io"><ins>chengmarc.github.io</ins></a> 
   </h3>
 </div>
 
-# Interface
+![Bookmark OS: desktop icons, the All Bookmarks window, the About card, calendar and dock](media/demo.png)
 
-![demo](./media/demo.png)
+**Your bookmarks as a desktop, from any browser, with no account.** One static page. No framework, no build step, no backend.
 
-# For Developers
+## Try it locally
 
-The repo is self-explanatory. No frameworks, no build process, everything is static. Ready to use as-is.
+Clone the repository. Open `index.html` directly in a browser. That's the whole setup.
+
+## Make it yours
+
+1. Fork the repo and delete `CNAME`, or point it at your own domain.
+2. Arrange your desktop and bookmarks in the browser, click **Export**, and replace `src/config.js` with the downloaded file.
+3. Replace the personal parts of `index.html`: the `<head>` meta tags, the About card, and the JSON-LD block. Then update `sitemap.xml` and `robots.txt`.
+4. Turn on GitHub Pages for `main`.
