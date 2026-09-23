@@ -16,6 +16,5 @@ Clone the repository. Open `index.html` directly in a browser. That's the whole 
 ## Make it yours
 
 1. Fork the repo and delete `CNAME`, or point it at your own domain.
-2. Arrange your desktop and bookmarks in the browser, click **Export**, and replace `src/config.js` with the downloaded file.
-3. Replace the personal parts of `index.html`: the `<head>` meta tags, the About card, and the JSON-LD block. Then update `sitemap.xml` and `robots.txt`.
-4. Turn on GitHub Pages for `main`.
+2. Replace `src/config.js` with your bookmarks.
+3. Turn on GitHub Pages for `main` branch.
