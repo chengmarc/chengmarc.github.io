@@ -1,14 +1,15 @@
 <div align="center">
-  <img src="media/app-icon.svg" alt="Bookmark OS" width="180">
-  <h3>
-    Interactive Demo -> <a href="https://chengmarc.com"><ins>chengmarc.com</ins></a> or <a href="https://chengmarc.github.io"><ins>chengmarc.github.io</ins></a> 
-  </h3>
-  <h1>Bookmark OS - Desktop Experience in your Browser</h1>
+
+  <img src="media/app-icon.svg" width="180"><br>
+
+  <img src="media/badge-browsers.svg">
+  <a href="https://chengmarc.com"><img src="media/badge-demo.svg" alt="See it live"></a>
+
+  <h1>Bookmark OS - Desktop in your Browser</h1>
+
+  <img src="media/demo.png">
+
 </div>
-
-![Bookmark OS: desktop icons, the All Bookmarks window, the About card, calendar and dock](media/demo.png)
-
-**Your bookmarks as a desktop, from any browser, with no account.** One static page. No framework, no build step, no backend.
 
 ## Try it locally
 
