@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 107 30" width="107" height="30" role="img" aria-label="See it live">
+<title>See it live</title>
+<rect x=".75" y=".75" width="105.5" height="28.5" rx="8" fill="#fbf8f3" stroke="url(#g1)" stroke-width="1.5"/>
+<g transform="translate(11 7) scale(0.6666666666666666)"><path fill="url(#g0)" d="M5 4.6c0-1.2 1.3-1.9 2.3-1.3l13.2 7.4c1 .6 1 2 0 2.6L7.3 20.7c-1 .6-2.3-.1-2.3-1.3z"/></g>
+<g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13">
+<text x="35" y="19.55" font-weight="600" fill="#3d342b" textLength="59.7" lengthAdjust="spacing">See it live</text>
+</g>
+<defs><linearGradient id="g0" gradientUnits="userSpaceOnUse" x1="4" y1="3" x2="21" y2="21"><stop offset="0" stop-color="#ff9a4d"/><stop offset="0.5" stop-color="#ff4fa0"/><stop offset="1" stop-color="#6a5cff"/></linearGradient><linearGradient id="g1" gradientUnits="userSpaceOnUse" x1="-188" y1="0" x2="107" y2="0"><stop offset="0" stop-color="#ff9a4d"/><stop offset="0.5" stop-color="#ff4fa0"/><stop offset="1" stop-color="#6a5cff"/></linearGradient></defs>
+</svg>
