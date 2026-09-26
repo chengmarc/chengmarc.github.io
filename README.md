@@ -3,7 +3,7 @@
   <img src="media/app-icon.svg" width="180"><br>
 
   <img src="media/badge-browsers.svg">
-  <a href="https://chengmarc.com"><img src="media/badge-demo.svg" alt="See it live"></a>
+  <a href="https://chengmarc.com"><img src="media/badge-demo.svg"></a>
 
   <h1>Bookmark OS - Desktop in your Browser</h1>
 
