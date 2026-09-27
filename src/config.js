@@ -7,95 +7,23 @@ window.WEBOS_CONFIG = {
   },
   "desktopIcons": [
     {
-      "key": "icon-bilibili-com-1783774510286",
-      "label": "哔哩哔哩",
-      "url": "https://www.bilibili.com/",
-      "favicon": "bilibili.com",
-      "col": 0,
-      "row": 0
-    },
-    {
-      "key": "icon-agefans-com-1783774511239",
-      "label": "AGE动漫",
-      "url": "https://www.agefans.com/",
-      "favicon": "agefans.com",
-      "col": 0,
-      "row": 4
-    },
-    {
-      "key": "icon-iyf-tv-1783774512904",
-      "label": "爱壹帆",
-      "url": "https://www.iyf.tv/",
-      "favicon": "iyf.tv",
-      "col": 0,
-      "row": 5
-    },
-    {
-      "key": "icon-youtube-com-1783774514391",
+      "key": "icon-youtube",
       "label": "YouTube",
       "url": "https://www.youtube.com/",
       "favicon": "youtube.com",
       "col": 0,
-      "row": 1
-    },
-    {
-      "key": "icon-linkedin-com-1783774519753",
-      "label": "LinkedIn",
-      "url": "https://www.linkedin.com/home?originalSubdomain=ca",
-      "favicon": "linkedin.com",
-      "col": 1,
-      "row": 4
-    },
-    {
-      "key": "icon-github-com-1783774521969",
-      "label": "GitHub",
-      "url": "https://github.com/",
-      "favicon": "github.com",
-      "col": 1,
-      "row": 2
-    },
-    {
-      "key": "icon-dash-cloudflare-com-1783774522458",
-      "label": "Cloudflare",
-      "url": "https://dash.cloudflare.com/",
-      "favicon": "dash.cloudflare.com",
-      "col": 1,
-      "row": 1
-    },
-    {
-      "key": "icon-search-google-com-1783774523000",
-      "label": "Google Search Console",
-      "url": "https://search.google.com/search-console",
-      "favicon": "search.google.com",
-      "col": 1,
       "row": 0
     },
     {
-      "key": "icon-overleaf-com-1783774526860",
-      "label": "Overleaf",
-      "url": "https://www.overleaf.com/project",
-      "favicon": "overleaf.com",
-      "col": 1,
-      "row": 3
+      "key": "icon-facebook",
+      "label": "Facebook",
+      "url": "https://www.facebook.com/",
+      "favicon": "facebook.com",
+      "col": 0,
+      "row": 1
     },
     {
-      "key": "icon-tradingview-com-1783774535974",
-      "label": "TradingView",
-      "url": "https://www.tradingview.com/",
-      "favicon": "tradingview.com",
-      "col": 2,
-      "row": 0
-    },
-    {
-      "key": "icon-coinmarketcap-com-1783774539223",
-      "label": "CoinMarketCap",
-      "url": "https://coinmarketcap.com/",
-      "favicon": "coinmarketcap.com",
-      "col": 2,
-      "row": 2
-    },
-    {
-      "key": "icon-instagram-com-1787688708592",
+      "key": "icon-instagram",
       "label": "Instagram",
       "url": "https://www.instagram.com/",
       "favicon": "instagram.com",
@@ -103,131 +31,210 @@ window.WEBOS_CONFIG = {
       "row": 2
     },
     {
-      "key": "icon-reddit-com-1787688710336",
-      "label": "Reddit",
-      "url": "https://www.reddit.com/",
-      "favicon": "reddit.com",
+      "key": "icon-x",
+      "label": "X",
+      "url": "https://x.com/",
+      "favicon": "x.com",
       "col": 0,
       "row": 3
     },
     {
-      "key": "icon-indeed-com-1787688790234",
-      "label": "Indeed",
-      "url": "https://www.indeed.com/",
-      "favicon": "indeed.com",
+      "key": "icon-reddit",
+      "label": "Reddit",
+      "url": "https://www.reddit.com/",
+      "favicon": "reddit.com",
+      "col": 0,
+      "row": 4
+    },
+    {
+      "key": "icon-tiktok",
+      "label": "TikTok",
+      "url": "https://www.tiktok.com/",
+      "favicon": "tiktok.com",
+      "col": 0,
+      "row": 5
+    },
+    {
+      "key": "icon-google",
+      "label": "Google",
+      "url": "https://www.google.com/",
+      "favicon": "google.com",
+      "col": 1,
+      "row": 0
+    },
+    {
+      "key": "icon-wikipedia",
+      "label": "Wikipedia",
+      "url": "https://www.wikipedia.org/",
+      "favicon": "wikipedia.org",
+      "col": 1,
+      "row": 1
+    },
+    {
+      "key": "icon-amazon",
+      "label": "Amazon",
+      "url": "https://www.amazon.com/",
+      "favicon": "amazon.com",
+      "col": 1,
+      "row": 2
+    },
+    {
+      "key": "icon-netflix",
+      "label": "Netflix",
+      "url": "https://www.netflix.com/",
+      "favicon": "netflix.com",
+      "col": 1,
+      "row": 3
+    },
+    {
+      "key": "icon-spotify",
+      "label": "Spotify",
+      "url": "https://open.spotify.com/",
+      "favicon": "open.spotify.com",
+      "col": 1,
+      "row": 4
+    },
+    {
+      "key": "icon-google-maps",
+      "label": "Google Maps",
+      "url": "https://www.google.com/maps",
+      "favicon": "https://www.gstatic.com/images/branding/product/2x/maps_48dp.png",
       "col": 1,
       "row": 5
     },
     {
-      "key": "icon-finviz-com-1787688822248",
-      "label": "Stock Market Map",
-      "url": "https://finviz.com/map.ashx?t=sec_all",
-      "favicon": "finviz.com",
+      "key": "icon-linkedin",
+      "label": "LinkedIn",
+      "url": "https://www.linkedin.com/",
+      "favicon": "linkedin.com",
+      "col": 2,
+      "row": 0
+    },
+    {
+      "key": "icon-github",
+      "label": "GitHub",
+      "url": "https://github.com/",
+      "favicon": "github.com",
       "col": 2,
       "row": 1
     },
     {
-      "key": "icon-google-com-1787689206636",
-      "label": "Google Maps",
-      "url": "https://www.google.com/maps",
-      "favicon": "google.com",
+      "key": "icon-google-drive",
+      "label": "Google Drive",
+      "url": "https://drive.google.com/",
+      "favicon": "https://ssl.gstatic.com/images/branding/product/2x/drive_2020q4_48dp.png",
+      "col": 2,
+      "row": 2
+    },
+    {
+      "key": "icon-microsoft-365",
+      "label": "Microsoft 365",
+      "url": "https://www.office.com/",
+      "favicon": "office.com",
       "col": 2,
       "row": 3
     },
     {
-      "key": "icon-earth-google-com-1787689208917",
-      "label": "Google Earth",
-      "url": "https://earth.google.com/",
-      "favicon": "earth.google.com",
+      "key": "icon-canva",
+      "label": "Canva",
+      "url": "https://www.canva.com/",
+      "favicon": "canva.com",
       "col": 2,
       "row": 4
+    },
+    {
+      "key": "icon-google-translate",
+      "label": "Google Translate",
+      "url": "https://translate.google.com/",
+      "favicon": "translate.google.com",
+      "col": 2,
+      "row": 5
     }
   ],
   "dock": [
     {
-      "label": "Claude",
-      "url": "https://claude.ai",
-      "favicon": "claude.ai",
+      "label": "ChatGPT",
+      "url": "https://chatgpt.com/",
+      "favicon": "chatgpt.com",
       "locked": true
     },
     {
-      "label": "ChatGPT",
-      "url": "https://chatgpt.com",
-      "favicon": "chatgpt.com",
+      "label": "Gemini",
+      "url": "https://gemini.google.com/",
+      "favicon": "gemini.google.com",
+      "locked": true
+    },
+    {
+      "label": "Claude",
+      "url": "https://claude.ai/",
+      "favicon": "claude.ai",
       "locked": true
     },
     "separator",
     {
       "label": "Gmail",
-      "url": "https://gmail.com",
-      "favicon": "gmail.com"
+      "url": "https://mail.google.com/",
+      "favicon": "https://ssl.gstatic.com/images/branding/product/2x/gmail_2020q4_48dp.png"
     },
     {
       "label": "Outlook",
-      "url": "https://outlook.live.com",
+      "url": "https://outlook.live.com/",
       "favicon": "outlook.live.com"
     },
     {
-      "label": "UofT Alumni Mail",
-      "url": "http://alumnimail.utoronto.ca/",
-      "favicon": "alumnimail.utoronto.ca"
+      "label": "WhatsApp",
+      "url": "https://web.whatsapp.com/",
+      "favicon": "web.whatsapp.com"
     },
     {
-      "label": "Zoho Mail",
-      "url": "https://mail.zohocloud.ca/",
-      "favicon": "mail.zohocloud.ca"
+      "label": "Discord",
+      "url": "https://discord.com/app",
+      "favicon": "discord.com"
     }
   ],
   "bookmarkSections": [
     {
       "blocks": [
         {
-          "title": "Social Media",
+          "title": "Search & AI",
           "links": [
             {
-              "label": "抖音",
-              "url": "https://www.douyin.com/"
+              "label": "Google",
+              "url": "https://www.google.com/"
             },
             {
-              "label": "知乎",
-              "url": "https://www.zhihu.com/creator/hot-question/hot/0/day"
+              "label": "Bing",
+              "url": "https://www.bing.com/"
             },
             {
-              "label": "小红书",
-              "url": "https://www.xiaohongshu.com/explore"
+              "label": "DuckDuckGo",
+              "url": "https://duckduckgo.com/"
             },
             {
-              "label": "NGA",
-              "url": "https://nga.178.com/"
+              "label": "ChatGPT",
+              "url": "https://chatgpt.com/"
             },
             {
-              "label": "微博",
-              "url": "https://weibo.com/"
+              "label": "Gemini",
+              "url": "https://gemini.google.com/"
             },
             {
-              "label": "豆瓣",
-              "url": "https://www.douban.com/"
+              "label": "Claude",
+              "url": "https://claude.ai/"
             },
             {
-              "label": "百度贴吧",
-              "url": "https://tieba.baidu.com/"
+              "label": "Microsoft Copilot",
+              "url": "https://copilot.microsoft.com/"
             },
             {
-              "label": "X岛",
-              "url": "https://www.nmbxd1.com/Forum"
-            },
-            {
-              "label": "阿苇岛",
-              "url": "https://aweidao1.com/"
-            },
-            {
-              "label": "一亩三分地",
-              "url": "https://www.1point3acres.com/"
-            },
-            {
-              "label": "V2EX",
-              "url": "https://www.v2ex.com/"
-            },
+              "label": "Perplexity",
+              "url": "https://www.perplexity.ai/"
+            }
+          ]
+        },
+        {
+          "title": "Social",
+          "links": [
             {
               "label": "Facebook",
               "url": "https://www.facebook.com/"
@@ -237,598 +244,460 @@ window.WEBOS_CONFIG = {
               "url": "https://www.instagram.com/"
             },
             {
+              "label": "X",
+              "url": "https://x.com/"
+            },
+            {
               "label": "Reddit",
               "url": "https://www.reddit.com/"
             },
             {
-              "label": "X",
-              "url": "https://x.com/"
+              "label": "TikTok",
+              "url": "https://www.tiktok.com/"
+            },
+            {
+              "label": "LinkedIn",
+              "url": "https://www.linkedin.com/"
+            },
+            {
+              "label": "Pinterest",
+              "url": "https://www.pinterest.com/"
+            },
+            {
+              "label": "Threads",
+              "url": "https://www.threads.com/"
+            },
+            {
+              "label": "Bluesky",
+              "url": "https://bsky.app/"
             }
           ]
         },
         {
-          "title": "Privacy & Piracy",
-          "links": [
-            {
-              "label": "Piracy Megathread (Reddit)",
-              "url": "https://www.reddit.com/r/Piracy/wiki/megathread#"
-            },
-            {
-              "label": "Anna's Archive",
-              "url": "https://annas-archive.cc/"
-            },
-            {
-              "label": "HarborLibrary (Repo)",
-              "url": "https://github.com/HarborLibrary"
-            },
-            {
-              "label": "APK镜像",
-              "url": "https://www.apkmirror.com/"
-            },
-            {
-              "label": "网易云/酷狗音乐解锁",
-              "url": "https://demo.unlock-music.dev/"
-            },
-            {
-              "label": "Fake Identity",
-              "url": "https://fauxid.com/"
-            },
-            {
-              "label": "Temporary Email",
-              "url": "https://moakt.com/"
-            }
-          ]
-        },
-        {
-          "title": "Media",
-          "links": [
-            {
-              "label": "哔哩哔哩",
-              "url": "https://www.bilibili.com/"
-            },
-            {
-              "label": "哔咔漫画",
-              "url": "https://manhuabika.com/"
-            },
-            {
-              "label": "AGE动漫",
-              "url": "https://www.agefans.com"
-            },
-            {
-              "label": "Bangumi",
-              "url": "https://bangumi.tv/"
-            },
-            {
-              "label": "Anime1",
-              "url": "http://anime1.me/"
-            },
-            {
-              "label": "爱壹帆",
-              "url": "https://www.iyf.tv/"
-            },
-            {
-              "label": "YouTube",
-              "url": "https://www.youtube.com/"
-            },
-            {
-              "label": "ニコニコ",
-              "url": "https://www.nicovideo.jp/"
-            }
-          ]
-        },
-        {
-          "title": "二次元",
-          "links": [
-            {
-              "label": "Pixiv",
-              "url": "https://www.pixiv.net/en/"
-            },
-            {
-              "label": "Picrew",
-              "url": "https://picrew.me/en/"
-            },
-            {
-              "label": "Anime Search",
-              "url": "https://trace.moe/"
-            },
-            {
-              "label": "本子搜索器",
-              "url": "https://saucenao.com/"
-            },
-            {
-              "label": "誕生日 キャラ誕",
-              "url": "https://schara.sunrockgo.com/"
-            },
-            {
-              "label": "巡礼地图",
-              "url": "https://anitabi.cn/map"
-            }
-          ]
-        },
-        {
-          "title": "VPN",
-          "links": [
-            {
-              "label": "Clash Verge",
-              "url": "clash://https://www.clashverge.dev/"
-            },
-            {
-              "label": "WgetCloud",
-              "url": "https://wgetcloud.org/"
-            },
-            {
-              "label": "Nexitally",
-              "url": "https://nexitallysafe.com/Price.aspx"
-            },
-            {
-              "label": "蓝胖云",
-              "url": "https://www.lanpangyun.org/"
-            },
-            {
-              "label": "KyCloud",
-              "url": "https://my.cloudnz.cc/login"
-            }
-          ]
-        },
-        {
-          "title": "Mailbox",
+          "title": "Email & Messaging",
           "links": [
             {
               "label": "Gmail",
-              "url": "https://gmail.com/"
+              "url": "https://mail.google.com/"
             },
             {
               "label": "Outlook",
               "url": "https://outlook.live.com/"
             },
             {
-              "label": "UofT Alumni Mail",
-              "url": "http://alumnimail.utoronto.ca/"
+              "label": "Yahoo Mail",
+              "url": "https://mail.yahoo.com/"
             },
             {
-              "label": "Zoho Mail",
-              "url": "https://mail.zohocloud.ca/"
+              "label": "Proton Mail",
+              "url": "https://mail.proton.me/"
             },
             {
-              "label": "QQ邮箱",
-              "url": "https://mail.qq.com/"
+              "label": "WhatsApp",
+              "url": "https://web.whatsapp.com/"
             },
             {
-              "label": "网易邮箱",
-              "url": "https://mail.163.com/"
+              "label": "Telegram",
+              "url": "https://web.telegram.org/"
+            },
+            {
+              "label": "Messenger",
+              "url": "https://www.messenger.com/"
+            },
+            {
+              "label": "Discord",
+              "url": "https://discord.com/app"
             }
           ]
         },
         {
-          "title": "Career",
+          "title": "Video & Streaming",
           "links": [
             {
-              "label": "LinkedIn",
-              "url": "https://www.linkedin.com/home?originalSubdomain=ca"
+              "label": "YouTube",
+              "url": "https://www.youtube.com/"
             },
             {
-              "label": "Indeed",
-              "url": "https://www.indeed.com/"
+              "label": "Netflix",
+              "url": "https://www.netflix.com/"
             },
             {
-              "label": "Jobsdb",
-              "url": "https://hk.jobsdb.com/data-scientist-jobs"
+              "label": "Prime Video",
+              "url": "https://www.primevideo.com/"
+            },
+            {
+              "label": "Disney+",
+              "url": "https://www.disneyplus.com/"
+            },
+            {
+              "label": "HBO Max",
+              "url": "https://www.hbomax.com/"
+            },
+            {
+              "label": "Hulu",
+              "url": "https://www.hulu.com/"
+            },
+            {
+              "label": "Twitch",
+              "url": "https://www.twitch.tv/"
+            },
+            {
+              "label": "Crunchyroll",
+              "url": "https://www.crunchyroll.com/"
             }
           ]
         },
         {
-          "title": "Development",
+          "title": "Music & Audio",
           "links": [
             {
-              "label": "GitHub",
-              "url": "https://github.com/"
+              "label": "Spotify",
+              "url": "https://open.spotify.com/"
             },
             {
-              "label": "Cloudflare",
-              "url": "https://dash.cloudflare.com/"
+              "label": "YouTube Music",
+              "url": "https://music.youtube.com/"
             },
             {
-              "label": "Google Search Console",
-              "url": "https://search.google.com/search-console"
+              "label": "Apple Music",
+              "url": "https://music.apple.com/"
             },
             {
-              "label": "Hugging Face",
-              "url": "https://huggingface.co/models"
+              "label": "SoundCloud",
+              "url": "https://soundcloud.com/"
             },
             {
-              "label": "Firecrawl",
-              "url": "https://www.firecrawl.dev/"
-            },
-            {
-              "label": "Shields.io",
-              "url": "https://michaelcurrin.github.io/badge-generator/#/"
-            },
-            {
-              "label": "Simple Icons",
-              "url": "https://simpleicons.org/"
-            },
-            {
-              "label": "React Components",
-              "url": "https://www.reactbits.dev/components/lanyard"
-            },
-            {
-              "label": "API Marketplace",
-              "url": "https://apilayer.com/marketplace"
-            },
-            {
-              "label": "Icon SVG",
-              "url": "https://iconsvg.xyz/"
+              "label": "Bandcamp",
+              "url": "https://bandcamp.com/"
             }
           ]
         },
         {
-          "title": "Publishing",
+          "title": "News",
           "links": [
             {
-              "label": "Overleaf",
-              "url": "https://www.overleaf.com/project"
+              "label": "Google News",
+              "url": "https://news.google.com/"
             },
             {
-              "label": "arXiv",
-              "url": "https://arxiv.org/"
+              "label": "BBC News",
+              "url": "https://www.bbc.com/news"
             },
             {
-              "label": "ORCID",
-              "url": "https://orcid.org/"
+              "label": "Reuters",
+              "url": "https://www.reuters.com/"
             },
             {
-              "label": "ResearchGate",
-              "url": "https://www.researchgate.net/"
+              "label": "AP News",
+              "url": "https://apnews.com/"
             },
             {
-              "label": "OpenReview",
-              "url": "https://openreview.net/"
+              "label": "The New York Times",
+              "url": "https://www.nytimes.com/"
             },
             {
-              "label": "Google Scholar",
-              "url": "https://scholar.google.com/"
+              "label": "The Guardian",
+              "url": "https://www.theguardian.com/"
+            },
+            {
+              "label": "CNN",
+              "url": "https://www.cnn.com/"
+            },
+            {
+              "label": "Bloomberg",
+              "url": "https://www.bloomberg.com/"
             }
           ]
         },
         {
-          "title": "Mathematics",
+          "title": "Shopping",
           "links": [
             {
-              "label": "Desmos",
-              "url": "https://www.desmos.com/calculator"
+              "label": "Amazon",
+              "url": "https://www.amazon.com/"
             },
             {
-              "label": "Math3D",
-              "url": "https://www.math3d.org/"
+              "label": "eBay",
+              "url": "https://www.ebay.com/"
             },
             {
-              "label": "Integral Calculator",
-              "url": "https://www.integral-calculator.com/"
+              "label": "Walmart",
+              "url": "https://www.walmart.com/"
             },
             {
-              "label": "Derivative Calculator",
-              "url": "https://www.derivative-calculator.net/"
+              "label": "AliExpress",
+              "url": "https://www.aliexpress.com/"
             },
             {
-              "label": "Conformal Map",
-              "url": "http://davidbau.com/archives/2013/02/10/conformal_map_viewer.html"
+              "label": "Temu",
+              "url": "https://www.temu.com/"
             },
             {
-              "label": "Cryptography Tools",
-              "url": "https://www.dcode.fr/tools-list"
+              "label": "Etsy",
+              "url": "https://www.etsy.com/"
             },
             {
-              "label": "OEIS",
-              "url": "https://oeis.org/"
+              "label": "Best Buy",
+              "url": "https://www.bestbuy.com/"
             },
             {
-              "label": "Group Wiki",
-              "url": "https://groupprops.subwiki.org/wiki/Main_Page"
-            },
-            {
-              "label": "Complete Proof Archive",
-              "url": "https://us.metamath.org/index.html"
-            },
-            {
-              "label": "Paul's Online Notes",
-              "url": "https://tutorial.math.lamar.edu/"
+              "label": "IKEA",
+              "url": "https://www.ikea.com/"
             }
           ]
         },
         {
-          "title": "Science",
+          "title": "Productivity",
           "links": [
             {
-              "label": "TopPaper",
-              "url": "https://github.com/qiulinzhang/TopPaper"
+              "label": "Google Drive",
+              "url": "https://drive.google.com/"
             },
             {
-              "label": "PaperWithCode",
-              "url": "https://paperswithcode.com/sota"
+              "label": "Google Docs",
+              "url": "https://docs.google.com/"
             },
             {
-              "label": "Neuroglancer",
-              "url": "https://h01-dot-neuroglancer-demo.appspot.com/"
+              "label": "Google Calendar",
+              "url": "https://calendar.google.com/"
             },
             {
-              "label": "Economic Complexity",
-              "url": "http://globe.cid.harvard.edu/"
+              "label": "Microsoft 365",
+              "url": "https://www.office.com/"
             },
             {
-              "label": "NCBI Taxonomy",
-              "url": "https://lifemap-ncbi.univ-lyon1.fr/"
-            }
-          ]
-        },
-        {
-          "title": "Stock Market",
-          "links": [
-            {
-              "label": "TradingView",
-              "url": "https://www.tradingview.com/"
+              "label": "Dropbox",
+              "url": "https://www.dropbox.com/"
             },
             {
-              "label": "Stock Market Map",
-              "url": "https://finviz.com/map.ashx?t=sec_all"
-            },
-            {
-              "label": "Macrotrends",
-              "url": "https://www.macrotrends.net/"
-            },
-            {
-              "label": "DCF Calculator",
-              "url": "https://www.alphaspread.com/dcf-value-calculator"
-            },
-            {
-              "label": "FDA Calendar",
-              "url": "https://www.biopharmcatalyst.com/calendars/fda-calendar"
-            },
-            {
-              "label": "BRK Portfolio",
-              "url": "https://www.cnbc.com/berkshire-hathaway-portfolio/"
-            },
-            {
-              "label": "Capitol Trades",
-              "url": "https://www.capitoltrades.com/politicians?page=1"
-            }
-          ]
-        },
-        {
-          "title": "Crypto Market",
-          "links": [
-            {
-              "label": "CoinMarketCap",
-              "url": "https://coinmarketcap.com/"
-            },
-            {
-              "label": "CoinGecko",
-              "url": "https://www.coingecko.com/"
-            },
-            {
-              "label": "Binance",
-              "url": "https://www.binance.com/"
-            },
-            {
-              "label": "OKX",
-              "url": "https://www.okx.com/"
-            },
-            {
-              "label": "Coinbase",
-              "url": "https://www.coinbase.com/"
-            },
-            {
-              "label": "Uniswap",
-              "url": "https://app.uniswap.org/"
-            },
-            {
-              "label": "PancakeSwap",
-              "url": "https://pancakeswap.finance/"
-            },
-            {
-              "label": "Raydium",
-              "url": "https://raydium.io/swap/"
-            },
-            {
-              "label": "Polymarket",
-              "url": "https://polymarket.com/"
-            },
-            {
-              "label": "Etherscan",
-              "url": "https://etherscan.io/"
-            },
-            {
-              "label": "BscScan",
-              "url": "https://bscscan.com/"
-            },
-            {
-              "label": "Solscan",
-              "url": "https://solscan.io/"
-            },
-            {
-              "label": "Bloxy",
-              "url": "https://bloxy.info/"
-            },
-            {
-              "label": "DEX Tools",
-              "url": "https://www.dextools.io/app/en/pairs"
-            },
-            {
-              "label": "Multisender",
-              "url": "https://multisender.app/#products"
-            }
-          ]
-        },
-        {
-          "title": "Data",
-          "links": [
-            {
-              "label": "Kaggle",
-              "url": "https://www.kaggle.com/"
-            },
-            {
-              "label": "FRED",
-              "url": "https://fred.stlouisfed.org/"
-            },
-            {
-              "label": "Data.gov",
-              "url": "https://catalog.data.gov/dataset/"
-            },
-            {
-              "label": "World Bank Data",
-              "url": "https://databank.worldbank.org/home.aspx"
-            },
-            {
-              "label": "Property Prices",
-              "url": "https://www.numbeo.com/property-investment/"
-            }
-          ]
-        },
-        {
-          "title": "Graphic Design",
-          "links": [
-            {
-              "label": "Photoshop Online",
-              "url": "https://www.photopea.com/"
+              "label": "Notion",
+              "url": "https://www.notion.so/"
             },
             {
               "label": "Canva",
               "url": "https://www.canva.com/"
             },
             {
-              "label": "PoseMy.Art",
-              "url": "https://posemy.art/app/"
+              "label": "Figma",
+              "url": "https://www.figma.com/"
             },
             {
-              "label": "Civitai",
-              "url": "https://civitai.com/"
-            },
-            {
-              "label": "Art Station",
-              "url": "https://www.artstation.com/"
-            },
-            {
-              "label": "Google Fonts",
-              "url": "https://fonts.google.com/"
-            },
-            {
-              "label": "Transparent Textures",
-              "url": "https://www.transparenttextures.com/"
-            },
-            {
-              "label": "中国大学矢量校徽",
-              "url": "https://www.urongda.com/logos"
-            },
-            {
-              "label": "地铁线路图工具包",
-              "url": "https://railmapgen.github.io/"
-            },
-            {
-              "label": "创可贴",
-              "url": "https://www.chuangkit.com/"
-            },
-            {
-              "label": "秀米官网",
-              "url": "https://xiumi.us/"
+              "label": "Zoom",
+              "url": "https://zoom.us/"
             }
           ]
         },
         {
-          "title": "Sound & Ambient",
+          "title": "Learning & Reference",
           "links": [
             {
-              "label": "Radio Garden",
-              "url": "https://radio.garden/visit/chengdu/eRUAHuFI"
+              "label": "Wikipedia",
+              "url": "https://www.wikipedia.org/"
             },
             {
-              "label": "Suno AI",
-              "url": "https://suno.com/home"
+              "label": "Google Scholar",
+              "url": "https://scholar.google.com/"
             },
             {
-              "label": "Conserve the Sound",
-              "url": "https://www.conservethesound.de/"
+              "label": "Khan Academy",
+              "url": "https://www.khanacademy.org/"
             },
             {
-              "label": "AutoTracker",
-              "url": "https://www.vitling.xyz/toys/autotracker/"
+              "label": "Coursera",
+              "url": "https://www.coursera.org/"
+            },
+            {
+              "label": "Duolingo",
+              "url": "https://www.duolingo.com/"
+            },
+            {
+              "label": "Wolfram|Alpha",
+              "url": "https://www.wolframalpha.com/"
+            },
+            {
+              "label": "Quizlet",
+              "url": "https://quizlet.com/"
+            },
+            {
+              "label": "Internet Archive",
+              "url": "https://archive.org/"
             }
           ]
         },
         {
-          "title": "Travel",
+          "title": "Developer",
+          "links": [
+            {
+              "label": "GitHub",
+              "url": "https://github.com/"
+            },
+            {
+              "label": "Stack Overflow",
+              "url": "https://stackoverflow.com/"
+            },
+            {
+              "label": "MDN Web Docs",
+              "url": "https://developer.mozilla.org/"
+            },
+            {
+              "label": "GitLab",
+              "url": "https://gitlab.com/"
+            },
+            {
+              "label": "npm",
+              "url": "https://www.npmjs.com/"
+            },
+            {
+              "label": "Hugging Face",
+              "url": "https://huggingface.co/"
+            },
+            {
+              "label": "Vercel",
+              "url": "https://vercel.com/"
+            },
+            {
+              "label": "Cloudflare",
+              "url": "https://dash.cloudflare.com/"
+            },
+            {
+              "label": "CodePen",
+              "url": "https://codepen.io/"
+            }
+          ]
+        },
+        {
+          "title": "Finance",
+          "links": [
+            {
+              "label": "PayPal",
+              "url": "https://www.paypal.com/"
+            },
+            {
+              "label": "Yahoo Finance",
+              "url": "https://finance.yahoo.com/"
+            },
+            {
+              "label": "Google Finance",
+              "url": "https://www.google.com/finance/"
+            },
+            {
+              "label": "TradingView",
+              "url": "https://www.tradingview.com/"
+            },
+            {
+              "label": "Investing.com",
+              "url": "https://www.investing.com/"
+            },
+            {
+              "label": "CoinMarketCap",
+              "url": "https://coinmarketcap.com/"
+            }
+          ]
+        },
+        {
+          "title": "Travel & Maps",
           "links": [
             {
               "label": "Google Maps",
               "url": "https://www.google.com/maps"
             },
             {
-              "label": "CDC Travel Advisory",
-              "url": "https://wwwnc.cdc.gov/travel/destinations/list"
-            },
-            {
-              "label": "Street View Coverage",
-              "url": "https://sv-map.netlify.app/"
-            },
-            {
-              "label": "Travel Map Animation",
-              "url": "https://mult.dev/"
-            }
-          ]
-        },
-        {
-          "title": "Maps & Radar",
-          "links": [
-            {
               "label": "Google Earth",
               "url": "https://earth.google.com/"
             },
             {
-              "label": "Windy",
-              "url": "https://www.windy.com/"
+              "label": "Google Flights",
+              "url": "https://www.google.com/travel/flights"
             },
             {
-              "label": "Light Pollution Map",
-              "url": "https://www.lightpollutionmap.info"
+              "label": "Booking.com",
+              "url": "https://www.booking.com/"
             },
             {
-              "label": "Infrastructure Map",
-              "url": "https://openinframap.org/"
+              "label": "Airbnb",
+              "url": "https://www.airbnb.com/"
             },
             {
-              "label": "Live Air Traffic",
-              "url": "https://planefinder.net/"
+              "label": "Expedia",
+              "url": "https://www.expedia.com/"
             },
             {
-              "label": "Live Marine Traffic",
-              "url": "https://www.marinetraffic.com/"
+              "label": "Tripadvisor",
+              "url": "https://www.tripadvisor.com/"
             },
             {
-              "label": "Satellite Tracker",
-              "url": "https://satellitemap.space/"
+              "label": "Uber",
+              "url": "https://www.uber.com/"
             }
           ]
         },
         {
-          "title": "Misc",
+          "title": "Gaming",
           "links": [
             {
-              "label": "食用手册",
-              "url": "https://cook.yunyoujun.cn/"
+              "label": "Steam",
+              "url": "https://store.steampowered.com/"
             },
             {
-              "label": "Google Drive",
-              "url": "https://drive.google.com/"
+              "label": "Epic Games",
+              "url": "https://store.epicgames.com/"
             },
             {
-              "label": "2D Roads Rendering",
-              "url": "https://anvaka.github.io/city-roads/"
+              "label": "Xbox",
+              "url": "https://www.xbox.com/"
             },
             {
-              "label": "3D City Map Export",
-              "url": "https://app.topoexport.com/"
+              "label": "PlayStation",
+              "url": "https://www.playstation.com/"
             },
             {
-              "label": "Ratehub.ca",
-              "url": "https://www.ratehub.ca/"
+              "label": "Nintendo",
+              "url": "https://www.nintendo.com/"
+            },
+            {
+              "label": "Chess.com",
+              "url": "https://www.chess.com/"
+            },
+            {
+              "label": "itch.io",
+              "url": "https://itch.io/"
+            },
+            {
+              "label": "IGN",
+              "url": "https://www.ign.com/"
+            }
+          ]
+        },
+        {
+          "title": "Utilities",
+          "links": [
+            {
+              "label": "Google Translate",
+              "url": "https://translate.google.com/"
+            },
+            {
+              "label": "DeepL",
+              "url": "https://www.deepl.com/translator"
+            },
+            {
+              "label": "The Weather Channel",
+              "url": "https://weather.com/"
+            },
+            {
+              "label": "Speedtest",
+              "url": "https://www.speedtest.net/"
+            },
+            {
+              "label": "iLovePDF",
+              "url": "https://www.ilovepdf.com/"
+            },
+            {
+              "label": "Time.is",
+              "url": "https://time.is/"
+            },
+            {
+              "label": "Have I Been Pwned",
+              "url": "https://haveibeenpwned.com/"
             }
           ]
         }
