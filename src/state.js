@@ -56,18 +56,26 @@ function normalizeBookmarks() {
 	S.bookmarkSections = [{ blocks }];
 }
 
+// Icons are resolved from each item's URL. Older saves and configs carried a
+// `favicon` field; strip it so it never resurfaces in an export.
+function dropIconFields() {
+	S.desktopIcons.forEach(i => { delete i.favicon; });
+	S.dock.forEach(i => { if (i && i !== 'separator') delete i.favicon; });
+}
+
 // Replace the whole state with a config's icons, dock and bookmarks.
 function replaceState(cfg) {
 	S = clone({ desktopIcons: cfg.desktopIcons, dock: cfg.dock, bookmarkSections: cfg.bookmarkSections });
 	ensureIconPositions();
 	normalizeBookmarks();
+	dropIconFields();
 	saveState();
 }
 
 function loadState() {
 	try {
 		const raw = localStorage.getItem(STORE);
-		if (raw) { S = JSON.parse(raw); ensureIconPositions(); normalizeBookmarks(); saveState(); return; }
+		if (raw) { S = JSON.parse(raw); ensureIconPositions(); normalizeBookmarks(); dropIconFields(); saveState(); return; }
 	} catch (_) {}
 	replaceState(CFG);
 }
