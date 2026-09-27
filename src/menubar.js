@@ -70,10 +70,21 @@ function startStatus() {
 		}).catch(() => {});
 	});
 
-	// One lookup feeds both the location chip and the IP chip: ipwho.is returns
-	// the caller's IP alongside the geo data, so a second dedicated IP service
-	// (api.ipify.org) was a redundant round-trip on every page load.
-	fetch('https://ipwho.is/')
+	const showIP = ip => {
+		if (ip) { currentIP = ip; ipEl.textContent = ip; ipEl.title = 'Click to copy IP'; }
+		else    { ipEl.textContent = ''; ipEl.title = 'IP unavailable'; }
+	};
+
+	// ipwho.is is dual-stack, so on an IPv6 network it sees (and returns) the
+	// IPv6 address. api.ipify.org has no AAAA record — reaching it forces IPv4 —
+	// so it supplies the IP chip, and ipwho.is supplies location. Both run in
+	// parallel; on an IPv6-only network ipify fails and ipwho.is's IP is used.
+	const ipv4 = fetch('https://api.ipify.org?format=json')
+		.then(r => r.json())
+		.then(d => d && d.ip)
+		.catch(() => null);
+
+	const geo = fetch('https://ipwho.is/')
 		.then(r => r.json())
 		.then(d => {
 			if (!d || d.success === false) throw new Error('lookup failed');
@@ -90,14 +101,14 @@ function startStatus() {
 			}
 			if (city) locEl.appendChild(document.createTextNode(city));
 			locEl.title = [d.city, d.region, d.country].filter(Boolean).join(', ');
-
-			if (d.ip) { currentIP = d.ip; ipEl.textContent = d.ip; ipEl.title = 'Click to copy IP'; }
-			else      { ipEl.textContent = ''; ipEl.title = 'IP unavailable'; }
+			return d.ip;
 		})
 		.catch(() => {
 			locEl.textContent = ''; locEl.title = 'Location unavailable';
-			ipEl.textContent  = ''; ipEl.title  = 'IP unavailable';
+			return null;
 		});
+
+	ipv4.then(ip => ip ? showIP(ip) : geo.then(showIP));
 }
 
 // ─────────────────────────────────────────────────────────────────────
