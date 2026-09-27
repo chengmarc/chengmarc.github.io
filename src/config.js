@@ -10,7 +10,6 @@ window.WEBOS_CONFIG = {
       "key": "icon-youtube",
       "label": "YouTube",
       "url": "https://www.youtube.com/",
-      "favicon": "youtube.com",
       "col": 0,
       "row": 0
     },
@@ -18,7 +17,6 @@ window.WEBOS_CONFIG = {
       "key": "icon-facebook",
       "label": "Facebook",
       "url": "https://www.facebook.com/",
-      "favicon": "facebook.com",
       "col": 0,
       "row": 1
     },
@@ -26,7 +24,6 @@ window.WEBOS_CONFIG = {
       "key": "icon-instagram",
       "label": "Instagram",
       "url": "https://www.instagram.com/",
-      "favicon": "instagram.com",
       "col": 0,
       "row": 2
     },
@@ -34,7 +31,6 @@ window.WEBOS_CONFIG = {
       "key": "icon-x",
       "label": "X",
       "url": "https://x.com/",
-      "favicon": "x.com",
       "col": 0,
       "row": 3
     },
@@ -42,23 +38,13 @@ window.WEBOS_CONFIG = {
       "key": "icon-reddit",
       "label": "Reddit",
       "url": "https://www.reddit.com/",
-      "favicon": "reddit.com",
       "col": 0,
       "row": 4
-    },
-    {
-      "key": "icon-tiktok",
-      "label": "TikTok",
-      "url": "https://www.tiktok.com/",
-      "favicon": "tiktok.com",
-      "col": 0,
-      "row": 5
     },
     {
       "key": "icon-google",
       "label": "Google",
       "url": "https://www.google.com/",
-      "favicon": "google.com",
       "col": 1,
       "row": 0
     },
@@ -66,7 +52,6 @@ window.WEBOS_CONFIG = {
       "key": "icon-wikipedia",
       "label": "Wikipedia",
       "url": "https://www.wikipedia.org/",
-      "favicon": "wikipedia.org",
       "col": 1,
       "row": 1
     },
@@ -74,7 +59,6 @@ window.WEBOS_CONFIG = {
       "key": "icon-amazon",
       "label": "Amazon",
       "url": "https://www.amazon.com/",
-      "favicon": "amazon.com",
       "col": 1,
       "row": 2
     },
@@ -82,7 +66,6 @@ window.WEBOS_CONFIG = {
       "key": "icon-netflix",
       "label": "Netflix",
       "url": "https://www.netflix.com/",
-      "favicon": "netflix.com",
       "col": 1,
       "row": 3
     },
@@ -90,23 +73,13 @@ window.WEBOS_CONFIG = {
       "key": "icon-spotify",
       "label": "Spotify",
       "url": "https://open.spotify.com/",
-      "favicon": "open.spotify.com",
       "col": 1,
       "row": 4
-    },
-    {
-      "key": "icon-google-maps",
-      "label": "Google Maps",
-      "url": "https://www.google.com/maps",
-      "favicon": "https://www.gstatic.com/images/branding/product/2x/maps_48dp.png",
-      "col": 1,
-      "row": 5
     },
     {
       "key": "icon-linkedin",
       "label": "LinkedIn",
       "url": "https://www.linkedin.com/",
-      "favicon": "linkedin.com",
       "col": 2,
       "row": 0
     },
@@ -114,7 +87,6 @@ window.WEBOS_CONFIG = {
       "key": "icon-github",
       "label": "GitHub",
       "url": "https://github.com/",
-      "favicon": "github.com",
       "col": 2,
       "row": 1
     },
@@ -122,15 +94,13 @@ window.WEBOS_CONFIG = {
       "key": "icon-google-drive",
       "label": "Google Drive",
       "url": "https://drive.google.com/",
-      "favicon": "https://ssl.gstatic.com/images/branding/product/2x/drive_2020q4_48dp.png",
       "col": 2,
       "row": 2
     },
     {
-      "key": "icon-microsoft-365",
-      "label": "Microsoft 365",
-      "url": "https://www.office.com/",
-      "favicon": "office.com",
+      "key": "icon-google-maps",
+      "label": "Google Maps",
+      "url": "https://maps.google.com/",
       "col": 2,
       "row": 3
     },
@@ -138,58 +108,29 @@ window.WEBOS_CONFIG = {
       "key": "icon-canva",
       "label": "Canva",
       "url": "https://www.canva.com/",
-      "favicon": "canva.com",
       "col": 2,
       "row": 4
-    },
-    {
-      "key": "icon-google-translate",
-      "label": "Google Translate",
-      "url": "https://translate.google.com/",
-      "favicon": "translate.google.com",
-      "col": 2,
-      "row": 5
     }
   ],
   "dock": [
     {
       "label": "ChatGPT",
       "url": "https://chatgpt.com/",
-      "favicon": "chatgpt.com",
-      "locked": true
-    },
-    {
-      "label": "Gemini",
-      "url": "https://gemini.google.com/",
-      "favicon": "gemini.google.com",
       "locked": true
     },
     {
       "label": "Claude",
       "url": "https://claude.ai/",
-      "favicon": "claude.ai",
       "locked": true
     },
     "separator",
     {
       "label": "Gmail",
-      "url": "https://mail.google.com/",
-      "favicon": "https://ssl.gstatic.com/images/branding/product/2x/gmail_2020q4_48dp.png"
+      "url": "https://mail.google.com/"
     },
     {
       "label": "Outlook",
-      "url": "https://outlook.live.com/",
-      "favicon": "outlook.live.com"
-    },
-    {
-      "label": "WhatsApp",
-      "url": "https://web.whatsapp.com/",
-      "favicon": "web.whatsapp.com"
-    },
-    {
-      "label": "Discord",
-      "url": "https://discord.com/app",
-      "favicon": "discord.com"
+      "url": "https://outlook.live.com/"
     }
   ],
   "bookmarkSections": [
@@ -599,7 +540,7 @@ window.WEBOS_CONFIG = {
           "links": [
             {
               "label": "Google Maps",
-              "url": "https://www.google.com/maps"
+              "url": "https://maps.google.com/"
             },
             {
               "label": "Google Earth",

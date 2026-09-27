@@ -118,7 +118,7 @@ function renderMillerLinks() {
 		entries.forEach(({ link, cat, bi, li }) => {
 			const row = el('div', { class: 'miller-link-row', data: { li } });
 			if (bmEditing && !bookmarkQuery) row.draggable = true;
-			const art = iconArt(domainFrom(link.url)); art.classList.add('miller-link-ico');
+			const art = iconArt(link.url); art.classList.add('miller-link-ico');
 			const a = el('a', { class: 'miller-link', href: link.url, target: '_blank', rel: 'noopener noreferrer', draggable: false, data: { search: link.label.toLowerCase() } },
 				art,
 				el('span', { class: 'miller-link-label', text: link.label }),

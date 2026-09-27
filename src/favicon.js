@@ -1,39 +1,45 @@
 // ─────────────────────────────────────────────────────────────────────
-// Favicon fetching
+// Icon fetching
 // ─────────────────────────────────────────────────────────────────────
-const FAVICON_STORE = 'webos_favicons';
-// Legacy sentinel: older builds persisted this when every favicon source
-// failed, which left blocked favicons stuck on the identicon forever — a
-// page loaded once from an internet-restricted network would never retry,
-// even after moving to a free one. We now track failures in memory only
-// and strip any of these stale sentinels on load so those domains recover.
-const NO_FAVICON = '__no_favicon__';
-const faviconCache = (() => {
+// Every icon — desktop, dock, bookmark list — is resolved the same way, from
+// the link's own URL. There is no per-item icon setting: what a link points
+// at decides what it looks like.
+const FAVICON_STORE = 'webos_icons';
+// Older builds cached per domain under this key (plus a '__no_favicon__'
+// failure sentinel). Per-page keys supersede it, so it's simply dropped.
+try { localStorage.removeItem('webos_favicons'); } catch (_) {}
+
+// Cache key for a link: host + path, so google.com/maps and google.com (or
+// mail.google.com and drive.google.com) keep separate icons.
+function iconKey(url) {
 	try {
-		const c = JSON.parse(localStorage.getItem(FAVICON_STORE) || '{}');
-		for (const d in c) if (c[d] === NO_FAVICON) delete c[d];
-		return c;
-	} catch(_) { return {}; }
+		const u = new URL(url);
+		return u.hostname.replace(/^www\./, '') + u.pathname.replace(/\/+$/, '');
+	} catch (_) { return url; }
+}
+
+const faviconCache = (() => {
+	try { return JSON.parse(localStorage.getItem(FAVICON_STORE) || '{}'); }
+	catch (_) { return {}; }
 })();
 
-// Domains whose every favicon source failed this session. Kept in memory
-// only — never persisted — so a favicon that was merely blocked (e.g. the
-// page was loaded behind a network that filters the CDN) is retried on the
-// next visit instead of being stuck on the identicon forever.
+// Pages whose every icon source failed this session. Kept in memory only —
+// never persisted — so an icon that was merely blocked (e.g. the page was
+// loaded behind a network that filters the CDN) is retried on the next visit
+// instead of being stuck on the local glyph forever.
 const faviconFailed = new Set();
 
-// Forget every resolved and failed favicon so the next render re-fetches all.
+// Forget every resolved and failed icon so the next render re-fetches all.
 function clearFaviconCache() {
-	for (const d in faviconCache) delete faviconCache[d];
+	for (const k in faviconCache) delete faviconCache[k];
 	faviconFailed.clear();
 	try { localStorage.removeItem(FAVICON_STORE); } catch (_) {}
 }
 
-// Stage 1 (the site's own domain) should answer fast if it answers at all —
-// a blocked host never will, so a short cap just falls through to stage 2
-// sooner. Stage 2 (Google s2) and a cached URL are off the boot path, so
-// they get plenty of room.
-const STAGE1_TIMEOUT = 1000;
+// The site's own host should answer fast if it answers at all — a blocked
+// host never will, so a short cap moves on sooner. The Google lookup and a
+// cached URL are off the boot path, so they get plenty of room.
+const SITE_TIMEOUT   = 1000;
 const CACHE_TIMEOUT  = 500;
 const PROBE_TIMEOUT  = 5000;
 
@@ -60,78 +66,99 @@ function probeImage(url, timeout, cb) {
 	probe.src = url;
 }
 
-// Resolve `domain`'s favicon onto the tile's sharp <img>. `onFail` re-asserts
-// the local glyph when nothing loads.
-function applyFavicon(sharp, domain, onFail) {
-	if (faviconFailed.has(domain)) { onFail && onFail(); return; }
+// Google's s2 answers a miss with a 16px generic globe rather than an error.
+const isS2Placeholder = (url, size) => (
+	url.includes('google.com/s2/favicons') &&
+	size &&
+	size.width <= 16 &&
+	size.height <= 16
+);
+
+// Resolve the icon for the page at `pageUrl` onto the tile's sharp <img>.
+// `onFail` re-asserts the local glyph when nothing loads.
+//
+// Two sources race:
+//   • Google s2, asked about the full page URL. It reads that page's own
+//     <link rel=icon>, so it tells product pages apart from their host
+//     (Gmail vs. Google, Flights vs. Google). It returns the largest icon
+//     the page has, up to the 128px asked for — enough for a 2x tile.
+//   • The site's own host — its root icon files. Slower to be right but
+//     reachable where Google is blocked.
+// Whichever the site gives is shown as soon as it lands; s2's answer replaces
+// it and is what gets cached. If s2 misses, the site's icon is kept and cached.
+function applyFavicon(sharp, pageUrl, onFail) {
+	const key = iconKey(pageUrl);
+	if (faviconFailed.has(key)) { onFail && onFail(); return; }
 
 	const remember = url => {
-		faviconCache[domain] = url;
+		faviconCache[key] = url;
 		try { localStorage.setItem(FAVICON_STORE, JSON.stringify(faviconCache)); } catch (_) {}
 	};
-	const showFavicon = url => {
-		faviconFailed.delete(domain);
-		sharp.src = url;
-		remember(url);
-	};
-	const isS2Placeholder = (url, size) => (
-		url.includes('google.com/s2/favicons') &&
-		size &&
-		size.width <= 16 &&
-		size.height <= 16
-	);
 
 	// Fast path: the URL that worked on a prior visit. Verify it still loads
 	// (a cached URL can 404 after a redesign) before committing.
-	const cached = faviconCache[domain];
+	const cached = faviconCache[key];
 	if (cached) {
 		probeImage(cached, CACHE_TIMEOUT, (ok, size) => {
-			if (ok && !isS2Placeholder(cached, size)) showFavicon(cached);
-			else { delete faviconCache[domain]; applyFavicon(sharp, domain, onFail); }
+			if (ok && !isS2Placeholder(cached, size)) sharp.src = cached;
+			else { delete faviconCache[key]; applyFavicon(sharp, pageUrl, onFail); }
 		});
 		return;
 	}
 
-	// Stage 1 — try the most frequent same-origin favicon paths found by
-	// crawling the bookmark set's <link>, manifest, and legacy icon metadata.
-	// No scoring: the FIRST entry in this order that loads wins, so the order
-	// IS the preference. Each icon's requests all go to one host, spread across
-	// ~20 hosts, so nothing piles up. A full image URL in place of a domain is
-	// used as-is — for product pages whose host serves a generic parent icon
-	// (e.g. Google Maps on google.com). It's the only candidate, so it gets the
-	// patient timeout rather than the 1s race cap.
-	const explicit   = /^https?:\/\//.test(domain);
-	const CANDIDATES = explicit ? [domain] : [
-		'https://' + domain + '/favicon.ico',
-		'https://' + domain + '/apple-touch-icon.png',
-		'https://' + domain + '/favicon.svg',
-		'https://' + domain + '/safari-pinned-tab.svg',
+	let host;
+	try { host = new URL(pageUrl).hostname; } catch (_) { onFail && onFail(); return; }
+
+	const S2_URL = 'https://www.google.com/s2/favicons?domain_url=' + encodeURIComponent(pageUrl) + '&sz=128';
+	// Same-origin icon paths, most frequent first (from crawling the bookmark
+	// set's <link>, manifest and legacy icon metadata). No scoring: the FIRST
+	// entry in this order that loads wins, so the order IS the preference.
+	const SITE_CANDIDATES = [
+		'https://' + host + '/favicon.ico',
+		'https://' + host + '/apple-touch-icon.png',
+		'https://' + host + '/favicon.svg',
+		'https://' + host + '/safari-pinned-tab.svg',
 	];
-	// Stage 2 — only if every path above missed: Google's s2 service, which
-	// reads <link rel=icon> for sites that serve no root file.
-	const S2_URL = 'https://www.google.com/s2/favicons?domain=' + domain + '&sz=64';
 
-	// results[i]: undefined = in flight, true = loaded, false = failed.
-	const results = new Array(CANDIDATES.length);
-	let decided = false;
-
-	const decide = () => {
-		if (decided) return;
-		for (let i = 0; i < CANDIDATES.length; i++) {
-			if (results[i] === true) { decided = true; showFavicon(CANDIDATES[i]); return; }
-			if (results[i] === undefined) return;   // a higher preference may still land
-		}
-		// Stage 1 missed everything → stage 2.
-		decided = true;
-		probeImage(S2_URL, PROBE_TIMEOUT, (ok, size) => {
-			if (ok && !isS2Placeholder(S2_URL, size)) showFavicon(S2_URL);
-			else { faviconFailed.add(domain); onFail && onFail(); }
-		});
+	let s2 = 'pending';          // 'pending' | 'ok' | 'failed'
+	let site = 'pending';        // 'pending' | url | 'failed'
+	const settle = () => {
+		if (s2 === 'pending') return;
+		if (s2 === 'ok') return;                       // already shown + cached
+		if (site === 'pending') return;
+		if (site === 'failed') { faviconFailed.add(key); onFail && onFail(); }
+		else remember(site);
 	};
 
-	CANDIDATES.forEach((url, i) => probeImage(url, explicit ? PROBE_TIMEOUT : STAGE1_TIMEOUT, ok => {
+	probeImage(S2_URL, PROBE_TIMEOUT, (ok, size) => {
+		if (ok && !isS2Placeholder(S2_URL, size)) {
+			s2 = 'ok';
+			faviconFailed.delete(key);
+			sharp.src = S2_URL;
+			remember(S2_URL);
+		} else s2 = 'failed';
+		settle();
+	});
+
+	// results[i]: undefined = in flight, true = loaded, false = failed.
+	const results = new Array(SITE_CANDIDATES.length);
+	const decideSite = () => {
+		if (site !== 'pending') return;
+		for (let i = 0; i < SITE_CANDIDATES.length; i++) {
+			if (results[i] === true) {
+				site = SITE_CANDIDATES[i];
+				if (s2 !== 'ok') sharp.src = site;     // provisional until s2 answers
+				settle();
+				return;
+			}
+			if (results[i] === undefined) return;       // a higher preference may still land
+		}
+		site = 'failed';
+		settle();
+	};
+	SITE_CANDIDATES.forEach((url, i) => probeImage(url, SITE_TIMEOUT, ok => {
 		results[i] = ok;
-		decide();
+		decideSite();
 	}));
 }
 
@@ -206,10 +233,12 @@ function iconArtShell() {
 	return { wrap, bloom, sharp };
 }
 
-function iconArt(domain) {
+// Tile for the link at `url`: local glyph first, then the resolved icon.
+function iconArt(url) {
 	const { wrap, bloom, sharp } = iconArtShell();
+	const domain = domainFrom(url);
 	renderIdenticon(bloom, sharp, domain);
-	applyFavicon(sharp, domain, () => renderIdenticon(bloom, sharp, domain));
+	applyFavicon(sharp, url, () => renderIdenticon(bloom, sharp, domain));
 	sharp.addEventListener('load', () => {
 		if (bloom.src !== sharp.src) bloom.src = sharp.src;
 	});

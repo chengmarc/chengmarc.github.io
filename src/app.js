@@ -158,10 +158,9 @@ setupAboutPanel();
 
 // ─────────────────────────────────────────────────────────────────────
 // Boot splash — a flat cover over the first-run assembly. It lifts on a
-// fixed 2.5s timer: stage 1 of favicon resolution (each site's own domain)
-// caps at 1s, so by then every first-screen tile shows either its real
-// favicon or its local glyph. Stage 2 (Google s2) resolves afterwards and
-// its result just swaps in.
+// fixed 2.5s timer: each site's own icon files cap at 1s, so by then every
+// first-screen tile shows a real icon or its local glyph. The page-aware
+// Google lookup races alongside and, when it answers, just swaps in.
 // ─────────────────────────────────────────────────────────────────────
 (function hideBootScreen() {
 	const boot = $('boot');

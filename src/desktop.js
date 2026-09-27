@@ -4,7 +4,7 @@
 function makeIconEl(item) {
 	return el('a', { class: 'desktop-icon', href: item.url, target: '_blank', rel: 'noopener noreferrer', data: { key: item.key } },
 		el('button', { class: 'icon-delete', text: '✕', data: { key: item.key } }),
-		el('div', { class: 'icon-img-wrap' }, iconArt(item.favicon)),
+		el('div', { class: 'icon-img-wrap' }, iconArt(item.url)),
 		el('span', { class: 'desktop-icon-label', text: item.label }),
 	);
 }
@@ -57,7 +57,7 @@ function renderDock() {
 		if (isLockedDockItem(item)) a.classList.add('locked');
 		else a.appendChild(el('button', { class: 'dock-icon-delete', text: '✕', data: { dockIdx } }));
 
-		a.appendChild(iconArt(item.favicon));
+		a.appendChild(iconArt(item.url));
 		dock.appendChild(a);
 	});
 }
@@ -93,7 +93,7 @@ function addDesktopIcon(label, url) {
 	const domain = domainFrom(url);
 	if (S.desktopIcons.some(i => i.url === url)) return false;
 	const { col, row } = nextFreeCell(occupiedCells());
-	S.desktopIcons.push({ key: 'icon-' + domain.replace(/\./g,'-') + '-' + Date.now(), label, url, favicon: domain, col, row });
+	S.desktopIcons.push({ key: 'icon-' + domain.replace(/\./g,'-') + '-' + Date.now(), label, url, col, row });
 	saveState(); renderDesktopIcons(); return true;
 }
 
@@ -111,7 +111,7 @@ function moveDesktopIconToDock(key) {
 	const icon = S.desktopIcons[idx];
 	S.desktopIcons.splice(idx, 1);
 	if (!S.dock.some(i => i !== 'separator' && i.url === icon.url)) {
-		S.dock.push({ label: icon.label, url: icon.url, favicon: icon.favicon });
+		S.dock.push({ label: icon.label, url: icon.url });
 	}
 	saveState(); renderDesktopIcons(); renderDock();
 }
