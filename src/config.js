@@ -11,7 +11,7 @@ window.WEBOS_CONFIG = {
       "label": "YouTube",
       "url": "https://www.youtube.com/",
       "col": 0,
-      "row": 0
+      "row": 2
     },
     {
       "key": "icon-facebook",
@@ -25,14 +25,14 @@ window.WEBOS_CONFIG = {
       "label": "Instagram",
       "url": "https://www.instagram.com/",
       "col": 0,
-      "row": 2
+      "row": 3
     },
     {
       "key": "icon-x",
       "label": "X",
       "url": "https://x.com/",
       "col": 0,
-      "row": 3
+      "row": 0
     },
     {
       "key": "icon-reddit",
@@ -42,25 +42,18 @@ window.WEBOS_CONFIG = {
       "row": 4
     },
     {
-      "key": "icon-google",
-      "label": "Google",
-      "url": "https://www.google.com/",
-      "col": 1,
-      "row": 0
-    },
-    {
       "key": "icon-wikipedia",
       "label": "Wikipedia",
       "url": "https://www.wikipedia.org/",
-      "col": 1,
-      "row": 1
+      "col": 2,
+      "row": 2
     },
     {
       "key": "icon-amazon",
       "label": "Amazon",
       "url": "https://www.amazon.com/",
       "col": 1,
-      "row": 2
+      "row": 4
     },
     {
       "key": "icon-netflix",
@@ -70,46 +63,46 @@ window.WEBOS_CONFIG = {
       "row": 3
     },
     {
-      "key": "icon-spotify",
-      "label": "Spotify",
-      "url": "https://open.spotify.com/",
-      "col": 1,
-      "row": 4
-    },
-    {
-      "key": "icon-linkedin",
-      "label": "LinkedIn",
-      "url": "https://www.linkedin.com/",
-      "col": 2,
-      "row": 0
-    },
-    {
       "key": "icon-github",
       "label": "GitHub",
       "url": "https://github.com/",
       "col": 2,
-      "row": 1
+      "row": 3
     },
     {
       "key": "icon-google-drive",
       "label": "Google Drive",
       "url": "https://drive.google.com/",
-      "col": 2,
-      "row": 2
-    },
-    {
-      "key": "icon-google-maps",
-      "label": "Google Maps",
-      "url": "https://maps.google.com/",
-      "col": 2,
-      "row": 3
+      "col": 1,
+      "row": 1
     },
     {
       "key": "icon-canva",
       "label": "Canva",
       "url": "https://www.canva.com/",
       "col": 2,
-      "row": 4
+      "row": 1
+    },
+    {
+      "key": "icon-news-google-com-1790511738389",
+      "label": "Google News",
+      "url": "https://news.google.com/",
+      "col": 2,
+      "row": 0
+    },
+    {
+      "key": "icon-google-com-1790511750919",
+      "label": "Google",
+      "url": "https://www.google.com/",
+      "col": 1,
+      "row": 0
+    },
+    {
+      "key": "icon-hulu-com-1790511789831",
+      "label": "Hulu",
+      "url": "https://www.hulu.com/",
+      "col": 1,
+      "row": 2
     }
   ],
   "dock": [
