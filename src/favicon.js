@@ -96,8 +96,12 @@ function applyFavicon(sharp, domain, onFail) {
 	// crawling the bookmark set's <link>, manifest, and legacy icon metadata.
 	// No scoring: the FIRST entry in this order that loads wins, so the order
 	// IS the preference. Each icon's requests all go to one host, spread across
-	// ~20 hosts, so nothing piles up.
-	const CANDIDATES = [
+	// ~20 hosts, so nothing piles up. A full image URL in place of a domain is
+	// used as-is — for product pages whose host serves a generic parent icon
+	// (e.g. Google Maps on google.com). It's the only candidate, so it gets the
+	// patient timeout rather than the 1s race cap.
+	const explicit   = /^https?:\/\//.test(domain);
+	const CANDIDATES = explicit ? [domain] : [
 		'https://' + domain + '/favicon.ico',
 		'https://' + domain + '/apple-touch-icon.png',
 		'https://' + domain + '/favicon.svg',
@@ -125,7 +129,7 @@ function applyFavicon(sharp, domain, onFail) {
 		});
 	};
 
-	CANDIDATES.forEach((url, i) => probeImage(url, STAGE1_TIMEOUT, ok => {
+	CANDIDATES.forEach((url, i) => probeImage(url, explicit ? PROBE_TIMEOUT : STAGE1_TIMEOUT, ok => {
 		results[i] = ok;
 		decide();
 	}));

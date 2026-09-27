@@ -323,12 +323,35 @@ body::after {
 				   rounded corners on dark, full-bleed icons. */
 				background: transparent;
 				/* Two-layer drop shadow (tight contact + soft ambient) for depth, plus a
-				   top inset highlight for a glassy lit edge. (No full inset ring — it
-				   was another source of the corner fringe.) */
-				box-shadow: 0 1px 2px var(--k-30),
-				            0 6px 16px var(--k-40),
-				            inset 0 1px 0 var(--w-30);
+				   faint dark hairline outside the edge — the same separation line the
+				   app icon draws, so light tiles hold their shape on light wallpaper.
+				   (No inset ring — it was a source of the corner fringe; the lit edge
+				   is the ::before rim instead.) */
+				box-shadow: 0 0 0 0.5px var(--k-15),
+				            0 1px 2px var(--k-30),
+				            0 6px 16px var(--k-40);
 				transition: box-shadow 0.18s ease;
+			}
+			/* Glass rim, matching the app icon's tileRim: a 1px inner stroke whose
+			   white fades diagonally — bright at the top-left light source, almost
+			   gone across the middle, catching light again at the bottom-right.
+			   Drawn as a padded gradient with the content box masked out, so only
+			   the ring remains and it follows the tile's rounded corners. */
+			.icon-art::before {
+				content: '';
+				position: absolute; inset: 0;
+				z-index: 3;
+				pointer-events: none;
+				border-radius: inherit;
+				padding: 1px;
+				background: linear-gradient(135deg,
+					rgba(255,255,255,0.70) 0%,
+					rgba(255,255,255,0.08) 40%,
+					rgba(255,255,255,0.04) 75%,
+					rgba(255,255,255,0.40) 100%);
+				-webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+				-webkit-mask-composite: xor;
+				        mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
 			}
 			/* Glassy specular sheen laid over the whole tile so every icon reads as a
 			   single lit piece of glass, regardless of its favicon. Kept subtle so it
@@ -347,9 +370,9 @@ body::after {
 			/* Lift on hover: shadow deepens as the icon scales up. */
 			.desktop-icon:hover .icon-art,
 			.dock-icon:hover    .icon-art {
-				box-shadow: 0 2px 4px var(--k-30),
-				            0 12px 26px var(--k-45),
-				            inset 0 1px 0 var(--w-40);
+				box-shadow: 0 0 0 0.5px var(--k-15),
+				            0 2px 4px var(--k-30),
+				            0 12px 26px var(--k-45);
 			}
 			/* blurred colored fill = a zoomed, blurred copy of the favicon */
 			.icon-bloom {
@@ -366,8 +389,10 @@ body::after {
 				filter: blur(14px) saturate(2) contrast(1.05);
 				z-index: 0; pointer-events: none;
 			}
-			/* crisp favicon, original prominence, centered on top. The drop-shadow
-			   crisps perceived edges and lifts the glyph off the noisy bloom. */
+			/* crisp favicon, original prominence, centered on top. Two shadows lift
+			   the glyph off the bloom: a tight dark contour that traces the logo's
+			   own edge (so a transparent glyph can't blend into its own blurred
+			   copy), plus a soft offset shadow for depth. */
 			.icon-sharp {
 				position: absolute;
 				top: 12%; left: 12%;
@@ -380,7 +405,8 @@ body::after {
 				   for free, so no detection is needed. */
 				border-radius: 20%;
 				z-index: 2;
-				filter: drop-shadow(0 1px 1.5px var(--k-30));
+				filter: drop-shadow(0 0 1.5px var(--k-40))
+				        drop-shadow(0 2px 6px var(--k-40));
 				}
 			/* Static app-icon fallback assets use this same bloom + sharp pipeline,
 			   so restricted-network icons keep the colored tile background instead
@@ -816,7 +842,7 @@ body::after {
    About panel — the profile card, opened from the ✦ Bookmark OS
    wordmark. Every selector is scoped under .about-panel so the card
    styles never touch the desktop. Content is authored as static HTML
-   in index.html so crawlers/LLMs read it even with scripts stripped.
+   in index.html so it renders even with scripts stripped.
    =================================================================== */
 .about-panel {
     position: fixed;
@@ -877,35 +903,77 @@ body::after {
     color: #fff;
 }
 
+/* Hero: app icon + product name, laid out like macOS "About This Mac". */
+.about-panel .about-hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    padding: 40px 48px 36px;
+}
+/* Soft glow behind the icon so it lifts off the glass. */
+.about-panel .about-hero::before {
+    content: '';
+    position: absolute;
+    left: 20px; top: 50%;
+    width: 220px; height: 220px;
+    translate: 0 -50%;
+    background: radial-gradient(circle, var(--w-12) 0%, transparent 65%);
+    pointer-events: none;
+}
+.about-panel .about-app-icon {
+    position: relative;
+    width: 112px; height: 112px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 10px 24px var(--k-40));
+}
+.about-panel .about-hero-text { position: relative; min-width: 0; }
+.about-panel .about-product { font-size: 2rem; font-weight: 600; letter-spacing: -0.01em; color: var(--color-name); line-height: 1.1; }
+.about-panel .about-tagline { font-size: 0.95rem; color: var(--color-subtitle); margin-top: 8px; line-height: 1.4; }
+.about-panel .about-meta { display: flex; align-items: center; gap: 14px; margin-top: 18px; flex-wrap: wrap; }
+.about-panel .about-chip {
+    display: inline-flex;
+    align-items: center;
+    height: 30px;
+    padding: 0 14px;
+    border-radius: 999px;
+    background: var(--w-08);
+    border: 1px solid var(--w-15);
+    color: var(--color-name);
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.18s ease, transform 0.18s ease;
+}
+.about-panel .about-chip:hover { background: var(--w-20); transform: translateY(-1px); }
+.about-panel .about-meta-note { font-size: 0.7rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--color-body); }
+
 .about-panel .card-top   { display: flex; align-items: stretch; }
-.about-panel .card-left  { width: 360px; flex-shrink: 0; padding: 48px 40px 40px 48px; }
-.about-panel .card-vsep  { width: 1px; background: var(--color-sep); margin: 32px 0; flex-shrink: 0; }
-.about-panel .card-right { flex: 1; padding: 48px 48px 40px 36px; display: flex; align-items: center; }
+.about-panel .card-left  { width: 360px; flex-shrink: 0; padding: 32px 40px 32px 48px; }
+.about-panel .card-vsep  { width: 1px; background: var(--color-sep); margin: 28px 0; flex-shrink: 0; }
+.about-panel .card-right { flex: 1; padding: 32px 48px 32px 40px; display: flex; align-items: center; }
 .about-panel .card-hsep  { height: 1px; background: var(--color-sep); margin: 0 36px; }
 .about-panel .card-bottom{ padding: 22px 48px 28px; }
 
 .about-panel .icon-strip { display: flex; align-items: center; flex-wrap: wrap; }
 .about-panel .icon-group { display: flex; flex-direction: column; gap: 8px; padding: 0 24px; }
 .about-panel .icon-group:first-child { padding-left: 0; }
+.about-panel .section-label,
 .about-panel .icon-group-label,
 .about-panel .contact-label { font-size: 0.62rem; letter-spacing: 2.5px; text-transform: uppercase; font-weight: 600; color: var(--color-subtitle); }
+.about-panel .section-label { color: var(--color-body); margin-bottom: 10px; }
 .about-panel .icons { display: flex; flex-wrap: nowrap; gap: 8px; }
 .about-panel .strip-sep { color: var(--w-20); font-size: 1.2rem; font-weight: 200; line-height: 1; margin-top: 22px; flex-shrink: 0; }
 
-.about-panel h1 { font-size: 2.2rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--color-name); margin-bottom: 6px; line-height: 1.1; }
-.about-panel .name-alt { font-size: 1rem; color: var(--color-subtitle); letter-spacing: 3.5px; text-transform: uppercase; font-weight: 400; margin-bottom: 24px; }
-.about-panel .note { font-size: 0.8rem; color: var(--color-body); letter-spacing: 0.1px; line-height: 1.2; }
-.about-panel .note p + p { margin-top: 1em; }
+.about-panel h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--color-name); margin-bottom: 4px; line-height: 1.1; }
+.about-panel .name-alt { font-size: 0.8rem; color: var(--color-subtitle); letter-spacing: 3px; text-transform: uppercase; font-weight: 400; margin-bottom: 20px; }
+.about-panel .note { font-size: 0.85rem; color: var(--color-body); line-height: 1.6; }
 
-.about-panel .contact { display: flex; flex-direction: column; gap: 6px; margin-bottom: 24px; }
+.about-panel .contact { display: flex; flex-direction: column; gap: 6px; }
 .about-panel .contact-row { display: flex; align-items: baseline; gap: 10px; text-decoration: none; }
-.about-panel .contact-label { flex-shrink: 0; }
+.about-panel .contact-label { flex-shrink: 0; width: 72px; }
 .about-panel .contact-email { font-size: 0.72rem; color: var(--color-body); }
 .about-panel .contact-row:hover .contact-email { color: var(--color-subtitle); }
-
-.about-panel .instructions { border-top: 1px solid var(--color-sep); padding-top: 20px; display: flex; flex-direction: column; gap: 14px; }
-.about-panel .inst-title { font-size: 0.91rem; font-weight: 600; color: var(--color-subtitle); margin-bottom: 2px; }
-.about-panel .inst-desc { font-size: 0.75rem; color: var(--color-body); line-height: 1.5; }
 
 .about-panel .icon-link { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 10px; background: var(--w-08); border: 1px solid var(--w-15); transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease; text-decoration: none; flex-shrink: 0; }
 .about-panel .icon-link:hover { background: var(--w-20); transform: translateY(-3px); box-shadow: 0 6px 18px var(--k-35); }
@@ -960,7 +1028,7 @@ body::after {
 
     /* No hover lift on touch; the JS press-scale still gives tap feedback. */
     .desktop-icon:hover { background: none; transform: none; }
-    .desktop-icon:hover .icon-art { box-shadow: 0 1px 2px var(--k-30),
-                                                 0 6px 16px var(--k-40),
-                                                 inset 0 1px 0 var(--w-30); }
+    .desktop-icon:hover .icon-art { box-shadow: 0 0 0 0.5px var(--k-15),
+                                                 0 1px 2px var(--k-30),
+                                                 0 6px 16px var(--k-40); }
 }
