@@ -2,8 +2,9 @@
 
   <img src="media/app-icon.svg" width="180"><br>
 
+  <a href="https://chromewebstore.google.com/detail/bookmark-os/mbfmccadkfdnhojahjehknphgmjkehkp"><img src="media/badge-chrome.png" height="50"></a><br>
   <img src="media/badge-browsers.svg">
-  <a href="https://chengmarc.com"><img src="media/badge-demo.svg"></a>
+  <a href="https://chengmarc.com"><img src="media/badge-demo.svg"></a><br>
 
   <h1>Bookmark OS - Desktop in your Browser</h1>
 
