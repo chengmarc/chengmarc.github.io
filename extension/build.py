@@ -22,7 +22,8 @@ DIST = ROOT / 'dist'
 
 # Website-only files the new tab page never loads: the README screenshot and
 # badges (demo.png is referenced only as an absolute og:image URL).
-SKIP = {'media/demo.png', 'media/badge-browsers.svg', 'media/badge-demo.svg'}
+SKIP = {'media/demo.png', 'media/badge-browsers.svg', 'media/badge-demo.svg',
+        'media/badge-chrome.png'}
 
 # Firefox needs a stable add-on ID and, for new AMO listings, a declaration of
 # what data leaves the browser. Icons are looked up by sending each bookmark's
