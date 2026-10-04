@@ -2,9 +2,8 @@
 
   <img src="media/app-icon.svg" width="180"><br>
 
-  <a href="https://chromewebstore.google.com/detail/bookmark-os/mbfmccadkfdnhojahjehknphgmjkehkp"><img src="media/badge-chrome.png" height="50"></a><br>
-  <img src="media/badge-browsers.svg">
-  <a href="https://chengmarc.com"><img src="media/badge-demo.svg"></a><br>
+  <a href="https://chromewebstore.google.com/detail/bookmark-os/mbfmccadkfdnhojahjehknphgmjkehkp"><img src="media/badges/badge-chrome.png" height="50"></a>
+  <a href="https://addons.mozilla.org/en-US/firefox/addon/bookmark-os/"><img src="media/badges/badge-firefox.png" height="50"></a>
 
   <h1>Bookmark OS - Desktop in your Browser</h1>
 
