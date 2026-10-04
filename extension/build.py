@@ -22,8 +22,7 @@ DIST = ROOT / 'dist'
 
 # Website-only files the new tab page never loads: the README screenshot and
 # badges (demo.png is referenced only as an absolute og:image URL).
-SKIP = {'media/demo.png', 'media/badge-browsers.svg', 'media/badge-demo.svg',
-        'media/badge-chrome.png'}
+SKIP = {'media/demo.png', 'media/badges'}
 
 # Firefox needs a stable add-on ID and, for new AMO listings, a declaration of
 # what data leaves the browser. Icons are looked up by sending each bookmark's
@@ -49,7 +48,8 @@ def stage(target: str, manifest: dict) -> Path:
     for folder in ('src', 'media'):
         for f in (ROOT / folder).rglob('*'):
             rel = f.relative_to(ROOT).as_posix()
-            if f.is_file() and rel not in SKIP:
+            skipped = rel in SKIP or rel.rsplit('/', 1)[0] in SKIP
+            if f.is_file() and not skipped:
                 (out / rel).parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(f, out / rel)
 
