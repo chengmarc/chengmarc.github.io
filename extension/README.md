@@ -19,7 +19,7 @@ python extension/build.py
 
 Produces `dist/bookmark-os-chrome-<version>.zip` (Chrome Web Store and Edge Add-ons) and `dist/bookmark-os-firefox-<version>.zip` (Firefox Add-ons), plus unpacked copies in `dist/chrome/` and `dist/firefox/`. Bump `version` in `manifest.json` before each store upload.
 
-In the packaged copy, the page title is set to "New Tab", and the README-only media (demo screenshot, badges) is left out.
+In the packaged copy, the page title is set to "New Tab", and the README-only media (demo screenshot, badges) is left out. The Firefox build also sets the homepage to the same page, because Firefox opens new windows on the homepage rather than the new tab page.
 
 ## Test locally
 

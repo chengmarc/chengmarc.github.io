@@ -33,6 +33,12 @@ GECKO = {
     'data_collection_permissions': {'required': ['bookmarksInfo']},
 }
 
+# Firefox opens new windows on the homepage, not the new tab page, so
+# chrome_url_overrides alone only covers new tabs. Pointing the homepage at the
+# same page makes new windows (and the Home button) open Bookmark OS too.
+# Chrome already uses the new tab page for new windows and doesn't need this.
+FIREFOX_HOMEPAGE = {'homepage': 'index.html'}
+
 
 def stage(target: str, manifest: dict) -> Path:
     out = DIST / target
@@ -71,7 +77,11 @@ def main() -> None:
     version = base['version']
     targets = {
         'chrome':  base,
-        'firefox': {**base, 'browser_specific_settings': {'gecko': GECKO}},
+        'firefox': {
+            **base,
+            'chrome_settings_overrides': FIREFOX_HOMEPAGE,
+            'browser_specific_settings': {'gecko': GECKO},
+        },
     }
     for target, manifest in targets.items():
         folder = stage(target, manifest)
