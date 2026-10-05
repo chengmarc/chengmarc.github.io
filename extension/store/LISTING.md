@@ -31,6 +31,8 @@ Try it in your browser first: https://chengmarc.com
 - `screenshot-1-desktop.png` — 1280×800
 - `screenshot-2-bookmarks.png` — 1280×800
 - `promo-440x280.png` — small promo tile
+- `promo-1400x560.png` — marquee promo tile
+- `promo.html` — source for both tiles; re-render with headless Chrome (commands in the file) after updating screenshot 1
 - Store icon: `../icons/icon-128.png`
 
 ## Privacy policy URL
