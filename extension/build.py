@@ -1,6 +1,6 @@
 """Package the site as a New Tab browser extension.
 
-The extension ships the exact same index.html / src / media as the website —
+The extension ships the exact same index.html and src/ as the website —
 this script only adds a manifest and icons, then zips one package per store:
 
     dist/bookmark-os-chrome-<ver>.zip      Chrome Web Store + Edge Add-ons
@@ -20,9 +20,6 @@ EXT  = Path(__file__).resolve().parent
 ROOT = EXT.parent
 DIST  = ROOT / 'dist'
 BUILD = ROOT / 'build'
-
-# Website-only files the new tab page never loads: the README badges.
-SKIP = {'media/badges'}
 
 # Firefox needs a stable add-on ID and, for new AMO listings, a declaration of
 # what data leaves the browser. Icons are looked up by sending each bookmark's
@@ -51,13 +48,7 @@ def stage(target: str, manifest: dict) -> Path:
     html = re.sub(r'<title>.*?</title>', '<title>New Tab</title>', html, count=1)
     (out / 'index.html').write_text(html, encoding='utf-8')
 
-    for folder in ('src', 'media'):
-        for f in (ROOT / folder).rglob('*'):
-            rel = f.relative_to(ROOT).as_posix()
-            skipped = rel in SKIP or rel.rsplit('/', 1)[0] in SKIP
-            if f.is_file() and not skipped:
-                (out / rel).parent.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(f, out / rel)
+    shutil.copytree(ROOT / 'src', out / 'src')
 
     shutil.copytree(EXT / 'icons', out / 'icons')
     (out / 'manifest.json').write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
