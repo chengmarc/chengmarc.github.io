@@ -25,7 +25,7 @@ In the packaged copy, the page title is set to "New Tab". The Firefox build also
 
 ## Test locally
 
-- **Chrome / Edge:** open `chrome://extensions` (or `edge://extensions`), turn on Developer mode, unzip `dist/bookmark-os-chrome-*.zip` to a folder, click **Load unpacked**, pick that folder, then open a new tab.
+- **Chrome / Edge:** open `chrome://extensions` (or `edge://extensions`), turn on Developer mode, click **Load unpacked**, pick `build/chrome/`, then open a new tab.
 - **Firefox:** open `about:debugging#/runtime/this-firefox`, click **Load Temporary Add-on**, pick `dist/bookmark-os-firefox-*.zip`, then open a new tab.
 
 ## Publish
