@@ -1,12 +1,13 @@
 # Bookmark OS — browser extension
 
-Packages the website as a **New Tab** extension for Chrome, Edge and Firefox. The extension ships the same `index.html`, `src/` and `media/` as the site; this folder only adds the manifest, icons and store material.
+Packages the website as a **New Tab** extension for Chrome, Edge and Firefox. The extension ships the same `index.html` and `src/` as the site; this folder only adds the manifest, icons and store material.
 
 ```
 extension/
   manifest.json     MV3 manifest (Chrome/Edge); build.py adds Firefox's gecko settings
   build.py          stages the packages in build/ and zips them into dist/
-  icons/            16/32/48/128 px, rendered from media/app-icon.svg
+  icons/            16/32/48/128 px, rendered from src/app-icon.svg
+  badges/           store badges shown in the README
   promo/            screenshots and promo tiles (promo.html renders the tiles)
   LISTING.md        store listing text and privacy answers
   PRIVACY.md        privacy policy (linked from the store listings)
@@ -20,7 +21,7 @@ python extension/build.py
 
 Produces `dist/bookmark-os-chrome-<version>.zip` (Chrome Web Store and Edge Add-ons) and `dist/bookmark-os-firefox-<version>.zip` (Firefox Add-ons). Bump `version` in `manifest.json` before each store upload.
 
-In the packaged copy, the page title is set to "New Tab", and the README-only badges are left out. The Firefox build also sets the homepage to the same page, because Firefox opens new windows on the homepage rather than the new tab page.
+In the packaged copy, the page title is set to "New Tab". The Firefox build also sets the homepage to the same page, because Firefox opens new windows on the homepage rather than the new tab page.
 
 ## Test locally
 
