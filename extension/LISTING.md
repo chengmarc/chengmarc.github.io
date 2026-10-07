@@ -11,6 +11,9 @@ Your bookmarks as a macOS-style desktop on every new tab. No account, no permiss
 ## Category
 Chrome / Edge: **Productivity** · Firefox: **Tabs**
 
+## Search terms (Edge only)
+new tab · new tab page · bookmarks · bookmark manager · speed dial · start page · macos desktop
+
 ## Description
 
 Bookmark OS turns your new tab page into a clean, macOS-style desktop for the sites you use every day.
@@ -23,17 +26,6 @@ Bookmark OS turns your new tab page into a clean, macOS-style desktop for the si
 
 No account. No sign-in. No permissions.
 Everything you set up is saved locally in your browser. Export it to a file, and import it on any other computer or browser to get the exact same desktop.
-
-Open source: https://github.com/chengmarc/chengmarc.github.io
-Try it in your browser first: https://chengmarc.com
-
-## Assets (in this folder)
-- `screenshot-1-desktop.png` — 1280×800
-- `screenshot-2-bookmarks.png` — 1280×800
-- `promo-440x280.png` — small promo tile
-- `promo-1400x560.png` — marquee promo tile
-- `promo.html` — source for both tiles; re-render with headless Chrome (commands in the file) after updating screenshot 1
-- Store icon: `../icons/icon-128.png`
 
 ## Privacy policy URL
 https://github.com/chengmarc/chengmarc.github.io/blob/main/extension/PRIVACY.md

@@ -3,10 +3,10 @@
 The extension ships the exact same index.html / src / media as the website —
 this script only adds a manifest and icons, then zips one package per store:
 
-    dist/chrome/                           unpacked, for "Load unpacked" testing
-    dist/firefox/                          unpacked, for about:debugging testing
     dist/bookmark-os-chrome-<ver>.zip      Chrome Web Store + Edge Add-ons
     dist/bookmark-os-firefox-<ver>.zip     Firefox Add-ons (AMO)
+
+Each package is staged in build/<target>/, which is deleted once zipped.
 
 Run from anywhere:  python extension/build.py
 """
@@ -18,11 +18,11 @@ from pathlib import Path
 
 EXT  = Path(__file__).resolve().parent
 ROOT = EXT.parent
-DIST = ROOT / 'dist'
+DIST  = ROOT / 'dist'
+BUILD = ROOT / 'build'
 
-# Website-only files the new tab page never loads: the README screenshot and
-# badges (demo.png is referenced only as an absolute og:image URL).
-SKIP = {'media/demo.png', 'media/badges'}
+# Website-only files the new tab page never loads: the README badges.
+SKIP = {'media/badges'}
 
 # Firefox needs a stable add-on ID and, for new AMO listings, a declaration of
 # what data leaves the browser. Icons are looked up by sending each bookmark's
@@ -41,7 +41,7 @@ FIREFOX_HOMEPAGE = {'homepage': 'index.html'}
 
 
 def stage(target: str, manifest: dict) -> Path:
-    out = DIST / target
+    out = BUILD / target
     shutil.rmtree(out, ignore_errors=True)
     out.mkdir(parents=True)
 
@@ -73,6 +73,8 @@ def pack(folder: Path, zip_path: Path) -> None:
 
 
 def main() -> None:
+    shutil.rmtree(DIST, ignore_errors=True)
+    DIST.mkdir()
     base = json.loads((EXT / 'manifest.json').read_text(encoding='utf-8'))
     version = base['version']
     targets = {
@@ -89,6 +91,7 @@ def main() -> None:
         pack(folder, zip_path)
         files = sum(1 for f in folder.rglob('*') if f.is_file())
         print(f'{zip_path.relative_to(ROOT)}  {files} files, {zip_path.stat().st_size / 1024:.0f} KB')
+    shutil.rmtree(BUILD)
 
 
 if __name__ == '__main__':

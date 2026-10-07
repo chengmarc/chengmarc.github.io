@@ -7,9 +7,14 @@
 
   <h1>Bookmark OS - Desktop in your Browser</h1>
 
-  <img src="media/demo.png">
+  <img src="extension/promo/promo-1400x560.png">
 
 </div>
+
+## Screenshots
+
+<img src="extension/promo/screenshot-1-desktop.png">
+<img src="extension/promo/screenshot-2-bookmarks.png">
 
 ## Try it locally
 
