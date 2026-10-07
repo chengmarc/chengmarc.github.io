@@ -6,7 +6,8 @@ this script only adds a manifest and icons, then zips one package per store:
     dist/bookmark-os-chrome-<ver>.zip      Chrome Web Store + Edge Add-ons
     dist/bookmark-os-firefox-<ver>.zip     Firefox Add-ons (AMO)
 
-Each package is staged in build/<target>/, which is deleted once zipped.
+Each package is staged unpacked in build/<target>/ and kept there for
+"Load unpacked" / about:debugging testing.
 
 Run from anywhere:  python extension/build.py
 """
@@ -82,7 +83,6 @@ def main() -> None:
         pack(folder, zip_path)
         files = sum(1 for f in folder.rglob('*') if f.is_file())
         print(f'{zip_path.relative_to(ROOT)}  {files} files, {zip_path.stat().st_size / 1024:.0f} KB')
-    shutil.rmtree(BUILD)
 
 
 if __name__ == '__main__':
