@@ -6,5 +6,5 @@
 <text x="54" y="20.5" font-size="12" fill="#7a6e62" textLength="83" lengthAdjust="spacing">Available in the</text>
 <text x="54" y="38.5" font-size="17" font-weight="600" fill="#3d342b" textLength="146" lengthAdjust="spacing">Chrome Web Store</text>
 </g>
-<defs><linearGradient id="gb" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="411" y2="0"><stop offset="0" stop-color="#ff9a4d"/><stop offset="0.5" stop-color="#ff4fa0"/><stop offset="1" stop-color="#6a5cff"/></linearGradient></defs>
+<defs><linearGradient id="gb" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="591" y2="0"><stop offset="0" stop-color="#ff9a4d"/><stop offset="0.5" stop-color="#ff4fa0"/><stop offset="1" stop-color="#6a5cff"/></linearGradient></defs>
 </svg>
