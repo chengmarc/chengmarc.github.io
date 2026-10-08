@@ -310,104 +310,85 @@ body::after {
 				flex-shrink: 0;
 			}
 
-			/* Icon tile: a consistent rounded container whose *fill* is a blurred,
-			   zoomed copy of the favicon, with the crisp favicon floating on top.
-			   The container unifies everything; the frosted self-fill keeps it from
-			   reading as a plain box. */
+			/* Icon tile, drawn like a macOS app icon: one squircle surface whose
+			   fill is a flattened, blurred copy of the favicon (so it reads as the
+			   logo's own colour), with the crisp favicon sitting directly on it.
+			   .icon-art carries the shadow; the inner .icon-tile carries the
+			   squircle mask. They have to be separate elements: a mask clips
+			   everything on its own element, shadows included. */
+			:root {
+				/* Superellipse (n=5): the usual stand-in for Apple's continuous-corner
+				   icon shape. A border-radius gives circular corners, which read
+				   as "rounded rectangle" rather than "Mac icon". */
+				--squircle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M100.0 50.0L100.0 66.8L99.8 72.1L99.6 76.0L99.3 79.1L98.9 81.8L98.4 84.0L97.9 86.1L97.2 87.9L96.4 89.5L95.6 91.0L94.6 92.3L93.5 93.5L92.3 94.6L91.0 95.6L89.5 96.4L87.9 97.2L86.1 97.9L84.0 98.4L81.8 98.9L79.1 99.3L76.0 99.6L72.1 99.8L66.8 100.0L50.0 100.0L33.2 100.0L27.9 99.8L24.0 99.6L20.9 99.3L18.2 98.9L16.0 98.4L13.9 97.9L12.1 97.2L10.5 96.4L9.0 95.6L7.7 94.6L6.5 93.5L5.4 92.3L4.4 91.0L3.6 89.5L2.8 87.9L2.1 86.1L1.6 84.0L1.1 81.8L0.7 79.1L0.4 76.0L0.2 72.1L0.0 66.8L0.0 50.0L0.0 33.2L0.2 27.9L0.4 24.0L0.7 20.9L1.1 18.2L1.6 16.0L2.1 13.9L2.8 12.1L3.6 10.5L4.4 9.0L5.4 7.7L6.5 6.5L7.7 5.4L9.0 4.4L10.5 3.6L12.1 2.8L13.9 2.1L16.0 1.6L18.2 1.1L20.9 0.7L24.0 0.4L27.9 0.2L33.2 0.0L50.0 0.0L66.8 0.0L72.1 0.2L76.0 0.4L79.1 0.7L81.8 1.1L84.0 1.6L86.1 2.1L87.9 2.8L89.5 3.6L91.0 4.4L92.3 5.4L93.5 6.5L94.6 7.7L95.6 9.0L96.4 10.5L97.2 12.1L97.9 13.9L98.4 16.0L98.9 18.2L99.3 20.9L99.6 24.0L99.8 27.9L100.0 33.2Z'/%3E%3C/svg%3E");
+				/* Separation from the wallpaper, in three parts: a hairline that
+				   traces the edge (does most of the work on busy or light
+				   wallpaper), a tight contact shadow, and a soft ambient one. */
+				--icon-shadow: drop-shadow(0 0 0.5px var(--k-55))
+				               drop-shadow(0 1px 1.5px var(--k-30))
+				               drop-shadow(0 4px 8px var(--k-30));
+				--icon-shadow-lift: drop-shadow(0 0 0.5px var(--k-55))
+				                    drop-shadow(0 2px 3px var(--k-30))
+				                    drop-shadow(0 10px 18px var(--k-35));
+			}
 			.icon-art {
 				position: relative;
-				border-radius: 23%;
-				overflow: hidden;
-				/* Opaque fill lives on the bloom layer, not the tile — a solid tile
-				   background bleeds a thin light fringe through the anti-aliased
-				   rounded corners on dark, full-bleed icons. */
-				background: transparent;
-				/* Two-layer drop shadow (tight contact + soft ambient) for depth, plus a
-				   faint dark hairline outside the edge — the same separation line the
-				   app icon draws, so light tiles hold their shape on light wallpaper.
-				   (No inset ring — it was a source of the corner fringe; the lit edge
-				   is the ::before rim instead.) */
-				box-shadow: 0 0 0 0.5px var(--k-15),
-				            0 1px 2px var(--k-30),
-				            0 6px 16px var(--k-40);
-				transition: box-shadow 0.18s ease;
+				display: block;
+				filter: var(--icon-shadow);
+				transition: filter 0.18s ease;
 			}
-			/* Glass rim, matching the app icon's tileRim: a 1px inner stroke whose
-			   white fades diagonally — bright at the top-left light source, almost
-			   gone across the middle, catching light again at the bottom-right.
-			   Drawn as a padded gradient with the content box masked out, so only
-			   the ring remains and it follows the tile's rounded corners. */
-			.icon-art::before {
+			.icon-tile {
+				position: absolute; inset: 0;
+				overflow: hidden;
+				-webkit-mask: var(--squircle) center / 100% 100% no-repeat;
+				        mask: var(--squircle) center / 100% 100% no-repeat;
+			}
+			/* Top-down light, as macOS draws it: a little brighter at the top,
+			   a little darker at the bottom. */
+			.icon-tile::after {
 				content: '';
 				position: absolute; inset: 0;
 				z-index: 3;
 				pointer-events: none;
-				border-radius: inherit;
-				padding: 1px;
-				background: linear-gradient(135deg,
-					rgba(255,255,255,0.70) 0%,
-					rgba(255,255,255,0.08) 40%,
-					rgba(255,255,255,0.04) 75%,
-					rgba(255,255,255,0.40) 100%);
-				-webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-				-webkit-mask-composite: xor;
-				        mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
-			}
-			/* Glassy specular sheen laid over the whole tile so every icon reads as a
-			   single lit piece of glass, regardless of its favicon. Kept subtle so it
-			   doesn't wash out dark logos. */
-			.icon-art::after {
-				content: '';
-				position: absolute; inset: 0;
-				z-index: 2;
-				pointer-events: none;
-				border-radius: inherit;
-				background: linear-gradient(157deg,
-					var(--w-24) 0%,
-					var(--w-05) 24%,
-					rgba(255,255,255,0) 48%);
+				background: linear-gradient(180deg,
+					rgba(255,255,255,0.16) 0%,
+					rgba(255,255,255,0) 42%,
+					rgba(0,0,0,0) 62%,
+					rgba(0,0,0,0.12) 100%);
 			}
 			/* Lift on hover: shadow deepens as the icon scales up. */
 			.desktop-icon:hover .icon-art,
-			.dock-icon:hover    .icon-art {
-				box-shadow: 0 0 0 0.5px var(--k-15),
-				            0 2px 4px var(--k-30),
-				            0 12px 26px var(--k-45);
-			}
-			/* blurred colored fill = a zoomed, blurred copy of the favicon */
+			.dock-icon:hover    .icon-art { filter: var(--icon-shadow-lift); }
+			/* Colour plate = the favicon blown up and blurred until it is nearly
+			   flat. A milder blur leaves a smeared halo that frames the logo
+			   like a second tile. */
 			.icon-bloom {
 				position: absolute; inset: 0;
 				width: 100%; height: 100%;
 				object-fit: cover;
-				/* Opaque white fill carried here (not on the tile) so a dark, full-bleed
-				   favicon's bloom covers it and no white shows at the clipped corners;
-				   where the favicon is transparent, this white still fills the tile. */
+				/* Opaque white under the bloom: where the favicon is transparent,
+				   the plate stays light instead of showing the wallpaper. */
 				background: #fff;
-				transform: scale(1.7);
-				/* On a white tile the bloom's soft edges would wash out toward white,
-				   so push saturation + contrast to keep the color reading opaque. */
-				filter: blur(14px) saturate(2) contrast(1.05);
+				transform: scale(2.4);
+				filter: blur(16px) saturate(1.6);
 				z-index: 0; pointer-events: none;
 			}
-			/* crisp favicon, original prominence, centered on top. Two shadows lift
-			   the glyph off the bloom: a tight dark contour that traces the logo's
-			   own edge (so a transparent glyph can't blend into its own blurred
-			   copy), plus a soft offset shadow for depth. */
+			/* Crisp favicon at 80%, drawn flat onto the plate. No shadow of its
+			   own: a shadow would outline a square favicon and turn it back into
+			   a card floating on the tile. */
 			.icon-sharp {
 				position: absolute;
-				top: 12%; left: 12%;
-				width: 76%; height: 76%;   /* ≈ 8px inset on a 68px tile */
+				top: 10%; left: 10%;
+				width: 80%; height: 80%;
 				object-fit: contain;
 				object-position: center;
 				/* Round the favicon at its OWN box, not the tile. A full-bleed square
 				   favicon fills this box so its opaque corners get rounded; a glyph
 				   with transparent corners is unaffected — the alpha does the sorting
 				   for free, so no detection is needed. */
-				border-radius: 20%;
+				border-radius: 22%;
 				z-index: 2;
-				filter: drop-shadow(0 0 2px var(--k-40))
-				        drop-shadow(0 4px 8px var(--k-40));
-				}
+			}
 			/* Static app-icon fallback assets use this same bloom + sharp pipeline,
 			   so restricted-network icons keep the colored tile background instead
 			   of entering a separate placeholder rendering mode. */
@@ -415,8 +396,9 @@ body::after {
 			.desktop-icon  .icon-art { width: 68px; height: 68px; }
 			.dock-icon     .icon-art { width: 68px; height: 68px; }
 			.dock-all-apps .icon-art { width: 68px; height: 68px; }
-			.miller-link   .icon-art { width: 20px; height: 20px; }
-			.miller-link  .icon-bloom { filter: blur(6px) saturate(2); }
+			.miller-link   .icon-art { width: 20px; height: 20px;
+			                           filter: drop-shadow(0 0 0.5px var(--k-55)) drop-shadow(0 1px 1px var(--k-30)); }
+			.miller-link  .icon-bloom { filter: blur(6px) saturate(1.6); }
 			.desktop-icon-label {
 				font-size: 0.78rem;
 				font-weight: 400;
@@ -1028,7 +1010,5 @@ body::after {
 
     /* No hover lift on touch; the JS press-scale still gives tap feedback. */
     .desktop-icon:hover { background: none; transform: none; }
-    .desktop-icon:hover .icon-art { box-shadow: 0 0 0 0.5px var(--k-15),
-                                                 0 1px 2px var(--k-30),
-                                                 0 6px 16px var(--k-40); }
+    .desktop-icon:hover .icon-art { filter: var(--icon-shadow); }
 }
