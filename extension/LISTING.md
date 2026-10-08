@@ -9,7 +9,9 @@ Bookmark OS
 Your bookmarks as a macOS-style desktop on every new tab. No account, no permissions — everything stays in your browser.
 
 ## Category
-Chrome / Edge: **Productivity** · Firefox: **Tabs**
+- Chrome: **Functionality & UI**
+- Firefox: **Bookmarks / Tabs**
+- Edge: **Productivity**
 
 ## Search terms (Edge only)
 new tab · new tab page · bookmarks · bookmark manager · speed dial · start page · macos desktop
