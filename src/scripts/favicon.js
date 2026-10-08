@@ -224,12 +224,14 @@ function renderIdenticon(bloom, sharp, domain) {
 // Icon as a floating tile: a sharp favicon over a blurred, enlarged copy
 // of itself (self-bloom). Used everywhere icons appear.
 
-// Shared scaffold: span.icon-art wrapping a blurred bloom + a crisp sharp img.
+// Shared scaffold: span.icon-art (shadow) > span.icon-tile (squircle mask)
+// wrapping a blurred bloom + a crisp sharp img.
 function iconArtShell() {
 	const wrap  = document.createElement('span'); wrap.className = 'icon-art';
+	const tile  = document.createElement('span'); tile.className = 'icon-tile';
 	const bloom = document.createElement('img');  bloom.className = 'icon-bloom'; bloom.alt = ''; bloom.decoding = 'async';
 	const sharp = document.createElement('img');  sharp.className = 'icon-sharp'; sharp.alt = ''; sharp.decoding = 'async';
-	wrap.appendChild(bloom); wrap.appendChild(sharp);
+	tile.appendChild(bloom); tile.appendChild(sharp); wrap.appendChild(tile);
 	return { wrap, bloom, sharp };
 }
 
