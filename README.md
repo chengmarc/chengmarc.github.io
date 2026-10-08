@@ -2,11 +2,11 @@
 
   <img src="src/app-icon.svg" width="180"><br>
 
-  <h1>Bookmark OS - Desktop in your Browser</h1>
-
   <a href="https://chromewebstore.google.com/detail/bookmark-os/mbfmccadkfdnhojahjehknphgmjkehkp"><img src="extension/badges/badge-chrome.svg" height="50"></a>
   <a href="https://addons.mozilla.org/en-US/firefox/addon/bookmark-os/"><img src="extension/badges/badge-firefox.svg" height="50"></a>
   <a href="https://microsoftedge.microsoft.com/addons/detail/apjbdkedomhbdmknfhcfiniipcjedibc"><img src="extension/badges/badge-edge.svg" height="50"></a>
+
+  <h1>Bookmark OS - Desktop in your Browser</h1>
 
   <img src="extension/promo/promo-1400x560.png">
 
