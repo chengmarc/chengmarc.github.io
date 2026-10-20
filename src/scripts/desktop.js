@@ -158,6 +158,11 @@ function setupDesktopIconDrag() {
 		desktop.setPointerCapture(e.pointerId);
 	});
 
+	// Icons are links holding images, so the browser may start its own native
+	// drag mid-move, which fires pointercancel and kills ours. Cancelling
+	// pointerdown doesn't stop that everywhere (e.g. the new-tab extension).
+	desktop.addEventListener('dragstart', e => { if (desktopEditing) e.preventDefault(); });
+
 	desktop.addEventListener('pointermove', e => {
 		if (!active || !dragClone) return;
 		e.preventDefault();
@@ -229,6 +234,9 @@ function setupDockDrag() {
 		icon.style.opacity = '0';
 		dock.setPointerCapture(e.pointerId);
 	});
+
+	// See setupDesktopIconDrag: keep native link/image drag from hijacking ours.
+	dock.addEventListener('dragstart', e => { if (desktopEditing) e.preventDefault(); });
 
 	dock.addEventListener('pointermove', e => {
 		if (!active || !dragClone) return;
