@@ -62,10 +62,8 @@
 		<div class="menu-bar" id="menuBar">
 			<div class="menu-left">
 				<button class="menu-item menu-brand" id="mbBrand">✦ About This OS</button>
-				<button class="menu-item" id="mbBookmarks">All Bookmarks</button>
-				<button class="menu-item" id="mbImport">Import</button>
-				<button class="menu-item" id="mbExport">Export</button>
-				<button class="menu-item" id="mbRestore">Restore</button>
+				<button class="menu-item" id="mbFile">Menu</button>
+				<button class="menu-item" id="mbBookmarks">All Apps</button>
 				<button class="menu-item" id="mbAdd">Add Icon</button>
 				<button class="menu-item" id="mbEdit">Edit Desktop</button>
 			</div>
@@ -92,6 +90,26 @@
 			</div>
 		</div>
 
+		<div class="menu-dropdown glass" id="fileMenu">
+			<button class="menu-dropdown-item" id="mbImport">Import…</button>
+			<button class="menu-dropdown-item" id="mbExport">Export…</button>
+			<div class="menu-dropdown-sep"></div>
+			<button class="menu-dropdown-item" id="mbRestore">Restore Defaults</button>
+			<button class="menu-dropdown-item" id="mbSync">Sync from Browser</button>
+		</div>
+
+		<div class="welcome" id="welcome">
+			<div class="welcome-card">
+				<img class="welcome-icon" src="src/app-icon.svg" alt="" width="84" height="84">
+				<h2>Welcome to Bookmark OS</h2>
+				<p>Bring in your browser's Bookmarks bar now: each folder becomes a category, and bookmarks outside folders go on the desktop.</p>
+				<p class="welcome-note">Or explore the sample desktop first. You can sync any time from Menu → Sync from Browser.</p>
+				<div class="welcome-actions">
+					<button class="welcome-btn" id="welcomeExplore">Explore First</button>
+					<button class="welcome-btn primary" id="welcomeSync">Sync with Browser</button>
+				</div>
+			</div>
+		</div>
 		<div class="cal-popover glass" id="calPopover">
 			<div class="cal-head">
 				<div class="cal-title" id="calTitle"></div>
@@ -116,12 +134,12 @@
 						<button class="tl tl-minimize" id="tlMin"   aria-label="Minimize"></button>
 						<button class="tl tl-zoom"     id="tlZoom"  aria-label="Zoom"></button>
 					</div>
-					<h2 id="allAppsTitle">All Bookmarks</h2>
-					<input class="all-apps-search" id="bookmarkSearch" type="search" placeholder="Search bookmarks…" autocomplete="off">
+					<h2 id="allAppsTitle">All Apps</h2>
+					<input class="all-apps-search" id="bookmarkSearch" type="search" placeholder="Search apps…" autocomplete="off">
 					<button class="all-apps-bar-btn" id="bmEditBtn">Edit</button>
 				</div>
 				<div class="pick-banner" id="pickBanner">
-					<span id="pickBannerText">Tap any bookmark to add it to the home screen</span>
+					<span id="pickBannerText">Tap any app to add it to the home screen</span>
 					<button id="pickCancelBtn">Cancel</button>
 				</div>
 				<div class="all-apps-scroll" id="allAppsScroll"></div>
@@ -147,7 +165,11 @@
                 <p class="about-product">Bookmark OS</p>
                 <p class="about-tagline">Your bookmarks as a desktop — from any browser, no account needed.</p>
                 <div class="about-meta">
-                    <a href="https://github.com/chengmarc/chengmarc.github.io" target="_blank" rel="noopener" class="about-chip">View source on GitHub</a>
+                    <div class="about-chips">
+                        <a href="https://chromewebstore.google.com/detail/bookmark-os/mbfmccadkfdnhojahjehknphgmjkehkp" target="_blank" rel="noopener" class="about-chip">Chrome</a>
+                        <a href="https://microsoftedge.microsoft.com/addons/detail/apjbdkedomhbdmknfhcfiniipcjedibc" target="_blank" rel="noopener" class="about-chip">Edge</a>
+                        <a href="https://addons.mozilla.org/en-US/firefox/addon/bookmark-os/" target="_blank" rel="noopener" class="about-chip">Firefox</a>
+                    </div>
                     <span class="about-meta-note">Open source · CC0</span>
                 </div>
             </div>

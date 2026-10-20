@@ -6,7 +6,7 @@ Copy-paste text and answers for the Chrome Web Store, Edge Add-ons and Firefox A
 Bookmark OS
 
 ## Summary (132 characters max)
-Your bookmarks as a macOS-style desktop on every new tab. No account, no permissions — everything stays in your browser.
+Your bookmarks as a macOS-style desktop on every new tab. No account, no install permissions — everything stays in your browser.
 
 ## Category
 - Chrome: **Functionality & UI**
@@ -22,11 +22,12 @@ Bookmark OS turns your new tab page into a clean, macOS-style desktop for the si
 
 • A desktop of app icons — drag to arrange, add your own, remove what you don't need
 • A dock for your favourites, one click away
-• All Bookmarks: every link organised into folders, with instant search
+• All Apps: every link organised into folders, with instant search
 • Glassy, colourful icons fetched automatically for every site
+• Sync from Browser: rebuild the desktop and folders from your browser's Bookmarks bar in one click
 • Menu bar with clock and calendar, network and battery status, your location and IP
 
-No account. No sign-in. No permissions.
+No account. No sign-in. No permissions at install — bookmark access is only asked for if you use Sync from Browser.
 Everything you set up is saved locally in your browser. Export it to a file, and import it on any other computer or browser to get the exact same desktop.
 
 ## Privacy policy URL
@@ -36,7 +37,7 @@ https://github.com/chengmarc/chengmarc.github.io/blob/main/extension/PRIVACY.md
 
 **Single purpose:** Replaces the new tab page with a customizable desktop of the user's bookmarks.
 
-**Permission justification:** None requested.
+**Permission justification:** `bookmarks` (optional, requested at runtime): read once when the user clicks File → Sync from Browser, to rebuild the new tab desktop and folders from their Bookmarks bar. Bookmarks are read only, never changed, and never leave the browser.
 
 **Remote code:** No. All JavaScript is packaged in the extension.
 
@@ -51,4 +52,4 @@ The Firefox build declares `bookmarksInfo` as required data collection, because 
 
 ## Notes for reviewers (optional field)
 
-The extension has no permissions and no background script. It overrides the new tab page with the bundled `index.html`. Network requests are limited to icon lookups (Google favicon service and each site's own favicon), IP/location display (ipwho.is, api.ipify.org) and a flag image (flagcdn.com).
+The extension has no install-time permissions and no background script. The optional `bookmarks` permission is requested only when the user clicks File → Sync from Browser; it is used to read the Bookmarks bar, never to write. It overrides the new tab page with the bundled `index.html`. Network requests are limited to icon lookups (Google favicon service and each site's own favicon), IP/location display (ipwho.is, api.ipify.org) and a flag image (flagcdn.com).

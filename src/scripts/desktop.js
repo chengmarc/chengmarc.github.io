@@ -29,7 +29,7 @@ function renderDesktopIcons() {
 // ─────────────────────────────────────────────────────────────────────
 // Render: dock
 // ─────────────────────────────────────────────────────────────────────
-// All-Bookmarks launcher uses the site's own favicon (a 3×3 grid),
+// All Apps launcher uses the site's own favicon (a 3×3 grid),
 // rendered through the same tile pipeline as every other icon.
 const ALL_APPS_ICON = 'src/icons/all-apps.svg';
 
@@ -44,7 +44,7 @@ function renderDock() {
 	const dock = $('dock');
 	dock.innerHTML = '';
 
-	dock.appendChild(el('button', { class: 'dock-all-apps', title: 'All Bookmarks', onclick: openAllBookmarks }, iconArtFromSrc(ALL_APPS_ICON)));
+	dock.appendChild(el('button', { class: 'dock-all-apps', title: 'All Apps', onclick: openAllBookmarks }, iconArtFromSrc(ALL_APPS_ICON)));
 	dock.appendChild(el('div', { class: 'dock-sep' }));
 
 	S.dock.forEach((item, dockIdx) => {

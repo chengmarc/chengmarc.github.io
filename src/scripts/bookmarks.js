@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────
-// All Bookmarks — Miller columns UI
+// All Apps — Miller columns UI
 // ─────────────────────────────────────────────────────────────────────
 const FOLDER_SVG = '<svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor"><path d="M1.5 4c0-.55.45-1 1-1h3.1c.32 0 .62.15.8.4L7.3 4.5H13.5c.55 0 1 .45 1 1V12c0 .55-.45 1-1 1h-11c-.55 0-1-.45-1-1V4z"/></svg>';
 
@@ -229,7 +229,7 @@ function closeAllApps() {
 	const overlay = $('allApps');
 	overlay.classList.remove('open', 'pick-mode', 'bm-editing');
 	pickMode = false; bmEditing = false;
-	$('allAppsTitle').textContent     = 'All Bookmarks';
+	$('allAppsTitle').textContent     = 'All Apps';
 	$('bmEditBtn').textContent        = 'Edit';
 	$('bmEditBtn').style.display      = '';
 	$('bookmarkSearch').style.display = '';
@@ -270,7 +270,7 @@ function closePickMode() {
 	pickMode = false;
 	const overlay = $('allApps');
 	overlay.classList.remove('open', 'pick-mode');
-	$('allAppsTitle').textContent = 'All Bookmarks';
+	$('allAppsTitle').textContent = 'All Apps';
 	$('bmEditBtn').style.display  = '';
 	$('bookmarkSearch').value     = '';
 	filterBookmarks('');

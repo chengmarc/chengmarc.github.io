@@ -205,6 +205,85 @@ body::after {
 			.menu-clock:hover  { background: var(--w-15); color: #fff; }
 			.menu-clock.active { background: var(--w-20); color: #fff; }
 
+			/**************** 菜单 ****************/
+			/* Lives outside .menu-bar: the bar's backdrop-filter would otherwise
+			   trap position: fixed and stop this panel's own blur. */
+			.menu-dropdown {
+				position: fixed;
+				top: 38px; left: 0;
+				min-width: 180px;
+				padding: 5px;
+				z-index: 250;
+				border-radius: 10px;
+				display: flex; flex-direction: column;
+				font-size: 0.88rem;
+				opacity: 0;
+				transform: scale(0.97) translateY(-4px);
+				transform-origin: top left;
+				pointer-events: none;
+				transition: opacity 0.15s ease, transform 0.2s var(--ease-spring);
+				user-select: none;
+				-webkit-user-select: none;
+			}
+			.menu-dropdown.open { opacity: 1; transform: none; pointer-events: auto; }
+			.menu-dropdown-item {
+				background: none; border: none;
+				font: inherit; text-align: left;
+				color: var(--w-90);
+				cursor: pointer;
+				padding: 6px 10px;
+				border-radius: 6px;
+			}
+			.menu-dropdown-item:hover { background: var(--w-20); color: #fff; }
+			.menu-dropdown-sep { height: 1px; margin: 4px 6px; background: var(--w-15); }
+
+			/**************** 欢迎 ****************/
+			.welcome {
+				position: fixed; inset: 0;
+				z-index: 500;
+				display: flex; align-items: center; justify-content: center;
+				padding: 16px;
+				background: var(--k-30);
+				opacity: 0;
+				pointer-events: none;
+				transition: opacity 0.25s ease;
+			}
+			.welcome.open { opacity: 1; pointer-events: auto; }
+			.welcome-card {
+				width: 400px; max-width: 100%;
+				padding: 28px 28px 22px;
+				border-radius: 14px;
+				background: var(--surface-window);
+				backdrop-filter: var(--blur-panel);
+				-webkit-backdrop-filter: var(--blur-panel);
+				border: 1px solid var(--w-15);
+				box-shadow: var(--shadow-window);
+				color: var(--w-82);
+				text-align: center;
+				transform: scale(0.96) translateY(8px);
+				transition: transform 0.3s var(--ease-spring);
+			}
+			.welcome.open .welcome-card { transform: none; }
+			.welcome-icon { display: block; margin: 0 auto 14px; }
+			.welcome-card h2 { margin: 0 0 10px; font-size: 1.15rem; font-weight: 600; color: #fff; }
+			.welcome-card p { margin: 0 0 8px; font-size: 0.86rem; line-height: 1.5; }
+			.welcome-card .welcome-note { color: var(--w-55); font-size: 0.8rem; }
+			.welcome-actions { display: flex; gap: 10px; margin-top: 20px; }
+			.welcome-btn {
+				flex: 1;
+				height: 34px;
+				border-radius: 8px;
+				border: 1px solid var(--w-15);
+				background: var(--w-08);
+				color: var(--w-90);
+				font: inherit; font-size: 0.86rem; font-weight: 500;
+				cursor: pointer;
+				transition: background 0.12s;
+			}
+			.welcome-btn:hover { background: var(--w-15); }
+			.welcome-btn.primary { background: #0a84ff; border-color: #0a84ff; color: #fff; }
+			.welcome-btn.primary:hover { background: #3396ff; }
+
 			/**************** 日历 ****************/
 			.cal-popover {
 				position: fixed;
@@ -839,7 +918,7 @@ body::after {
     pointer-events: none;
     transition: scale 0.3s var(--ease-spring),
                 max-width 0.22s ease;
-    /* Dark theme, matching the All Bookmarks window. Overriding the color
+    /* Dark theme, matching the All Apps window. Overriding the color
        tokens here flips every scoped card rule to light-on-dark at once. */
     --color-name:     #f5f5f7;
     --color-subtitle: rgba(255, 255, 255, 0.82);
@@ -913,6 +992,7 @@ body::after {
 .about-panel .about-product { font-size: 2rem; font-weight: 600; letter-spacing: -0.01em; color: var(--color-name); line-height: 1.1; }
 .about-panel .about-tagline { font-size: 0.95rem; color: var(--color-subtitle); margin-top: 8px; line-height: 1.4; }
 .about-panel .about-meta { display: flex; align-items: center; gap: 14px; margin-top: 18px; flex-wrap: wrap; }
+.about-panel .about-chips { display: flex; gap: 8px; flex-wrap: wrap; }
 .about-panel .about-chip {
     display: inline-flex;
     align-items: center;
@@ -978,6 +1058,8 @@ body::after {
     .all-apps,
     .about-panel,
     .cal-popover,
+    .menu-dropdown,
+    .welcome,
     .desktop-icon-ghost { display: none !important; }
 
     /* The desktop becomes the scrolling surface for the grid; contain the
