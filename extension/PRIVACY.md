@@ -1,12 +1,12 @@
 # Bookmark OS — Privacy Policy
 
-_Last updated: 2026-09-27_
+_Last updated: 2026-10-20_
 
 Bookmark OS replaces your browser's new tab page with a desktop of your bookmarks. It has no account, no analytics, no ads, and no server of its own. The developer never receives any of your data.
 
 ## What stays on your device
 
-Your desktop icons, dock, bookmark folders, and a cache of site icons are saved in your browser's local storage for this extension. They never leave your browser unless you use **Export**, which saves a file to your own computer. **Import** reads a file you choose; nothing is uploaded.
+Your desktop icons, dock, bookmark folders, and a cache of site icons are saved in your browser's local storage for this extension. They never leave your browser unless you use **Export**, which saves a file to your own computer. **Import** reads a file you choose; nothing is uploaded. **Sync from Browser** reads your browser's Bookmarks bar and saves a copy into the same local storage; it never changes your browser bookmarks.
 
 ## What the new tab page requests from other services
 
@@ -24,7 +24,9 @@ These services have their own privacy policies. Bookmark OS does not send them a
 
 ## Permissions
 
-The extension requests **no browser permissions**. It cannot read your browsing history, your browser's own bookmarks, or the content of other tabs.
+The extension requests **no browser permissions at install**. It cannot read your browsing history or the content of other tabs.
+
+If you choose **File → Sync from Browser**, it asks for the optional **bookmarks** permission so it can read your Bookmarks bar. It only reads bookmarks, only when you click Sync, and never modifies them. You can revoke the permission at any time from your browser's extension settings.
 
 ## Contact
 

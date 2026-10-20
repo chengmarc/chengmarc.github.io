@@ -3,6 +3,7 @@
 // ─────────────────────────────────────────────────────────────────────
 const CFG   = window.WEBOS_CONFIG;
 const STORE = 'webos_v1';
+const WELCOME = 'webos_welcome';
 const GRID  = CFG.grid;
 
 let S = {};
@@ -76,6 +77,9 @@ function loadState() {
 	try {
 		const raw = localStorage.getItem(STORE);
 		if (raw) { S = JSON.parse(raw); ensureIconPositions(); normalizeBookmarks(); dropIconFields(); saveState(); return; }
+		// Nothing saved: a first run. Flag it so the welcome window shows until
+		// the user picks an option, even if this tab is closed first.
+		else localStorage.setItem(WELCOME, '1');
 	} catch (_) {}
 	replaceState(CFG);
 }
@@ -129,4 +133,51 @@ function exportConfig() {
 	const a = document.createElement('a');
 	a.href = url; a.download = 'config.js'; a.click();
 	URL.revokeObjectURL(url);
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Browser bookmark sync (extension only)
+// ─────────────────────────────────────────────────────────────────────
+// The extension API object, or null on the website. `chrome` exists on any
+// Chrome page, so check for `permissions`, which only extension pages get.
+const EXT_API = (globalThis.browser && globalThis.browser.permissions) ? globalThis.browser
+	: (globalThis.chrome && globalThis.chrome.permissions) ? globalThis.chrome : null;
+
+// Rebuild desktop and bookmarks from the browser's Bookmarks bar and hand the
+// config to onConfig. Each folder in the bar becomes a category holding every
+// link beneath it, however deep; loose links in the bar become desktop icons
+// and also fill an "Uncategorized" category.
+// The dock is kept as is. `bookmarks` is an optional permission, requested
+// here — first thing, since Firefox only allows it straight off a click.
+// `ask` = false skips the replace warning, for when the user already chose to sync.
+function syncFromBrowser(onConfig, ask = true) {
+	EXT_API.permissions.request({ permissions: ['bookmarks'] }).then(granted => {
+		if (!granted) return;
+		if (ask && !confirm('Replace your desktop icons and app categories with your browser\'s Bookmarks bar? This cannot be undone.')) return;
+		return EXT_API.bookmarks.getTree().then(tree => {
+			const bar = tree[0].children.find(n => n.folderType === 'bookmarks-bar' || n.id === 'toolbar_____' || n.id === '1');
+			if (!bar) { alert('Couldn\'t find the Bookmarks bar.'); return; }
+
+			// Only links the page can open; skips Firefox `place:` queries, bookmarklets, etc.
+			const isLink = n => n.url && /^https?:/i.test(n.url);
+			const toLink = n => ({ label: n.title || domainFrom(n.url), url: n.url });
+			const linksUnder = n => isLink(n) ? [toLink(n)] : (n.children || []).flatMap(linksUnder);
+
+			const desktopIcons = [], blocks = [], loose = [], seen = new Set();
+			(bar.children || []).forEach((n, i) => {
+				if (isLink(n)) {
+					if (seen.has(n.url)) return;
+					seen.add(n.url);
+					const { label, url } = toLink(n);
+					loose.push({ label, url });
+					desktopIcons.push({ key: 'icon-' + domainFrom(url).replace(/\./g, '-') + '-' + i, label, url });
+				} else if (n.children) {
+					blocks.push({ title: n.title, links: linksUnder(n) });
+				}
+			});
+			// Loose links also get a category, so All Apps lists and searches them.
+			if (loose.length) blocks.push({ title: 'Uncategorized', links: loose });
+			onConfig({ desktopIcons, dock: S.dock, bookmarkSections: [{ blocks }] });
+		});
+	}).catch(err => alert('Sync failed: ' + err.message));
 }
