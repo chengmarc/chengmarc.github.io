@@ -9,7 +9,7 @@ this script only adds a manifest and icons, then zips one package per store:
 Each package is staged unpacked in build/<target>/ and kept there for
 "Load unpacked" / about:debugging testing.
 
-Run from anywhere:  python extension/build.py
+Run from anywhere:  python packaging/build.py
 """
 import json
 import re
@@ -17,8 +17,8 @@ import shutil
 import zipfile
 from pathlib import Path
 
-EXT  = Path(__file__).resolve().parent
-ROOT = EXT.parent
+PACKAGING = Path(__file__).resolve().parent
+ROOT = PACKAGING.parent
 DIST  = ROOT / 'dist'
 BUILD = ROOT / 'build'
 
@@ -51,7 +51,7 @@ def stage(target: str, manifest: dict) -> Path:
 
     shutil.copytree(ROOT / 'src', out / 'src')
 
-    shutil.copytree(EXT / 'icons', out / 'icons')
+    shutil.copytree(PACKAGING / 'icons', out / 'icons')
     (out / 'manifest.json').write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
     return out
 
@@ -67,7 +67,7 @@ def pack(folder: Path, zip_path: Path) -> None:
 def main() -> None:
     shutil.rmtree(DIST, ignore_errors=True)
     DIST.mkdir()
-    base = json.loads((EXT / 'manifest.json').read_text(encoding='utf-8'))
+    base = json.loads((PACKAGING / 'manifest.json').read_text(encoding='utf-8'))
     version = base['version']
     targets = {
         'chrome':  base,

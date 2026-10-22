@@ -31,7 +31,7 @@ No account. No sign-in. No permissions at install — bookmark access is only as
 Everything you set up is saved locally in your browser. Export it to a file, and import it on any other computer or browser to get the exact same desktop.
 
 ## Privacy policy URL
-https://github.com/chengmarc/chengmarc.github.io/blob/main/extension/PRIVACY.md
+https://github.com/chengmarc/chengmarc.github.io/blob/main/store-listing/PRIVACY.md
 
 ## Chrome Web Store — Privacy practices tab
 

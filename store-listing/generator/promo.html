@@ -3,8 +3,8 @@
   Source for the store promo tiles. Renders at the size given in the query
   string, built around screenshot-1-desktop.png so the tile shows the product.
 
-    chrome --headless --hide-scrollbars --virtual-time-budget=3000 --window-size=440,280   --screenshot=promo-440x280.png    "file:///.../promo.html?small"
-    chrome --headless --hide-scrollbars --virtual-time-budget=3000 --window-size=1400,560  --screenshot=promo-1400x560.png   "file:///.../promo.html?marquee"
+    chrome --headless --hide-scrollbars --virtual-time-budget=3000 --window-size=440,280   --screenshot=../promo-440x280.png "file:///.../promo.html?small"
+    chrome --headless --hide-scrollbars --virtual-time-budget=3000 --window-size=1400,560  --screenshot=../promo-1400x560.png "file:///.../promo.html?marquee"
 -->
 <html>
 <head>
@@ -76,7 +76,7 @@ body {
 </div>
 <div class="window">
     <div class="bar"><i></i><i></i><i></i></div>
-    <img src="screenshot-1-desktop.png" alt="">
+    <img src="../desktop/screenshot-1-desktop.png" alt="">
 </div>
 <script>
     const size = location.search.slice(1) || 'marquee';
