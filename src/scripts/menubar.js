@@ -6,13 +6,14 @@ function startClock() {
 	let last = '';
 	function tick() {
 		const now = new Date();
-		const t = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+		const time = now.toLocaleTimeString(locale(), { hour: '2-digit', minute: '2-digit' });
 		const d = now.getFullYear() + '/' + (now.getMonth() + 1) + '/' + now.getDate();
-		const s = t + ' · ' + d;
+		const s = time + ' · ' + d;
 		if (s !== last) { el.textContent = s; last = s; }
 	}
 	tick();
 	setInterval(tick, 1000);
+	onLanguageChange(tick);
 }
 
 // ─────────────────────────────────────────────────────────────────────
@@ -25,10 +26,11 @@ function startStatus() {
 		wifi.classList.toggle('offline', !online);
 		const c = navigator.connection;
 		wifi.title = online
-			? 'Online' + (c && c.effectiveType ? ' · ' + c.effectiveType.toUpperCase() : '')
-			: 'Offline';
+			? t('status.online') + (c && c.effectiveType ? ' · ' + c.effectiveType.toUpperCase() : '')
+			: t('status.offline');
 	}
 	updateNet();
+	onLanguageChange(updateNet);
 	window.addEventListener('online', updateNet);
 	window.addEventListener('offline', updateNet);
 	if (navigator.connection) navigator.connection.addEventListener('change', updateNet);
@@ -44,14 +46,15 @@ function startStatus() {
 				fill.setAttribute('width', Math.max(1, b.level * FILL_MAX).toFixed(1));
 				fill.setAttribute('fill', (lvl <= 15 && !b.charging) ? '#ff5b5b' : 'currentColor');
 				bolt.style.display = b.charging ? '' : 'none';
-				bat.title = 'Battery ' + lvl + '%' + (b.charging ? ' · charging' : '');
+				bat.title = t('status.batteryLevel', { level: lvl }) + (b.charging ? ' · ' + t('status.charging') : '');
 			}
 			updateBat();
+			onLanguageChange(updateBat);
 			b.addEventListener('levelchange', updateBat);
 			b.addEventListener('chargingchange', updateBat);
-		}).catch(() => { bat.title = 'Battery unavailable'; });
+		}).catch(() => { bat.dataset.i18nTitle = 'status.batteryUnavailable'; bat.title = t('status.batteryUnavailable'); });
 	} else {
-		bat.title = 'Battery unavailable';
+		bat.dataset.i18nTitle = 'status.batteryUnavailable'; bat.title = t('status.batteryUnavailable');
 	}
 
 	setupIPChip();
@@ -72,7 +75,7 @@ function setupIPChip() {
 	ipEl.addEventListener('click', () => {
 		if (!currentIP || !navigator.clipboard) return;
 		navigator.clipboard.writeText(currentIP).then(() => {
-			ipEl.textContent = 'Copied!';
+			ipEl.textContent = t('status.copied');
 			ipEl.classList.add('copied');
 			clearTimeout(ipEl._copyT);
 			ipEl._copyT = setTimeout(() => {
@@ -115,17 +118,20 @@ function showIPInfo(on) {
 				locEl.appendChild(img);
 			}
 			if (city) locEl.appendChild(document.createTextNode(city));
+			locEl.removeAttribute('data-i18n-title');   // a place name, not a word to translate
 			locEl.title = [d.city, d.region, d.country].filter(Boolean).join(', ');
 			return d.ip;
 		})
 		.catch(() => {
-			locEl.textContent = ''; locEl.title = 'Location unavailable';
+			locEl.textContent = ''; locEl.dataset.i18nTitle = 'status.locationUnavailable'; locEl.title = t('status.locationUnavailable');
 			return null;
 		});
 
 	ipv4.then(ip => ip || geo).then(ip => {
-		if (ip) { currentIP = ip; ipEl.textContent = ip; ipEl.title = 'Click to copy IP'; }
-		else    { ipEl.textContent = ''; ipEl.title = 'IP unavailable'; }
+		ipEl.dataset.i18nTitle = ip ? 'status.copyIP' : 'status.ipUnavailable';
+		ipEl.title = t(ipEl.dataset.i18nTitle);
+		if (ip) { currentIP = ip; ipEl.textContent = ip; }
+		else    { ipEl.textContent = ''; }
 	});
 }
 
@@ -145,13 +151,15 @@ function setupCalendar() {
 		const start = first.getDay();
 		const dim   = new Date(y, m + 1, 0).getDate();
 		const cells = Math.ceil((start + dim) / 7) * 7;
-		title.textContent = first.toLocaleDateString([], { month: 'long', year: 'numeric' });
+		title.textContent = first.toLocaleDateString(locale(), { month: 'long', year: 'numeric' });
 		grid.innerHTML = '';
-		['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d => {
+		// Weekday heads in the page's language, Sunday first; English keeps two letters.
+		for (let i = 0; i < 7; i++) {
+			const name = new Date(2023, 0, 1 + i).toLocaleDateString(locale(), { weekday: 'short' });
 			const el = document.createElement('div');
-			el.className = 'cal-dow'; el.textContent = d.slice(0, 2);
+			el.className = 'cal-dow'; el.textContent = LANG === 'en' ? name.slice(0, 2) : name;
 			grid.appendChild(el);
-		});
+		}
 		for (let i = 0; i < cells; i++) {
 			const date = new Date(y, m, i - start + 1);
 			const cell = document.createElement('div');
@@ -173,6 +181,7 @@ function setupCalendar() {
 		pop.classList.remove('open');
 		clockBtn.classList.remove('active');
 	}
+	onLanguageChange(() => { if (pop.classList.contains('open')) render(); });
 
 	clockBtn.addEventListener('click', e => { e.stopPropagation(); pop.classList.contains('open') ? close() : open(); });
 	pop.addEventListener('click', e => e.stopPropagation());

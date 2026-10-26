@@ -46,8 +46,8 @@ function renderDock() {
 	const dock = $('dock');
 	dock.innerHTML = '';
 
-	dock.appendChild(el('button', { class: 'dock-all-apps', title: 'All Apps', onclick: openAllBookmarks }, iconArtFromSrc(ALL_APPS_ICON)));
-	dock.appendChild(el('button', { class: 'dock-all-apps', title: 'Settings', onclick: toggleSettingsPanel }, iconArtFromSrc(SETTINGS_ICON)));
+	dock.appendChild(el('button', { class: 'dock-all-apps', title: t('apps.title'),    data: { i18nTitle: 'apps.title' },    onclick: openAllBookmarks },    iconArtFromSrc(ALL_APPS_ICON)));
+	dock.appendChild(el('button', { class: 'dock-all-apps', title: t('menu.settings'), data: { i18nTitle: 'menu.settings' }, onclick: toggleSettingsPanel }, iconArtFromSrc(SETTINGS_ICON)));
 	dock.appendChild(el('div', { class: 'dock-sep' }));
 
 	S.dock.forEach((item, dockIdx) => {
@@ -73,7 +73,7 @@ function enterDesktopEdit() {
 	$('desktop').classList.add('editing');
 	$('dock').classList.add('editing');
 	const btn = $('mbEdit');
-	btn.classList.add('active'); btn.textContent = 'Done Editing';
+	btn.classList.add('active'); btn.textContent = t('menu.doneEditing');
 }
 
 function exitDesktopEdit() {
@@ -81,7 +81,7 @@ function exitDesktopEdit() {
 	$('desktop').classList.remove('editing');
 	$('dock').classList.remove('editing');
 	const btn = $('mbEdit');
-	btn.classList.remove('active'); btn.textContent = 'Edit Desktop';
+	btn.classList.remove('active'); btn.textContent = t('menu.editDesktop');
 }
 
 // ─────────────────────────────────────────────────────────────────────

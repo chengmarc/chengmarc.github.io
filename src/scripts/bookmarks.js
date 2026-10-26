@@ -35,8 +35,10 @@ function startLinkEdit(btn) {
 	row.draggable = false;
 	const editor = document.createElement('div');
 	editor.className = 'miller-link-editor';
-	editor.innerHTML = '<input class="miller-rename-input" data-role="e-label" placeholder="Label">'
-		+ '<input class="miller-rename-input" data-role="e-url" placeholder="URL">';
+	editor.append(
+		el('input', { class: 'miller-rename-input', placeholder: t('apps.label'), data: { role: 'e-label' } }),
+		el('input', { class: 'miller-rename-input', placeholder: t('apps.url'),   data: { role: 'e-url' } }),
+	);
 	const labelIn = editor.querySelector('[data-role="e-label"]');
 	const urlIn   = editor.querySelector('[data-role="e-url"]');
 	labelIn.value = link.label; urlIn.value = link.url;
@@ -90,7 +92,7 @@ function renderMillerCats() {
 	if (bmEditing) {
 		const form = document.createElement('div');
 		form.className = 'miller-add-cat';
-		form.innerHTML = '<input class="miller-add-input" type="text" placeholder="New category" data-role="cat-title">'
+		form.innerHTML = '<input class="miller-add-input" type="text" placeholder="' + t('apps.newCategory') + '" data-role="cat-title">'
 			+ '<button class="miller-add-btn" data-role="cat-add">＋</button>';
 		col.appendChild(form);
 	}
@@ -112,7 +114,7 @@ function renderMillerLinks() {
 	if (!entries.length) {
 		const empty = document.createElement('div');
 		empty.className   = 'miller-empty';
-		empty.textContent = bookmarkQuery ? 'No results' : (bmEditing ? 'No links yet — add one below' : 'No links');
+		empty.textContent = t(bookmarkQuery ? 'apps.noResults' : (bmEditing ? 'apps.noLinksYet' : 'apps.noLinks'));
 		col.appendChild(empty);
 	} else {
 		entries.forEach(({ link, cat, bi, li }) => {
@@ -135,8 +137,8 @@ function renderMillerLinks() {
 	if (bmEditing && !bookmarkQuery) {
 		const form = document.createElement('div');
 		form.className = 'miller-add-link';
-		form.innerHTML = '<input class="miller-add-input" type="url" placeholder="URL" data-role="link-url">'
-			+ '<input class="miller-add-input" type="text" placeholder="Label (optional)" data-role="link-label">'
+		form.innerHTML = '<input class="miller-add-input" type="url" placeholder="' + t('apps.url') + '" data-role="link-url">'
+			+ '<input class="miller-add-input" type="text" placeholder="' + t('apps.labelOptional') + '" data-role="link-label">'
 			+ '<button class="miller-add-btn" data-role="link-add">Add</button>';
 		col.appendChild(form);
 	}
@@ -229,8 +231,8 @@ function closeAllApps() {
 	const overlay = $('allApps');
 	overlay.classList.remove('open', 'pick-mode', 'bm-editing');
 	pickMode = false; bmEditing = false;
-	$('allAppsTitle').textContent     = 'All Apps';
-	$('bmEditBtn').textContent        = 'Edit';
+	$('allAppsTitle').textContent     = t('apps.title');
+	$('bmEditBtn').textContent        = t('apps.edit');
 	$('bmEditBtn').style.display      = '';
 	$('bookmarkSearch').style.display = '';
 	$('bookmarkSearch').value         = '';
@@ -240,7 +242,7 @@ function closeAllApps() {
 function enterBmEdit() {
 	bmEditing = true;
 	$('allApps').classList.add('bm-editing');
-	$('bmEditBtn').textContent = 'Done';
+	$('bmEditBtn').textContent = t('apps.done');
 	const search = $('bookmarkSearch');
 	search.style.display = 'none';
 	search.value = ''; bookmarkQuery = '';
@@ -250,7 +252,7 @@ function enterBmEdit() {
 function exitBmEdit() {
 	bmEditing = false;
 	$('allApps').classList.remove('bm-editing');
-	$('bmEditBtn').textContent        = 'Edit';
+	$('bmEditBtn').textContent        = t('apps.edit');
 	$('bookmarkSearch').style.display = '';
 	renderMillerCats(); renderMillerLinks();
 }
@@ -261,7 +263,7 @@ function openPickMode() {
 	const overlay = $('allApps');
 	$('allAppsWindow').style.translate = '';
 	overlay.classList.add('open', 'pick-mode');
-	$('allAppsTitle').textContent = 'Add to Home Screen';
+	$('allAppsTitle').textContent = t('apps.pickTitle');
 	$('bmEditBtn').style.display  = 'none';
 	setTimeout(() => $('bookmarkSearch').focus(), 260);
 }
@@ -270,7 +272,7 @@ function closePickMode() {
 	pickMode = false;
 	const overlay = $('allApps');
 	overlay.classList.remove('open', 'pick-mode');
-	$('allAppsTitle').textContent = 'All Apps';
+	$('allAppsTitle').textContent = t('apps.title');
 	$('bmEditBtn').style.display  = '';
 	$('bookmarkSearch').value     = '';
 	filterBookmarks('');

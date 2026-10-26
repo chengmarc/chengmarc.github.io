@@ -107,12 +107,12 @@ function importConfig(onConfig) {
 					.replace(/;\s*$/, '');
 				const cfg = JSON.parse(json);
 				if (!cfg || !cfg.desktopIcons || !cfg.dock || !cfg.bookmarkSections) {
-					alert('Invalid config.js — missing required fields.');
+					alert(t('error.invalidConfig'));
 					return;
 				}
 				onConfig(cfg);
 			} catch (err) {
-				alert('Failed to import config: ' + err.message);
+				alert(t('error.importFailed', { msg: err.message }));
 			}
 		};
 		reader.readAsText(file);
@@ -150,7 +150,7 @@ const EXT_API = (globalThis.browser && globalThis.browser.permissions) ? globalT
 function readBrowserBookmarks() {
 	return EXT_API.bookmarks.getTree().then(tree => {
 		const bar = tree[0].children.find(n => n.folderType === 'bookmarks-bar' || n.id === 'toolbar_____' || n.id === '1');
-		if (!bar) throw new Error('Couldn\'t find the Bookmarks bar.');
+		if (!bar) throw new Error(t('error.noBookmarksBar'));
 
 		// Only links the page can open; skips Firefox `place:` queries, bookmarklets, etc.
 		const isLink = n => n.url && /^https?:/i.test(n.url);
@@ -193,7 +193,7 @@ function keepIconPositions(cfg) {
 function syncFromBrowser(onConfig, ask = true) {
 	EXT_API.permissions.request({ permissions: ['bookmarks'] }).then(granted => {
 		if (!granted) return;
-		if (ask && !confirm('Replace your desktop icons and app categories with your browser\'s Bookmarks bar? This cannot be undone.')) return;
+		if (ask && !confirm(t('confirm.sync'))) return;
 		return readBrowserBookmarks().then(onConfig);
-	}).catch(err => alert('Sync failed: ' + err.message));
+	}).catch(err => alert(t('error.syncFailed', { msg: err.message })));
 }

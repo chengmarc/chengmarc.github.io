@@ -76,7 +76,7 @@ function setupEvents() {
 		const catDel = e.target.closest('.miller-cat-delete');
 		if (catDel) {
 			const bi = +catDel.dataset.bi, b = cats()[bi];
-			if (!b.links.length || confirm('Delete "' + b.title + '" and its ' + b.links.length + ' link(s)?')) catDelete(bi);
+			if (!b.links.length || confirm(t('apps.deleteCategory', { title: b.title, count: b.links.length }))) catDelete(bi);
 			return;
 		}
 		const linkRen = e.target.closest('.miller-link-rename');
@@ -152,6 +152,7 @@ function setupEvents() {
 // ─────────────────────────────────────────────────────────────────────
 loadSettings();
 loadState();
+applyLanguage();
 renderDesktopIcons();
 renderDock();
 setupDesktopIconDrag();
@@ -168,6 +169,15 @@ setupBookmarkEditDrag();
 setupAboutPanel();
 setupSettings();
 startAutoSync();
+
+// Text that depends on state as well as language, redone on a language
+// switch: translatePage has just reset each to its data-i18n default.
+onLanguageChange(() => {
+	$('mbEdit').textContent       = t(desktopEditing ? 'menu.doneEditing' : 'menu.editDesktop');
+	$('allAppsTitle').textContent = t(pickMode ? 'apps.pickTitle' : 'apps.title');
+	$('bmEditBtn').textContent    = t(bmEditing ? 'apps.done' : 'apps.edit');
+	if ($('allApps').classList.contains('open')) renderAllBookmarks();
+});
 
 // ─────────────────────────────────────────────────────────────────────
 // Boot splash — a flat cover over the first-run assembly. It lifts on a

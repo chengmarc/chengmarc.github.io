@@ -17,7 +17,7 @@ const WALLPAPERS = [
 	{ id: 'graphite', name: 'Graphite', css: 'linear-gradient(160deg, #1c1d20, #45474c)' },
 ];
 
-let settings = { wallpaper: 'default', autoSync: false, showIP: true };
+let settings = { wallpaper: 'default', autoSync: false, showIP: true, language: 'auto' };
 
 function loadSettings() {
 	try { Object.assign(settings, JSON.parse(localStorage.getItem(SETTINGS_STORE)) || {}); } catch (_) {}
@@ -47,8 +47,9 @@ function renderWallpapers() {
 	WALLPAPERS.forEach(w => {
 		const preview = el('span', { class: 'wallpaper-preview' });
 		preview.style.background = wallpaperCss(w);
-		const btn = el('button', { class: 'wallpaper-swatch', title: w.name, data: { id: w.id } },
-			preview, el('span', { class: 'wallpaper-name', text: w.name }));
+		const name = t('wallpaper.' + w.id);
+		const btn = el('button', { class: 'wallpaper-swatch', title: name, data: { id: w.id } },
+			preview, el('span', { class: 'wallpaper-name', text: name }));
 		const sel = w.id === settings.wallpaper;
 		btn.classList.toggle('sel', sel);
 		btn.setAttribute('aria-pressed', String(sel));
@@ -104,9 +105,9 @@ function setAutoSync(on) {
 function toggleAutoSync(on) {
 	if (!on) { setAutoSync(false); return; }
 	EXT_API.permissions.request({ permissions: ['bookmarks'] }).then(granted => {
-		const ok = granted && confirm('Keep your desktop icons and app categories in step with your browser\'s Bookmarks bar? They are replaced now and after every bookmark change; icons already on the desktop keep their place.');
+		const ok = granted && confirm(t('confirm.autoSync'));
 		setAutoSync(!!ok);
-	}).catch(err => { setAutoSync(false); alert('Sync failed: ' + err.message); });
+	}).catch(err => { setAutoSync(false); alert(t('error.syncFailed', { msg: err.message })); });
 }
 
 // On load: pick up where the last tab left off, unless the permission has
@@ -116,6 +117,17 @@ function startAutoSync() {
 	EXT_API.permissions.contains({ permissions: ['bookmarks'] })
 		.then(granted => setAutoSync(granted))
 		.catch(() => setAutoSync(false));
+}
+
+// ── Language ──────────────────────────────────────────────────────────
+// Automatic first, named with the language it resolves to; then each
+// language in its own name, so anyone can find theirs.
+function renderLanguageSelect() {
+	const select = $('languageSelect');
+	select.innerHTML = '';
+	select.appendChild(el('option', { value: 'auto', text: t('settings.auto', { name: LANGUAGES[browserLanguage()] }) }));
+	for (const [code, name] of Object.entries(LANGUAGES)) select.appendChild(el('option', { value: code, text: name }));
+	select.value = LANGUAGES[settings.language] ? settings.language : 'auto';
 }
 
 // ── Settings window ───────────────────────────────────────────────────
@@ -157,6 +169,13 @@ function setupSettings() {
 		$('autoSyncToggle').addEventListener('change', e => toggleAutoSync(e.target.checked));
 	} else $('settingsSync').remove();
 
+	renderLanguageSelect();
+	$('languageSelect').addEventListener('change', e => {
+		settings.language = e.target.value;
+		saveSettings(); applyLanguage();
+	});
+	onLanguageChange(() => { renderLanguageSelect(); renderWallpapers(); });
+
 	$('showIPToggle').addEventListener('change', e => {
 		settings.showIP = e.target.checked;
 		saveSettings(); showIPInfo(settings.showIP);
@@ -165,7 +184,7 @@ function setupSettings() {
 	$('exportBtn').addEventListener('click', exportConfig);
 	$('importBtn').addEventListener('click', () => importConfig(applyConfig));
 	$('restoreBtn').addEventListener('click', () => {
-		if (!confirm('Restore the desktop, dock and all apps to default? This cannot be undone.')) return;
+		if (!confirm(t('confirm.restore'))) return;
 		// Drop the cached favicons so a restore re-fetches every icon fresh.
 		clearFaviconCache();
 		applyConfig(CFG);

@@ -25,7 +25,8 @@ Bookmark OS turns your new tab page into a clean, macOS-style desktop for the si
 • All Apps: every link organised into folders, with instant search
 • Glassy, colourful icons fetched automatically for every site
 • Sync with your browser: rebuild the desktop and folders from your Bookmarks bar in one click, or keep them in step automatically
-• Settings: pick a wallpaper
+• Settings: pick a wallpaper and a language
+• In English, 简体中文, Español, 日本語, Deutsch and Français, following your browser's language
 • Menu bar with clock and calendar, network and battery status, your location and IP
 
 No account. No sign-in. No permissions at install — bookmark access is only asked for if you turn on browser sync.

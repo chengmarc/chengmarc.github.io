@@ -46,7 +46,7 @@ function domainFrom(url) {
 function makeWindowDraggable(bar, win, grabEl, setPos) {
 	let active = false, offX = 0, offY = 0;
 	bar.addEventListener('pointerdown', e => {
-		if (e.target.closest('button, input')) return;
+		if (e.target.closest('button, input, select')) return;
 		active = true;
 		const r = win.getBoundingClientRect();
 		offX = e.clientX - r.left;

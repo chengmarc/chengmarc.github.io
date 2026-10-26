@@ -58,19 +58,19 @@
     </style>
 </head>
 <body>
-		<div id="boot"><div class="boot-spinner"></div><div class="boot-text">System Booting</div></div>
+		<div id="boot"><div class="boot-spinner"></div><div class="boot-text" data-i18n="boot">System Booting</div></div>
 		<div class="menu-bar" id="menuBar">
 			<div class="menu-left">
-				<button class="menu-item menu-brand" id="mbBrand">✦ About This OS</button>
-				<button class="menu-item" id="mbSettings"><svg class="menu-ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="4.6"/><circle cx="8" cy="8" r="1.9"/><path stroke-width="2.2" d="M12.60 8.00L14.90 8.00 M11.25 11.25L12.88 12.88 M8.00 12.60L8.00 14.90 M4.75 11.25L3.12 12.88 M3.40 8.00L1.10 8.00 M4.75 4.75L3.12 3.12 M8.00 3.40L8.00 1.10 M11.25 4.75L12.88 3.12"/></svg>Settings</button>
-				<button class="menu-item" id="mbBookmarks"><svg class="menu-ico" width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><rect x="0.5" y="0.5" width="4" height="4" rx="1.1"/><rect x="6" y="0.5" width="4" height="4" rx="1.1"/><rect x="11.5" y="0.5" width="4" height="4" rx="1.1"/><rect x="0.5" y="6" width="4" height="4" rx="1.1"/><rect x="6" y="6" width="4" height="4" rx="1.1"/><rect x="11.5" y="6" width="4" height="4" rx="1.1"/><rect x="0.5" y="11.5" width="4" height="4" rx="1.1"/><rect x="6" y="11.5" width="4" height="4" rx="1.1"/><rect x="11.5" y="11.5" width="4" height="4" rx="1.1"/></svg>All Apps</button>
-				<button class="menu-item" id="mbAdd">Add Icon</button>
-				<button class="menu-item" id="mbEdit">Edit Desktop</button>
+				<button class="menu-item menu-brand" id="mbBrand" data-i18n="menu.about">✦ About This OS</button>
+				<button class="menu-item" id="mbSettings"><svg class="menu-ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="4.6"/><circle cx="8" cy="8" r="1.9"/><path stroke-width="2.2" d="M12.60 8.00L14.90 8.00 M11.25 11.25L12.88 12.88 M8.00 12.60L8.00 14.90 M4.75 11.25L3.12 12.88 M3.40 8.00L1.10 8.00 M4.75 4.75L3.12 3.12 M8.00 3.40L8.00 1.10 M11.25 4.75L12.88 3.12"/></svg><span data-i18n="menu.settings">Settings</span></button>
+				<button class="menu-item" id="mbBookmarks"><svg class="menu-ico" width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><rect x="0.5" y="0.5" width="4" height="4" rx="1.1"/><rect x="6" y="0.5" width="4" height="4" rx="1.1"/><rect x="11.5" y="0.5" width="4" height="4" rx="1.1"/><rect x="0.5" y="6" width="4" height="4" rx="1.1"/><rect x="6" y="6" width="4" height="4" rx="1.1"/><rect x="11.5" y="6" width="4" height="4" rx="1.1"/><rect x="0.5" y="11.5" width="4" height="4" rx="1.1"/><rect x="6" y="11.5" width="4" height="4" rx="1.1"/><rect x="11.5" y="11.5" width="4" height="4" rx="1.1"/></svg><span data-i18n="menu.allApps">All Apps</span></button>
+				<button class="menu-item" id="mbAdd" data-i18n="menu.addIcon">Add Icon</button>
+				<button class="menu-item" id="mbEdit" data-i18n="menu.editDesktop">Edit Desktop</button>
 			</div>
 			<div class="menu-right">
-				<span class="menu-status menu-loc" id="mbLoc" title="Location"></span>
-				<button class="menu-status menu-ip" id="mbIP" title="Click to copy IP"></button>
-				<span class="menu-status" id="mbWifi" title="Network">
+				<span class="menu-status menu-loc" id="mbLoc" title="Location" data-i18n-title="status.location"></span>
+				<button class="menu-status menu-ip" id="mbIP" title="Click to copy IP" data-i18n-title="status.copyIP"></button>
+				<span class="menu-status" id="mbWifi" title="Network" data-i18n-title="status.network">
 					<svg width="18" height="14" viewBox="0 0 18 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
 						<path d="M2 5 A10 10 0 0 1 16 5"/>
 						<path d="M4.5 7.5 A6 6 0 0 1 13.5 7.5"/>
@@ -78,7 +78,7 @@
 						<circle cx="9" cy="11.4" r="0.95" fill="currentColor" stroke="none"/>
 					</svg>
 				</span>
-				<span class="menu-status" id="mbBattery" title="Battery">
+				<span class="menu-status" id="mbBattery" title="Battery" data-i18n-title="status.battery">
 					<svg width="27" height="14" viewBox="0 0 27 14" fill="none">
 						<rect x="0.75" y="1.25" width="22" height="11.5" rx="3" stroke="currentColor" stroke-width="1.3"/>
 						<rect x="24.5" y="4.5" width="2.2" height="5" rx="1.1" fill="currentColor"/>
@@ -93,12 +93,12 @@
 		<div class="welcome" id="welcome">
 			<div class="welcome-card">
 				<img class="welcome-icon" src="src/app-icon.svg" alt="" width="84" height="84">
-				<h2>Welcome to Bookmark OS</h2>
-				<p>Bring in your browser's Bookmarks bar now: each folder becomes a category, and bookmarks outside folders go on the desktop.</p>
-				<p class="welcome-note">Or explore the sample desktop first. You can sync any time from Settings → Sync Now.</p>
+				<h2 data-i18n="welcome.title">Welcome to Bookmark OS</h2>
+				<p data-i18n="welcome.body">Bring in your browser’s Bookmarks bar now: each folder becomes a category, and bookmarks outside folders go on the desktop.</p>
+				<p class="welcome-note" data-i18n="welcome.note">Or explore the sample desktop first. You can sync any time from Settings → Sync Now.</p>
 				<div class="welcome-actions">
-					<button class="welcome-btn" id="welcomeExplore">Explore First</button>
-					<button class="welcome-btn primary" id="welcomeSync">Sync with Browser</button>
+					<button class="welcome-btn" id="welcomeExplore" data-i18n="welcome.explore">Explore First</button>
+					<button class="welcome-btn primary" id="welcomeSync" data-i18n="welcome.sync">Sync with Browser</button>
 				</div>
 			</div>
 		</div>
@@ -106,9 +106,9 @@
 			<div class="cal-head">
 				<div class="cal-title" id="calTitle"></div>
 				<div class="cal-nav">
-					<button class="cal-arrow" id="calPrev" aria-label="Previous month">‹</button>
-					<button class="cal-today" id="calToday">Today</button>
-					<button class="cal-arrow" id="calNext" aria-label="Next month">›</button>
+					<button class="cal-arrow" id="calPrev" aria-label="Previous month" data-i18n-aria="cal.prev">‹</button>
+					<button class="cal-today" id="calToday" data-i18n="cal.today">Today</button>
+					<button class="cal-arrow" id="calNext" aria-label="Next month" data-i18n-aria="cal.next">›</button>
 				</div>
 			</div>
 			<div class="cal-grid" id="calGrid"></div>
@@ -122,17 +122,17 @@
 			<div class="all-apps-window" id="allAppsWindow">
 				<div class="all-apps-bar" id="allAppsBar">
 					<div class="traffic-lights">
-						<button class="tl tl-close"    id="tlClose" aria-label="Close"></button>
-						<button class="tl tl-minimize" id="tlMin"   aria-label="Minimize"></button>
-						<button class="tl tl-zoom"     id="tlZoom"  aria-label="Zoom"></button>
+						<button class="tl tl-close"    id="tlClose" aria-label="Close" data-i18n-aria="win.close"></button>
+						<button class="tl tl-minimize" id="tlMin"   aria-label="Minimize" data-i18n-aria="win.minimize"></button>
+						<button class="tl tl-zoom"     id="tlZoom"  aria-label="Zoom" data-i18n-aria="win.zoom"></button>
 					</div>
-					<h2 id="allAppsTitle">All Apps</h2>
-					<input class="all-apps-search" id="bookmarkSearch" type="search" placeholder="Search apps…" autocomplete="off">
-					<button class="all-apps-bar-btn" id="bmEditBtn">Edit</button>
+					<h2 id="allAppsTitle" data-i18n="apps.title">All Apps</h2>
+					<input class="all-apps-search" id="bookmarkSearch" type="search" placeholder="Search apps…" data-i18n-placeholder="apps.search" autocomplete="off">
+					<button class="all-apps-bar-btn" id="bmEditBtn" data-i18n="apps.edit">Edit</button>
 				</div>
 				<div class="pick-banner" id="pickBanner">
-					<span id="pickBannerText">Tap any app to add it to the home screen</span>
-					<button id="pickCancelBtn">Cancel</button>
+					<span id="pickBannerText" data-i18n="apps.pickBanner">Tap any app to add it to the home screen</span>
+					<button id="pickCancelBtn" data-i18n="apps.cancel">Cancel</button>
 				</div>
 				<div class="all-apps-scroll" id="allAppsScroll"></div>
 			</div>
@@ -144,70 +144,73 @@
 			<div class="settings-card">
 				<div class="settings-bar" id="settingsBar">
 					<div class="traffic-lights">
-						<button class="tl tl-close"    id="settingsClose" aria-label="Close"></button>
-						<button class="tl tl-minimize" id="settingsMin"   aria-label="Minimize"></button>
-						<button class="tl tl-zoom"     id="settingsZoom"  aria-label="Zoom"></button>
+						<button class="tl tl-close"    id="settingsClose" aria-label="Close" data-i18n-aria="win.close"></button>
+						<button class="tl tl-minimize" id="settingsMin"   aria-label="Minimize" data-i18n-aria="win.minimize"></button>
+						<button class="tl tl-zoom"     id="settingsZoom"  aria-label="Zoom" data-i18n-aria="win.zoom"></button>
 					</div>
-					<h2>Settings</h2>
+					<h2 data-i18n="settings.title"></h2>
+					<label class="settings-lang" title="Display language" data-i18n-title="settings.languageTitle"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><circle cx="8" cy="8" r="6.5"/><ellipse cx="8" cy="8" rx="2.8" ry="6.5"/><path d="M1.5 8h13M2.6 4.6h10.8M2.6 11.4h10.8"/></svg><select class="settings-select" id="languageSelect" aria-label="Display language" data-i18n-aria="settings.languageTitle"></select></label>
 				</div>
 				<section class="settings-section">
-					<p class="settings-label">Wallpaper</p>
+					<p class="settings-label" data-i18n="settings.wallpaper"></p>
 					<div class="wallpaper-grid" id="wallpaperGrid"></div>
 				</section>
 				<div class="settings-body">
 					<div class="settings-col">
 						<section class="settings-section" id="settingsSync">
-							<p class="settings-label">Browser Sync</p>
+							<p class="settings-label" data-i18n="settings.sync"></p>
 							<div class="settings-row">
 								<span class="settings-row-text">
-									<span class="settings-row-title">Sync from browser</span>
-									<span class="settings-row-note">Replace the desktop icons and app categories with your Bookmarks bar, once.</span>
+									<span class="settings-row-title" data-i18n="settings.syncNowTitle"></span>
+									<span class="settings-row-note" data-i18n="settings.syncNowNote"></span>
 								</span>
-								<button class="settings-btn" id="syncNowBtn">Sync Now</button>
+								<button class="settings-btn" id="syncNowBtn" data-i18n="settings.syncNow"></button>
 							</div>
 							<label class="settings-row">
 								<span class="settings-row-text">
-									<span class="settings-row-title">Always sync with browser</span>
-									<span class="settings-row-note">Follow the Bookmarks bar on every new tab and every change. Icons keep their place; edits made here are replaced.</span>
+									<span class="settings-row-title" data-i18n="settings.autoSyncTitle"></span>
+									<span class="settings-row-note" data-i18n="settings.autoSyncNote"></span>
 								</span>
 								<input type="checkbox" class="switch" id="autoSyncToggle">
 							</label>
 						</section>
 						<section class="settings-section">
-							<p class="settings-label">Menu Bar</p>
+							<p class="settings-label" data-i18n="settings.menuBar"></p>
 							<label class="settings-row">
 								<span class="settings-row-text">
-									<span class="settings-row-title">Show location and IP</span>
-									<span class="settings-row-note">Your city, flag and public IP. While off, nothing is looked up from your IP.</span>
+									<span class="settings-row-title" data-i18n="settings.showIPTitle"></span>
+									<span class="settings-row-note" data-i18n="settings.showIPNote"></span>
 								</span>
 								<input type="checkbox" class="switch" id="showIPToggle">
 							</label>
 						</section>
 					</div>
-					<section class="settings-section">
-						<p class="settings-label">Backup &amp; Restore</p>
-						<div class="settings-row">
-							<span class="settings-row-text">
-								<span class="settings-row-title">Export</span>
-								<span class="settings-row-note">Save your desktop, dock and apps as a config.js file.</span>
-							</span>
-							<button class="settings-btn" id="exportBtn">Export…</button>
-						</div>
-						<div class="settings-row">
-							<span class="settings-row-text">
-								<span class="settings-row-title">Import</span>
-								<span class="settings-row-note">Load a config.js file. It replaces your desktop, dock and apps.</span>
-							</span>
-							<button class="settings-btn" id="importBtn">Import…</button>
-						</div>
-						<div class="settings-row">
-							<span class="settings-row-text">
-								<span class="settings-row-title">Restore defaults</span>
-								<span class="settings-row-note">Put the desktop, dock and all apps back as they first came.</span>
-							</span>
-							<button class="settings-btn danger" id="restoreBtn">Restore</button>
-						</div>
-					</section>
+					<div class="settings-col">
+						<section class="settings-section">
+							<p class="settings-label" data-i18n="settings.backup"></p>
+							<div class="settings-row">
+								<span class="settings-row-text">
+									<span class="settings-row-title" data-i18n="settings.exportTitle"></span>
+									<span class="settings-row-note" data-i18n="settings.exportNote"></span>
+								</span>
+								<button class="settings-btn" id="exportBtn" data-i18n="settings.export"></button>
+							</div>
+							<div class="settings-row">
+								<span class="settings-row-text">
+									<span class="settings-row-title" data-i18n="settings.importTitle"></span>
+									<span class="settings-row-note" data-i18n="settings.importNote"></span>
+								</span>
+								<button class="settings-btn" id="importBtn" data-i18n="settings.import"></button>
+							</div>
+							<div class="settings-row">
+								<span class="settings-row-text">
+									<span class="settings-row-title" data-i18n="settings.restoreTitle"></span>
+									<span class="settings-row-note" data-i18n="settings.restoreNote"></span>
+								</span>
+								<button class="settings-btn danger" id="restoreBtn" data-i18n="settings.restore"></button>
+							</div>
+						</section>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -216,25 +219,25 @@
 			<div class="card">
 				<div class="about-bar" id="aboutBar">
 					<div class="traffic-lights">
-						<button class="tl tl-close"    id="aboutClose" aria-label="Close"></button>
-						<button class="tl tl-minimize" id="aboutMin"   aria-label="Minimize"></button>
-						<button class="tl tl-zoom"     id="aboutZoom"  aria-label="Zoom"></button>
+						<button class="tl tl-close"    id="aboutClose" aria-label="Close" data-i18n-aria="win.close"></button>
+						<button class="tl tl-minimize" id="aboutMin"   aria-label="Minimize" data-i18n-aria="win.minimize"></button>
+						<button class="tl tl-zoom"     id="aboutZoom"  aria-label="Zoom" data-i18n-aria="win.zoom"></button>
 					</div>
-					<h2>About This OS</h2>
+					<h2 data-i18n="about.title">About This OS</h2>
 				</div>
 
         <div class="about-hero">
             <img class="about-app-icon" src="src/app-icon.svg" alt="" width="112" height="112">
             <div class="about-hero-text">
                 <p class="about-product">Bookmark OS</p>
-                <p class="about-tagline">Your bookmarks as a desktop — from any browser, no account needed.</p>
+                <p class="about-tagline" data-i18n="about.tagline">Your bookmarks as a desktop — from any browser, no account needed.</p>
                 <div class="about-meta">
                     <div class="about-chips">
                         <a href="https://chromewebstore.google.com/detail/bookmark-os/mbfmccadkfdnhojahjehknphgmjkehkp" target="_blank" rel="noopener" class="about-chip">Chrome</a>
                         <a href="https://microsoftedge.microsoft.com/addons/detail/apjbdkedomhbdmknfhcfiniipcjedibc" target="_blank" rel="noopener" class="about-chip">Edge</a>
                         <a href="https://addons.mozilla.org/en-US/firefox/addon/bookmark-os/" target="_blank" rel="noopener" class="about-chip">Firefox</a>
                     </div>
-                    <span class="about-meta-note">Open source · CC0</span>
+                    <span class="about-meta-note" data-i18n="about.meta">Open source · CC0</span>
                 </div>
             </div>
         </div>
@@ -243,33 +246,33 @@
 
         <div class="card-top">
             <div class="card-left">
-                <p class="section-label">Developer</p>
+                <p class="section-label" data-i18n="about.developer">Developer</p>
                 <h1>Marc Cheng</h1>
                 <p class="name-alt">Zhongmang Cheng</p>
                 <div class="contact">
                     <a href="mailto:marccheng@outlook.com" class="contact-row">
-                        <span class="contact-label">Industry</span>
+                        <span class="contact-label" data-i18n="about.industry">Industry</span>
                         <span class="contact-email">marccheng@outlook.com</span>
                     </a>
                     <a href="mailto:marc.cheng@alumni.utoronto.ca" class="contact-row">
-                        <span class="contact-label">Research</span>
+                        <span class="contact-label" data-i18n="about.research">Research</span>
                         <span class="contact-email">marc.cheng@alumni.utoronto.ca</span>
                     </a>
                 </div>
             </div>
             <div class="card-vsep"></div>
             <div class="card-right">
-                <p class="note">Hi there, I’m the developer who built this lightweight web OS. The idea was simple: to access my bookmarks using ANY browser on ANY computer, without logging in to a stupid FUCKING account. To learn more about me, you’re welcome to click one of the icons below.</p>
+                <p class="note" data-i18n="about.note">Hi there, I’m the developer who built this lightweight web OS. The idea was simple: to access my bookmarks using ANY browser on ANY computer, without logging in to a stupid FUCKING account. To learn more about me, you’re welcome to click one of the icons below.</p>
             </div>
         </div>
 
         <div class="card-hsep"></div>
 
         <div class="card-bottom">
-            <nav class="icon-strip" aria-label="Social links">
+            <nav class="icon-strip" aria-label="Social links" data-i18n-aria="about.social">
 
                 <div class="icon-group">
-                    <span class="icon-group-label">Career & Research</span>
+                    <span class="icon-group-label" data-i18n="about.career">Career & Research</span>
                     <div class="icons">
                         <a href="https://www.linkedin.com/in/chengmarc/" target="_blank" rel="noopener me" class="icon-link" aria-label="LinkedIn">
                             <img src="src/social/linkedin.svg" alt="LinkedIn">
@@ -289,7 +292,7 @@
                 <span class="strip-sep">|</span>
 
                 <div class="icon-group">
-                    <span class="icon-group-label">Life</span>
+                    <span class="icon-group-label" data-i18n="about.life">Life</span>
                     <div class="icons">
                         <a href="https://www.instagram.com/marcc.cheng/" target="_blank" rel="noopener me" class="icon-link" aria-label="Instagram">
                             <img src="src/social/instagram.svg" alt="Instagram">
@@ -309,7 +312,7 @@
                 <span class="strip-sep">|</span>
 
                 <div class="icon-group">
-                    <span class="icon-group-label">Crypto</span>
+                    <span class="icon-group-label" data-i18n="about.crypto">Crypto</span>
                     <div class="icons">
                         <a href="https://x.com/chengmarc_" target="_blank" rel="noopener me" class="icon-link" aria-label="X">
                             <img src="src/social/x.svg" alt="X">
@@ -326,7 +329,7 @@
                 <span class="strip-sep">|</span>
 
                 <div class="icon-group">
-                    <span class="icon-group-label">Gaming</span>
+                    <span class="icon-group-label" data-i18n="about.gaming">Gaming</span>
                     <div class="icons">
                         <a href="https://steamcommunity.com/id/everwith/" target="_blank" rel="noopener" class="icon-link" aria-label="Steam">
                             <img src="src/social/steam.svg" alt="Steam">
@@ -529,9 +532,10 @@
     }
     </script>
 
-	<!-- defer: download all nine in parallel during HTML parse, then execute
+	<!-- defer: download all ten in parallel during HTML parse, then execute
 	     in source order after the DOM is ready (app.js's init runs last). -->
 	<script defer src="src/scripts/util.js"></script>
+	<script defer src="src/scripts/i18n.js"></script>
 	<script defer src="src/scripts/config.js"></script>
 	<script defer src="src/scripts/state.js"></script>
 	<script defer src="src/scripts/favicon.js"></script>
