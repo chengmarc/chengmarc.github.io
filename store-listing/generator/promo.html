@@ -1,9 +1,22 @@
 <!doctype html>
 <!--
-  Source for the store promo tiles. Renders at the size given in the query
-  string (?small 440x280, ?marquee 1400x560), built around
-  screenshot-1-desktop.png so the tile shows the product. render.py, beside
-  this file, renders both after the screenshots.
+  Layout for the store promo tiles, at the size given in the query string:
+  ?small 440x280 (the store's search tile), ?marquee 1400x560. render.py,
+  beside this file, renders both, putting a desktop it captured into
+  #desktop; opened by hand, the page shows screenshot 1 there instead.
+
+  The message, at first sight: this is a desktop, and it's your browser's own
+  Bookmarks bar, kept in sync. Both tiles show a highlighted Bookmarks bar,
+  the whole desktop under it, and the "Synced from your Bookmarks bar" pill
+  joining the two.
+  - small: every pixel is product. The bar runs the full width, the desktop
+    fills the rest, and there is no slogan; the store shows the name and
+    icon beside the tile.
+  - marquee: room for the pitch on the left, and the same picture in a
+    browser window on the right.
+  The bar holds folders only, named after the sample config's categories
+  and ordered to match the small tile's icons (Social, Video & Streaming,
+  Music & Audio, Email & Messaging, then more).
 -->
 <html>
 <head>
@@ -25,62 +38,103 @@ body {
         radial-gradient(circle at 25% 105%, rgba(214, 110, 60, .38), transparent 45%),
         #0c0b12;
 }
-.brand { position: absolute; display: flex; flex-direction: column; }
-.brand img.logo { filter: drop-shadow(0 6px 18px rgba(0, 0, 0, .45)); }
-.brand h1 { font-weight: 700; letter-spacing: -.02em; line-height: 1.05; }
-.brand p  { color: rgba(255, 255, 255, .72); line-height: 1.35; text-wrap: balance; }
 
-/* Browser window holding the screenshot */
-.window {
+/* The pitch (marquee only) */
+.pitch { position: absolute; display: flex; flex-direction: column; justify-content: center; }
+.wordmark { display: flex; align-items: center; font-weight: 600; letter-spacing: -.01em; }
+.wordmark img { filter: drop-shadow(0 4px 12px rgba(0, 0, 0, .45)); }
+.pitch h1 { font-weight: 700; letter-spacing: -.025em; line-height: 1.04; }
+.pitch p  { color: rgba(255, 255, 255, .74); line-height: 1.35; text-wrap: pretty; }
+.pitch p.fine { color: rgba(255, 255, 255, .5); }
+
+/* The browser: toolbar (marquee only), Bookmarks bar, and the new tab */
+.browser { position: absolute; overflow: hidden; background: #2a2930; }
+.toolbar { display: flex; align-items: center; height: var(--tool); padding: 0 var(--pad); gap: var(--pad); }
+.lights { display: flex; gap: calc(var(--dot) * .7); }
+.lights i { width: var(--dot); height: var(--dot); border-radius: 50%; }
+.lights i:nth-child(1) { background: #ff5f57; }
+.lights i:nth-child(2) { background: #febc2e; }
+.lights i:nth-child(3) { background: #28c840; }
+.address {
+    flex: 1; height: 62%; border-radius: 999px; background: rgba(255, 255, 255, .08);
+    display: flex; align-items: center; padding-left: var(--pad); color: rgba(255, 255, 255, .55);
+}
+.bookmarks {
+    position: relative;
+    display: flex; align-items: center; gap: var(--gap);
+    height: var(--marks); padding: 0 var(--pad);
+    background: #34333b;
+    white-space: nowrap; overflow: hidden;
+}
+/* The highlight: this bar is what the desktop is made from */
+.bookmarks::after {
+    content: ''; position: absolute; inset: 2px;
+    border-radius: var(--ring-r);
+    box-shadow: 0 0 0 2px #0a84ff, 0 0 18px rgba(10, 132, 255, .65);
+    pointer-events: none;
+}
+.bookmarks span { display: inline-flex; align-items: center; gap: .4em; color: rgba(255, 255, 255, .9); flex-shrink: 0; }
+.bookmarks img, .bookmarks svg { width: 1.2em; height: 1.2em; border-radius: 3px; }
+.bookmarks .more { color: rgba(255, 255, 255, .6); margin-left: auto; }
+.newtab { position: relative; }
+.newtab img { display: block; width: 100%; }
+/* On two lines, so it can be big and still sit in the open desktop right of
+   the three icon columns, clear of the icons. */
+.pill {
     position: absolute;
-    border-radius: var(--r);
-    overflow: hidden;
-    background: #24232b;
-    box-shadow: 0 0 0 1px rgba(255, 255, 255, .12), 0 24px 60px rgba(0, 0, 0, .6);
+    display: inline-flex; align-items: center; line-height: 1.12;
+    background: #0a84ff; color: #fff; font-weight: 700; letter-spacing: -.005em;
+    white-space: nowrap;
+    box-shadow: 0 6px 18px rgba(10, 132, 255, .5), 0 0 0 1.5px rgba(255, 255, 255, .35);
 }
-.window .bar {
-    height: var(--bar);
-    display: flex; align-items: center; gap: calc(var(--bar) * .22);
-    padding-left: calc(var(--bar) * .45);
-}
-.window .bar i { width: calc(var(--bar) * .3); height: calc(var(--bar) * .3); border-radius: 50%; }
-.window .bar i:nth-child(1) { background: #ff5f57; }
-.window .bar i:nth-child(2) { background: #febc2e; }
-.window .bar i:nth-child(3) { background: #28c840; }
-.window img { display: block; width: 100%; }
 
-/* 440 × 280 small tile: window runs off the right edge so the icons and
-   dock stay big enough to read. */
-.small .brand  { left: 22px; top: 0; bottom: 0; width: 170px; justify-content: center; }
-.small .logo   { width: 88px; height: 88px; margin: 0 0 10px -5px; }
-.small h1      { font-size: 25px; }
-.small p       { font-size: 13px; margin-top: 7px; }
-.small .window { --r: 9px; --bar: 16px; left: 196px; top: 16px; width: 372px; }
+/* 440 × 280 search tile: the bar across the top, the whole desktop below */
+.small .pitch, .small .toolbar { display: none; }
+.small .browser  { inset: 0; --marks: 26px; --pad: 8px; --gap: 11px; --ring-r: 6px; font-size: 10.5px; }
+.small .newtab img { height: 254px; object-fit: cover; }
+.small .pill     { left: 178px; top: 14px; font-size: 17px; gap: 8px; padding: 9px 16px 9px 13px; border-radius: 16px; }   /* icons end at 162px */
 
 /* 1400 × 560 marquee */
-.marquee .brand  { left: 90px; top: 0; bottom: 0; width: 470px; justify-content: center; }
-.marquee .logo   { width: 160px; height: 160px; margin: 0 0 24px -10px; }
-.marquee h1      { font-size: 64px; }
-.marquee p       { font-size: 26px; margin-top: 16px; }
-.marquee p.fine  { font-size: 18px; margin-top: 22px; color: rgba(255, 255, 255, .5); }
-.marquee .window { --r: 14px; --bar: 28px; left: 590px; top: 35px; width: 740px; }
+.marquee .pitch    { left: 84px; top: 0; bottom: 0; width: 480px; }
+.marquee .wordmark { font-size: 30px; gap: 16px; margin-bottom: 30px; }
+.marquee .wordmark img { width: 72px; height: 72px; }
+.marquee h1        { font-size: 60px; }
+.marquee .pitch p  { font-size: 23px; margin-top: 20px; }
+.marquee .pitch p.fine { font-size: 17px; margin-top: 22px; }
+.marquee .browser  { --tool: 38px; --marks: 34px; --pad: 14px; --dot: 11px; --gap: 18px; --ring-r: 8px;
+                     left: 596px; top: 50%; transform: translateY(-50%); width: 740px; font-size: 13.5px;   /* centred top to bottom */
+                     border-radius: 14px; box-shadow: 0 0 0 1px rgba(255, 255, 255, .12), 0 24px 60px rgba(0, 0, 0, .6); }
+.marquee .pill     { left: 250px; top: 24px; font-size: 32px; gap: 14px; padding: 16px 30px 16px 24px; border-radius: 28px; }   /* icons end at 218px */
 </style>
 </head>
 <body>
-<div class="brand">
-    <img class="logo" src="../../src/app-icon.svg" alt="">
-    <h1>Bookmark OS</h1>
-    <p>Your bookmarks as a desktop on every new tab.</p>
-    <p class="fine">No account · No tracking · Stays in your browser</p>
+<div class="pitch">
+    <div class="wordmark"><img src="../../src/app-icon.svg" alt="">Bookmark OS</div>
+    <h1>Your bookmarks,<br>as a desktop.</h1>
+    <p>Syncs with your browser’s Bookmarks bar: folders become app categories, links become icons. Change a bookmark, and the desktop follows.</p>
+    <p class="fine">No account · Nothing leaves your browser</p>
 </div>
-<div class="window">
-    <div class="bar"><i></i><i></i><i></i></div>
-    <img src="../desktop/screenshot-1-desktop.png" alt="">
+
+<div class="browser">
+    <div class="toolbar"><div class="lights"><i></i><i></i><i></i></div><div class="address">New Tab</div></div>
+    <div class="bookmarks" id="bookmarks"></div>
+    <div class="newtab">
+        <img id="desktop" src="../desktop/screenshot-1-desktop.png" alt="">
+        <span class="pill"><svg width="1em" height="1em" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V3M3.5 7.5L8 3l4.5 4.5"/></svg><span>Synced from your<br> Bookmarks bar</span></span>
+    </div>
 </div>
+
 <script>
-    const size = location.search.slice(1) || 'marquee';
-    document.body.className = size;
-    if (size === 'small') document.querySelector('.fine').remove();
+    document.body.className = location.search.slice(1) || 'marquee';
+
+    // The Bookmarks bar: folders, as the categories they sync to.
+    const FOLDER = '<svg viewBox="0 0 16 16" fill="#8ab4f8"><path d="M1.5 4c0-.55.45-1 1-1h3.1c.32 0 .62.15.8.4L7.3 4.5H13.5c.55 0 1 .45 1 1V12c0 .55-.45 1-1 1h-11c-.55 0-1-.45-1-1V4z"/></svg>';
+    const FOLDERS = ['Social', 'Video & Streaming', 'Music & Audio', 'Email & Messaging', 'News', 'Shopping', 'Developer', 'Productivity'];
+    const bar = document.getElementById('bookmarks');
+    bar.innerHTML = FOLDERS.map(name => `<span>${FOLDER}${name}</span>`).join('') + '<span class="more">»</span>';
+    // Like the browser's own bar: what doesn't fit goes behind the » at the end.
+    const more = bar.querySelector('.more');
+    while (bar.scrollWidth > bar.clientWidth && more.previousElementSibling) more.previousElementSibling.remove();
 </script>
 </body>
 </html>
