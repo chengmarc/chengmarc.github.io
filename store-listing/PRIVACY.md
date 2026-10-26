@@ -6,7 +6,7 @@ Bookmark OS replaces your browser's new tab page with a desktop of your bookmark
 
 ## What stays on your device
 
-Your desktop icons, dock, bookmark folders, and a cache of site icons are saved in your browser's local storage for this extension. They never leave your browser unless you use **Export**, which saves a file to your own computer. **Import** reads a file you choose; nothing is uploaded. **Sync from Browser** reads your browser's Bookmarks bar and saves a copy into the same local storage; it never changes your browser bookmarks.
+Your desktop icons, dock, bookmark folders, and a cache of site icons are saved in your browser's local storage for this extension. They never leave your browser unless you use **Export**, which saves a file to your own computer. **Import** reads a file you choose; nothing is uploaded. **Sync** reads your browser's Bookmarks bar and saves a copy into the same local storage; it never changes your browser bookmarks.
 
 ## What the new tab page requests from other services
 
@@ -20,13 +20,15 @@ Like any web page, the new tab page loads a few things from the internet. Each r
 | `www.google.com/s2/favicons` | Looks up the icon for each link on screen | The URL of each link being displayed |
 | Each linked website | Loads that site's own icon file (e.g. `/favicon.ico`) | A request for its icon |
 
+The first three are only contacted while **Settings → Show location and IP** is on (the default); turn it off and none of them is asked.
+
 These services have their own privacy policies. Bookmark OS does not send them anything beyond what is listed here, and does not set cookies or use tracking of any kind.
 
 ## Permissions
 
 The extension requests **no browser permissions at install**. It cannot read your browsing history or the content of other tabs.
 
-If you choose **File → Sync from Browser**, it asks for the optional **bookmarks** permission so it can read your Bookmarks bar. It only reads bookmarks, only when you click Sync, and never modifies them. You can revoke the permission at any time from your browser's extension settings.
+If you click **Settings → Sync Now** or turn on **Settings → Always sync with browser**, it asks for the optional **bookmarks** permission so it can read your Bookmarks bar. It only reads bookmarks, and never modifies them: once when you click Sync Now, or, while always-on sync is turned on, each time a new tab opens and whenever a bookmark changes. You can turn always-on sync off in Settings. You can revoke the permission at any time from your browser's extension settings.
 
 ## Contact
 

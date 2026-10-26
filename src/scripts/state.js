@@ -143,41 +143,57 @@ function exportConfig() {
 const EXT_API = (globalThis.browser && globalThis.browser.permissions) ? globalThis.browser
 	: (globalThis.chrome && globalThis.chrome.permissions) ? globalThis.chrome : null;
 
-// Rebuild desktop and bookmarks from the browser's Bookmarks bar and hand the
-// config to onConfig. Each folder in the bar becomes a category holding every
-// link beneath it, however deep; loose links in the bar become desktop icons
-// and also fill an "Uncategorized" category.
-// The dock is kept as is. `bookmarks` is an optional permission, requested
-// here — first thing, since Firefox only allows it straight off a click.
+// Read the browser's Bookmarks bar as a config. Each folder in the bar becomes
+// a category holding every link beneath it, however deep; loose links in the
+// bar become desktop icons and also fill an "Uncategorized" category. The dock
+// is kept as is. Needs the `bookmarks` permission already granted.
+function readBrowserBookmarks() {
+	return EXT_API.bookmarks.getTree().then(tree => {
+		const bar = tree[0].children.find(n => n.folderType === 'bookmarks-bar' || n.id === 'toolbar_____' || n.id === '1');
+		if (!bar) throw new Error('Couldn\'t find the Bookmarks bar.');
+
+		// Only links the page can open; skips Firefox `place:` queries, bookmarklets, etc.
+		const isLink = n => n.url && /^https?:/i.test(n.url);
+		const toLink = n => ({ label: n.title || domainFrom(n.url), url: n.url });
+		const linksUnder = n => isLink(n) ? [toLink(n)] : (n.children || []).flatMap(linksUnder);
+
+		const desktopIcons = [], blocks = [], loose = [], seen = new Set();
+		(bar.children || []).forEach((n, i) => {
+			if (isLink(n)) {
+				if (seen.has(n.url)) return;
+				seen.add(n.url);
+				const { label, url } = toLink(n);
+				loose.push({ label, url });
+				desktopIcons.push({ key: 'icon-' + domainFrom(url).replace(/\./g, '-') + '-' + i, label, url });
+			} else if (n.children) {
+				blocks.push({ title: n.title, links: linksUnder(n) });
+			}
+		});
+		// Loose links also get a category, so All Apps lists and searches them.
+		if (loose.length) blocks.push({ title: 'Uncategorized', links: loose });
+		return keepIconPositions({ desktopIcons, dock: S.dock, bookmarkSections: [{ blocks }] });
+	});
+}
+
+// A synced icon whose URL is already on the desktop keeps that icon's key and
+// grid cell; the rest are left unplaced, for replaceState to put in free cells.
+function keepIconPositions(cfg) {
+	const current = new Map(S.desktopIcons.map(i => [i.url, i]));
+	cfg.desktopIcons.forEach(icon => {
+		const old = current.get(icon.url);
+		if (old) { icon.key = old.key; icon.col = old.col; icon.row = old.row; }
+	});
+	return cfg;
+}
+
+// Sync once, from a click: hand the Bookmarks bar's config to onConfig.
+// `bookmarks` is an optional permission, requested here — first thing, since
+// Firefox only allows it straight off a click.
 // `ask` = false skips the replace warning, for when the user already chose to sync.
 function syncFromBrowser(onConfig, ask = true) {
 	EXT_API.permissions.request({ permissions: ['bookmarks'] }).then(granted => {
 		if (!granted) return;
 		if (ask && !confirm('Replace your desktop icons and app categories with your browser\'s Bookmarks bar? This cannot be undone.')) return;
-		return EXT_API.bookmarks.getTree().then(tree => {
-			const bar = tree[0].children.find(n => n.folderType === 'bookmarks-bar' || n.id === 'toolbar_____' || n.id === '1');
-			if (!bar) { alert('Couldn\'t find the Bookmarks bar.'); return; }
-
-			// Only links the page can open; skips Firefox `place:` queries, bookmarklets, etc.
-			const isLink = n => n.url && /^https?:/i.test(n.url);
-			const toLink = n => ({ label: n.title || domainFrom(n.url), url: n.url });
-			const linksUnder = n => isLink(n) ? [toLink(n)] : (n.children || []).flatMap(linksUnder);
-
-			const desktopIcons = [], blocks = [], loose = [], seen = new Set();
-			(bar.children || []).forEach((n, i) => {
-				if (isLink(n)) {
-					if (seen.has(n.url)) return;
-					seen.add(n.url);
-					const { label, url } = toLink(n);
-					loose.push({ label, url });
-					desktopIcons.push({ key: 'icon-' + domainFrom(url).replace(/\./g, '-') + '-' + i, label, url });
-				} else if (n.children) {
-					blocks.push({ title: n.title, links: linksUnder(n) });
-				}
-			});
-			// Loose links also get a category, so All Apps lists and searches them.
-			if (loose.length) blocks.push({ title: 'Uncategorized', links: loose });
-			onConfig({ desktopIcons, dock: S.dock, bookmarkSections: [{ blocks }] });
-		});
+		return readBrowserBookmarks().then(onConfig);
 	}).catch(err => alert('Sync failed: ' + err.message));
 }

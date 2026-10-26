@@ -65,3 +65,11 @@ function makeWindowDraggable(bar, win, grabEl, setPos) {
 	bar.addEventListener('pointerup', end);
 	bar.addEventListener('lostpointercapture', end);
 }
+
+// Center a floating window on screen, nudged up 8% of the height and kept
+// clear of the menu bar. Windows positioned with absolute left/top use it.
+function centerPanel(p) {
+	const uplift = window.innerHeight * 0.08;
+	p.style.left = Math.round((window.innerWidth  - p.offsetWidth)  / 2) + 'px';
+	p.style.top  = Math.round(Math.max(40, (window.innerHeight - uplift - p.offsetHeight) / 2)) + 'px';
+}

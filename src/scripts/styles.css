@@ -94,6 +94,9 @@ body::before {
     z-index: -2;
 }
 
+/* A wallpaper picked in Settings (settings.js sets the variable). */
+.custom-wallpaper body::before { background: var(--wallpaper); }
+
 /* Ambient scrim: vignette + subtle top-to-bottom darkening so glass
    pops and labels stay legible over any wallpaper. */
 body::after {
@@ -153,6 +156,9 @@ body::after {
 				transition: background 0.12s, color 0.12s;
 			}
 			.menu-item:hover  { background: var(--w-15); color: #fff; }
+			/* Small glyph before a menu item's label (Settings, All Apps) */
+			.menu-item:has(.menu-ico) { display: inline-flex; align-items: center; gap: 6px; }
+			.menu-ico { display: block; flex-shrink: 0; }
 			.menu-item.active { background: var(--w-24); color: #fff; }
 			.menu-status {
 				display: flex;
@@ -189,6 +195,7 @@ body::after {
 			.menu-ip:hover  { background: var(--w-15); color: #fff; }
 			.menu-ip.copied { color: #7ee87e; }
 			.menu-status.offline { opacity: 0.35; }
+			.menu-status[hidden] { display: none; }   /* its flex would override [hidden] */
 			.menu-clock {
 				background: none;
 				border: none;
@@ -204,38 +211,6 @@ body::after {
 			}
 			.menu-clock:hover  { background: var(--w-15); color: #fff; }
 			.menu-clock.active { background: var(--w-20); color: #fff; }
-
-			/**************** 菜单 ****************/
-			/* Lives outside .menu-bar: the bar's backdrop-filter would otherwise
-			   trap position: fixed and stop this panel's own blur. */
-			.menu-dropdown {
-				position: fixed;
-				top: 38px; left: 0;
-				min-width: 180px;
-				padding: 5px;
-				z-index: 250;
-				border-radius: 10px;
-				display: flex; flex-direction: column;
-				font-size: 0.88rem;
-				opacity: 0;
-				transform: scale(0.97) translateY(-4px);
-				transform-origin: top left;
-				pointer-events: none;
-				transition: opacity 0.15s ease, transform 0.2s var(--ease-spring);
-				user-select: none;
-				-webkit-user-select: none;
-			}
-			.menu-dropdown.open { opacity: 1; transform: none; pointer-events: auto; }
-			.menu-dropdown-item {
-				background: none; border: none;
-				font: inherit; text-align: left;
-				color: var(--w-90);
-				cursor: pointer;
-				padding: 6px 10px;
-				border-radius: 6px;
-			}
-			.menu-dropdown-item:hover { background: var(--w-20); color: #fff; }
-			.menu-dropdown-sep { height: 1px; margin: 4px 6px; background: var(--w-15); }
 
 			/**************** 欢迎 ****************/
 			.welcome {
@@ -900,6 +875,129 @@ body::after {
 
 
 /* ===================================================================
+   Settings panel — wallpaper, browser sync and backup, opened from the
+   menu bar or the dock. A floating window like About, positioned with
+   left/top. Wide rather than tall: the wallpapers in one row, and the
+   sections below side by side.
+   =================================================================== */
+.settings-panel {
+    position: fixed;
+    top: 0; left: 0;
+    z-index: 500;
+    width: 820px;
+    max-width: calc(100vw - 48px);
+    scale: 0.96;
+    pointer-events: none;
+    transition: scale 0.3s var(--ease-spring);
+}
+.settings-panel.open { scale: 1; pointer-events: auto; }
+.settings-card {
+    background: var(--surface-window);
+    backdrop-filter: var(--blur-panel);
+    -webkit-backdrop-filter: var(--blur-panel);
+    border: 1px solid var(--w-15);
+    border-radius: 16px;
+    box-shadow: var(--shadow-window);
+    max-height: calc(100vh - 76px);
+    overflow-y: auto;
+    color: var(--w-82);
+    opacity: 0;
+    transition: opacity 0.28s ease;
+}
+.settings-panel.open .settings-card { opacity: 1; }
+.settings-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 16px;
+    background: var(--w-05);
+    border-bottom: 1px solid var(--w-12);
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+}
+.settings-panel.grabbing .settings-bar { cursor: grabbing; }
+.settings-bar button { cursor: pointer; }
+.settings-bar h2 { font-size: 1.3rem; font-weight: 500; letter-spacing: 0.01em; color: #fff; }
+
+.settings-section { padding: 18px 20px 20px; }
+.settings-section + .settings-section { border-top: 1px solid var(--w-12); }
+/* Columns side by side: Browser Sync over Menu Bar, then Backup. */
+.settings-body { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; border-top: 1px solid var(--w-12); }
+.settings-body > * + * { border-left: 1px solid var(--w-12); }
+.settings-label {
+    margin-bottom: 12px;
+    font-size: 0.62rem; letter-spacing: 2.5px; text-transform: uppercase; font-weight: 600;
+    color: var(--w-55);
+}
+
+.wallpaper-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; }
+.wallpaper-swatch {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    padding: 0;
+    background: none; border: none;
+    font: inherit; color: var(--w-62);
+    cursor: pointer;
+}
+.wallpaper-preview {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border-radius: 8px;
+    box-shadow: 0 0 0 1px var(--w-15), 0 2px 8px var(--k-30);
+    transition: box-shadow 0.12s, transform 0.18s var(--ease-spring);
+}
+.wallpaper-swatch:hover .wallpaper-preview { transform: translateY(-2px); }
+.wallpaper-swatch.sel .wallpaper-preview { box-shadow: 0 0 0 2px #0a84ff, 0 2px 8px var(--k-30); }
+.wallpaper-name { font-size: 0.74rem; }
+.wallpaper-swatch.sel .wallpaper-name { color: #fff; }
+
+.settings-row { display: flex; align-items: center; gap: 16px; cursor: pointer; }
+.settings-row-text { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+.settings-row-title { font-size: 0.9rem; color: #fff; }
+.settings-row-note { font-size: 0.76rem; line-height: 1.45; color: var(--w-55); }
+.settings-row + .settings-row { margin-top: 16px; }
+.settings-btn {
+    flex-shrink: 0;
+    height: 28px;
+    padding: 0 14px;
+    border-radius: 7px;
+    border: 1px solid var(--w-15);
+    background: var(--w-08);
+    color: var(--w-90);
+    font: inherit; font-size: 0.82rem; font-weight: 500;
+    cursor: pointer;
+    transition: background 0.12s;
+}
+.settings-btn:hover { background: var(--w-15); }
+.settings-btn.danger { color: var(--danger); }
+.settings-btn.danger:hover { background: rgba(255,90,90,0.16); }
+
+/* macOS-style switch on a plain checkbox */
+.switch {
+    appearance: none; -webkit-appearance: none;
+    position: relative;
+    flex-shrink: 0;
+    width: 38px; height: 22px;
+    border-radius: 11px;
+    background: var(--w-20);
+    cursor: pointer;
+    transition: background 0.18s ease;
+}
+.switch::before {
+    content: '';
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 3px var(--k-35);
+    transition: translate 0.2s var(--ease-spring);
+}
+.switch:checked { background: #0a84ff; }
+.switch:checked::before { translate: 16px 0; }
+.switch:focus-visible { outline: 2px solid #0a84ff; outline-offset: 2px; }
+
+/* ===================================================================
    About panel — the profile card, opened from the ✦ Bookmark OS
    wordmark. Every selector is scoped under .about-panel so the card
    styles never touch the desktop. Content is authored as static HTML
@@ -1057,8 +1155,8 @@ body::after {
     .dock,
     .all-apps,
     .about-panel,
+    .settings-panel,
     .cal-popover,
-    .menu-dropdown,
     .welcome,
     .desktop-icon-ghost { display: none !important; }
 

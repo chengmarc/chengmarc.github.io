@@ -1,45 +1,11 @@
 // ─────────────────────────────────────────────────────────────────────
-// Config reset — shared by Import and Restore
+// Config reset — shared by Import, Restore and Sync
 // ─────────────────────────────────────────────────────────────────────
 function applyConfig(cfg) {
 	replaceState(cfg);
 	millerSel = 0;
 	renderDesktopIcons(); renderDock(); renderAllBookmarks();
 	exitDesktopEdit();
-}
-
-// ─────────────────────────────────────────────────────────────────────
-// File menu — Import / Export / Restore, plus Sync in the extension
-// ─────────────────────────────────────────────────────────────────────
-function setupFileMenu() {
-	const btn  = $('mbFile');
-	const menu = $('fileMenu');
-
-	// Sync reads the browser's bookmarks, which only the extension can do.
-	if (!EXT_API) $('mbSync').remove();
-
-	const open  = () => {
-		menu.style.left = btn.getBoundingClientRect().left + 'px';
-		menu.classList.add('open'); btn.classList.add('active');
-	};
-	const close = () => { menu.classList.remove('open'); btn.classList.remove('active'); };
-
-	btn.addEventListener('click', e => { e.stopPropagation(); menu.classList.contains('open') ? close() : open(); });
-	menu.addEventListener('click', e => { e.stopPropagation(); if (e.target.closest('.menu-dropdown-item')) close(); });
-	document.addEventListener('click',   () => { if (menu.classList.contains('open')) close(); });
-	document.addEventListener('keydown', e => { if (e.key === 'Escape' && menu.classList.contains('open')) close(); });
-
-	$('mbImport').addEventListener('click', () => importConfig(applyConfig));
-	$('mbExport').addEventListener('click', exportConfig);
-
-	$('mbRestore').addEventListener('click', () => {
-		if (!confirm('Restore the desktop, dock and all apps to default? This cannot be undone.')) return;
-		// Drop the cached favicons so a restore re-fetches every icon fresh.
-		clearFaviconCache();
-		applyConfig(CFG);
-	});
-
-	if (EXT_API) $('mbSync').addEventListener('click', () => syncFromBrowser(applyConfig));
 }
 
 // ─────────────────────────────────────────────────────────────────────
@@ -83,8 +49,6 @@ function setupEvents() {
 	$('mbAdd').addEventListener('click', () => {
 		renderAllBookmarks(); openPickMode();
 	});
-
-	setupFileMenu();
 
 	$('dock').addEventListener('click', e => {
 		const del  = e.target.closest('.dock-icon-delete');
@@ -175,6 +139,7 @@ function setupEvents() {
 	document.addEventListener('keydown', e => {
 		if (e.key !== 'Escape') return;
 		if ($('aboutPanel').classList.contains('open')) { closeAboutPanel(); return; }
+		if ($('settingsPanel').classList.contains('open')) { closeSettingsPanel(); return; }
 		if (pickMode)       { closePickMode();   return; }
 		if (bmEditing)      { exitBmEdit();      return; }
 		if ($('allApps').classList.contains('open')) { closeAllApps(); return; }
@@ -185,6 +150,7 @@ function setupEvents() {
 // ─────────────────────────────────────────────────────────────────────
 // Init
 // ─────────────────────────────────────────────────────────────────────
+loadSettings();
 loadState();
 renderDesktopIcons();
 renderDock();
@@ -200,6 +166,8 @@ setupCalendar();
 setupBookmarkWindowDrag();
 setupBookmarkEditDrag();
 setupAboutPanel();
+setupSettings();
+startAutoSync();
 
 // ─────────────────────────────────────────────────────────────────────
 // Boot splash — a flat cover over the first-run assembly. It lifts on a

@@ -62,8 +62,8 @@
 		<div class="menu-bar" id="menuBar">
 			<div class="menu-left">
 				<button class="menu-item menu-brand" id="mbBrand">✦ About This OS</button>
-				<button class="menu-item" id="mbFile">Menu</button>
-				<button class="menu-item" id="mbBookmarks">All Apps</button>
+				<button class="menu-item" id="mbSettings"><svg class="menu-ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="4.6"/><circle cx="8" cy="8" r="1.9"/><path stroke-width="2.2" d="M12.60 8.00L14.90 8.00 M11.25 11.25L12.88 12.88 M8.00 12.60L8.00 14.90 M4.75 11.25L3.12 12.88 M3.40 8.00L1.10 8.00 M4.75 4.75L3.12 3.12 M8.00 3.40L8.00 1.10 M11.25 4.75L12.88 3.12"/></svg>Settings</button>
+				<button class="menu-item" id="mbBookmarks"><svg class="menu-ico" width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><rect x="0.5" y="0.5" width="4" height="4" rx="1.1"/><rect x="6" y="0.5" width="4" height="4" rx="1.1"/><rect x="11.5" y="0.5" width="4" height="4" rx="1.1"/><rect x="0.5" y="6" width="4" height="4" rx="1.1"/><rect x="6" y="6" width="4" height="4" rx="1.1"/><rect x="11.5" y="6" width="4" height="4" rx="1.1"/><rect x="0.5" y="11.5" width="4" height="4" rx="1.1"/><rect x="6" y="11.5" width="4" height="4" rx="1.1"/><rect x="11.5" y="11.5" width="4" height="4" rx="1.1"/></svg>All Apps</button>
 				<button class="menu-item" id="mbAdd">Add Icon</button>
 				<button class="menu-item" id="mbEdit">Edit Desktop</button>
 			</div>
@@ -90,20 +90,12 @@
 			</div>
 		</div>
 
-		<div class="menu-dropdown glass" id="fileMenu">
-			<button class="menu-dropdown-item" id="mbImport">Import…</button>
-			<button class="menu-dropdown-item" id="mbExport">Export…</button>
-			<div class="menu-dropdown-sep"></div>
-			<button class="menu-dropdown-item" id="mbRestore">Restore Defaults</button>
-			<button class="menu-dropdown-item" id="mbSync">Sync from Browser</button>
-		</div>
-
 		<div class="welcome" id="welcome">
 			<div class="welcome-card">
 				<img class="welcome-icon" src="src/app-icon.svg" alt="" width="84" height="84">
 				<h2>Welcome to Bookmark OS</h2>
 				<p>Bring in your browser's Bookmarks bar now: each folder becomes a category, and bookmarks outside folders go on the desktop.</p>
-				<p class="welcome-note">Or explore the sample desktop first. You can sync any time from Menu → Sync from Browser.</p>
+				<p class="welcome-note">Or explore the sample desktop first. You can sync any time from Settings → Sync Now.</p>
 				<div class="welcome-actions">
 					<button class="welcome-btn" id="welcomeExplore">Explore First</button>
 					<button class="welcome-btn primary" id="welcomeSync">Sync with Browser</button>
@@ -147,6 +139,78 @@
 		</div>
 
 		<div class="dock" id="dock"></div>
+
+		<div class="settings-panel" id="settingsPanel">
+			<div class="settings-card">
+				<div class="settings-bar" id="settingsBar">
+					<div class="traffic-lights">
+						<button class="tl tl-close"    id="settingsClose" aria-label="Close"></button>
+						<button class="tl tl-minimize" id="settingsMin"   aria-label="Minimize"></button>
+						<button class="tl tl-zoom"     id="settingsZoom"  aria-label="Zoom"></button>
+					</div>
+					<h2>Settings</h2>
+				</div>
+				<section class="settings-section">
+					<p class="settings-label">Wallpaper</p>
+					<div class="wallpaper-grid" id="wallpaperGrid"></div>
+				</section>
+				<div class="settings-body">
+					<div class="settings-col">
+						<section class="settings-section" id="settingsSync">
+							<p class="settings-label">Browser Sync</p>
+							<div class="settings-row">
+								<span class="settings-row-text">
+									<span class="settings-row-title">Sync from browser</span>
+									<span class="settings-row-note">Replace the desktop icons and app categories with your Bookmarks bar, once.</span>
+								</span>
+								<button class="settings-btn" id="syncNowBtn">Sync Now</button>
+							</div>
+							<label class="settings-row">
+								<span class="settings-row-text">
+									<span class="settings-row-title">Always sync with browser</span>
+									<span class="settings-row-note">Follow the Bookmarks bar on every new tab and every change. Icons keep their place; edits made here are replaced.</span>
+								</span>
+								<input type="checkbox" class="switch" id="autoSyncToggle">
+							</label>
+						</section>
+						<section class="settings-section">
+							<p class="settings-label">Menu Bar</p>
+							<label class="settings-row">
+								<span class="settings-row-text">
+									<span class="settings-row-title">Show location and IP</span>
+									<span class="settings-row-note">Your city, flag and public IP. While off, nothing is looked up from your IP.</span>
+								</span>
+								<input type="checkbox" class="switch" id="showIPToggle">
+							</label>
+						</section>
+					</div>
+					<section class="settings-section">
+						<p class="settings-label">Backup &amp; Restore</p>
+						<div class="settings-row">
+							<span class="settings-row-text">
+								<span class="settings-row-title">Export</span>
+								<span class="settings-row-note">Save your desktop, dock and apps as a config.js file.</span>
+							</span>
+							<button class="settings-btn" id="exportBtn">Export…</button>
+						</div>
+						<div class="settings-row">
+							<span class="settings-row-text">
+								<span class="settings-row-title">Import</span>
+								<span class="settings-row-note">Load a config.js file. It replaces your desktop, dock and apps.</span>
+							</span>
+							<button class="settings-btn" id="importBtn">Import…</button>
+						</div>
+						<div class="settings-row">
+							<span class="settings-row-text">
+								<span class="settings-row-title">Restore defaults</span>
+								<span class="settings-row-note">Put the desktop, dock and all apps back as they first came.</span>
+							</span>
+							<button class="settings-btn danger" id="restoreBtn">Restore</button>
+						</div>
+					</section>
+				</div>
+			</div>
+		</div>
 
 		<div class="about-panel" id="aboutPanel">
 			<div class="card">
@@ -465,7 +529,7 @@
     }
     </script>
 
-	<!-- defer: download all eight in parallel during HTML parse, then execute
+	<!-- defer: download all nine in parallel during HTML parse, then execute
 	     in source order after the DOM is ready (app.js's init runs last). -->
 	<script defer src="src/scripts/util.js"></script>
 	<script defer src="src/scripts/config.js"></script>
@@ -474,6 +538,7 @@
 	<script defer src="src/scripts/desktop.js"></script>
 	<script defer src="src/scripts/bookmarks.js"></script>
 	<script defer src="src/scripts/menubar.js"></script>
+	<script defer src="src/scripts/settings.js"></script>
 	<script defer src="src/scripts/app.js"></script>
 </body>
 </html>

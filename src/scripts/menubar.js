@@ -54,9 +54,21 @@ function startStatus() {
 		bat.title = 'Battery unavailable';
 	}
 
-	const locEl = $('mbLoc');
-	const ipEl  = $('mbIP');
-	let currentIP = '';
+	setupIPChip();
+	showIPInfo(settings.showIP);
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Menu-bar location and IP — everything that needs the user's IP. Settings
+// can hide both; while hidden, ipwho.is, api.ipify.org and flagcdn.com are
+// never asked, and turning them back on asks then.
+// ─────────────────────────────────────────────────────────────────────
+let currentIP = '';
+let ipLooked  = false;   // the lookups run once, the first time they're shown
+
+// The IP chip copies the address on click.
+function setupIPChip() {
+	const ipEl = $('mbIP');
 	ipEl.addEventListener('click', () => {
 		if (!currentIP || !navigator.clipboard) return;
 		navigator.clipboard.writeText(currentIP).then(() => {
@@ -69,11 +81,14 @@ function startStatus() {
 			}, 1000);
 		}).catch(() => {});
 	});
+}
 
-	const showIP = ip => {
-		if (ip) { currentIP = ip; ipEl.textContent = ip; ipEl.title = 'Click to copy IP'; }
-		else    { ipEl.textContent = ''; ipEl.title = 'IP unavailable'; }
-	};
+function showIPInfo(on) {
+	const locEl = $('mbLoc');
+	const ipEl  = $('mbIP');
+	locEl.hidden = ipEl.hidden = !on;
+	if (!on || ipLooked) return;
+	ipLooked = true;
 
 	// ipwho.is is dual-stack, so on an IPv6 network it sees (and returns) the
 	// IPv6 address. api.ipify.org has no AAAA record — reaching it forces IPv4 —
@@ -108,7 +123,10 @@ function startStatus() {
 			return null;
 		});
 
-	ipv4.then(ip => ip ? showIP(ip) : geo.then(showIP));
+	ipv4.then(ip => ip || geo).then(ip => {
+		if (ip) { currentIP = ip; ipEl.textContent = ip; ipEl.title = 'Click to copy IP'; }
+		else    { ipEl.textContent = ''; ipEl.title = 'IP unavailable'; }
+	});
 }
 
 // ─────────────────────────────────────────────────────────────────────
@@ -168,15 +186,9 @@ function setupCalendar() {
 // ─────────────────────────────────────────────────────────────────────
 // About panel
 // ─────────────────────────────────────────────────────────────────────
-function centerAboutPanel() {
-	const p = $('aboutPanel');
-	const uplift = window.innerHeight * 0.08;
-	p.style.left = Math.round((window.innerWidth  - p.offsetWidth)  / 2) + 'px';
-	p.style.top  = Math.round(Math.max(40, (window.innerHeight - uplift - p.offsetHeight) / 2)) + 'px';
-}
 function openAboutPanel() {
 	$('aboutPanel').classList.add('open');
-	centerAboutPanel();
+	centerPanel($('aboutPanel'));
 }
 function closeAboutPanel() {
 	$('aboutPanel').classList.remove('open');

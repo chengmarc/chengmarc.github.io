@@ -32,6 +32,8 @@ function renderDesktopIcons() {
 // All Apps launcher uses the site's own favicon (a 3×3 grid),
 // rendered through the same tile pipeline as every other icon.
 const ALL_APPS_ICON = 'src/icons/all-apps.svg';
+// Settings sits beside it, fixed the same way: not part of the saved dock.
+const SETTINGS_ICON = 'src/icons/settings.svg';
 
 // Locked items can't be deleted or dragged out. The flag lives on the item, but
 // is also honoured from the default config so a saved dock that predates the
@@ -45,6 +47,7 @@ function renderDock() {
 	dock.innerHTML = '';
 
 	dock.appendChild(el('button', { class: 'dock-all-apps', title: 'All Apps', onclick: openAllBookmarks }, iconArtFromSrc(ALL_APPS_ICON)));
+	dock.appendChild(el('button', { class: 'dock-all-apps', title: 'Settings', onclick: toggleSettingsPanel }, iconArtFromSrc(SETTINGS_ICON)));
 	dock.appendChild(el('div', { class: 'dock-sep' }));
 
 	S.dock.forEach((item, dockIdx) => {

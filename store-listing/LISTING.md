@@ -24,10 +24,11 @@ Bookmark OS turns your new tab page into a clean, macOS-style desktop for the si
 • A dock for your favourites, one click away
 • All Apps: every link organised into folders, with instant search
 • Glassy, colourful icons fetched automatically for every site
-• Sync from Browser: rebuild the desktop and folders from your browser's Bookmarks bar in one click
+• Sync with your browser: rebuild the desktop and folders from your Bookmarks bar in one click, or keep them in step automatically
+• Settings: pick a wallpaper
 • Menu bar with clock and calendar, network and battery status, your location and IP
 
-No account. No sign-in. No permissions at install — bookmark access is only asked for if you use Sync from Browser.
+No account. No sign-in. No permissions at install — bookmark access is only asked for if you turn on browser sync.
 Everything you set up is saved locally in your browser. Export it to a file, and import it on any other computer or browser to get the exact same desktop.
 
 ## Privacy policy URL
@@ -37,11 +38,11 @@ https://github.com/chengmarc/chengmarc.github.io/blob/main/store-listing/PRIVACY
 
 **Single purpose:** Replaces the new tab page with a customizable desktop of the user's bookmarks.
 
-**Permission justification:** `bookmarks` (optional, requested at runtime): read once when the user clicks File → Sync from Browser, to rebuild the new tab desktop and folders from their Bookmarks bar. Bookmarks are read only, never changed, and never leave the browser.
+**Permission justification:** `bookmarks` (optional, requested at runtime): read when the user clicks Settings → Sync Now, or, if they turn on Settings → Always sync with browser, each time the new tab page opens and whenever a bookmark changes, to rebuild the new tab desktop and folders from their Bookmarks bar. Bookmarks are read only, never changed, and never leave the browser.
 
 **Remote code:** No. All JavaScript is packaged in the extension.
 
-**Data usage:** tick **Location** (the new tab page sends the user's IP address to ipwho.is and api.ipify.org to show approximate location and public IP in the menu bar). Then certify:
+**Data usage:** tick **Location** (the new tab page sends the user's IP address to ipwho.is and api.ipify.org to show approximate location and public IP in the menu bar; on by default, and the user can turn it off in Settings → Show location and IP, which stops those requests). Then certify:
 - Not sold to third parties
 - Not used or transferred for purposes unrelated to the item's single purpose
 - Not used or transferred to determine creditworthiness or for lending purposes
@@ -52,4 +53,4 @@ The Firefox build declares `bookmarksInfo` as required data collection, because 
 
 ## Notes for reviewers (optional field)
 
-The extension has no install-time permissions and no background script. The optional `bookmarks` permission is requested only when the user clicks File → Sync from Browser; it is used to read the Bookmarks bar, never to write. It overrides the new tab page with the bundled `index.html`. Network requests are limited to icon lookups (Google favicon service and each site's own favicon), IP/location display (ipwho.is, api.ipify.org) and a flag image (flagcdn.com).
+The extension has no install-time permissions and no background script. The optional `bookmarks` permission is requested only when the user clicks Settings → Sync Now or turns on Settings → Always sync with browser; it is used to read the Bookmarks bar, never to write. Always-on sync listens to bookmark events from the new tab page itself, not from a background script. It overrides the new tab page with the bundled `index.html`. Network requests are limited to icon lookups (Google favicon service and each site's own favicon), IP/location display (ipwho.is, api.ipify.org) and a flag image (flagcdn.com).

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="256" height="256">
+  <!-- Gear on the All Apps tile: eight teeth around a ring, one gradient across the whole gear -->
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#ECECF1"/></linearGradient>
+  <linearGradient id="g" gradientUnits="userSpaceOnUse" x1="10" y1="10" x2="54" y2="54"><stop offset="0" stop-color="#6A5CFF"/><stop offset=".55" stop-color="#FF4FA0"/><stop offset="1" stop-color="#FF9A4D"/></linearGradient>
+  <mask id="hole"><rect width="64" height="64" fill="#fff"/><circle cx="32" cy="32" r="7.5" fill="#000"/></mask></defs>
+  <rect width="64" height="64" rx="14" fill="url(#bg)"/>
+  <g fill="url(#g)" mask="url(#hole)">
+    <circle cx="32" cy="32" r="15.5"/>
+    <g id="tooth"><rect x="27.5" y="9" width="9" height="10" rx="2.5"/><rect x="27.5" y="45" width="9" height="10" rx="2.5"/></g>
+    <use href="#tooth" transform="rotate(45 32 32)"/>
+    <use href="#tooth" transform="rotate(90 32 32)"/>
+    <use href="#tooth" transform="rotate(135 32 32)"/>
+  </g>
+</svg>
