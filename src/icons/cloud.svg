@@ -1,7 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffad57"/><stop offset="1" stop-color="#ff5e62"/></linearGradient></defs>
-  <rect width="100" height="100" rx="22" fill="url(#bg)"/>
-  <circle cx="78" cy="23" r="10" fill="#38f0ff"/>
-  <path d="M34 63 H67 C74 63 79 58 79 51 C79 44 74 39 67 39 C64 29 55 24 46 27 C39 29 35 34 34 41 C27 42 22 47 22 54 C22 59 27 63 34 63 Z" fill="#eff6ff"/>
-  <rect x="1.5" y="1.5" width="97" height="97" rx="20.5" fill="none" stroke="#ffffff" stroke-opacity=".22" stroke-width="3"/>
+  <!-- Fallback tile (cloud): after the Big Sur icon style — a large, shaded object on a vivid,
+       hue-shifting background. Full-bleed square: the page clips every icon to its squircle. -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8AD8FF"/><stop offset="1" stop-color="#2577F0"/></linearGradient>
+    <radialGradient id="light" cx=".5" cy="-.1" r="1"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset=".6" stop-color="#fff" stop-opacity="0"/></radialGradient>
+    <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E9EEF5"/></linearGradient>
+    <filter id="drop" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="2.2" stdDeviation="2.2" flood-color="#0F4AA8" flood-opacity=".55"/></filter>
+    <filter id="soft" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="1" stdDeviation="1" flood-color="#0F4AA8" flood-opacity=".45"/></filter>
+    <linearGradient id="cl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#DCEBFA"/></linearGradient>
+  </defs>
+  <rect width="100" height="100" fill="url(#bg)"/>
+  <rect width="100" height="100" fill="url(#light)"/>
+  <g fill="#fff" opacity=".35"><circle cx="52.76" cy="23.12" r="6.76"/><circle cx="61.6" cy="17.92" r="9.36"/><circle cx="68.36" cy="23.64" r="5.98"/><rect x="46" y="23.12" width="28.08" height="7.02" rx="3.51"/></g>
+  <g filter="url(#drop)" fill="url(#cl)"><circle cx="36.76" cy="61.12" r="13.26"/><circle cx="54.1" cy="50.92" r="18.36"/><circle cx="67.36" cy="62.14" r="11.73"/><rect x="23.5" y="61.12" width="55.08" height="13.77" rx="6.88"/></g>
 </svg>

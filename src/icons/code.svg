@@ -1,9 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff9b42"/><stop offset="1" stop-color="#f0650c"/></linearGradient></defs>
-  <rect width="100" height="100" rx="22" fill="url(#bg)"/>
-  <circle cx="78" cy="23" r="10" fill="#38f0ff"/>
-  <path d="M38 38 L26 50 L38 62" fill="none" stroke="#f8fafc" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M62 38 L74 50 L62 62" fill="none" stroke="#f8fafc" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M54 31 L46 69" fill="none" stroke="#f8fafc" stroke-width="6" stroke-linecap="round"/>
-  <rect x="1.5" y="1.5" width="97" height="97" rx="20.5" fill="none" stroke="#ffffff" stroke-opacity=".22" stroke-width="3"/>
+  <!-- Fallback tile (code): after the Big Sur icon style — a large, shaded object on a vivid,
+       hue-shifting background. Full-bleed square: the page clips every icon to its squircle. -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6A7BFF"/><stop offset="1" stop-color="#7A2FE0"/></linearGradient>
+    <radialGradient id="light" cx=".5" cy="-.1" r="1"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset=".6" stop-color="#fff" stop-opacity="0"/></radialGradient>
+    <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E9EEF5"/></linearGradient>
+    <filter id="drop" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="2.2" stdDeviation="2.2" flood-color="#3C1D9C" flood-opacity=".55"/></filter>
+    <filter id="soft" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="1" stdDeviation="1" flood-color="#3C1D9C" flood-opacity=".45"/></filter>
+    <linearGradient id="win" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E8EBF2"/></linearGradient><linearGradient id="ink" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6A7BFF"/><stop offset="1" stop-color="#5A2FD8"/></linearGradient>
+  </defs>
+  <rect width="100" height="100" fill="url(#bg)"/>
+  <rect width="100" height="100" fill="url(#light)"/>
+  <g filter="url(#drop)"><rect x="16" y="21" width="68" height="58" rx="8" fill="url(#win)"/></g>
+  <path d="M16 29A8 8 0 0 1 24 21H76A8 8 0 0 1 84 29V33H16Z" fill="#F1F2F6"/>
+  <path d="M16 33H84" stroke="#D9DCE4" stroke-width=".8"/>
+  <circle cx="23.5" cy="27" r="2.3" fill="#FF5F57"/><circle cx="30.5" cy="27" r="2.3" fill="#FEBC2E"/><circle cx="37.5" cy="27" r="2.3" fill="#28C840"/>
+  <g fill="none" stroke="url(#ink)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M39 44L30 55L39 66"/><path d="M61 44L70 55L61 66"/><path d="M54 41L46 69"/>
+  </g>
 </svg>

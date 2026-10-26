@@ -1,9 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a865ff"/><stop offset="1" stop-color="#7128f2"/></linearGradient></defs>
-  <rect width="100" height="100" rx="22" fill="url(#bg)"/>
-  <circle cx="78" cy="23" r="10" fill="#ffd60a"/>
-  <path d="M29 31 H48 C55 31 60 36 60 43 V73 H39 C33 73 29 69 29 63 Z" fill="none" stroke="#f5f3ff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M60 35 H68 C71 35 73 37 73 40 V70 C73 72 72 73 70 73 H60" fill="none" stroke="#f5f3ff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M39 44 H51 M39 56 H51" fill="none" stroke="#f5f3ff" stroke-width="5" stroke-linecap="round"/>
-  <rect x="1.5" y="1.5" width="97" height="97" rx="20.5" fill="none" stroke="#ffffff" stroke-opacity=".22" stroke-width="3"/>
+  <!-- Fallback tile (book-alt): after the Big Sur icon style — a large, shaded object on a vivid,
+       hue-shifting background. Full-bleed square: the page clips every icon to its squircle. -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D58BF5"/><stop offset="1" stop-color="#7A2FD0"/></linearGradient>
+    <radialGradient id="light" cx=".5" cy="-.1" r="1"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset=".6" stop-color="#fff" stop-opacity="0"/></radialGradient>
+    <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E9EEF5"/></linearGradient>
+    <filter id="drop" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="2.2" stdDeviation="2.2" flood-color="#4A1590" flood-opacity=".55"/></filter>
+    <filter id="soft" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="1" stdDeviation="1" flood-color="#4A1590" flood-opacity=".45"/></filter>
+    <linearGradient id="pgL" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#EDE3D6"/></linearGradient><linearGradient id="pgR" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#EDE3D6"/><stop offset="1" stop-color="#FFFFFF"/></linearGradient>
+  </defs>
+  <rect width="100" height="100" fill="url(#bg)"/>
+  <rect width="100" height="100" fill="url(#light)"/>
+  <g filter="url(#drop)">
+    <path d="M48.5 30C40 24.5 28 23.5 17 26V73C28 70.5 40 71.5 48.5 77Z" fill="url(#pgL)"/>
+    <path d="M51.5 30C60 24.5 72 23.5 83 26V73C72 70.5 60 71.5 51.5 77Z" fill="url(#pgR)"/>
+  </g>
+  <g fill="none" stroke="#C9B9A4" stroke-width="1.1" stroke-linecap="round" opacity=".8">
+    <path d="M23 37C31 35.5 38 36 44 38.5"/><path d="M23 44C31 42.5 38 43 44 45.5"/><path d="M23 51C31 49.5 38 50 44 52.5"/>
+    <path d="M56 38.5C62 36 69 35.5 77 37"/><path d="M56 45.5C62 43 69 42.5 77 44"/>
+  </g>
+  <path d="M64 27.5V50L68.5 46L73 50V26.2" fill="#FF375F" filter="url(#soft)"/>
 </svg>

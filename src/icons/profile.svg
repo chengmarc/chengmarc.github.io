@@ -1,8 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffc42e"/><stop offset="1" stop-color="#ec8c00"/></linearGradient></defs>
-  <rect width="100" height="100" rx="22" fill="url(#bg)"/>
-  <circle cx="78" cy="23" r="10" fill="#38f0ff"/>
-  <circle cx="50" cy="40" r="12" fill="none" stroke="#fefce8" stroke-width="6"/>
-  <path d="M28 72 C32 60 39 55 50 55 C61 55 68 60 72 72" fill="none" stroke="#fefce8" stroke-width="6" stroke-linecap="round"/>
-  <rect x="1.5" y="1.5" width="97" height="97" rx="20.5" fill="none" stroke="#ffffff" stroke-opacity=".22" stroke-width="3"/>
+  <!-- Fallback tile (profile): after the Big Sur icon style — a large, shaded object on a vivid,
+       hue-shifting background. Full-bleed square: the page clips every icon to its squircle. -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B89670"/><stop offset="1" stop-color="#7A5634"/></linearGradient>
+    <radialGradient id="light" cx=".5" cy="-.1" r="1"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset=".6" stop-color="#fff" stop-opacity="0"/></radialGradient>
+    <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E9EEF5"/></linearGradient>
+    <filter id="drop" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="2.2" stdDeviation="2.2" flood-color="#4A3018" flood-opacity=".55"/></filter>
+    <filter id="soft" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="1" stdDeviation="1" flood-color="#4A3018" flood-opacity=".45"/></filter>
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#EEE9E2"/></linearGradient><linearGradient id="who" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C7C7CE"/><stop offset="1" stop-color="#8E8E96"/></linearGradient><clipPath id="ph"><circle cx="46" cy="45" r="15"/></clipPath>
+  </defs>
+  <rect width="100" height="100" fill="url(#bg)"/>
+  <rect width="100" height="100" fill="url(#light)"/>
+  <g filter="url(#drop)"><rect x="71" y="28" width="12" height="9" rx="2.5" fill="#FF453A"/><rect x="71" y="39" width="12" height="9" rx="2.5" fill="#FF9F0A"/><rect x="71" y="50" width="12" height="9" rx="2.5" fill="#30D158"/><rect x="71" y="61" width="12" height="9" rx="2.5" fill="#0A84FF"/><rect x="17" y="21" width="59" height="58" rx="7" fill="url(#card)"/></g>
+  <circle cx="46" cy="45" r="15" fill="#E4E0DA"/>
+  <g clip-path="url(#ph)" fill="url(#who)"><circle cx="46" cy="41" r="6.5"/><path d="M32 62C32 53 38 49.5 46 49.5S60 53 60 62Z"/></g>
+  <rect x="30" y="65" width="32" height="3.6" rx="1.8" fill="#B9B2A8"/><rect x="35" y="71" width="22" height="3" rx="1.5" fill="#D3CDC4"/>
 </svg>

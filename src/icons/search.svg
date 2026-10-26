@@ -1,8 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd84a"/><stop offset="1" stop-color="#f2a900"/></linearGradient></defs>
-  <rect width="100" height="100" rx="22" fill="url(#bg)"/>
-  <circle cx="78" cy="23" r="10" fill="#38f0ff"/>
-  <circle cx="45" cy="43" r="16" fill="none" stroke="#eff6ff" stroke-width="6" stroke-linecap="round"/>
-  <path d="M58 56 L70 68" fill="none" stroke="#eff6ff" stroke-width="6" stroke-linecap="round"/>
-  <rect x="1.5" y="1.5" width="97" height="97" rx="20.5" fill="none" stroke="#ffffff" stroke-opacity=".22" stroke-width="3"/>
+  <!-- Fallback tile (search): after the Big Sur icon style — a large, shaded object on a vivid,
+       hue-shifting background. Full-bleed square: the page clips every icon to its squircle. -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#43D1FF"/><stop offset="1" stop-color="#1C64F2"/></linearGradient>
+    <radialGradient id="light" cx=".5" cy="-.1" r="1"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset=".6" stop-color="#fff" stop-opacity="0"/></radialGradient>
+    <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E9EEF5"/></linearGradient>
+    <filter id="drop" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="2.2" stdDeviation="2.2" flood-color="#0B3FA8" flood-opacity=".55"/></filter>
+    <filter id="soft" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="1" stdDeviation="1" flood-color="#0B3FA8" flood-opacity=".45"/></filter>
+    <linearGradient id="ring" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#D5DCE6"/></linearGradient><linearGradient id="handle" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F2F4F7"/><stop offset="1" stop-color="#AEB6C2"/></linearGradient><radialGradient id="lens" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#fff" stop-opacity=".4"/><stop offset="1" stop-color="#7CC8FF" stop-opacity=".18"/></radialGradient>
+  </defs>
+  <rect width="100" height="100" fill="url(#bg)"/>
+  <rect width="100" height="100" fill="url(#light)"/>
+  <g filter="url(#drop)">
+    <path d="M60 60L77 77" stroke="url(#handle)" stroke-width="13" stroke-linecap="round"/>
+    <path d="M71.5 71.5L77 77" stroke="#7D8796" stroke-width="13" stroke-linecap="round"/>
+    <circle cx="42" cy="42" r="22" fill="url(#lens)"/>
+    <circle cx="42" cy="42" r="22" fill="none" stroke="url(#ring)" stroke-width="9"/>
+  </g>
+  <circle cx="42" cy="42" r="17.4" fill="none" stroke="#0B3FA8" stroke-opacity=".35" stroke-width="1.2"/>
+  <circle cx="42" cy="42" r="26.6" fill="none" stroke="#0B3FA8" stroke-opacity=".25" stroke-width="1"/>
+  <path d="M29.5 37A14 14 0 0 1 40 28" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" opacity=".9"/>
 </svg>

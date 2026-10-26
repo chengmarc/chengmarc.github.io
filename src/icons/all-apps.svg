@@ -1,15 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="256" height="256">
-  <!-- 3x3 grid: cell=12, gap=5, stride=17, start=9; one gradient spans all nine squares -->
-  <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#ECECF1"/></linearGradient>
-  <linearGradient id="g" gradientUnits="userSpaceOnUse" x1="9" y1="9" x2="55" y2="55"><stop offset="0" stop-color="#6A5CFF"/><stop offset=".55" stop-color="#FF4FA0"/><stop offset="1" stop-color="#FF9A4D"/></linearGradient></defs>
-  <rect width="64" height="64" rx="14" fill="url(#bg)"/>
-  <rect x="9" y="9" width="12" height="12" rx="3.5" fill="url(#g)"/>
-  <rect x="26" y="9" width="12" height="12" rx="3.5" fill="url(#g)"/>
-  <rect x="43" y="9" width="12" height="12" rx="3.5" fill="url(#g)"/>
-  <rect x="9" y="26" width="12" height="12" rx="3.5" fill="url(#g)"/>
-  <rect x="26" y="26" width="12" height="12" rx="3.5" fill="url(#g)"/>
-  <rect x="43" y="26" width="12" height="12" rx="3.5" fill="url(#g)"/>
-  <rect x="9" y="43" width="12" height="12" rx="3.5" fill="url(#g)"/>
-  <rect x="26" y="43" width="12" height="12" rx="3.5" fill="url(#g)"/>
-  <rect x="43" y="43" width="12" height="12" rx="3.5" fill="url(#g)"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="256" height="256">
+  <!-- All Apps, after macOS Launchpad (Big Sur–Sequoia): nine coloured tiles on light grey.
+       Full-bleed square: the page clips every icon to its squircle. -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FDFDFE"/><stop offset="1" stop-color="#DCDDE3"/></linearGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".12"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <filter id="lift" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#1c2340" flood-opacity=".22"/></filter>
+    <linearGradient id="c0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF6B5E"/><stop offset="1" stop-color="#F0352B"/></linearGradient><linearGradient id="c1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB340"/><stop offset="1" stop-color="#FF8A00"/></linearGradient><linearGradient id="c2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE45C"/><stop offset="1" stop-color="#FFC800"/></linearGradient><linearGradient id="c3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF6B8E"/><stop offset="1" stop-color="#F2365F"/></linearGradient><linearGradient id="c4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C27BFF"/><stop offset="1" stop-color="#9B3FF0"/></linearGradient><linearGradient id="c5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5EE07F"/><stop offset="1" stop-color="#28C04D"/></linearGradient><linearGradient id="c6" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7C7AFF"/><stop offset="1" stop-color="#4F4CE0"/></linearGradient><linearGradient id="c7" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3DA3FF"/><stop offset="1" stop-color="#0A72F0"/></linearGradient><linearGradient id="c8" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7FE3FF"/><stop offset="1" stop-color="#2EBDEB"/></linearGradient>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <g filter="url(#lift)"><rect x="94" y="94" width="236" height="236" rx="62" fill="url(#c0)"/><rect x="94" y="94" width="236" height="236" rx="62" fill="url(#sheen)"/><rect x="394" y="94" width="236" height="236" rx="62" fill="url(#c1)"/><rect x="394" y="94" width="236" height="236" rx="62" fill="url(#sheen)"/><rect x="694" y="94" width="236" height="236" rx="62" fill="url(#c2)"/><rect x="694" y="94" width="236" height="236" rx="62" fill="url(#sheen)"/><rect x="94" y="394" width="236" height="236" rx="62" fill="url(#c3)"/><rect x="94" y="394" width="236" height="236" rx="62" fill="url(#sheen)"/><rect x="394" y="394" width="236" height="236" rx="62" fill="url(#c4)"/><rect x="394" y="394" width="236" height="236" rx="62" fill="url(#sheen)"/><rect x="694" y="394" width="236" height="236" rx="62" fill="url(#c5)"/><rect x="694" y="394" width="236" height="236" rx="62" fill="url(#sheen)"/><rect x="94" y="694" width="236" height="236" rx="62" fill="url(#c6)"/><rect x="94" y="694" width="236" height="236" rx="62" fill="url(#sheen)"/><rect x="394" y="694" width="236" height="236" rx="62" fill="url(#c7)"/><rect x="394" y="694" width="236" height="236" rx="62" fill="url(#sheen)"/><rect x="694" y="694" width="236" height="236" rx="62" fill="url(#c8)"/><rect x="694" y="694" width="236" height="236" rx="62" fill="url(#sheen)"/></g>
 </svg>

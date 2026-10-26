@@ -1,14 +1,25 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="256" height="256">
-  <!-- Gear on the All Apps tile: eight teeth around a ring, one gradient across the whole gear -->
-  <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#ECECF1"/></linearGradient>
-  <linearGradient id="g" gradientUnits="userSpaceOnUse" x1="10" y1="10" x2="54" y2="54"><stop offset="0" stop-color="#6A5CFF"/><stop offset=".55" stop-color="#FF4FA0"/><stop offset="1" stop-color="#FF9A4D"/></linearGradient>
-  <mask id="hole"><rect width="64" height="64" fill="#fff"/><circle cx="32" cy="32" r="7.5" fill="#000"/></mask></defs>
-  <rect width="64" height="64" rx="14" fill="url(#bg)"/>
-  <g fill="url(#g)" mask="url(#hole)">
-    <circle cx="32" cy="32" r="15.5"/>
-    <g id="tooth"><rect x="27.5" y="9" width="9" height="10" rx="2.5"/><rect x="27.5" y="45" width="9" height="10" rx="2.5"/></g>
-    <use href="#tooth" transform="rotate(45 32 32)"/>
-    <use href="#tooth" transform="rotate(90 32 32)"/>
-    <use href="#tooth" transform="rotate(135 32 32)"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="256" height="256">
+  <!-- Settings, after macOS System Settings (Big Sur–Sequoia): a machined silver gear on graphite.
+       Full-bleed square: the page clips every icon to its squircle. -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6E727A"/><stop offset="1" stop-color="#2E3035"/></linearGradient>
+    <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FAFBFC"/><stop offset=".5" stop-color="#B9BDC4"/><stop offset="1" stop-color="#E4E6EA"/></linearGradient>
+    <linearGradient id="metal2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#F4F5F7"/><stop offset=".55" stop-color="#A9AEB6"/><stop offset="1" stop-color="#D9DCE0"/></linearGradient>
+    <radialGradient id="well" cx=".5" cy=".42" r=".6"><stop offset="0" stop-color="#4A4D54"/><stop offset="1" stop-color="#202226"/></radialGradient>
+    <filter id="drop" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="14" stdDeviation="14" flood-color="#000" flood-opacity=".45"/></filter>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <circle cx="512" cy="512" r="300" fill="url(#well)"/>
+  <!-- the grooves machined into the well -->
+  <g fill="none" stroke="#fff" stroke-opacity=".07" stroke-width="6">
+    <circle cx="512" cy="512" r="270"/><circle cx="512" cy="512" r="240"/><circle cx="512" cy="512" r="210"/>
   </g>
+  <g filter="url(#drop)">
+    <path d="M512 146L530.5 146.5L532.4 108.5L561.9 111.1L557.2 148.8L575.6 151.6L593.7 155.2L602.2 118.2L630.8 125.9L619.6 162.2L637.2 168.1L654.4 174.8L669.2 139.8L696 152.4L678.7 186.2L695 195L710.8 204.7L731.4 172.8L755.7 189.8L732.8 220.1L747.3 231.6L761.1 243.9L787 216.1L807.9 237L780.1 262.9L792.4 276.7L803.9 291.2L834.2 268.3L851.2 292.6L819.3 313.2L829 329L837.8 345.3L871.6 328L884.2 354.8L849.2 369.6L855.9 386.8L861.8 404.4L898.1 393.2L905.8 421.8L868.8 430.3L872.4 448.4L875.2 466.8L912.9 462.1L915.5 491.6L877.5 493.5L878 512L877.5 530.5L915.5 532.4L912.9 561.9L875.2 557.2L872.4 575.6L868.8 593.7L905.8 602.2L898.1 630.8L861.8 619.6L855.9 637.2L849.2 654.4L884.2 669.2L871.6 696L837.8 678.7L829 695L819.3 710.8L851.2 731.4L834.2 755.7L803.9 732.8L792.4 747.3L780.1 761.1L807.9 787L787 807.9L761.1 780.1L747.3 792.4L732.8 803.9L755.7 834.2L731.4 851.2L710.8 819.3L695 829L678.7 837.8L696 871.6L669.2 884.2L654.4 849.2L637.2 855.9L619.6 861.8L630.8 898.1L602.2 905.8L593.7 868.8L575.6 872.4L557.2 875.2L561.9 912.9L532.4 915.5L530.5 877.5L512 878L493.5 877.5L491.6 915.5L462.1 912.9L466.8 875.2L448.4 872.4L430.3 868.8L421.8 905.8L393.2 898.1L404.4 861.8L386.8 855.9L369.6 849.2L354.8 884.2L328 871.6L345.3 837.8L329 829L313.2 819.3L292.6 851.2L268.3 834.2L291.2 803.9L276.7 792.4L262.9 780.1L237 807.9L216.1 787L243.9 761.1L231.6 747.3L220.1 732.8L189.8 755.7L172.8 731.4L204.7 710.8L195 695L186.2 678.7L152.4 696L139.8 669.2L174.8 654.4L168.1 637.2L162.2 619.6L125.9 630.8L118.2 602.2L155.2 593.7L151.6 575.6L148.8 557.2L111.1 561.9L108.5 532.4L146.5 530.5L146 512L146.5 493.5L108.5 491.6L111.1 462.1L148.8 466.8L151.6 448.4L155.2 430.3L118.2 421.8L125.9 393.2L162.2 404.4L168.1 386.8L174.8 369.6L139.8 354.8L152.4 328L186.2 345.3L195 329L204.7 313.2L172.8 292.6L189.8 268.3L220.1 291.2L231.6 276.7L243.9 262.9L216.1 237L237 216.1L262.9 243.9L276.7 231.6L291.2 220.1L268.3 189.8L292.6 172.8L313.2 204.7L329 195L345.3 186.2L328 152.4L354.8 139.8L369.6 174.8L386.8 168.1L404.4 162.2L393.2 125.9L421.8 118.2L430.3 155.2L448.4 151.6L466.8 148.8L462.1 111.1L491.6 108.5L493.5 146.5ZM812 512A300 300 0 1 0 212 512A300 300 0 1 0 812 512Z" fill="url(#metal)" fill-rule="evenodd"/>
+    <path d="M512 372L530.3 373.2L539.8 342.3L572.8 351.1L565.6 382.7L582 390.8L597.2 400.9L620.9 378.9L645.1 403.1L623.1 426.8L633.2 442L641.3 458.4L672.9 451.2L681.7 484.2L650.8 493.7L652 512L650.8 530.3L681.7 539.8L672.9 572.8L641.3 565.6L633.2 582L623.1 597.2L645.1 620.9L620.9 645.1L597.2 623.1L582 633.2L565.6 641.3L572.8 672.9L539.8 681.7L530.3 650.8L512 652L493.7 650.8L484.2 681.7L451.2 672.9L458.4 641.3L442 633.2L426.8 623.1L403.1 645.1L378.9 620.9L400.9 597.2L390.8 582L382.7 565.6L351.1 572.8L342.3 539.8L373.2 530.3L372 512L373.2 493.7L342.3 484.2L351.1 451.2L382.7 458.4L390.8 442L400.9 426.8L378.9 403.1L403.1 378.9L426.8 400.9L442 390.8L458.4 382.7L451.2 351.1L484.2 342.3L493.7 373.2ZM576 512A64 64 0 1 0 448 512A64 64 0 1 0 576 512Z" fill="url(#metal2)" fill-rule="evenodd"/>
+  </g>
+  <!-- edge light on the ring's inner rim, and the hub -->
+  <circle cx="512" cy="512" r="302" fill="none" stroke="#000" stroke-opacity=".35" stroke-width="5"/>
+  <circle cx="512" cy="512" r="64" fill="#2A2C31"/>
+  <circle cx="512" cy="512" r="64" fill="none" stroke="#000" stroke-opacity=".4" stroke-width="6"/>
 </svg>
