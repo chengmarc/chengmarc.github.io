@@ -195,25 +195,6 @@ function setupCalendar() {
 // ─────────────────────────────────────────────────────────────────────
 // About panel
 // ─────────────────────────────────────────────────────────────────────
-function openAboutPanel() {
-	$('aboutPanel').classList.add('open');
-	centerPanel($('aboutPanel'));
-}
-function closeAboutPanel() {
-	$('aboutPanel').classList.remove('open');
-}
-function toggleAboutPanel() {
-	$('aboutPanel').classList.contains('open') ? closeAboutPanel() : openAboutPanel();
-}
 function setupAboutPanel() {
-	const panel = $('aboutPanel');
-
-	$('aboutClose').addEventListener('click', e => { e.stopPropagation(); closeAboutPanel(); });
-	$('aboutMin').addEventListener('click',   e => { e.stopPropagation(); closeAboutPanel(); });
-
-	// Positioned with absolute left/top; the `grabbing` cursor lives on the panel.
-	makeWindowDraggable($('aboutBar'), panel, panel, (left, top) => {
-		panel.style.left = left + 'px';
-		panel.style.top  = top  + 'px';
-	});
+	registerWindow('about', { el: $('aboutPanel'), bar: $('aboutBar') });
 }

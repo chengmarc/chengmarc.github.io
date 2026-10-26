@@ -32,9 +32,9 @@ function showWelcome() {
 // ─────────────────────────────────────────────────────────────────────
 function setupEvents() {
 	$('mbBookmarks').addEventListener('click', () => {
-		$('allApps').classList.contains('open') ? closeAllApps() : openAllBookmarks();
+		if (topWindow() === 'allApps') closeWindow('allApps'); else openAllBookmarks();
 	});
-	$('mbBrand').addEventListener('click', e => { e.stopPropagation(); toggleAboutPanel(); });
+	$('mbBrand').addEventListener('click', e => { e.stopPropagation(); toggleWindow('about'); });
 	$('mbEdit').addEventListener('click', () => {
 		if (desktopEditing) exitDesktopEdit(); else enterDesktopEdit();
 	});
@@ -55,7 +55,10 @@ function setupEvents() {
 		const icon = e.target.closest('.dock-icon');
 		if (del) { e.preventDefault(); e.stopPropagation(); removeDockItem(+del.dataset.dockIdx); return; }
 		if (desktopEditing && icon) { e.preventDefault(); return; }
-		const launch = e.target.closest('.dock-icon, .dock-all-apps');
+		// The built-in apps open their window; links open themselves.
+		if (icon && icon.dataset.app === 'allApps')  openAllBookmarks();
+		if (icon && icon.dataset.app === 'settings') toggleWindow('settings');
+		const launch = icon;
 		if (launch) {
 			launch.classList.remove('bouncing');
 			void launch.offsetWidth;
@@ -64,11 +67,8 @@ function setupEvents() {
 		}
 	});
 
-	const closeWin  = () => { if (pickMode) closePickMode(); else closeAllApps(); };
-	$('tlClose').addEventListener('click', closeWin);
-	$('tlMin').addEventListener('click', closeWin);
 	$('bmEditBtn').addEventListener('click',    () => { if (bmEditing) exitBmEdit(); else enterBmEdit(); });
-	$('pickCancelBtn').addEventListener('click', closePickMode);
+	$('pickCancelBtn').addEventListener('click', () => closeWindow('allApps'));
 
 	$('allAppsScroll').addEventListener('click', e => {
 		const catRen = e.target.closest('.miller-cat-rename');
@@ -138,12 +138,11 @@ function setupEvents() {
 
 	document.addEventListener('keydown', e => {
 		if (e.key !== 'Escape') return;
-		if ($('aboutPanel').classList.contains('open')) { closeAboutPanel(); return; }
-		if ($('settingsPanel').classList.contains('open')) { closeSettingsPanel(); return; }
-		if (pickMode)       { closePickMode();   return; }
-		if (bmEditing)      { exitBmEdit();      return; }
-		if ($('allApps').classList.contains('open')) { closeAllApps(); return; }
-		if (desktopEditing) { exitDesktopEdit(); return; }
+		// The window in front: All Apps leaves edit mode first, then closes.
+		const top = topWindow();
+		if (top === 'allApps' && bmEditing) { exitBmEdit(); return; }
+		if (top) { closeWindow(top); return; }
+		if (desktopEditing) exitDesktopEdit();
 	});
 }
 
@@ -164,7 +163,7 @@ setupEvents();
 startClock();
 startStatus();
 setupCalendar();
-setupBookmarkWindowDrag();
+setupAllAppsWindow();
 setupBookmarkEditDrag();
 setupAboutPanel();
 setupSettings();

@@ -71,7 +71,7 @@
 		<div class="menu-bar" id="menuBar">
 			<div class="menu-left">
 				<button class="menu-item menu-brand" id="mbBrand" data-i18n="menu.about">✦ About This OS</button>
-				<button class="menu-item" id="mbSettings"><svg class="menu-ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="4.6"/><circle cx="8" cy="8" r="1.9"/><path stroke-width="2.2" d="M12.60 8.00L14.90 8.00 M11.25 11.25L12.88 12.88 M8.00 12.60L8.00 14.90 M4.75 11.25L3.12 12.88 M3.40 8.00L1.10 8.00 M4.75 4.75L3.12 3.12 M8.00 3.40L8.00 1.10 M11.25 4.75L12.88 3.12"/></svg><span data-i18n="menu.settings">Settings</span></button>
+				<button class="menu-item" id="mbSettings"><svg class="menu-ico" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" stroke="currentColor" stroke-width=".9" stroke-linejoin="round" d="M8.00 2.50L8.95 2.58L9.77 1.12L11.61 1.89L11.16 3.50L11.89 4.11L12.50 4.84L14.11 4.39L14.88 6.23L13.42 7.05L13.50 8.00L13.42 8.95L14.88 9.77L14.11 11.61L12.50 11.16L11.89 11.89L11.16 12.50L11.61 14.11L9.77 14.88L8.95 13.42L8.00 13.50L7.05 13.42L6.23 14.88L4.39 14.11L4.84 12.50L4.11 11.89L3.50 11.16L1.89 11.61L1.12 9.77L2.58 8.95L2.50 8.00L2.58 7.05L1.12 6.23L1.89 4.39L3.50 4.84L4.11 4.11L4.84 3.50L4.39 1.89L6.23 1.12L7.05 2.58ZM10.3 8A2.3 2.3 0 1 0 5.7 8A2.3 2.3 0 1 0 10.3 8Z"/></svg><span data-i18n="menu.settings">Settings</span></button>
 				<button class="menu-item" id="mbBookmarks"><svg class="menu-ico" width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><rect x="0.5" y="0.5" width="4" height="4" rx="1.1"/><rect x="6" y="0.5" width="4" height="4" rx="1.1"/><rect x="11.5" y="0.5" width="4" height="4" rx="1.1"/><rect x="0.5" y="6" width="4" height="4" rx="1.1"/><rect x="6" y="6" width="4" height="4" rx="1.1"/><rect x="11.5" y="6" width="4" height="4" rx="1.1"/><rect x="0.5" y="11.5" width="4" height="4" rx="1.1"/><rect x="6" y="11.5" width="4" height="4" rx="1.1"/><rect x="11.5" y="11.5" width="4" height="4" rx="1.1"/></svg><span data-i18n="menu.allApps">All Apps</span></button>
 				<button class="menu-item" id="mbAdd" data-i18n="menu.addIcon">Add Icon</button>
 				<button class="menu-item" id="mbEdit" data-i18n="menu.editDesktop">Edit Desktop</button>
@@ -128,12 +128,12 @@
 		</div>
 
 		<div class="all-apps" id="allApps">
-			<div class="all-apps-window" id="allAppsWindow">
-				<div class="all-apps-bar" id="allAppsBar">
+			<div class="all-apps-window window-glass" id="allAppsWindow">
+				<div class="all-apps-bar window-bar" id="allAppsBar">
 					<div class="traffic-lights">
-						<button class="tl tl-close"    id="tlClose" aria-label="Close" data-i18n-aria="win.close"></button>
-						<button class="tl tl-minimize" id="tlMin"   aria-label="Minimize" data-i18n-aria="win.minimize"></button>
-						<button class="tl tl-zoom"     id="tlZoom"  aria-label="Zoom" data-i18n-aria="win.zoom"></button>
+						<button class="tl tl-close" aria-label="Close" data-i18n-aria="win.close"></button>
+						<button class="tl tl-minimize"   aria-label="Minimize" data-i18n-aria="win.minimize"></button>
+						<button class="tl tl-zoom"  aria-label="Zoom" data-i18n-aria="win.zoom"></button>
 					</div>
 					<h2 id="allAppsTitle" data-i18n="apps.title">All Apps</h2>
 					<input class="all-apps-search" id="bookmarkSearch" type="search" placeholder="Search apps…" data-i18n-placeholder="apps.search" autocomplete="off">
@@ -150,12 +150,12 @@
 		<div class="dock" id="dock"></div>
 
 		<div class="settings-panel" id="settingsPanel">
-			<div class="settings-card">
-				<div class="settings-bar" id="settingsBar">
+			<div class="settings-card window-glass">
+				<div class="settings-bar window-bar" id="settingsBar">
 					<div class="traffic-lights">
-						<button class="tl tl-close"    id="settingsClose" aria-label="Close" data-i18n-aria="win.close"></button>
-						<button class="tl tl-minimize" id="settingsMin"   aria-label="Minimize" data-i18n-aria="win.minimize"></button>
-						<button class="tl tl-zoom"     id="settingsZoom"  aria-label="Zoom" data-i18n-aria="win.zoom"></button>
+						<button class="tl tl-close" aria-label="Close" data-i18n-aria="win.close"></button>
+						<button class="tl tl-minimize"   aria-label="Minimize" data-i18n-aria="win.minimize"></button>
+						<button class="tl tl-zoom"  aria-label="Zoom" data-i18n-aria="win.zoom"></button>
 					</div>
 					<h2 data-i18n="settings.title"></h2>
 					<label class="settings-lang" title="Display language" data-i18n-title="settings.languageTitle"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><circle cx="8" cy="8" r="6.5"/><ellipse cx="8" cy="8" rx="2.8" ry="6.5"/><path d="M1.5 8h13M2.6 4.6h10.8M2.6 11.4h10.8"/></svg><select class="settings-select" id="languageSelect" aria-label="Display language" data-i18n-aria="settings.languageTitle"></select></label>
@@ -219,12 +219,12 @@
 		</div>
 
 		<div class="about-panel" id="aboutPanel">
-			<div class="card">
-				<div class="about-bar" id="aboutBar">
+			<div class="card window-glass">
+				<div class="about-bar window-bar" id="aboutBar">
 					<div class="traffic-lights">
-						<button class="tl tl-close"    id="aboutClose" aria-label="Close" data-i18n-aria="win.close"></button>
-						<button class="tl tl-minimize" id="aboutMin"   aria-label="Minimize" data-i18n-aria="win.minimize"></button>
-						<button class="tl tl-zoom"     id="aboutZoom"  aria-label="Zoom" data-i18n-aria="win.zoom"></button>
+						<button class="tl tl-close" aria-label="Close" data-i18n-aria="win.close"></button>
+						<button class="tl tl-minimize"   aria-label="Minimize" data-i18n-aria="win.minimize"></button>
+						<button class="tl tl-zoom"  aria-label="Zoom" data-i18n-aria="win.zoom"></button>
 					</div>
 					<h2 data-i18n="about.title">About This OS</h2>
 				</div>
@@ -535,9 +535,10 @@
     }
     </script>
 
-	<!-- defer: download all ten in parallel during HTML parse, then execute
+	<!-- defer: download all eleven in parallel during HTML parse, then execute
 	     in source order after the DOM is ready (app.js's init runs last). -->
 	<script defer src="src/scripts/util.js"></script>
+	<script defer src="src/scripts/windows.js"></script>
 	<script defer src="src/scripts/i18n.js"></script>
 	<script defer src="src/scripts/config.js"></script>
 	<script defer src="src/scripts/state.js"></script>

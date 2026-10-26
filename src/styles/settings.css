@@ -7,7 +7,6 @@
 .settings-panel {
     position: fixed;
     top: 0; left: 0;
-    z-index: 500;
     width: 820px;
     max-width: calc(100vw - 48px);
     scale: 0.96;
@@ -16,12 +15,6 @@
 }
 .settings-panel.open { scale: 1; pointer-events: auto; }
 .settings-card {
-    background: var(--surface-window);
-    backdrop-filter: var(--blur-panel);
-    -webkit-backdrop-filter: var(--blur-panel);
-    border: 1px solid var(--w-15);
-    border-radius: 16px;
-    box-shadow: var(--shadow-window);
     max-height: calc(100vh - 76px);
     overflow-y: auto;
     color: var(--w-82);
@@ -29,20 +22,6 @@
     transition: opacity 0.28s ease;
 }
 .settings-panel.open .settings-card { opacity: 1; }
-.settings-bar {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 13px 16px;
-    background: var(--w-05);
-    border-bottom: 1px solid var(--w-12);
-    cursor: grab;
-    user-select: none;
-    -webkit-user-select: none;
-}
-.settings-panel.grabbing .settings-bar { cursor: grabbing; }
-.settings-bar button { cursor: pointer; }
-.settings-bar h2 { font-size: 1.3rem; font-weight: 500; letter-spacing: 0.01em; color: #fff; }
 /* The language picker, at the far end of the title bar */
 .settings-lang { margin-left: auto; display: flex; align-items: center; gap: 8px; color: var(--w-62); }
 .settings-bar .settings-select { cursor: pointer; }

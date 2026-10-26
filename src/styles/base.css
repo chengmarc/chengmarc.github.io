@@ -123,19 +123,60 @@ body::after {
 }
 
 /* macOS traffic lights — glyphs reveal on hover over the cluster */
-.traffic-lights { display: flex; align-items: center; gap: 9px; margin-right: 9px; flex-shrink: 0; }
+.traffic-lights { display: flex; align-items: center; gap: 10px; margin-right: 10px; flex-shrink: 0; }
 .tl {
-    width: 14px; height: 14px;
+    width: 16px; height: 16px;
     border: none; border-radius: 50%; padding: 0;
     box-shadow: inset 0 0 0 0.5px var(--k-18);
     display: flex; align-items: center; justify-content: center;
-    font-size: 11px; font-weight: 700; line-height: 1;
-    color: var(--k-55);
+    cursor: pointer;
 }
-.tl-close    { background: var(--tl-red); }
-.tl-minimize { background: var(--tl-amber); }
-.tl-zoom     { background: var(--tl-green); }
-.tl::before { opacity: 0; transition: opacity 0.12s; }
-.traffic-lights:hover .tl-close::before    { content: '\00d7'; opacity: 1; }
-.traffic-lights:hover .tl-minimize::before { content: '\2013'; opacity: 1; }
-.traffic-lights:hover .tl-zoom::before     { content: '\002b'; opacity: 1; }
+.tl-close    { background: var(--tl-red);   --tl-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M2.5 2.5L7.5 7.5M7.5 2.5L2.5 7.5' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round'/%3E%3C/svg%3E"); }
+.tl-minimize { background: var(--tl-amber); --tl-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M2 5H8' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round'/%3E%3C/svg%3E"); }
+.tl-zoom     { background: var(--tl-green); --tl-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M5 2V8M2 5H8' fill='none' stroke='%23000' stroke-width='1.7' stroke-linecap='round'/%3E%3C/svg%3E"); }
+/* The ×, – and + glyphs: small SVGs used as masks, so they take the dark
+   tint below and stay crisp at any size. */
+.tl::before {
+    content: '';
+    width: 8px; height: 8px;
+    background: var(--k-55);
+    -webkit-mask: var(--tl-glyph) center / contain no-repeat;
+            mask: var(--tl-glyph) center / contain no-repeat;
+    opacity: 0;
+    transition: opacity 0.12s;
+}
+.traffic-lights:hover .tl::before { opacity: 1; }
+
+/* Window chrome, shared by All Apps, Settings and About (windows.js manages
+   them): the glass surface, and the title bar you drag them by. */
+.window-glass {
+    background: var(--surface-window);
+    backdrop-filter: var(--blur-panel);
+    -webkit-backdrop-filter: var(--blur-panel);
+    border: 1px solid var(--w-15);
+    border-radius: 16px;
+    box-shadow: var(--shadow-window);
+}
+.window-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 16px;
+    background: var(--w-05);
+    border-bottom: 1px solid var(--w-12);
+    cursor: grab;
+    user-select: none; -webkit-user-select: none;
+}
+.window.grabbing .window-bar { cursor: grabbing; }
+.window-bar button { cursor: pointer; }
+.window-bar h2 {
+    font-size: 1.3rem; font-weight: 500;
+    letter-spacing: 0.01em;
+    color: #fff;
+    transition: opacity 0.15s;
+}
+
+/* A window behind another looks inactive, as on macOS: grey traffic lights
+   (coloured again on hover) and a dimmer title. windows.js sets .focused. */
+.window:not(.focused) .traffic-lights:not(:hover) .tl { background: var(--w-20); box-shadow: inset 0 0 0 0.5px var(--w-15); }
+.window:not(.focused) .window-bar h2 { opacity: 0.55; }

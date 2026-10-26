@@ -220,16 +220,16 @@ function linkMoveToCat(fromBi, li, toBi) {
 
 // ── Open / close / modes ──────────────────────────────────────────────
 function openAllBookmarks() {
-	const overlay = $('allApps');
-	$('allAppsWindow').style.translate = '';
 	renderAllBookmarks();
-	overlay.classList.add('open');
+	openWindow('allApps');
 	setTimeout(() => $('bookmarkSearch').focus(), 260);
 }
 
-function closeAllApps() {
-	const overlay = $('allApps');
-	overlay.classList.remove('open', 'pick-mode', 'bm-editing');
+// What closing the window resets, however it's closed (so pick mode lives
+// only as long as the window): edit and pick mode,
+// the title and buttons they change, and the search.
+function resetAllApps() {
+	$('allApps').classList.remove('pick-mode', 'bm-editing');
 	pickMode = false; bmEditing = false;
 	$('allAppsTitle').textContent     = t('apps.title');
 	$('bmEditBtn').textContent        = t('apps.edit');
@@ -260,22 +260,11 @@ function exitBmEdit() {
 function openPickMode() {
 	pickMode = true;
 	if (bmEditing) exitBmEdit();
-	const overlay = $('allApps');
-	$('allAppsWindow').style.translate = '';
-	overlay.classList.add('open', 'pick-mode');
+	$('allApps').classList.add('pick-mode');
 	$('allAppsTitle').textContent = t('apps.pickTitle');
 	$('bmEditBtn').style.display  = 'none';
+	openWindow('allApps');
 	setTimeout(() => $('bookmarkSearch').focus(), 260);
-}
-
-function closePickMode() {
-	pickMode = false;
-	const overlay = $('allApps');
-	overlay.classList.remove('open', 'pick-mode');
-	$('allAppsTitle').textContent = t('apps.title');
-	$('bmEditBtn').style.display  = '';
-	$('bookmarkSearch').value     = '';
-	filterBookmarks('');
 }
 
 // ── Search / filter ───────────────────────────────────────────────────
@@ -286,20 +275,11 @@ function filterBookmarks(query) {
 	renderMillerLinks();
 }
 
-// ── Bookmark window drag (title-bar) ──────────────────────────────────
-// The window is flex-centered (with an 8vh bottom-padding nudge) and moved via
-// `translate`, so its base position isn't a simple formula. Rather than assume
-// one, nudge `translate` by the delta between where the window is now and where
-// the clamped position wants it — self-correcting regardless of the layout.
-function setupBookmarkWindowDrag() {
-	const bar = $('allAppsBar');
-	const win = $('allAppsWindow');
-	makeWindowDraggable(bar, win, bar, (left, top) => {
-		const r = win.getBoundingClientRect();
-		const t = (win.style.translate || '').split(/\s+/);
-		const tx = parseFloat(t[0]) || 0, ty = parseFloat(t[1]) || 0;
-		win.style.translate = (tx + left - r.left) + 'px ' + (ty + top - r.top) + 'px';
-	});
+// ── The window ────────────────────────────────────────────────────────
+// .open and the mode classes stay on the #allApps wrapper, which the CSS
+// keys on; the window inside is what moves and stacks.
+function setupAllAppsWindow() {
+	registerWindow('allApps', { el: $('allAppsWindow'), root: $('allApps'), bar: $('allAppsBar'), onClose: resetAllApps });
 }
 
 // ── Bookmark edit drag-and-drop ───────────────────────────────────────

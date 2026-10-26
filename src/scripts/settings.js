@@ -138,20 +138,12 @@ function renderLanguageSelect() {
 }
 
 // ── Settings window ───────────────────────────────────────────────────
-function openSettingsPanel() {
+// Each opening shows the settings as they are now.
+function showSettings() {
 	renderWallpapers();
 	if (EXT_API) $('autoSyncToggle').checked = settings.autoSync;
 	$('showIPToggle').checked = settings.showIP;
-	$('settingsPanel').classList.add('open');
 	$('mbSettings').classList.add('active');
-	centerPanel($('settingsPanel'));
-}
-function closeSettingsPanel() {
-	$('settingsPanel').classList.remove('open');
-	$('mbSettings').classList.remove('active');
-}
-function toggleSettingsPanel() {
-	$('settingsPanel').classList.contains('open') ? closeSettingsPanel() : openSettingsPanel();
 }
 
 // Called first thing at init (app.js), since the menu bar reads settings too.
@@ -159,9 +151,7 @@ function setupSettings() {
 	applyWallpaper();
 
 	const panel = $('settingsPanel');
-	$('mbSettings').addEventListener('click', e => { e.stopPropagation(); toggleSettingsPanel(); });
-	$('settingsClose').addEventListener('click', e => { e.stopPropagation(); closeSettingsPanel(); });
-	$('settingsMin').addEventListener('click',   e => { e.stopPropagation(); closeSettingsPanel(); });
+	$('mbSettings').addEventListener('click', e => { e.stopPropagation(); toggleWindow('settings'); });
 
 	$('wallpaperGrid').addEventListener('click', e => {
 		const btn = e.target.closest('.wallpaper-swatch');
@@ -197,8 +187,9 @@ function setupSettings() {
 		applyConfig(CFG);
 	});
 
-	makeWindowDraggable($('settingsBar'), panel, panel, (left, top) => {
-		panel.style.left = left + 'px';
-		panel.style.top  = top  + 'px';
+	registerWindow('settings', {
+		el: panel, bar: $('settingsBar'),
+		onOpen: showSettings,
+		onClose: () => $('mbSettings').classList.remove('active'),
 	});
 }

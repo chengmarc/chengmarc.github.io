@@ -3,36 +3,21 @@
    columns, search, edit mode and the Add Icon pick mode.
    =================================================================== */
 
-/* Transparent layer that just centers the window — no desktop dim/blur,
-   exactly like opening a normal window in a real OS. */
-.all-apps {
-    position: fixed;
-    inset: 0;
-    z-index: 400;
-    pointer-events: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-bottom: 8vh;   /* nudge the window up from dead-center */
-    background: transparent;
-}
-.all-apps.open { /* pointer-events handled per child */ }
+/* The wrapper only carries state (.open, .pick-mode, .bm-editing,
+   .searching) for the rules below; it takes no box of its own, so the
+   window inside stacks with the other windows (windows.js). */
+.all-apps { display: contents; }
 
 /* The floating window itself — draggable, glass, springs in on open.
-   `scale` (entrance) and `translate` (dragging) are independent CSS
-   properties, so they compose without fighting over `transform`. */
+   windows.js places it with left/top and sets its z-index. */
 .all-apps-window {
+    position: fixed;
+    top: 0; left: 0;
     display: flex;
     flex-direction: column;
     width: min(770px, 92vw);
     height: min(608px, 67vh);
-    border-radius: 16px;
     overflow: hidden;
-    background: var(--surface-window);
-    backdrop-filter: var(--blur-panel);
-    -webkit-backdrop-filter: var(--blur-panel);
-    border: 1px solid var(--w-15);
-    box-shadow: var(--shadow-window);
     scale: 0.96;
     opacity: 0;
     transition: scale 0.3s var(--ease-spring),
@@ -42,26 +27,9 @@
 }
 .all-apps.open .all-apps-window { scale: 1; opacity: 1; pointer-events: auto; }
 
-.all-apps-bar {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 13px 16px;
-    background: var(--w-05);
-    border-bottom: 1px solid var(--w-12);
-    flex-shrink: 0;
-    cursor: grab;
-    user-select: none; -webkit-user-select: none;
-}
-.all-apps-bar.grabbing { cursor: grabbing; }
+/* The window has a fixed height, so the bar and its title must not shrink. */
+.all-apps-bar, .all-apps-bar h2 { flex-shrink: 0; }
 .all-apps-bar input  { cursor: text; }
-.all-apps-bar button { cursor: pointer; }
-
-.all-apps-bar h2 {
-    font-size: 1.3rem; font-weight: 500;
-    letter-spacing: 0.01em;
-    flex-shrink: 0;
-}
 .all-apps-search {
     width: 220px;
     flex-shrink: 0;

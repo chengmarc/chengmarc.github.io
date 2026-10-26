@@ -116,7 +116,6 @@
 /* per-context sizing */
 .desktop-icon  .icon-art { width: 68px; height: 68px; }
 .dock-icon     .icon-art { width: 68px; height: 68px; }
-.dock-all-apps .icon-art { width: 68px; height: 68px; }
 .miller-link   .icon-art { width: 20px; height: 20px;
                            filter: drop-shadow(0 0 0.5px var(--k-55)) drop-shadow(0 1px 1px var(--k-30)); }
 .miller-link  .icon-bloom { filter: blur(6px) saturate(1.6); }

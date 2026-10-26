@@ -46,7 +46,7 @@
     55%      { transform: translateY(0)     scale(1);    }
     75%      { transform: translateY(-8px)  scale(1.02); }
 }
-.dock-icon.bouncing, .dock-all-apps.bouncing { animation: dockBounce 0.6s ease; }
+.dock-icon.bouncing { animation: dockBounce 0.6s ease; }
 
 /* ✕ badge on dock icons */
 .dock-icon-delete {
@@ -70,7 +70,6 @@
 .dock.editing .dock-icon:hover { transform: none; }
 .dock.editing .dock-icon:nth-child(even) { animation-delay: 0.11s; }
 .dock.editing .dock-icon-delete { display: flex; }
-.dock.editing .dock-icon.locked { animation: none; }
 
 /* Insertion indicator for horizontal dock reorder */
 .dock-icon.drag-over {
@@ -93,25 +92,12 @@
                 0 0 0 2px var(--w-62);
 }
 
-/* Bare container like .dock-icon — the inner .icon-art provides the tile,
-   border, shadow and sheen, so this matches every other icon exactly. */
-.dock-all-apps {
-    position: relative;
-    width: 68px; height: 68px;
-    display: flex;
-    align-items: center; justify-content: center;
-    cursor: pointer;
-    background: none; border: none;
-    transition: transform 0.09s ease, margin 0.09s ease;
-    transform-origin: center bottom;
-    padding: 0;
-    flex-shrink: 0;
-}
-.dock-all-apps:hover { z-index: 10; }
-.dock.editing .dock-all-apps { transform: none !important; }
+/* A built-in app (All Apps, Settings) is a <button>, not a link: strip the
+   button look so it sizes and moves exactly like .dock-icon. */
+.dock-app { background: none; border: none; padding: 0; font: inherit; cursor: pointer; }
 
 /* Tooltips — appear above the horizontal dock */
-.dock-icon::after, .dock-all-apps::after {
+.dock-icon::after {
     content: attr(title);
     position: absolute;
     bottom: calc(100% + 12px);
@@ -129,5 +115,5 @@
     font-family: var(--font-sans);
     letter-spacing: 0.02em;
 }
-.dock-icon:hover::after, .dock-all-apps:hover::after { opacity: 1; }
+.dock-icon:hover::after { opacity: 1; }
 .dock.editing .dock-icon::after { display: none; }

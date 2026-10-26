@@ -32,27 +32,35 @@ function renderDesktopIcons() {
 // All Apps launcher uses the site's own favicon (a 3×3 grid),
 // rendered through the same tile pipeline as every other icon.
 const ALL_APPS_ICON = 'src/icons/all-apps.svg';
-// Settings sits beside it, fixed the same way: not part of the saved dock.
 const SETTINGS_ICON = 'src/icons/settings.svg';
+// The built-in apps a dock item can be ({ app: id }): icon, title key, and
+// what a click does (app.js).
+const DOCK_APP_INFO = {
+	allApps:  { icon: ALL_APPS_ICON, title: 'apps.title' },
+	settings: { icon: SETTINGS_ICON, title: 'menu.settings' },
+};
 
-// Locked items can't be deleted or dragged out. The flag lives on the item, but
-// is also honoured from the default config so a saved dock that predates the
+// Locked items move like any other but can't be deleted or dragged out: the
+// built-in apps, and items flagged locked. The flag lives on the item, but is
+// also honoured from the default config so a saved dock that predates the
 // flag still keeps its defaults locked.
 function isLockedDockItem(item) {
-	return item.locked || CFG.dock.some(d => d !== 'separator' && d.url === item.url && d.locked);
+	return !!item.app || item.locked || CFG.dock.some(d => d !== 'separator' && d.url && d.url === item.url && d.locked);
 }
 
 function renderDock() {
 	const dock = $('dock');
 	dock.innerHTML = '';
 
-	dock.appendChild(el('button', { class: 'dock-all-apps', title: t('apps.title'),    data: { i18nTitle: 'apps.title' },    onclick: openAllBookmarks },    iconArtFromSrc(ALL_APPS_ICON)));
-	dock.appendChild(el('button', { class: 'dock-all-apps', title: t('menu.settings'), data: { i18nTitle: 'menu.settings' }, onclick: toggleSettingsPanel }, iconArtFromSrc(SETTINGS_ICON)));
-	dock.appendChild(el('div', { class: 'dock-sep' }));
-
 	S.dock.forEach((item, dockIdx) => {
 		if (item === 'separator') {
 			dock.appendChild(el('div', { class: 'dock-sep' }));
+			return;
+		}
+		const app = DOCK_APP_INFO[item.app];
+		if (app) {
+			dock.appendChild(el('button', { class: 'dock-icon dock-app locked', title: t(app.title), data: { dockIdx, app: item.app, i18nTitle: app.title } },
+				iconArtFromSrc(app.icon)));
 			return;
 		}
 		const a = el('a', { class: 'dock-icon', href: item.url, target: '_blank', rel: 'noopener noreferrer', title: item.label, data: { dockIdx } });
@@ -300,7 +308,7 @@ function setupDockMagnification() {
 	const HALF   = 34;
 
 	function icons() {
-		return [...dock.querySelectorAll('.dock-icon[data-dock-idx], .dock-all-apps')];
+		return [...dock.querySelectorAll('.dock-icon[data-dock-idx]')];
 	}
 
 	function captureNaturalPositions() {
@@ -351,12 +359,12 @@ function setupDockMagnification() {
 	dock.addEventListener('pointerleave', () => { if (magRafId) { cancelAnimationFrame(magRafId); magRafId = null; } resetMag(); });
 
 	dock.addEventListener('pointerdown', e => {
-		const icon = e.target.closest('.dock-icon, .dock-all-apps');
+		const icon = e.target.closest('.dock-icon');
 		if (icon && !desktopEditing) { icon.dataset.pressed = '1'; applyMag(e.clientX); }
 	});
 	['pointerup', 'pointercancel'].forEach(ev => {
 		dock.addEventListener(ev, e => {
-			const icon = e.target.closest('.dock-icon, .dock-all-apps');
+			const icon = e.target.closest('.dock-icon');
 			if (icon) { delete icon.dataset.pressed; applyMag(e.clientX); }
 		});
 	});

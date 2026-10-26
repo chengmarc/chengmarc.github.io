@@ -64,9 +64,20 @@ function dropIconFields() {
 	S.dock.forEach(i => { if (i && i !== 'separator') delete i.favicon; });
 }
 
+// All Apps and Settings are dock items like any other ({ app: id }), so they
+// can be moved, but never deleted. A dock saved or imported without them gets
+// them back at the front, followed by a separator.
+const DOCK_APPS = ['allApps', 'settings'];
+function ensureDockApps() {
+	const missing = DOCK_APPS.filter(app => !S.dock.some(i => i && i.app === app));
+	if (missing.length === DOCK_APPS.length) S.dock.unshift(...DOCK_APPS.map(app => ({ app })), 'separator');
+	else S.dock.unshift(...missing.map(app => ({ app })));
+}
+
 // Replace the whole state with a config's icons, dock and bookmarks.
 function replaceState(cfg) {
 	S = clone({ desktopIcons: cfg.desktopIcons, dock: cfg.dock, bookmarkSections: cfg.bookmarkSections });
+	ensureDockApps();
 	ensureIconPositions();
 	normalizeBookmarks();
 	dropIconFields();
@@ -76,7 +87,7 @@ function replaceState(cfg) {
 function loadState() {
 	try {
 		const raw = localStorage.getItem(STORE);
-		if (raw) { S = JSON.parse(raw); ensureIconPositions(); normalizeBookmarks(); dropIconFields(); saveState(); return; }
+		if (raw) { S = JSON.parse(raw); ensureDockApps(); ensureIconPositions(); normalizeBookmarks(); dropIconFields(); saveState(); return; }
 		// Nothing saved: a first run. Flag it so the welcome window shows until
 		// the user picks an option, even if this tab is closed first.
 		else localStorage.setItem(WELCOME, '1');
