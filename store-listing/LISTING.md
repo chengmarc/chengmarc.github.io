@@ -62,6 +62,40 @@ https://github.com/chengmarc/chengmarc.github.io/blob/main/store-listing/PRIVACY
 
 The Firefox build declares `bookmarksInfo` as required data collection, because each link's URL is sent to Google's favicon service to fetch its icon. Review this against Mozilla's current definitions when submitting.
 
-## Notes for reviewers (optional field)
+## Release notes — 1.4.0
 
-The extension has no install-time permissions and no background script. The optional `bookmarks` permission is requested only when the user clicks Settings → Sync Now or turns on Settings → Always sync with browser; it is used to read the Bookmarks bar, never to write. Always-on sync listens to bookmark events from the new tab page itself, not from a background script. It overrides the new tab page with the bundled `index.html`. Network requests are limited to icon lookups (Google favicon service and each site's own favicon), IP/location display (ipwho.is, api.ipify.org) and a flag image (flagcdn.com).
+For Firefox Add-ons ("Release notes"); the other stores have no such field.
+
+Bookmark OS 1.4.0 — your bookmarks, kept in sync
+
+• Sync with your browser: say yes once and your desktop follows your Bookmarks bar, on every new tab and whenever a bookmark changes. Folders become app categories, bookmarks outside folders become desktop icons, and icons keep their place. Bookmark OS only reads your bookmarks, never changes them.
+• New Settings window: six wallpapers, browser sync, a privacy switch for the location and IP in the menu bar (off stops those lookups entirely), and Import / Export / Restore.
+• Now in English, 简体中文, Español, 日本語, Deutsch and Français, following your browser's language.
+• Windows act like macOS: click to bring one forward, drag it around, press Escape to close the one in front.
+• Dock: All Apps and Settings live in the dock and can be rearranged; ChatGPT and Claude can now be removed.
+• Refreshed macOS-style icons throughout.
+• Fixed: an empty Bookmarks bar no longer clears your desktop.
+
+Your desktop, dock, wallpaper and other settings carry over from the previous version.
+
+## Notes for reviewers
+
+For Firefox Add-ons ("Notes to Reviewer"), Edge Add-ons ("Notes for certification") and the Chrome Web Store, if asked.
+
+Bookmark OS replaces the new tab page with the bundled index.html: a desktop of the user's bookmarks. There is no background script and no remote code; the package's JavaScript is plain, unminified source, the same files as the public repository (https://github.com/chengmarc/chengmarc.github.io).
+
+Permissions
+• No permissions at install.
+• `bookmarks` is optional and requested at runtime, only from a click: "Keep in Sync" in the first-run welcome window, or Settings → Sync Now / Always sync with browser. It is used only to read the Bookmarks bar (bookmarks.getTree, and bookmark change events while Always sync is on, listened to from the new tab page itself). Bookmarks are never written and never leave the browser.
+• Turning Always sync off, or revoking the permission, stops all bookmark reads; a revoked permission switches the setting off on the next new tab.
+
+To test sync
+1. Install, add a few bookmarks and a folder to the Bookmarks bar, and open a new tab.
+2. The welcome window asks "Keep in sync with your browser?". Click Keep in Sync and allow the bookmarks permission.
+3. Loose bookmarks appear as desktop icons, folders as categories in All Apps (dock, first icon). Add or rename a bookmark: the open tab updates within a second.
+4. Settings (dock, gear icon) → Browser Sync turns it off again.
+
+Network requests (all from the new tab page)
+• Site icons: Google's favicon service (www.google.com/s2/favicons, given each link's URL) and each site's own favicon files.
+• Location and IP in the menu bar: ipwho.is, api.ipify.org, and the flag image from flagcdn.com. On by default; Settings → Privacy → Show location and IP turns it off, which stops all three.
+• Nothing else. No analytics, no accounts, no server of our own. Settings and the desktop are kept in localStorage.
