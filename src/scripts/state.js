@@ -61,17 +61,18 @@ function normalizeBookmarks() {
 // `favicon` field; strip it so it never resurfaces in an export.
 function dropIconFields() {
 	S.desktopIcons.forEach(i => { delete i.favicon; });
-	S.dock.forEach(i => { if (i && i !== 'separator') delete i.favicon; });
+	// `locked` is gone too: only the built-in apps are undeletable now.
+	S.dock.forEach(i => { if (i && i !== 'separator') { delete i.favicon; delete i.locked; } });
 }
 
 // All Apps and Settings are dock items like any other ({ app: id }), so they
 // can be moved, but never deleted. A dock saved or imported without them gets
-// them back at the front, followed by a separator.
-const DOCK_APPS = ['allApps', 'settings'];
+// them back where the default dock has them: All Apps first, set off by a
+// separator, and Settings last.
 function ensureDockApps() {
-	const missing = DOCK_APPS.filter(app => !S.dock.some(i => i && i.app === app));
-	if (missing.length === DOCK_APPS.length) S.dock.unshift(...DOCK_APPS.map(app => ({ app })), 'separator');
-	else S.dock.unshift(...missing.map(app => ({ app })));
+	const has = app => S.dock.some(i => i && i.app === app);
+	if (!has('allApps')) S.dock.unshift({ app: 'allApps' }, ...(S.dock[0] === 'separator' ? [] : ['separator']));
+	if (!has('settings')) S.dock.push({ app: 'settings' });
 }
 
 // Replace the whole state with a config's icons, dock and bookmarks.
@@ -180,8 +181,11 @@ function readBrowserBookmarks() {
 				blocks.push({ title: n.title, links: linksUnder(n) });
 			}
 		});
+		// A bar with no links at all would wipe the desktop and every category,
+		// silently and on every new tab under Always sync: refuse instead.
+		if (!loose.length && !blocks.some(b => b.links.length)) throw new Error(t('error.emptyBookmarksBar'));
 		// Loose links also get a category, so All Apps lists and searches them.
-		if (loose.length) blocks.push({ title: 'Uncategorized', links: loose });
+		if (loose.length) blocks.push({ title: t('apps.uncategorized'), links: loose });
 		return keepIconPositions({ desktopIcons, dock: S.dock, bookmarkSections: [{ blocks }] });
 	});
 }

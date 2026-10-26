@@ -107,16 +107,17 @@ window.WEBOS_CONFIG = {
   ],
   "dock": [
     {
+      "app": "allApps"
+    },
+    "separator",
+    {
       "label": "ChatGPT",
-      "url": "https://chatgpt.com/",
-      "locked": true
+      "url": "https://chatgpt.com/"
     },
     {
       "label": "Claude",
-      "url": "https://claude.ai/",
-      "locked": true
+      "url": "https://claude.ai/"
     },
-    "separator",
     {
       "label": "Gmail",
       "url": "https://mail.google.com/"
@@ -124,6 +125,9 @@ window.WEBOS_CONFIG = {
     {
       "label": "Outlook",
       "url": "https://outlook.live.com/"
+    },
+    {
+      "app": "settings"
     }
   ],
   "bookmarkSections": [

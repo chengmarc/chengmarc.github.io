@@ -9,7 +9,8 @@ function applyConfig(cfg) {
 }
 
 // ─────────────────────────────────────────────────────────────────────
-// Welcome window — first run in the extension: sync now, or explore first
+// Welcome window — first run in the extension: asks whether to keep the
+// desktop in sync with the browser, before anything is synced
 // ─────────────────────────────────────────────────────────────────────
 function showWelcome() {
 	let pending = false;
@@ -22,8 +23,9 @@ function showWelcome() {
 		win.classList.remove('open');
 	};
 	$('welcomeExplore').addEventListener('click', done);
-	// Sync straight from the click: Firefox only grants permissions on a user gesture.
-	$('welcomeSync').addEventListener('click', () => { done(); syncFromBrowser(applyConfig, false); });
+	// Straight from the click: Firefox only grants permissions on a user gesture.
+	// The window was the question, so the toggle doesn't ask again.
+	$('welcomeSync').addEventListener('click', () => { done(); toggleAutoSync(true, false); });
 	win.classList.add('open');
 }
 

@@ -40,14 +40,6 @@ const DOCK_APP_INFO = {
 	settings: { icon: SETTINGS_ICON, title: 'menu.settings' },
 };
 
-// Locked items move like any other but can't be deleted or dragged out: the
-// built-in apps, and items flagged locked. The flag lives on the item, but is
-// also honoured from the default config so a saved dock that predates the
-// flag still keeps its defaults locked.
-function isLockedDockItem(item) {
-	return !!item.app || item.locked || CFG.dock.some(d => d !== 'separator' && d.url && d.url === item.url && d.locked);
-}
-
 function renderDock() {
 	const dock = $('dock');
 	dock.innerHTML = '';
@@ -65,8 +57,7 @@ function renderDock() {
 		}
 		const a = el('a', { class: 'dock-icon', href: item.url, target: '_blank', rel: 'noopener noreferrer', title: item.label, data: { dockIdx } });
 
-		if (isLockedDockItem(item)) a.classList.add('locked');
-		else a.appendChild(el('button', { class: 'dock-icon-delete', text: '✕', data: { dockIdx } }));
+		a.appendChild(el('button', { class: 'dock-icon-delete', text: '✕', data: { dockIdx } }));
 
 		a.appendChild(iconArt(item.url));
 		dock.appendChild(a);
@@ -129,7 +120,8 @@ function moveDesktopIconToDock(key) {
 
 function moveDockItemToDesktop(dockIdx) {
 	const item = S.dock[dockIdx];
-	if (!item || item === 'separator' || isLockedDockItem(item)) return;
+	// The built-in apps move like any other item but never leave the dock.
+	if (!item || item === 'separator' || item.app) return;
 	S.dock.splice(dockIdx, 1);
 	if (!addDesktopIcon(item.label, item.url)) { saveState(); renderDesktopIcons(); }
 	renderDock();

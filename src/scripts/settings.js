@@ -7,7 +7,7 @@ const SETTINGS_STORE = 'webos_settings';
 
 // Built-in wallpapers, in src/wallpapers/, with a 320x180 thumbnail of each
 // under the same name in src/thumbs/ for the Settings swatches. Names are places, so they stay
-// untranslated. Golden Gate is the default, set in styles/base.css itself; an
+// untranslated. Tahoe is the default, set in styles/base.css itself; an
 // unknown saved id (such as an older preset) falls back to it.
 const WALLPAPER_DIR = 'src/wallpapers/';
 const THUMB_DIR     = 'src/thumbs/';
@@ -19,7 +19,7 @@ const WALLPAPERS = [
 	{ id: 'tahoe',       name: 'Tahoe',       file: '26_tahoe.jpg' },
 	{ id: 'golden-gate', name: 'Golden Gate', file: '27_golden_gate.jpg' },
 ];
-const DEFAULT_WALLPAPER = WALLPAPERS.find(w => w.id === 'golden-gate');
+const DEFAULT_WALLPAPER = WALLPAPERS.find(w => w.id === 'tahoe');
 
 let settings = { wallpaper: DEFAULT_WALLPAPER.id, autoSync: false, showIP: true, language: 'auto' };
 
@@ -107,12 +107,13 @@ function setAutoSync(on) {
 	if (on) runAutoSync(); else clearTimeout(autoSyncTimer);
 }
 
-// From the toggle's click. The permission request comes first, since Firefox
-// only grants permissions straight off a user gesture.
-function toggleAutoSync(on) {
+// From the toggle's click, or the welcome window's (ask = false: the window
+// already asked). The permission request comes first, since Firefox only
+// grants permissions straight off a user gesture.
+function toggleAutoSync(on, ask = true) {
 	if (!on) { setAutoSync(false); return; }
 	EXT_API.permissions.request({ permissions: ['bookmarks'] }).then(granted => {
-		const ok = granted && confirm(t('confirm.autoSync'));
+		const ok = granted && (!ask || confirm(t('confirm.autoSync')));
 		setAutoSync(!!ok);
 	}).catch(err => { setAutoSync(false); alert(t('error.syncFailed', { msg: err.message })); });
 }

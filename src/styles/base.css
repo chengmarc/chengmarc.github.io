@@ -89,7 +89,7 @@ body::before {
     content: '';
     position: fixed;
     inset: 0;
-    background-image: url('../wallpapers/27_golden_gate.jpg');
+    background-image: url('../wallpapers/26_tahoe.jpg');
     background-size: cover;
     background-position: top center;
     z-index: -2;
