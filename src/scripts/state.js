@@ -1,10 +1,15 @@
 // ─────────────────────────────────────────────────────────────────────
 // State
 // ─────────────────────────────────────────────────────────────────────
+// config.js holds the default content only: desktop icons, dock links and
+// categories. What the OS itself fixes (the grid, the built-in dock apps) is
+// set here in code.
 const CFG   = window.WEBOS_CONFIG;
 const STORE = 'webos_v1';
 const WELCOME = 'webos_welcome';
-const GRID  = CFG.grid;
+// The desktop grid in px: where the first cell sits, and each cell's size.
+// Matches the icon tile in icons.css.
+const GRID  = { ox: 24, oy: 55, uw: 120, uh: 124 };
 
 let S = {};
 let desktopEditing = false;
@@ -134,7 +139,6 @@ function importConfig(onConfig) {
 
 function exportConfig() {
 	const config = {
-		grid: CFG.grid,
 		desktopIcons: S.desktopIcons,
 		dock: S.dock,
 		bookmarkSections: S.bookmarkSections,

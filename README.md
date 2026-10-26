@@ -15,7 +15,8 @@
 ## Screenshots
 
 <img src="store-listing/desktop/screenshot-1-desktop.png">
-<img src="store-listing/desktop/screenshot-2-bookmarks.png">
+<img src="store-listing/desktop/screenshot-2-settings.png">
+<img src="store-listing/desktop/screenshot-3-sync.png">
 
 ## Try it locally
 

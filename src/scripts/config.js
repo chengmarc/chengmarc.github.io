@@ -1,10 +1,4 @@
 window.WEBOS_CONFIG = {
-  "grid": {
-    "ox": 24,
-    "oy": 55,
-    "uw": 120,
-    "uh": 124
-  },
   "desktopIcons": [
     {
       "key": "icon-youtube",
@@ -107,10 +101,6 @@ window.WEBOS_CONFIG = {
   ],
   "dock": [
     {
-      "app": "allApps"
-    },
-    "separator",
-    {
       "label": "ChatGPT",
       "url": "https://chatgpt.com/"
     },
@@ -125,9 +115,6 @@ window.WEBOS_CONFIG = {
     {
       "label": "Outlook",
       "url": "https://outlook.live.com/"
-    },
-    {
-      "app": "settings"
     }
   ],
   "bookmarkSections": [

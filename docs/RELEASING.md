@@ -10,8 +10,9 @@ packaging/
 store-listing/
   LISTING.md        store listing text and privacy answers
   PRIVACY.md        privacy policy (linked from the store listings)
-  promo-*.png       the promo tiles (generator/promo.html renders them)
-  desktop/          the screenshots
+  promo-*.png       the promo tiles (generator/promo.html lays them out)
+  desktop/          the screenshots, 1280x800
+  generator/        render.py renders the screenshots and the promo tiles
 docs/badges/        store badges shown in the README
 ```
 
@@ -37,5 +38,12 @@ In the packaged copy, the page title is set to "New Tab". The Firefox build also
 | Chrome Web Store | `bookmark-os-chrome-*.zip` | https://chrome.google.com/webstore/devconsole (one-time $5 registration) |
 | Edge Add-ons | `bookmark-os-chrome-*.zip` | https://partner.microsoft.com/dashboard/microsoftedge |
 | Firefox Add-ons | `bookmark-os-firefox-*.zip` | https://addons.mozilla.org/developers/ |
+
+Refresh the images after a UI change, then check them before uploading:
+
+```
+pip install playwright && playwright install chromium
+python store-listing/generator/render.py
+```
 
 Listing text and privacy answers are in [`store-listing/LISTING.md`](../store-listing/LISTING.md); the promo tiles are beside it, the screenshots in `store-listing/desktop/`.

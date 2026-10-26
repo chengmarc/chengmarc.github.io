@@ -16,8 +16,10 @@ const windowStack = [];      // ids of the open windows, bottom → top
 // root: the element that carries .open, if not el (All Apps keeps its mode
 //       classes on an outer wrapper).
 // bar:  the drag handle.
-function registerWindow(id, { el, root = el, bar, onOpen, onClose }) {
-	const w = windows[id] = { el, root, onOpen, onClose, pos: null };
+// menuItem: the menu-bar item that opens it, highlighted while it's open; a
+//           function when that depends on the window's mode.
+function registerWindow(id, { el, root = el, bar, menuItem, onOpen, onClose }) {
+	const w = windows[id] = { el, root, menuItem, onOpen, onClose, pos: null, lit: null };
 	el.classList.add('window');
 	// Red and yellow both close; green does nothing.
 	bar.querySelectorAll('.tl-close, .tl-minimize').forEach(tl =>
@@ -60,11 +62,20 @@ function focusWindow(id) {
 	restackWindows();
 }
 
+// The menu item a window lights while open. Looked up again on every open,
+// so a mode change (All Apps' pick mode) moves the highlight.
+function lightMenuItem(w, on) {
+	w.lit && w.lit.classList.remove('active');
+	w.lit = on ? (typeof w.menuItem === 'function' ? w.menuItem() : w.menuItem) : null;
+	w.lit && w.lit.classList.add('active');
+}
+
 // Open, or raise if already open.
 function openWindow(id) {
 	const w = windows[id];
-	if (isWindowOpen(id)) { focusWindow(id); return; }
+	if (isWindowOpen(id)) { lightMenuItem(w, true); focusWindow(id); return; }
 	w.root.classList.add('open');
+	lightMenuItem(w, true);
 	windowStack.push(id);
 	restackWindows();
 	if (w.pos) w.pos = placeWindow(w, w.pos.left, w.pos.top);
@@ -76,6 +87,7 @@ function closeWindow(id) {
 	const w = windows[id];
 	if (!isWindowOpen(id)) return;
 	w.root.classList.remove('open');
+	lightMenuItem(w, false);
 	w.el.classList.remove('focused');
 	windowStack.splice(windowStack.indexOf(id), 1);
 	restackWindows();

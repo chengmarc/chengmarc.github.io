@@ -1,10 +1,9 @@
 <!doctype html>
 <!--
   Source for the store promo tiles. Renders at the size given in the query
-  string, built around screenshot-1-desktop.png so the tile shows the product.
-
-    chrome --headless --hide-scrollbars --virtual-time-budget=3000 --window-size=440,280   --screenshot=../promo-440x280.png "file:///.../promo.html?small"
-    chrome --headless --hide-scrollbars --virtual-time-budget=3000 --window-size=1400,560  --screenshot=../promo-1400x560.png "file:///.../promo.html?marquee"
+  string (?small 440x280, ?marquee 1400x560), built around
+  screenshot-1-desktop.png so the tile shows the product. render.py, beside
+  this file, renders both after the screenshots.
 -->
 <html>
 <head>

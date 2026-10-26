@@ -279,7 +279,7 @@ function filterBookmarks(query) {
 // .open and the mode classes stay on the #allApps wrapper, which the CSS
 // keys on; the window inside is what moves and stacks.
 function setupAllAppsWindow() {
-	registerWindow('allApps', { el: $('allAppsWindow'), root: $('allApps'), bar: $('allAppsBar'), onClose: resetAllApps });
+	registerWindow('allApps', { el: $('allAppsWindow'), root: $('allApps'), bar: $('allAppsBar'), menuItem: () => $(pickMode ? 'mbAdd' : 'mbBookmarks'), onClose: resetAllApps });
 }
 
 // ── Bookmark edit drag-and-drop ───────────────────────────────────────

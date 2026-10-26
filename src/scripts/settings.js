@@ -144,7 +144,6 @@ function showSettings() {
 	renderWallpapers();
 	if (EXT_API) $('autoSyncToggle').checked = settings.autoSync;
 	$('showIPToggle').checked = settings.showIP;
-	$('mbSettings').classList.add('active');
 }
 
 // Called first thing at init (app.js), since the menu bar reads settings too.
@@ -189,8 +188,7 @@ function setupSettings() {
 	});
 
 	registerWindow('settings', {
-		el: panel, bar: $('settingsBar'),
+		el: panel, bar: $('settingsBar'), menuItem: $('mbSettings'),
 		onOpen: showSettings,
-		onClose: () => $('mbSettings').classList.remove('active'),
 	});
 }

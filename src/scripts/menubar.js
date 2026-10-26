@@ -196,5 +196,5 @@ function setupCalendar() {
 // About panel
 // ─────────────────────────────────────────────────────────────────────
 function setupAboutPanel() {
-	registerWindow('about', { el: $('aboutPanel'), bar: $('aboutBar') });
+	registerWindow('about', { el: $('aboutPanel'), bar: $('aboutBar'), menuItem: $('mbBrand') });
 }
