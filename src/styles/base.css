@@ -1,0 +1,141 @@
+/* ===================================================================
+   Base — fonts, design tokens, reset, the body and its wallpaper,
+   and what every window shares: the .glass surface and the traffic
+   lights. The other files build on these tokens; index.html loads them
+   in order, mobile.css last.
+   =================================================================== */
+
+@font-face {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 300 700;
+    font-display: swap;
+    src: url('../fonts/dm-sans-latin-ext.woff2') format('woff2');
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 300 700;
+    font-display: swap;
+    src: url('../fonts/dm-sans-latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+    /* ---- Design tokens --------------------------------------------- */
+    --font-sans: 'DM Sans', system-ui, sans-serif;
+    --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+
+    /* White overlays — backgrounds, borders, text (alpha scale) */
+    --w-05: rgba(255,255,255,0.05);  --w-08: rgba(255,255,255,0.08);
+    --w-12: rgba(255,255,255,0.12);  --w-15: rgba(255,255,255,0.15);
+    --w-20: rgba(255,255,255,0.20);  --w-24: rgba(255,255,255,0.24);
+    --w-30: rgba(255,255,255,0.30);  --w-35: rgba(255,255,255,0.35);
+    --w-40: rgba(255,255,255,0.40);  --w-45: rgba(255,255,255,0.45);
+    --w-50: rgba(255,255,255,0.50);  --w-55: rgba(255,255,255,0.55);
+    --w-62: rgba(255,255,255,0.62);  --w-82: rgba(255,255,255,0.82);
+    --w-85: rgba(255,255,255,0.85);  --w-90: rgba(255,255,255,0.90);
+
+    /* Black shadows / scrims (alpha scale) */
+    --k-12: rgba(0,0,0,0.12);  --k-15: rgba(0,0,0,0.15);  --k-18: rgba(0,0,0,0.18);
+    --k-30: rgba(0,0,0,0.30);  --k-35: rgba(0,0,0,0.35);  --k-40: rgba(0,0,0,0.40);
+    --k-45: rgba(0,0,0,0.45);  --k-55: rgba(0,0,0,0.55);  --k-85: rgba(0,0,0,0.85);
+
+    /* Frosted surfaces */
+    /* backdrop-filter blur is one of the most expensive things the compositor
+       runs, and the menu bar + dock are always on screen — cost scales with
+       radius, so these are kept as low as the glass look tolerates. */
+    --blur-glass: blur(12px) saturate(100%);
+    --blur-menu:  blur(12px) saturate(100%);
+    --blur-panel: blur(20px) saturate(100%);
+    --blur-dock:  blur(12px) saturate(100%);
+    --surface-window:  rgba(20,20,26,0.62);
+    --surface-menu:    rgba(18,18,24,0.28);
+    --surface-card:    rgba(26,26,32,0.55);
+    --surface-tooltip: rgba(20,20,20,0.82);
+    --badge-bg:        rgba(10,10,10,0.82);
+    --shadow-window: 0 30px 80px var(--k-55), inset 0 1px 0 var(--w-12);
+
+    /* Accents */
+    --tl-red:   #ff5f57;
+    --tl-amber: #febc2e;
+    --tl-green: #28c840;
+    --danger:        #ff6b6b;
+    --danger-soft:   rgba(255,90,90,0.8);
+    --danger-strong: rgb(255,70,70);
+    --danger-badge:  rgba(200,50,50,0.9);
+    --pick-blue: rgba(40,110,255,0.22);
+    --drop-blue: rgba(96,165,250,0.30);
+
+    /* Profile-card color tokens (overridden per-theme in .about-panel) */
+    --color-name:     #1a1a1a;
+    --color-subtitle: #3a3a3a;
+    --color-body:     #666;
+    --color-sep:      rgba(0, 0, 0, 0.08);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: var(--font-sans);
+    color: white;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url('../wallpapers/27_golden_gate.jpg');
+    background-size: cover;
+    background-position: top center;
+    z-index: -2;
+}
+
+/* A wallpaper picked in Settings (settings.js sets the variable). */
+.custom-wallpaper body::before { background: var(--wallpaper); }
+
+/* Ambient scrim: vignette + subtle top-to-bottom darkening so glass
+   pops and labels stay legible over any wallpaper. */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 50% 38%, transparent 45%, var(--k-40) 100%),
+        linear-gradient(var(--k-12), var(--k-30));
+    z-index: -1;
+    pointer-events: none;
+}
+
+.glass {
+    background: linear-gradient(135deg, var(--w-15), var(--w-05));
+    backdrop-filter: var(--blur-glass);
+    -webkit-backdrop-filter: var(--blur-glass);
+    border: 1px solid var(--w-20);
+    border-radius: 14px;
+    box-shadow: 0 8px 32px var(--k-35),
+                inset 0 1px 0 var(--w-30),
+                inset 0 -1px 0 var(--k-15);
+}
+
+/* macOS traffic lights — glyphs reveal on hover over the cluster */
+.traffic-lights { display: flex; align-items: center; gap: 9px; margin-right: 9px; flex-shrink: 0; }
+.tl {
+    width: 14px; height: 14px;
+    border: none; border-radius: 50%; padding: 0;
+    box-shadow: inset 0 0 0 0.5px var(--k-18);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; line-height: 1;
+    color: var(--k-55);
+}
+.tl-close    { background: var(--tl-red); }
+.tl-minimize { background: var(--tl-amber); }
+.tl-zoom     { background: var(--tl-green); }
+.tl::before { opacity: 0; transition: opacity 0.12s; }
+.traffic-lights:hover .tl-close::before    { content: '\00d7'; opacity: 1; }
+.traffic-lights:hover .tl-minimize::before { content: '\2013'; opacity: 1; }
+.traffic-lights:hover .tl-zoom::before     { content: '\002b'; opacity: 1; }

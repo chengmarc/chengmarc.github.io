@@ -1,0 +1,148 @@
+/* ===================================================================
+   Menu bar — the strip along the top: menu items, status (location,
+   IP, network, battery), the clock, and its calendar popover.
+   =================================================================== */
+
+.menu-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 33px;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px;
+    background: var(--surface-menu);
+    backdrop-filter: var(--blur-menu);
+    -webkit-backdrop-filter: var(--blur-menu);
+    border-bottom: 1px solid var(--w-12);
+    box-shadow: 0 1px 3px var(--k-18);
+    font-size: 0.88rem;
+    line-height: 1;
+    color: var(--w-90);
+    user-select: none;
+    -webkit-user-select: none;
+}
+.menu-left  { display: flex; align-items: center; gap: 4px; }
+.menu-right { display: flex; align-items: center; gap: 15px; }
+.menu-item.menu-brand { font-weight: 700; }
+.menu-item {
+    background: none;
+    border: none;
+    font: inherit;
+    color: var(--w-82);
+    cursor: pointer;
+    padding: 3px 9px;
+    border-radius: 6px;
+    transition: background 0.12s, color 0.12s;
+}
+.menu-item:hover  { background: var(--w-15); color: #fff; }
+/* Small glyph before a menu item's label (Settings, All Apps) */
+.menu-item:has(.menu-ico) { display: inline-flex; align-items: center; gap: 6px; }
+.menu-ico { display: block; flex-shrink: 0; }
+.menu-item.active { background: var(--w-24); color: #fff; }
+.menu-status {
+    display: flex;
+    align-items: center;
+    color: var(--w-85);
+    transition: opacity 0.2s ease;
+}
+.menu-status svg { display: block; }
+.menu-loc {
+    gap: 6px;
+    font-size: 0.82rem;
+    letter-spacing: 0.02em;
+}
+.menu-loc img {
+    width: 20px; height: 15px;
+    border-radius: 2px;
+    display: block;
+    object-fit: cover;
+    box-shadow: 0 0 0 1px var(--w-20);
+}
+.menu-ip {
+    background: none;
+    border: none;
+    font: inherit;
+    font-size: 0.82rem;
+    letter-spacing: 0.02em;
+    font-variant-numeric: tabular-nums;
+    color: var(--w-85);
+    cursor: pointer;
+    padding: 2px 7px;
+    border-radius: 5px;
+    transition: background 0.12s, color 0.12s;
+}
+.menu-ip:hover  { background: var(--w-15); color: #fff; }
+.menu-ip.copied { color: #7ee87e; }
+.menu-status.offline { opacity: 0.35; }
+.menu-status[hidden] { display: none; }   /* its flex would override [hidden] */
+.menu-clock {
+    background: none;
+    border: none;
+    font: inherit;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    color: var(--w-90);
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    padding: 3px 8px;
+    border-radius: 6px;
+    transition: background 0.12s, color 0.12s;
+}
+.menu-clock:hover  { background: var(--w-15); color: #fff; }
+.menu-clock.active { background: var(--w-20); color: #fff; }
+
+/* Calendar popover, opened from the clock */
+.cal-popover {
+    position: fixed;
+    top: 42px; right: 12px;
+    width: 288px;
+    padding: 16px;
+    z-index: 250;
+    color: #fff;
+    opacity: 0;
+    transform: scale(0.96) translateY(-6px);
+    transform-origin: top right;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.24s var(--ease-spring);
+}
+.cal-popover.open { opacity: 1; transform: none; pointer-events: auto; }
+.cal-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 12px;
+}
+.cal-title { font-size: 1rem; font-weight: 500; letter-spacing: 0.01em; }
+.cal-nav { display: flex; align-items: center; gap: 4px; }
+.cal-arrow, .cal-today {
+    background: none; border: none;
+    color: var(--w-82);
+    cursor: pointer; font: inherit;
+    border-radius: 6px;
+    transition: background 0.12s, color 0.12s;
+}
+.cal-arrow {
+    width: 26px; height: 26px;
+    font-size: 1.15rem; line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+}
+.cal-today { font-size: 0.74rem; padding: 5px 10px; }
+.cal-arrow:hover, .cal-today:hover { background: var(--w-15); color: #fff; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.cal-dow {
+    text-align: center;
+    font-size: 0.66rem; font-weight: 600;
+    color: var(--w-45);
+    text-transform: uppercase; letter-spacing: 0.04em;
+    padding: 2px 0 6px;
+}
+.cal-day {
+    aspect-ratio: 1 / 1;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem;
+    border-radius: 50%;
+    color: var(--w-90);
+    font-variant-numeric: tabular-nums;
+}
+.cal-day.other { color: var(--w-30); }
+.cal-day.today { background: #fff; color: #14141a; font-weight: 600; }

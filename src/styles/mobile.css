@@ -1,0 +1,48 @@
+/* ─────────────────────────────────────────────────────────────────────
+   Mobile: drop the desktop metaphor entirely — no menu bar, dock, windows,
+   or About panel. All that's left is the home-screen icons, flattened out
+   of their absolute col/row positions into a simple 3-wide grid. Purely a
+   CSS reshape of the same markup; the JS still renders icons the same way.
+   ───────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .menu-bar,
+    .dock,
+    .all-apps,
+    .about-panel,
+    .settings-panel,
+    .cal-popover,
+    .welcome,
+    .desktop-icon-ghost { display: none !important; }
+
+    /* The desktop becomes the scrolling surface for the grid; contain the
+       overscroll so dragging the grid doesn't rubber-band the whole page. */
+    .desktop { overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+    .desktop-grid {
+        position: static;
+        inset: auto;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px 4px;
+        /* Cap + center so the three columns stay grouped instead of spreading
+           edge-to-edge on wider tablets (a 768px iPad would otherwise leave
+           huge gaps around each 68px tile). */
+        max-width: 420px;
+        margin-inline: auto;
+        padding: calc(24px + env(safe-area-inset-top)) 12px
+                 calc(24px + env(safe-area-inset-bottom));
+    }
+
+    /* Neutralize the inline absolute positioning set in renderDesktopIcons
+       so icons flow into grid cells instead of sitting at their col/row. */
+    .desktop-icon {
+        position: static !important;
+        left: auto !important;
+        top:  auto !important;
+        width: auto;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    /* No hover lift on touch; the JS press-scale still gives tap feedback. */
+    .desktop-icon:hover { background: none; transform: none; }
+    .desktop-icon:hover .icon-art { filter: var(--icon-shadow); }
+}

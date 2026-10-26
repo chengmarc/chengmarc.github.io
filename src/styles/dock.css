@@ -1,0 +1,133 @@
+/* ===================================================================
+   Dock — the bar along the bottom, its icons and magnification.
+   =================================================================== */
+
+.dock {
+    position: fixed;
+    left: 50%;
+    bottom: 18px;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 12px;
+    max-width: calc(100vw - 40px);
+    padding: 10px 14px;
+    background: linear-gradient(180deg, var(--w-20), var(--w-12));
+    backdrop-filter: var(--blur-dock);
+    -webkit-backdrop-filter: var(--blur-dock);
+    border: 1px solid var(--w-30);
+    border-radius: 24px;
+    box-shadow: 0 12px 40px var(--k-40),
+                inset 0 1px 0 var(--w-20),
+                inset 0 -1px 0 var(--k-15);
+    z-index: 100;
+    user-select: none;
+    overflow: visible;
+}
+
+.dock-icon {
+    position: relative;
+    display: flex;
+    align-items: center; justify-content: center;
+    width: 68px; height: 68px;
+    text-decoration: none;
+    transition: transform 0.09s ease, margin 0.09s ease;
+    transform-origin: center bottom;
+    overflow: visible;
+    flex-shrink: 0;
+}
+.dock-icon:hover { z-index: 10; }
+
+/* macOS-style launch bounce on click */
+@keyframes dockBounce {
+    0%, 100% { transform: translateY(0)     scale(1);    }
+    30%      { transform: translateY(-20px) scale(1.06); }
+    55%      { transform: translateY(0)     scale(1);    }
+    75%      { transform: translateY(-8px)  scale(1.02); }
+}
+.dock-icon.bouncing, .dock-all-apps.bouncing { animation: dockBounce 0.6s ease; }
+
+/* ✕ badge on dock icons */
+.dock-icon-delete {
+    position: absolute;
+    top: -4px; left: -4px;
+    width: 18px; height: 18px;
+    background: var(--badge-bg);
+    border: 1.5px solid var(--w-55);
+    border-radius: 50%;
+    color: white;
+    font-size: 10px; font-weight: 700;
+    display: none;
+    align-items: center; justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+    font-family: inherit; line-height: 1; padding: 0;
+    transition: background 0.12s;
+}
+.dock-icon-delete:hover { background: var(--danger-badge); }
+.dock.editing .dock-icon { animation: jiggle 0.22s ease-in-out infinite; transform-origin: center center; }
+.dock.editing .dock-icon:hover { transform: none; }
+.dock.editing .dock-icon:nth-child(even) { animation-delay: 0.11s; }
+.dock.editing .dock-icon-delete { display: flex; }
+.dock.editing .dock-icon.locked { animation: none; }
+
+/* Insertion indicator for horizontal dock reorder */
+.dock-icon.drag-over {
+    box-shadow: -3px 0 0 0 var(--w-82);
+}
+
+.dock-sep {
+    width: 1px; height: 44px;
+    background: var(--w-20);
+    margin: 0 4px;
+    align-self: center;
+    flex-shrink: 0;
+}
+
+/* Highlight the dock as a drop target while dragging a desktop icon over it */
+.dock.drop-target {
+    box-shadow: 0 12px 40px var(--k-40),
+                inset 0 1px 0 var(--w-20),
+                inset 0 -1px 0 var(--k-15),
+                0 0 0 2px var(--w-62);
+}
+
+/* Bare container like .dock-icon — the inner .icon-art provides the tile,
+   border, shadow and sheen, so this matches every other icon exactly. */
+.dock-all-apps {
+    position: relative;
+    width: 68px; height: 68px;
+    display: flex;
+    align-items: center; justify-content: center;
+    cursor: pointer;
+    background: none; border: none;
+    transition: transform 0.09s ease, margin 0.09s ease;
+    transform-origin: center bottom;
+    padding: 0;
+    flex-shrink: 0;
+}
+.dock-all-apps:hover { z-index: 10; }
+.dock.editing .dock-all-apps { transform: none !important; }
+
+/* Tooltips — appear above the horizontal dock */
+.dock-icon::after, .dock-all-apps::after {
+    content: attr(title);
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--surface-tooltip);
+    color: white;
+    font-size: 0.7rem;
+    padding: 3px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s;
+    font-family: var(--font-sans);
+    letter-spacing: 0.02em;
+}
+.dock-icon:hover::after, .dock-all-apps:hover::after { opacity: 1; }
+.dock.editing .dock-icon::after { display: none; }

@@ -1,0 +1,233 @@
+/* ===================================================================
+   All Apps — the bookmark window: categories and links in Miller
+   columns, search, edit mode and the Add Icon pick mode.
+   =================================================================== */
+
+/* Transparent layer that just centers the window — no desktop dim/blur,
+   exactly like opening a normal window in a real OS. */
+.all-apps {
+    position: fixed;
+    inset: 0;
+    z-index: 400;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 8vh;   /* nudge the window up from dead-center */
+    background: transparent;
+}
+.all-apps.open { /* pointer-events handled per child */ }
+
+/* The floating window itself — draggable, glass, springs in on open.
+   `scale` (entrance) and `translate` (dragging) are independent CSS
+   properties, so they compose without fighting over `transform`. */
+.all-apps-window {
+    display: flex;
+    flex-direction: column;
+    width: min(770px, 92vw);
+    height: min(608px, 67vh);
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--surface-window);
+    backdrop-filter: var(--blur-panel);
+    -webkit-backdrop-filter: var(--blur-panel);
+    border: 1px solid var(--w-15);
+    box-shadow: var(--shadow-window);
+    scale: 0.96;
+    opacity: 0;
+    transition: scale 0.3s var(--ease-spring),
+                opacity 0.28s ease,
+                width 0.22s ease, height 0.22s ease;
+    pointer-events: none;   /* only interactive once open (below) */
+}
+.all-apps.open .all-apps-window { scale: 1; opacity: 1; pointer-events: auto; }
+
+.all-apps-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 16px;
+    background: var(--w-05);
+    border-bottom: 1px solid var(--w-12);
+    flex-shrink: 0;
+    cursor: grab;
+    user-select: none; -webkit-user-select: none;
+}
+.all-apps-bar.grabbing { cursor: grabbing; }
+.all-apps-bar input  { cursor: text; }
+.all-apps-bar button { cursor: pointer; }
+
+.all-apps-bar h2 {
+    font-size: 1.3rem; font-weight: 500;
+    letter-spacing: 0.01em;
+    flex-shrink: 0;
+}
+.all-apps-search {
+    width: 220px;
+    flex-shrink: 0;
+    padding: 4px 12px;
+    background: var(--w-12);
+    border: 1px solid var(--w-20);
+    border-radius: 8px;
+    color: white;
+    font-family: var(--font-sans);
+    font-size: 0.8rem; outline: none;
+    transition: background 0.15s, border-color 0.15s;
+}
+.all-apps-search::placeholder { color: var(--w-40); }
+.all-apps-search:focus { border-color: var(--w-45); background: var(--w-15); }
+.all-apps-bar-btn {
+    background: var(--w-12);
+    border: 1px solid var(--w-20);
+    color: var(--w-82);
+    padding: 4px 13px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit; font-size: 0.8rem;
+    flex-shrink: 0;
+    transition: background 0.15s, color 0.15s;
+    white-space: nowrap;
+}
+.all-apps-bar-btn:hover { background: var(--w-20); color: white; }
+.all-apps-bar .all-apps-search { margin-left: auto; }
+
+/* Pick mode banner */
+.pick-banner {
+    display: none;
+    align-items: center; justify-content: center;
+    gap: 14px;
+    padding: 9px 20px;
+    background: var(--pick-blue);
+    border-bottom: 1px solid var(--w-12);
+    font-size: 0.85rem; color: var(--w-90);
+    flex-shrink: 0;
+}
+.all-apps.pick-mode .pick-banner { display: flex; }
+.pick-banner button {
+    background: var(--w-15);
+    border: 1px solid var(--w-24);
+    color: white; padding: 3px 11px;
+    border-radius: 8px; cursor: pointer;
+    font-family: inherit; font-size: 0.78rem;
+    transition: background 0.15s;
+}
+.pick-banner button:hover { background: var(--w-24); }
+
+.all-apps-scroll {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+    min-height: 0;
+}
+
+/* Miller columns */
+.miller { display: flex; flex: 1; min-height: 0; }
+.miller-col {
+    overflow-y: auto;
+    padding: 8px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--w-20) transparent;
+}
+.miller-col::-webkit-scrollbar { width: 6px; }
+.miller-col::-webkit-scrollbar-track { background: transparent; }
+.miller-col::-webkit-scrollbar-thumb { background: var(--w-20); border-radius: 3px; }
+.miller-col::-webkit-scrollbar-thumb:hover { background: var(--w-40); }
+.miller-cats { width: 236px; flex-shrink: 0; border-right: 1px solid var(--w-12); }
+.miller-links { flex: 1; }
+
+.miller-cat {
+    display: flex; align-items: center; gap: 9px;
+    width: 100%;
+    padding: 7px 9px;
+    border: none; background: none;
+    color: var(--w-90);
+    font: inherit; font-size: 0.9rem;
+    text-align: left; cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.12s, opacity 0.12s;
+}
+.miller-cat:hover { background: var(--w-08); }
+.miller-cat.sel  { background: var(--w-15); }
+.miller-cat.dim  { opacity: 0.3; }
+.miller-cat-ico    { display: flex; color: var(--w-62); flex-shrink: 0; }
+.miller-cat-label  { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.miller-cat-count  { font-size: 0.72rem; color: var(--w-40); font-variant-numeric: tabular-nums; }
+.miller-chevron    { color: var(--w-35); font-size: 0.95rem; line-height: 1; }
+
+.miller-link {
+    display: flex; align-items: center; gap: 10px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--w-90);
+    font-size: 0.9rem;
+    transition: background 0.12s;
+}
+.miller-link:hover { background: var(--w-08); color: #fff; }
+.miller-link-ico { flex-shrink: 0; }
+.miller-link-label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.miller-link-cat   { font-size: 0.72rem; color: var(--w-40); flex-shrink: 0; }
+.miller-empty { padding: 44px 16px; text-align: center; color: var(--w-30); font-size: 0.9rem; }
+
+/* Pick mode: ＋ affordance on links */
+.all-apps.pick-mode .miller-link::after {
+    content: '＋'; margin-left: 6px; font-size: 0.8em;
+    color: var(--w-62); opacity: 0; transition: opacity 0.15s;
+}
+.all-apps.pick-mode .miller-link:hover::after { opacity: 1; }
+.miller-link.just-picked { animation: pickFlash 0.8s ease-out forwards; }
+
+/* Editing affordances */
+.miller-link-row { display: flex; align-items: center; }
+.miller-link-row .miller-link { flex: 1; min-width: 0; }
+.all-apps.bm-editing .miller-cat,
+.all-apps.bm-editing .miller-link-row { cursor: grab; }
+.miller-cat-rename, .miller-cat-delete,
+.miller-link-rename, .miller-link-delete {
+    background: none; border: none; cursor: pointer;
+    font: inherit; font-size: 0.78rem; line-height: 1;
+    padding: 3px 5px; border-radius: 5px;
+    color: var(--w-50); flex-shrink: 0;
+    transition: color 0.12s, background 0.12s;
+}
+.miller-cat-rename:hover, .miller-link-rename:hover { color: #fff; background: var(--w-15); }
+.miller-cat-delete:hover, .miller-link-delete:hover { color: var(--danger); background: var(--w-12); }
+.miller-cat.bm-dragging, .miller-link-row.bm-dragging { opacity: 0.4; }
+.miller-cat.drag-over, .miller-link-row.drag-over { box-shadow: inset 0 2px 0 var(--w-85); }
+.miller-cat.drop-into {
+    background: var(--drop-blue);
+    box-shadow: inset 0 0 0 1px var(--w-55);
+}
+.miller-rename-input {
+    flex: 1; min-width: 0;
+    background: var(--w-12);
+    border: 1px solid var(--w-40);
+    border-radius: 5px; color: #fff;
+    font: inherit; font-size: 0.9rem; padding: 2px 6px; outline: none;
+}
+.miller-link-editor { display: flex; gap: 6px; flex: 1; min-width: 0; align-items: center; }
+.miller-link-editor .miller-rename-input:first-child { flex: 1; }
+.miller-link-editor .miller-rename-input:last-child  { flex: 2; font-size: 0.82rem; }
+.miller-add-cat, .miller-add-link { display: flex; gap: 6px; padding: 8px; flex-wrap: wrap; }
+.miller-add-input {
+    flex: 1; min-width: 0;
+    background: var(--w-08);
+    border: 1px solid var(--w-15);
+    border-radius: 7px; color: #fff;
+    padding: 5px 8px; font: inherit; font-size: 0.82rem; outline: none;
+    transition: border-color 0.12s, background 0.12s;
+}
+.miller-add-input:focus { border-color: var(--w-40); background: var(--w-12); }
+.miller-add-input::placeholder { color: var(--w-35); }
+.miller-add-btn {
+    background: var(--w-15); border: 1px solid var(--w-20);
+    color: #fff; border-radius: 7px; padding: 5px 12px; cursor: pointer;
+    font: inherit; font-size: 0.82rem; white-space: nowrap;
+    transition: background 0.12s;
+}
+.miller-add-btn:hover { background: var(--w-24); }
+@keyframes pickFlash {
+    0%   { color: rgba(120,230,120,0.95); }
+    100% { color: var(--w-90); }
+}
+a.just-picked { animation: pickFlash 0.8s ease-out forwards; }

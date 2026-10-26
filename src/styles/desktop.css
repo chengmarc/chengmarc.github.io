@@ -1,0 +1,25 @@
+/* ===================================================================
+   Desktop — the full-screen surface and its icon grid.
+   =================================================================== */
+
+.desktop {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+}
+
+.desktop-grid {
+    position: absolute;
+    inset: 0;
+}
+
+/* Drop-target ghost shown during icon drag */
+.desktop-icon-ghost {
+    position: absolute;
+    width: 114px; height: 109px;
+    border: 2px dashed var(--w-45);
+    border-radius: 16px;
+    pointer-events: none;
+    z-index: 50;
+    transition: left 0.06s ease, top 0.06s ease;
+}

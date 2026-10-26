@@ -1,0 +1,146 @@
+/* ===================================================================
+   About panel — the profile card, opened from the ✦ Bookmark OS
+   wordmark. Every selector is scoped under .about-panel so the card
+   styles never touch the desktop. Content is authored as static HTML
+   in index.html so it renders even with scripts stripped.
+   =================================================================== */
+.about-panel {
+    position: fixed;
+    top: 0; left: 0;
+    z-index: 500;
+    max-width: 860px;
+    width: calc(100vw - 48px);
+    /* Spring-in on open: scale only here; opacity lives on .card (same
+       element as backdrop-filter) so the blur is composited throughout
+       the animation rather than popping in when it settles. */
+    scale: 0.96;
+    pointer-events: none;
+    transition: scale 0.3s var(--ease-spring),
+                max-width 0.22s ease;
+    /* Dark theme, matching the All Apps window. Overriding the color
+       tokens here flips every scoped card rule to light-on-dark at once. */
+    --color-name:     #f5f5f7;
+    --color-subtitle: rgba(255, 255, 255, 0.82);
+    --color-body:     rgba(255, 255, 255, 0.60);
+    --color-sep:      rgba(255, 255, 255, 0.12);
+}
+.about-panel.open { scale: 1; pointer-events: auto; }
+
+.about-panel .card {
+    position: relative;
+    width: 100%;
+    background: var(--surface-window);
+    backdrop-filter: var(--blur-panel);
+    -webkit-backdrop-filter: var(--blur-panel);
+    border: 1px solid var(--w-15);
+    border-radius: 16px;
+    box-shadow: var(--shadow-window);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    color: var(--color-name);
+    opacity: 0;
+    transition: opacity 0.28s ease;
+}
+.about-panel.open .card { opacity: 1; }
+
+.about-panel .about-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 16px;
+    background: var(--w-05);
+    border-bottom: 1px solid var(--w-12);
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+}
+.about-panel.grabbing .about-bar { cursor: grabbing; }
+.about-panel .about-bar h2 {
+    font-size: 1.3rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: #fff;
+}
+
+/* Hero: app icon + product name, laid out like macOS "About This Mac". */
+.about-panel .about-hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    padding: 40px 48px 36px;
+}
+/* Soft glow behind the icon so it lifts off the glass. */
+.about-panel .about-hero::before {
+    content: '';
+    position: absolute;
+    left: 20px; top: 50%;
+    width: 220px; height: 220px;
+    translate: 0 -50%;
+    background: radial-gradient(circle, var(--w-12) 0%, transparent 65%);
+    pointer-events: none;
+}
+.about-panel .about-app-icon {
+    position: relative;
+    width: 112px; height: 112px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 10px 24px var(--k-40));
+}
+.about-panel .about-hero-text { position: relative; min-width: 0; }
+.about-panel .about-product { font-size: 2rem; font-weight: 600; letter-spacing: -0.01em; color: var(--color-name); line-height: 1.1; }
+.about-panel .about-tagline { font-size: 0.95rem; color: var(--color-subtitle); margin-top: 8px; line-height: 1.4; }
+.about-panel .about-meta { display: flex; align-items: center; gap: 14px; margin-top: 18px; flex-wrap: wrap; }
+.about-panel .about-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.about-panel .about-chip {
+    display: inline-flex;
+    align-items: center;
+    height: 30px;
+    padding: 0 14px;
+    border-radius: 999px;
+    background: var(--w-08);
+    border: 1px solid var(--w-15);
+    color: var(--color-name);
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.18s ease, transform 0.18s ease;
+}
+.about-panel .about-chip:hover { background: var(--w-20); transform: translateY(-1px); }
+.about-panel .about-meta-note { font-size: 0.7rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--color-body); }
+
+.about-panel .card-top   { display: flex; align-items: stretch; }
+.about-panel .card-left  { width: 360px; flex-shrink: 0; padding: 32px 40px 32px 48px; }
+.about-panel .card-vsep  { width: 1px; background: var(--color-sep); margin: 28px 0; flex-shrink: 0; }
+.about-panel .card-right { flex: 1; padding: 32px 48px 32px 40px; display: flex; align-items: center; }
+.about-panel .card-hsep  { height: 1px; background: var(--color-sep); margin: 0 36px; }
+.about-panel .card-bottom{ padding: 22px 48px 28px; }
+
+.about-panel .icon-strip { display: flex; align-items: center; flex-wrap: wrap; }
+.about-panel .icon-group { display: flex; flex-direction: column; gap: 8px; padding: 0 24px; }
+.about-panel .icon-group:first-child { padding-left: 0; }
+.about-panel .section-label,
+.about-panel .icon-group-label,
+.about-panel .contact-label { font-size: 0.62rem; letter-spacing: 2.5px; text-transform: uppercase; font-weight: 600; color: var(--color-subtitle); }
+.about-panel .section-label { color: var(--color-body); margin-bottom: 10px; }
+.about-panel .icons { display: flex; flex-wrap: nowrap; gap: 8px; }
+.about-panel .strip-sep { color: var(--w-20); font-size: 1.2rem; font-weight: 200; line-height: 1; margin-top: 22px; flex-shrink: 0; }
+
+.about-panel h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--color-name); margin-bottom: 4px; line-height: 1.1; }
+.about-panel .name-alt { font-size: 0.8rem; color: var(--color-subtitle); letter-spacing: 3px; text-transform: uppercase; font-weight: 400; margin-bottom: 20px; }
+.about-panel .note { font-size: 0.85rem; color: var(--color-body); line-height: 1.6; }
+
+.about-panel .contact { display: flex; flex-direction: column; gap: 6px; }
+.about-panel .contact-row { display: flex; align-items: baseline; gap: 10px; text-decoration: none; }
+.about-panel .contact-label { flex-shrink: 0; width: 72px; }
+.about-panel .contact-email { font-size: 0.72rem; color: var(--color-body); }
+.about-panel .contact-row:hover .contact-email { color: var(--color-subtitle); }
+
+.about-panel .icon-link { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 10px; background: var(--w-08); border: 1px solid var(--w-15); transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease; text-decoration: none; flex-shrink: 0; }
+.about-panel .icon-link:hover { background: var(--w-20); transform: translateY(-3px); box-shadow: 0 6px 18px var(--k-35); }
+.about-panel .icon-link img,
+.about-panel .icon-link svg { width: 22px; height: 22px; display: block; filter: brightness(0) invert(0.75); }
+/* Paragraph is an opaque blue tile (not a transparent glyph): the silhouette
+   filter would flatten it to a featureless square, so desaturate instead —
+   drops the color to gray while keeping the fan glyph readable. */
+.about-panel .icon-link img.icon-img-filtered { border-radius: 4px; filter: grayscale(1); }
