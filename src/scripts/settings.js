@@ -5,19 +5,23 @@
 // ─────────────────────────────────────────────────────────────────────
 const SETTINGS_STORE = 'webos_settings';
 
-// Built-in wallpapers. `image` is a file under the site root; `css` is a
-// background value. The first is the default, set in styles.css itself.
+// Built-in wallpapers, in src/wallpapers/, with a 320x180 thumbnail of each
+// under the same name in src/thumbs/ for the Settings swatches. Names are places, so they stay
+// untranslated. Golden Gate is the default, set in styles.css itself; an
+// unknown saved id (such as an older preset) falls back to it.
+const WALLPAPER_DIR = 'src/wallpapers/';
+const THUMB_DIR     = 'src/thumbs/';
 const WALLPAPERS = [
-	{ id: 'default',  name: 'Default',  image: 'src/background.jpeg' },
-	{ id: 'midnight', name: 'Midnight', css: 'linear-gradient(160deg, #0f2027, #203a43 50%, #2c5364)' },
-	{ id: 'aurora',   name: 'Aurora',   css: 'radial-gradient(ellipse at 20% 15%, #2fbf8f, transparent 55%), radial-gradient(ellipse at 80% 35%, #6a5cff, transparent 55%), linear-gradient(180deg, #0b1026, #1b1440)' },
-	{ id: 'sunset',   name: 'Sunset',   css: 'linear-gradient(170deg, #2b1055, #a8327f 55%, #ff9a5a)' },
-	{ id: 'ocean',    name: 'Ocean',    css: 'linear-gradient(160deg, #1e3c72, #2a5298 50%, #4ca1af)' },
-	{ id: 'forest',   name: 'Forest',   css: 'linear-gradient(160deg, #0b3d2e, #1f6f4a 55%, #8fb35a)' },
-	{ id: 'graphite', name: 'Graphite', css: 'linear-gradient(160deg, #1c1d20, #45474c)' },
+	{ id: 'yosemite',    name: 'Yosemite',    file: '10.10_yosemite.jpg' },
+	{ id: 'el-capitan',  name: 'El Capitan',  file: '10.11_el_capitan.jpg' },
+	{ id: 'mojave',      name: 'Mojave',      file: '10.14_mojave.jpg' },
+	{ id: 'sequoia',     name: 'Sequoia',     file: '15_sequoia.jpg' },
+	{ id: 'tahoe',       name: 'Tahoe',       file: '26_tahoe.jpg' },
+	{ id: 'golden-gate', name: 'Golden Gate', file: '27_golden_gate.jpg' },
 ];
+const DEFAULT_WALLPAPER = WALLPAPERS.find(w => w.id === 'golden-gate');
 
-let settings = { wallpaper: 'default', autoSync: false, showIP: true, language: 'auto' };
+let settings = { wallpaper: DEFAULT_WALLPAPER.id, autoSync: false, showIP: true, language: 'auto' };
 
 function loadSettings() {
 	try { Object.assign(settings, JSON.parse(localStorage.getItem(SETTINGS_STORE)) || {}); } catch (_) {}
@@ -29,16 +33,20 @@ function saveSettings() {
 // ── Wallpaper ─────────────────────────────────────────────────────────
 // Images are resolved against the page, not the stylesheet, so one path
 // works on the site and in the extension.
-function wallpaperCss(w) {
-	return w.image ? 'url("' + new URL(w.image, document.baseURI).href + '") top center / cover' : w.css;
+function wallpaperUrl(path) {
+	return 'url("' + new URL(path, document.baseURI).href + '")';
+}
+
+function currentWallpaper() {
+	return WALLPAPERS.find(w => w.id === settings.wallpaper) || DEFAULT_WALLPAPER;
 }
 
 function applyWallpaper() {
-	const w = WALLPAPERS.find(x => x.id === settings.wallpaper) || WALLPAPERS[0];
+	const w = currentWallpaper();
 	const root = document.documentElement;
-	root.classList.toggle('custom-wallpaper', w !== WALLPAPERS[0]);
-	if (w === WALLPAPERS[0]) root.style.removeProperty('--wallpaper');
-	else root.style.setProperty('--wallpaper', wallpaperCss(w));
+	root.classList.toggle('custom-wallpaper', w !== DEFAULT_WALLPAPER);
+	if (w === DEFAULT_WALLPAPER) root.style.removeProperty('--wallpaper');
+	else root.style.setProperty('--wallpaper', wallpaperUrl(WALLPAPER_DIR + w.file) + ' top center / cover');
 }
 
 function renderWallpapers() {
@@ -46,11 +54,10 @@ function renderWallpapers() {
 	grid.innerHTML = '';
 	WALLPAPERS.forEach(w => {
 		const preview = el('span', { class: 'wallpaper-preview' });
-		preview.style.background = wallpaperCss(w);
-		const name = t('wallpaper.' + w.id);
-		const btn = el('button', { class: 'wallpaper-swatch', title: name, data: { id: w.id } },
-			preview, el('span', { class: 'wallpaper-name', text: name }));
-		const sel = w.id === settings.wallpaper;
+		preview.style.background = wallpaperUrl(THUMB_DIR + w.file) + ' center / cover';
+		const btn = el('button', { class: 'wallpaper-swatch', title: w.name, data: { id: w.id } },
+			preview, el('span', { class: 'wallpaper-name', text: w.name }));
+		const sel = w === currentWallpaper();
 		btn.classList.toggle('sel', sel);
 		btn.setAttribute('aria-pressed', String(sel));
 		grid.appendChild(btn);
