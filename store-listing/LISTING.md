@@ -62,11 +62,11 @@ https://github.com/chengmarc/chengmarc.github.io/blob/main/store-listing/PRIVACY
 
 The Firefox build declares `bookmarksInfo` as required data collection, because each link's URL is sent to Google's favicon service to fetch its icon. Review this against Mozilla's current definitions when submitting.
 
-## Release notes — 1.4.0
+## Release notes — 1.4.1
 
 For Firefox Add-ons ("Release notes"); the other stores have no such field.
 
-Bookmark OS 1.4.0 — your bookmarks, kept in sync
+Bookmark OS 1.4.1 — your bookmarks, kept in sync
 
 • Sync with your browser: say yes once and your desktop follows your Bookmarks bar, on every new tab and whenever a bookmark changes. Folders become app categories, bookmarks outside folders become desktop icons, and icons keep their place. Bookmark OS only reads your bookmarks, never changes them.
 • New Settings window: six wallpapers, browser sync, a privacy switch for the location and IP in the menu bar (off stops those lookups entirely), and Import / Export / Restore.
