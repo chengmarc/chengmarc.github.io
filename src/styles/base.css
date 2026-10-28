@@ -30,7 +30,7 @@
     /* Light appearance, the only one: macOS's label, fill and separator
        colours. Everything inside a window or popover draws with these. */
     --text:   #1d1d1f;                 /* labels, titles */
-    --text-2: rgba(0,0,0,0.62);        /* secondary: notes, captions */
+    --text-2: rgba(0,0,0,0.64);        /* secondary: notes, captions */
     --text-3: rgba(0,0,0,0.42);        /* tertiary: placeholders, counts */
     --text-4: rgba(0,0,0,0.25);        /* disabled, days of other months */
     --fill-1: rgba(0,0,0,0.035);       /* grouped box, sidebar */
@@ -67,10 +67,12 @@
     --blur-glass: blur(12px) saturate(150%);
     --blur-panel: blur(20px) saturate(150%);
     --blur-dock:  blur(12px) saturate(150%);
-    /* Light glass. A window is close to opaque, as on macOS, so a busy
-       wallpaper can't muddy its text; a popover is a little clearer (the
-       white measured over macOS 26's menus is about 60%). */
-    --surface-window:  rgba(248,248,250,0.80);
+    /* Light glass. A window is as clear as it can be while its grey notes
+       (--text-2) keep 4.5:1 contrast, WCAG AA, over the darkest blurred
+       wallpaper (the Golden Gate rocks); any clearer and they drop below.
+       A popover is about as clear (the white measured over macOS 26's
+       menus is about 60%). */
+    --surface-window:  rgba(248,248,250,0.65);
     --surface-popover: rgba(255,255,255,0.62);
     --surface-tooltip: rgba(250,250,252,0.86);
     --badge-bg:        rgba(10,10,10,0.82);
