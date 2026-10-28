@@ -157,8 +157,6 @@ function renderAllBookmarks() {
 
 	renderMillerCats();
 	renderMillerLinks();
-
-	if (pickMode) $('allApps').classList.add('pick-mode');
 }
 
 // ── Mutations: categories ─────────────────────────────────────────────

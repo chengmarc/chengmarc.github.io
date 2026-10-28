@@ -43,22 +43,19 @@
     --control-bg:       rgba(255,255,255,0.50);
     --control-bg-hover: rgba(255,255,255,0.72);   /* and focus */
     --accent: #007aff;
-    --accent-hover: #2a8fff;
 
     /* White overlays — the glass itself, and anything drawn straight on
        the wallpaper (menu bar, desktop labels) (alpha scale) */
-    --w-05: rgba(255,255,255,0.05);  --w-08: rgba(255,255,255,0.08);
     --w-12: rgba(255,255,255,0.12);  --w-15: rgba(255,255,255,0.15);
     --w-20: rgba(255,255,255,0.20);  --w-24: rgba(255,255,255,0.24);
-    --w-30: rgba(255,255,255,0.30);  --w-35: rgba(255,255,255,0.35);
-    --w-40: rgba(255,255,255,0.40);  --w-45: rgba(255,255,255,0.45);
+    --w-35: rgba(255,255,255,0.35);  --w-45: rgba(255,255,255,0.45);
     --w-50: rgba(255,255,255,0.50);  --w-55: rgba(255,255,255,0.55);
     --w-62: rgba(255,255,255,0.62);  --w-82: rgba(255,255,255,0.82);
     --w-85: rgba(255,255,255,0.85);  --w-90: rgba(255,255,255,0.90);
 
     /* Black shadows / scrims (alpha scale) */
-    --k-12: rgba(0,0,0,0.12);  --k-15: rgba(0,0,0,0.15);  --k-18: rgba(0,0,0,0.18);
-    --k-30: rgba(0,0,0,0.30);  --k-35: rgba(0,0,0,0.35);  --k-40: rgba(0,0,0,0.40);
+    --k-15: rgba(0,0,0,0.15);  --k-18: rgba(0,0,0,0.18);
+    --k-30: rgba(0,0,0,0.30);  --k-35: rgba(0,0,0,0.35);
     --k-45: rgba(0,0,0,0.45);  --k-55: rgba(0,0,0,0.55);  --k-85: rgba(0,0,0,0.85);
 
     /* Frosted surfaces — Liquid Glass, as macOS 26 and 27 draw it */

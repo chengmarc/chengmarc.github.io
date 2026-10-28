@@ -3,7 +3,6 @@
    dock, All Apps), then edit mode: jiggle and delete badges.
    =================================================================== */
 
-/**************** Icons ****************/
 .desktop-icon {
     position: relative;
     display: flex;
@@ -111,9 +110,6 @@
     border-radius: 22%;
     z-index: 2;
 }
-/* Static app-icon fallback assets use this same bloom + sharp pipeline,
-   so restricted-network icons keep the colored tile background instead
-   of entering a separate placeholder rendering mode. */
 /* per-context sizing */
 .desktop-icon  .icon-art { width: 68px; height: 68px; }
 .dock-icon     .icon-art { width: 68px; height: 68px; }

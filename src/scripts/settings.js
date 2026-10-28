@@ -77,7 +77,6 @@ function renderLanguageSelect() {
 }
 
 // ── Settings window ───────────────────────────────────────────────────
-// Each opening shows the settings as they are now.
 function showSettings() {
 	renderWallpapers();
 	$('showIPToggle').checked = settings.showIP;
@@ -115,7 +114,6 @@ function setupSettings(onConfig) {
 	$('importBtn').addEventListener('click', () => importConfig(onConfig));
 	$('restoreBtn').addEventListener('click', () => {
 		if (!confirm(t('confirm.restore'))) return;
-		// Drop the cached favicons so a restore re-fetches every icon fresh.
 		clearFaviconCache();
 		onConfig(CFG);
 	});

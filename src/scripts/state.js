@@ -65,14 +65,6 @@ function normalizeBookmarks() {
 	S.bookmarkSections = [{ blocks }];
 }
 
-// Icons are resolved from each item's URL. Older saves and configs carried a
-// `favicon` field; strip it so it never resurfaces in an export.
-function dropIconFields() {
-	S.desktopIcons.forEach(i => { delete i.favicon; });
-	// `locked` is gone too: only the built-in apps are undeletable now.
-	S.dock.forEach(i => { if (i && i !== 'separator') { delete i.favicon; delete i.locked; } });
-}
-
 // All Apps and Settings are dock items like any other ({ app: id }), so they
 // can be moved, but never deleted. A dock saved or imported without them gets
 // them back where the default dock has them: All Apps first, set off by a
@@ -83,13 +75,11 @@ function ensureDockApps() {
 	if (!has('settings')) S.dock.push({ app: 'settings' });
 }
 
-// Replace the whole state with a config's icons, dock and bookmarks.
 function replaceState(cfg) {
 	S = clone({ desktopIcons: cfg.desktopIcons, dock: cfg.dock, bookmarkSections: cfg.bookmarkSections });
 	ensureDockApps();
 	ensureIconPositions();
 	normalizeBookmarks();
-	dropIconFields();
 	saveState();
 }
 
@@ -98,7 +88,7 @@ function loadState() {
 	let raw = null;
 	try {
 		raw = localStorage.getItem(STORE);
-		if (raw) { S = JSON.parse(raw); ensureDockApps(); ensureIconPositions(); normalizeBookmarks(); dropIconFields(); saveState(); return false; }
+		if (raw) { S = JSON.parse(raw); ensureDockApps(); ensureIconPositions(); normalizeBookmarks(); saveState(); return false; }
 	} catch (_) {}
 	replaceState(CFG);
 	return !raw;
@@ -109,7 +99,6 @@ function saveState() { localStorage.setItem(STORE, JSON.stringify(S)); }
 // ─────────────────────────────────────────────────────────────────────
 // Config import / export
 // ─────────────────────────────────────────────────────────────────────
-// Ask for a config.js file and hand its parsed WEBOS_CONFIG to onConfig.
 function importConfig(onConfig) {
 	const input = document.createElement('input');
 	input.type = 'file';

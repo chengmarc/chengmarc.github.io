@@ -26,7 +26,6 @@ const faviconCache = (() => {
 // instead of being stuck on the local glyph forever.
 const faviconFailed = new Set();
 
-// Forget every resolved and failed icon so the next render re-fetches all.
 function clearFaviconCache() {
 	for (const k in faviconCache) delete faviconCache[k];
 	faviconFailed.clear();
@@ -211,7 +210,6 @@ function fallbackIconSrc(domain) {
 function renderIdenticon(bloom, sharp, domain) {
 	const src = fallbackIconSrc(domain);
 	bloom.src = src;
-	sharp.onerror = null; sharp.onload = null;
 	sharp.src = src;
 }
 

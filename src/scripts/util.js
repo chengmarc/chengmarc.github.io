@@ -20,7 +20,6 @@ function el(tag, props = {}, ...kids) {
 	return node;
 }
 
-// Drag "ghost": a fixed-position clone of an icon that follows the pointer.
 function makeDragClone(node, rect) {
 	const c = node.cloneNode(true);
 	Object.assign(c.style, {

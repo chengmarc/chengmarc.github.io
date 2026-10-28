@@ -69,7 +69,6 @@ function startStatus(showIP) {
 let currentIP = '';
 let ipLooked  = false;   // the lookups run once, the first time they're shown
 
-// The IP chip copies the address on click.
 function setupIPChip() {
 	const ipEl = $('mbIP');
 	ipEl.addEventListener('click', () => {

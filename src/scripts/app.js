@@ -39,12 +39,11 @@ function setupEvents() {
 		// The built-in apps open their window; links open themselves.
 		if (icon && icon.dataset.app === 'allApps')  openAllBookmarks();
 		if (icon && icon.dataset.app === 'settings') toggleWindow('settings');
-		const launch = icon;
-		if (launch) {
-			launch.classList.remove('bouncing');
-			void launch.offsetWidth;
-			launch.classList.add('bouncing');
-			launch.addEventListener('animationend', () => launch.classList.remove('bouncing'), { once: true });
+		if (icon) {
+			icon.classList.remove('bouncing');
+			void icon.offsetWidth;
+			icon.classList.add('bouncing');
+			icon.addEventListener('animationend', () => icon.classList.remove('bouncing'), { once: true });
 		}
 	});
 

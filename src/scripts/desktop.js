@@ -29,15 +29,11 @@ function renderDesktopIcons() {
 // ─────────────────────────────────────────────────────────────────────
 // Render: dock
 // ─────────────────────────────────────────────────────────────────────
-// All Apps launcher uses the site's own favicon (a 3×3 grid),
-// rendered through the same tile pipeline as every other icon.
-const ALL_APPS_ICON = 'src/icons/all-apps.svg';
-const SETTINGS_ICON = 'src/icons/settings.svg';
-// The built-in apps a dock item can be ({ app: id }): icon, title key, and
-// what a click does (app.js).
+// The built-in apps a dock item can be ({ app: id }): icon and title key.
+// What a click does is in app.js.
 const DOCK_APP_INFO = {
-	allApps:  { icon: ALL_APPS_ICON, title: 'apps.title' },
-	settings: { icon: SETTINGS_ICON, title: 'menu.settings' },
+	allApps:  { icon: 'src/icons/all-apps.svg', title: 'apps.title' },
+	settings: { icon: 'src/icons/settings.svg', title: 'menu.settings' },
 };
 
 function renderDock() {
@@ -51,7 +47,7 @@ function renderDock() {
 		}
 		const app = DOCK_APP_INFO[item.app];
 		if (app) {
-			dock.appendChild(el('button', { class: 'dock-icon dock-app locked', title: t(app.title), data: { dockIdx, app: item.app, i18nTitle: app.title } },
+			dock.appendChild(el('button', { class: 'dock-icon dock-app', title: t(app.title), data: { dockIdx, app: item.app, i18nTitle: app.title } },
 				iconArtFromSrc(app.icon)));
 			return;
 		}
