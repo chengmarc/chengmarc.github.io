@@ -16,8 +16,6 @@ const GRID  = (() => {
 
 let S = {};
 let desktopEditing = false;
-let bmEditing      = false;
-let pickMode       = false;
 
 // ─────────────────────────────────────────────────────────────────────
 // Grid utilities

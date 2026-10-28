@@ -18,8 +18,10 @@ const windowStack = [];      // ids of the open windows, bottom → top
 // bar:  the drag handle.
 // menuItem: the menu-bar item that opens it, highlighted while it's open; a
 //           function when that depends on the window's mode.
-function registerWindow(id, { el, root = el, bar, menuItem, onOpen, onClose }) {
-	const w = windows[id] = { el, root, menuItem, onOpen, onClose, pos: null, lit: null };
+// onEscape: returns true when it handled Escape itself (All Apps leaves edit
+//           mode first), so the window stays open.
+function registerWindow(id, { el, root = el, bar, menuItem, onOpen, onClose, onEscape }) {
+	const w = windows[id] = { el, root, menuItem, onOpen, onClose, onEscape, pos: null, lit: null };
 	el.classList.add('window');
 	// Red and yellow both close; green does nothing.
 	bar.querySelectorAll('.tl-close, .tl-minimize').forEach(tl =>
@@ -93,6 +95,11 @@ function closeWindow(id) {
 	windowStack.splice(windowStack.indexOf(id), 1);
 	restackWindows();
 	w.onClose && w.onClose();
+}
+
+function escapeWindow(id) {
+	const w = windows[id];
+	if (!(w.onEscape && w.onEscape())) closeWindow(id);
 }
 
 // From a menu item or dock icon: close the window if it's the one in front,

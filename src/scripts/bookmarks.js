@@ -3,6 +3,8 @@
 // ─────────────────────────────────────────────────────────────────────
 const FOLDER_SVG = '<svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor"><path d="M1.5 4c0-.55.45-1 1-1h3.1c.32 0 .62.15.8.4L7.3 4.5H13.5c.55 0 1 .45 1 1V12c0 .55-.45 1-1 1h-11c-.55 0-1-.45-1-1V4z"/></svg>';
 
+let bmEditing     = false;
+let pickMode      = false;
 let millerSel     = 0;   // selected category index into cats()
 let bookmarkQuery = '';
 let dragCatBi     = null;   // category being dragged (reorder)
@@ -159,6 +161,12 @@ function renderAllBookmarks() {
 	renderMillerLinks();
 }
 
+// After a whole new config (app.js's applyConfig): back to the first category.
+function resetAllBookmarks() {
+	millerSel = 0;
+	renderAllBookmarks();
+}
+
 // ── Mutations: categories ─────────────────────────────────────────────
 function catAdd(title) {
 	if (!title) return;
@@ -277,7 +285,91 @@ function filterBookmarks(query) {
 // .open and the mode classes stay on the #allApps wrapper, which the CSS
 // keys on; the window inside is what moves and stacks.
 function setupAllAppsWindow() {
-	registerWindow('allApps', { el: $('allAppsWindow'), root: $('allApps'), bar: $('allAppsBar'), menuItem: () => $(pickMode ? 'mbAdd' : 'mbBookmarks'), onClose: resetAllApps });
+	registerWindow('allApps', { el: $('allAppsWindow'), root: $('allApps'), bar: $('allAppsBar'), menuItem: () => $(pickMode ? 'mbAdd' : 'mbBookmarks'), onClose: resetAllApps,
+		onEscape: () => { if (!bmEditing) return false; exitBmEdit(); return true; } });
+
+	$('mbBookmarks').addEventListener('click', () => {
+		if (topWindow() === 'allApps') closeWindow('allApps'); else openAllBookmarks();
+	});
+	$('mbAdd').addEventListener('click', () => {
+		renderAllBookmarks(); openPickMode();
+	});
+	$('bmEditBtn').addEventListener('click',    () => { if (bmEditing) exitBmEdit(); else enterBmEdit(); });
+	$('pickCancelBtn').addEventListener('click', () => closeWindow('allApps'));
+
+	$('allAppsScroll').addEventListener('click', e => {
+		const catRen = e.target.closest('.miller-cat-rename');
+		if (catRen) { e.stopPropagation(); startRename(catRen); return; }
+		const catDel = e.target.closest('.miller-cat-delete');
+		if (catDel) {
+			const bi = +catDel.dataset.bi, b = cats()[bi];
+			if (!b.links.length || confirm(t('apps.deleteCategory', { title: b.title, count: b.links.length }))) catDelete(bi);
+			return;
+		}
+		const linkRen = e.target.closest('.miller-link-rename');
+		if (linkRen) { e.stopPropagation(); startLinkEdit(linkRen); return; }
+		const linkDel = e.target.closest('.miller-link-delete');
+		if (linkDel) { linkDelete(+linkDel.dataset.bi, +linkDel.dataset.li); return; }
+		const catAddBtn = e.target.closest('[data-role="cat-add"]');
+		if (catAddBtn) {
+			const inp = catAddBtn.closest('.miller-add-cat').querySelector('[data-role="cat-title"]');
+			catAdd(inp.value.trim());
+			return;
+		}
+		const linkAddBtn = e.target.closest('[data-role="link-add"]');
+		if (linkAddBtn) {
+			const form = linkAddBtn.closest('.miller-add-link');
+			linkAdd(millerSel,
+				form.querySelector('[data-role="link-url"]').value.trim(),
+				form.querySelector('[data-role="link-label"]').value.trim());
+			return;
+		}
+
+		if (bmEditing && e.target.closest('a.miller-link')) { e.preventDefault(); return; }
+
+		const cat = e.target.closest('.miller-cat');
+		if (cat) {
+			millerSel = +cat.dataset.bi;
+			if (bookmarkQuery) {
+				$('bookmarkSearch').value = '';
+				bookmarkQuery = '';
+				$('allApps').classList.remove('searching');
+			}
+			renderMillerCats(); renderMillerLinks();
+			return;
+		}
+
+		if (pickMode) {
+			const a = e.target.closest('a.miller-link');
+			if (a) {
+				e.preventDefault();
+				const label = (a.querySelector('.miller-link-label') || a).textContent.trim();
+				if (addDesktopIcon(label, a.href)) { a.classList.add('just-picked'); setTimeout(() => a.classList.remove('just-picked'), 800); }
+			}
+		}
+	});
+
+	$('allAppsScroll').addEventListener('keydown', e => {
+		if (e.key !== 'Enter') return;
+		const catInp = e.target.closest('[data-role="cat-title"]');
+		if (catInp) { catAdd(catInp.value.trim()); return; }
+		const form = e.target.closest('.miller-add-link');
+		if (form && e.target.closest('[data-role="link-url"], [data-role="link-label"]')) {
+			linkAdd(millerSel,
+				form.querySelector('[data-role="link-url"]').value.trim(),
+				form.querySelector('[data-role="link-label"]').value.trim());
+		}
+	});
+
+	$('bookmarkSearch').addEventListener('input', function () { filterBookmarks(this.value); });
+
+	// Text that depends on the mode as well as the language: translatePage
+	// has just reset it to its data-i18n default.
+	onLanguageChange(() => {
+		$('allAppsTitle').textContent = t(pickMode ? 'apps.pickTitle' : 'apps.title');
+		$('bmEditBtn').textContent    = t(bmEditing ? 'apps.done' : 'apps.edit');
+		if ($('allApps').classList.contains('open')) renderAllBookmarks();
+	});
 }
 
 // ── Bookmark edit drag-and-drop ───────────────────────────────────────
