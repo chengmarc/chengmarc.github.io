@@ -6,12 +6,13 @@ Packages the website as a **New Tab** extension for Chrome, Edge and Firefox. Th
 packaging/
   manifest.json     MV3 manifest (Chrome/Edge); build.py adds Firefox's gecko settings
   build.py          stages the packages in build/ and zips them into dist/
-  render_icons.py   renders icons/ from src/app-icon.svg
+  render_icons.py   renders icons/ and Edge's store logo from src/app-icon.svg
   icons/            16/32/48/128 px
 store-listing/
-  LISTING.md        store listing text and privacy answers
+  LISTING.md        every store dashboard field, per store
   PRIVACY.md        privacy policy (linked from the store listings)
   promo-*.png       the promo tiles (generator/promo.html lays them out)
+  logo-300x300.png  Edge's extension logo
   desktop/          the screenshots, 1280x800
   generator/        render.py renders the screenshots and the promo tiles
 docs/badges/        store badges shown in the README
