@@ -91,7 +91,7 @@ function addDesktopIcon(label, url) {
 	const domain = domainFrom(url);
 	if (S.desktopIcons.some(i => i.url === url)) return false;
 	const { col, row } = nextFreeCell(occupiedCells());
-	S.desktopIcons.push({ key: 'icon-' + domain.replace(/\./g,'-') + '-' + Date.now(), label, url, col, row });
+	S.desktopIcons.push({ key: 'icon-' + domain.replace(/\./g, '-') + '-' + Date.now(), label, url, col, row });
 	saveState(); renderDesktopIcons(); return true;
 }
 

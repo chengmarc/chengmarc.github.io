@@ -194,4 +194,3 @@
     0%   { color: rgba(30,160,70,0.95); }
     100% { color: var(--text); }
 }
-a.just-picked { animation: pickFlash 0.8s ease-out forwards; }

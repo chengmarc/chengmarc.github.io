@@ -19,7 +19,7 @@ from pathlib import Path
 
 PACKAGING = Path(__file__).resolve().parent
 ROOT = PACKAGING.parent
-DIST  = ROOT / 'dist'
+DIST = ROOT / 'dist'
 BUILD = ROOT / 'build'
 
 # Firefox needs a stable add-on ID and, for new AMO listings, a declaration of
@@ -45,7 +45,7 @@ def stage(target: str, manifest: dict) -> Path:
 
     # A new tab page should read "New Tab" in the tab strip, not the
     # website's SEO title.
-    html = (ROOT / 'index.html').read_text(encoding='utf-8-sig')
+    html = (ROOT / 'index.html').read_text(encoding='utf-8')
     html = re.sub(r'<title>.*?</title>', '<title>New Tab</title>', html, count=1)
     (out / 'index.html').write_text(html, encoding='utf-8')
 

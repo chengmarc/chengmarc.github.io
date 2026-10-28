@@ -154,11 +154,12 @@ function showWelcome() {
 // ── Setup ─────────────────────────────────────────────────────────────
 // `onConfig` puts a synced config on the desktop (app.js's applyConfig).
 // `firstRun` (nothing saved yet) flags the welcome window, which then shows
-// until the user picks an option, even if this tab is closed first. On the
-// website, which can't read bookmarks, the Settings sync section goes.
+// until the user picks an option, even if this tab is closed first. The
+// website can't read bookmarks: it has neither the welcome window nor the
+// Settings sync section.
 function setupSync(onConfig, firstRun) {
-	if (firstRun) try { localStorage.setItem(WELCOME, '1'); } catch (_) {}
 	if (!EXT_API) { $('settingsSync').remove(); return; }
+	if (firstRun) try { localStorage.setItem(WELCOME, '1'); } catch (_) {}
 	$('autoSyncToggle').checked = settings.autoSync;
 	$('syncNowBtn').addEventListener('click', () => syncFromBrowser(onConfig));
 	$('autoSyncToggle').addEventListener('change', e => toggleAutoSync(e.target.checked));

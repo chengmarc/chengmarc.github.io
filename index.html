@@ -1,538 +1,538 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="robots" content="index, follow">
-    <title>Bookmark OS · Marc Cheng</title>
-    <meta name="description" content="Profile page of Marc Cheng (Zhongmang Cheng). This page runs on Bookmark OS, an open-source desktop for your bookmarks that works in any browser, no account needed.">
-    <meta name="keywords" content="Marc Cheng, Zhongmang Cheng, Zhongmang Marc Cheng, chengmarc, researcher, engineer, DoubleTrends, Canadian Citizen, Hong Kong Resident, DeFi, mechanism design, protocol research, AMM, perpetual contracts, blockchain, EVM, Ethereum Virtual Machine, Solidity, opcode, backward compatibility, LLM, large language models, LLM systems, neural network interpretability, state space models, agent orchestration, agentic workflows, serverless, data engineer, data engineering, ETL, master data management, MDM, product information management, PIM, data quality, data governance, applied machine learning, PyTorch, numpy, scikit-learn, TypeScript, Node.js, Cloudflare Workers, GitHub Actions, Tailwind CSS, mathematics, statistics, probability, quantitative finance, Monte Carlo simulation, tokenization, PySpark, Hadoop, data warehousing, anti-money laundering, AML, model validation, model risk management, University of Toronto, Rexel Canada, Deloitte Canada, arXiv, Zenodo, Paragraph, Bookmark OS, bookmark manager, startpage, new tab page, browser homepage, web desktop">
-    <meta name="author" content="Marc Cheng">
-    <link rel="canonical" href="https://chengmarc.com/">
-    <link rel="icon" type="image/svg+xml" href="src/app-icon.svg">
-    <meta property="og:type" content="profile">
-    <meta property="og:title" content="Bookmark OS · Marc Cheng">
-    <meta property="og:description" content="Profile page of Marc Cheng (Zhongmang Cheng). This page runs on Bookmark OS, an open-source desktop for your bookmarks that works in any browser, no account needed.">
-    <meta property="og:image" content="https://chengmarc.com/store-listing/desktop/screenshot-1-desktop.png">
-    <meta property="og:image:width" content="1280">
-    <meta property="og:image:height" content="800">
-    <meta property="og:image:alt" content="Bookmark OS: a macOS-style desktop of bookmarks in the browser">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@chengmarc_">
-    <meta property="og:url" content="https://chengmarc.com/">
-    <meta property="profile:first_name" content="Marc">
-    <meta property="profile:last_name" content="Cheng">
-    <meta property="profile:username" content="chengmarc">
-    <link rel="me" href="https://www.wikidata.org/wiki/Q138601247">
-    <link rel="me" href="https://github.com/chengmarc">
-    <link rel="me" href="https://www.linkedin.com/in/chengmarc/">
-    <link rel="me" href="https://orcid.org/0009-0008-1783-514X">
-    <link rel="me" href="https://www.researchgate.net/profile/Zhongmang-Cheng">
-    <link rel="me" href="https://www.instagram.com/marcc.cheng/">
-    <link rel="me" href="https://space.bilibili.com/1351785">
-    <link rel="me" href="https://www.xiaohongshu.com/user/profile/5fea4e03000000000100ad52">
-    <link rel="me" href="https://huggingface.co/chengmarc">
-    <link rel="me" href="https://x.com/chengmarc_">
-    <link rel="me" href="https://farcaster.xyz/chengmarc">
-    <link rel="me" href="https://paragraph.com/@chengmarc">
-    <link rel="me" href="https://steamcommunity.com/id/everwith/">
-    <link rel="stylesheet" href="src/styles/base.css">
-    <link rel="stylesheet" href="src/styles/menubar.css">
-    <link rel="stylesheet" href="src/styles/welcome.css">
-    <link rel="stylesheet" href="src/styles/desktop.css">
-    <link rel="stylesheet" href="src/styles/icons.css">
-    <link rel="stylesheet" href="src/styles/dock.css">
-    <link rel="stylesheet" href="src/styles/apps.css">
-    <link rel="stylesheet" href="src/styles/settings.css">
-    <link rel="stylesheet" href="src/styles/about.css">
-    <link rel="stylesheet" href="src/styles/mobile.css">
-    <style>
-        /* Boot splash — a plain dark cover over the first paint, so the page
-           is never seen half built. Inlined so it applies before the
-           stylesheets or any script loads; app.js fades it out after 1s. */
-        #boot { position: fixed; inset: 0; z-index: 9999; background: #0b0b0f;
-                display: flex; flex-direction: column; align-items: center; justify-content: center;
-                gap: 18px; transition: opacity .5s ease; }
-        #boot.boot-hidden { opacity: 0; pointer-events: none; }
-        #boot .boot-spinner { width: 26px; height: 26px; border-radius: 50%;
-                border: 2.5px solid rgba(255,255,255,.16);
-                border-top-color: rgba(255,255,255,.8);
-                animation: boot-spin .8s linear infinite; }
-        #boot .boot-text { font-family: system-ui, sans-serif; font-size: 13px;
-                letter-spacing: .18em; text-transform: uppercase;
-                color: rgba(255,255,255,.55); animation: boot-pulse 1.6s ease-in-out infinite; }
-        @keyframes boot-spin { to { transform: rotate(360deg); } }
-        @keyframes boot-pulse { 0%, 100% { opacity: .35; } 50% { opacity: .75; } }
-    </style>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+	<meta name="robots" content="index, follow">
+	<title>Bookmark OS · Marc Cheng</title>
+	<meta name="description" content="Profile page of Marc Cheng (Zhongmang Cheng). This page runs on Bookmark OS, an open-source desktop for your bookmarks that works in any browser, no account needed.">
+	<meta name="keywords" content="Marc Cheng, Zhongmang Cheng, Zhongmang Marc Cheng, chengmarc, researcher, engineer, DoubleTrends, Canadian Citizen, Hong Kong Resident, DeFi, mechanism design, protocol research, AMM, perpetual contracts, blockchain, EVM, Ethereum Virtual Machine, Solidity, opcode, backward compatibility, LLM, large language models, LLM systems, neural network interpretability, state space models, agent orchestration, agentic workflows, serverless, data engineer, data engineering, ETL, master data management, MDM, product information management, PIM, data quality, data governance, applied machine learning, PyTorch, numpy, scikit-learn, TypeScript, Node.js, Cloudflare Workers, GitHub Actions, Tailwind CSS, mathematics, statistics, probability, quantitative finance, Monte Carlo simulation, tokenization, PySpark, Hadoop, data warehousing, anti-money laundering, AML, model validation, model risk management, University of Toronto, Rexel Canada, Deloitte Canada, arXiv, Zenodo, Paragraph, Bookmark OS, bookmark manager, startpage, new tab page, browser homepage, web desktop">
+	<meta name="author" content="Marc Cheng">
+	<link rel="canonical" href="https://chengmarc.com/">
+	<link rel="icon" type="image/svg+xml" href="src/app-icon.svg">
+	<meta property="og:type" content="profile">
+	<meta property="og:title" content="Bookmark OS · Marc Cheng">
+	<meta property="og:description" content="Profile page of Marc Cheng (Zhongmang Cheng). This page runs on Bookmark OS, an open-source desktop for your bookmarks that works in any browser, no account needed.">
+	<meta property="og:image" content="https://chengmarc.com/store-listing/desktop/screenshot-1-desktop.png">
+	<meta property="og:image:width" content="1280">
+	<meta property="og:image:height" content="800">
+	<meta property="og:image:alt" content="Bookmark OS: a macOS-style desktop of bookmarks in the browser">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:site" content="@chengmarc_">
+	<meta property="og:url" content="https://chengmarc.com/">
+	<meta property="profile:first_name" content="Marc">
+	<meta property="profile:last_name" content="Cheng">
+	<meta property="profile:username" content="chengmarc">
+	<link rel="me" href="https://www.wikidata.org/wiki/Q138601247">
+	<link rel="me" href="https://github.com/chengmarc">
+	<link rel="me" href="https://www.linkedin.com/in/chengmarc/">
+	<link rel="me" href="https://orcid.org/0009-0008-1783-514X">
+	<link rel="me" href="https://www.researchgate.net/profile/Zhongmang-Cheng">
+	<link rel="me" href="https://www.instagram.com/marcc.cheng/">
+	<link rel="me" href="https://space.bilibili.com/1351785">
+	<link rel="me" href="https://www.xiaohongshu.com/user/profile/5fea4e03000000000100ad52">
+	<link rel="me" href="https://huggingface.co/chengmarc">
+	<link rel="me" href="https://x.com/chengmarc_">
+	<link rel="me" href="https://farcaster.xyz/chengmarc">
+	<link rel="me" href="https://paragraph.com/@chengmarc">
+	<link rel="me" href="https://steamcommunity.com/id/everwith/">
+	<link rel="stylesheet" href="src/styles/base.css">
+	<link rel="stylesheet" href="src/styles/menubar.css">
+	<link rel="stylesheet" href="src/styles/welcome.css">
+	<link rel="stylesheet" href="src/styles/desktop.css">
+	<link rel="stylesheet" href="src/styles/icons.css">
+	<link rel="stylesheet" href="src/styles/dock.css">
+	<link rel="stylesheet" href="src/styles/apps.css">
+	<link rel="stylesheet" href="src/styles/settings.css">
+	<link rel="stylesheet" href="src/styles/about.css">
+	<link rel="stylesheet" href="src/styles/mobile.css">
+	<style>
+		/* Boot splash — a plain dark cover over the first paint, so the page
+		   is never seen half built. Inlined so it applies before the
+		   stylesheets or any script loads; app.js fades it out after 1s. */
+		#boot { position: fixed; inset: 0; z-index: 9999; background: #0b0b0f;
+				display: flex; flex-direction: column; align-items: center; justify-content: center;
+				gap: 18px; transition: opacity .5s ease; }
+		#boot.boot-hidden { opacity: 0; pointer-events: none; }
+		#boot .boot-spinner { width: 26px; height: 26px; border-radius: 50%;
+				border: 2.5px solid rgba(255,255,255,.16);
+				border-top-color: rgba(255,255,255,.8);
+				animation: boot-spin .8s linear infinite; }
+		#boot .boot-text { font-family: system-ui, sans-serif; font-size: 13px;
+				letter-spacing: .18em; text-transform: uppercase;
+				color: rgba(255,255,255,.55); animation: boot-pulse 1.6s ease-in-out infinite; }
+		@keyframes boot-spin { to { transform: rotate(360deg); } }
+		@keyframes boot-pulse { 0%, 100% { opacity: .35; } 50% { opacity: .75; } }
+	</style>
 </head>
 <body>
-		<div id="boot"><div class="boot-spinner"></div><div class="boot-text" data-i18n="boot">System Booting</div></div>
-		<div class="menu-bar">
-			<div class="menu-left">
-				<button class="menu-item menu-brand" id="mbBrand" data-i18n="menu.about">✦ About This OS</button>
-				<button class="menu-item" id="mbSettings"><svg class="menu-ico" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" stroke="currentColor" stroke-width=".9" stroke-linejoin="round" d="M8.00 2.60L9.07 2.71L10.19 1.25L12.75 2.72L12.05 4.43L12.68 5.30L13.12 6.28L14.94 6.52L14.94 9.48L13.12 9.72L12.68 10.70L12.05 11.57L12.75 13.28L10.19 14.75L9.07 13.29L8.00 13.40L6.93 13.29L5.81 14.75L3.25 13.28L3.95 11.57L3.32 10.70L2.88 9.72L1.06 9.48L1.06 6.52L2.88 6.28L3.32 5.30L3.95 4.43L3.25 2.72L5.81 1.25L6.93 2.71ZM10.4 8A2.4 2.4 0 1 0 5.6 8A2.4 2.4 0 1 0 10.4 8Z"/></svg><span data-i18n="menu.settings">Settings</span></button>
-				<button class="menu-item" id="mbBookmarks"><svg class="menu-ico" width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><rect x="0.5" y="0.5" width="4" height="4" rx="1.1"/><rect x="6" y="0.5" width="4" height="4" rx="1.1"/><rect x="11.5" y="0.5" width="4" height="4" rx="1.1"/><rect x="0.5" y="6" width="4" height="4" rx="1.1"/><rect x="6" y="6" width="4" height="4" rx="1.1"/><rect x="11.5" y="6" width="4" height="4" rx="1.1"/><rect x="0.5" y="11.5" width="4" height="4" rx="1.1"/><rect x="6" y="11.5" width="4" height="4" rx="1.1"/><rect x="11.5" y="11.5" width="4" height="4" rx="1.1"/></svg><span data-i18n="menu.allApps">All Apps</span></button>
-				<button class="menu-item" id="mbAdd" data-i18n="menu.addIcon">Add Icon</button>
-				<button class="menu-item" id="mbEdit" data-i18n="menu.editDesktop">Edit Desktop</button>
-			</div>
-			<div class="menu-right">
-				<span class="menu-status menu-loc" id="mbLoc" title="Location" data-i18n-title="status.location"></span>
-				<button class="menu-status menu-ip" id="mbIP" title="Click to copy IP" data-i18n-title="status.copyIP"></button>
-				<span class="menu-status" id="mbWifi" title="Network" data-i18n-title="status.network">
-					<svg width="18" height="14" viewBox="0 0 18 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
-						<path d="M2 5 A10 10 0 0 1 16 5"/>
-						<path d="M4.5 7.5 A6 6 0 0 1 13.5 7.5"/>
-						<path d="M7 10 A2.6 2.6 0 0 1 11 10"/>
-						<circle cx="9" cy="11.4" r="0.95" fill="currentColor" stroke="none"/>
-					</svg>
-				</span>
-				<span class="menu-status" id="mbBattery" title="Battery" data-i18n-title="status.battery">
-					<svg width="27" height="14" viewBox="0 0 27 14" fill="none">
-						<rect x="0.75" y="1.25" width="22" height="11.5" rx="3" stroke="currentColor" stroke-width="1.3"/>
-						<rect x="24.5" y="4.5" width="2.2" height="5" rx="1.1" fill="currentColor"/>
-						<rect id="mbBatteryFill" x="2.25" y="2.75" width="18" height="8.5" rx="1.5" fill="currentColor"/>
-						<path id="mbBatteryBolt" d="M13 3 l-4 5 h3 l-1 3 4 -5 h-3 z" fill="#0b0b0f" style="display:none"/>
-					</svg>
-				</span>
-				<button class="menu-clock" id="menuClock">--:--</button>
-			</div>
+	<div id="boot"><div class="boot-spinner"></div><div class="boot-text" data-i18n="boot">System Booting</div></div>
+	<div class="menu-bar">
+		<div class="menu-left">
+			<button class="menu-item menu-brand" id="mbBrand" data-i18n="menu.about">✦ About This OS</button>
+			<button class="menu-item" id="mbSettings"><svg class="menu-ico" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" stroke="currentColor" stroke-width=".9" stroke-linejoin="round" d="M8.00 2.60L9.07 2.71L10.19 1.25L12.75 2.72L12.05 4.43L12.68 5.30L13.12 6.28L14.94 6.52L14.94 9.48L13.12 9.72L12.68 10.70L12.05 11.57L12.75 13.28L10.19 14.75L9.07 13.29L8.00 13.40L6.93 13.29L5.81 14.75L3.25 13.28L3.95 11.57L3.32 10.70L2.88 9.72L1.06 9.48L1.06 6.52L2.88 6.28L3.32 5.30L3.95 4.43L3.25 2.72L5.81 1.25L6.93 2.71ZM10.4 8A2.4 2.4 0 1 0 5.6 8A2.4 2.4 0 1 0 10.4 8Z"/></svg><span data-i18n="menu.settings">Settings</span></button>
+			<button class="menu-item" id="mbBookmarks"><svg class="menu-ico" width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><rect x="0.5" y="0.5" width="4" height="4" rx="1.1"/><rect x="6" y="0.5" width="4" height="4" rx="1.1"/><rect x="11.5" y="0.5" width="4" height="4" rx="1.1"/><rect x="0.5" y="6" width="4" height="4" rx="1.1"/><rect x="6" y="6" width="4" height="4" rx="1.1"/><rect x="11.5" y="6" width="4" height="4" rx="1.1"/><rect x="0.5" y="11.5" width="4" height="4" rx="1.1"/><rect x="6" y="11.5" width="4" height="4" rx="1.1"/><rect x="11.5" y="11.5" width="4" height="4" rx="1.1"/></svg><span data-i18n="menu.allApps">All Apps</span></button>
+			<button class="menu-item" id="mbAdd" data-i18n="menu.addIcon">Add Icon</button>
+			<button class="menu-item" id="mbEdit" data-i18n="menu.editDesktop">Edit Desktop</button>
 		</div>
+		<div class="menu-right">
+			<span class="menu-status menu-loc" id="mbLoc" title="Location" data-i18n-title="status.location"></span>
+			<button class="menu-status menu-ip" id="mbIP" title="Click to copy IP" data-i18n-title="status.copyIP"></button>
+			<span class="menu-status" id="mbWifi" title="Network" data-i18n-title="status.network">
+				<svg width="18" height="14" viewBox="0 0 18 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+					<path d="M2 5 A10 10 0 0 1 16 5"/>
+					<path d="M4.5 7.5 A6 6 0 0 1 13.5 7.5"/>
+					<path d="M7 10 A2.6 2.6 0 0 1 11 10"/>
+					<circle cx="9" cy="11.4" r="0.95" fill="currentColor" stroke="none"/>
+				</svg>
+			</span>
+			<span class="menu-status" id="mbBattery" title="Battery" data-i18n-title="status.battery">
+				<svg width="27" height="14" viewBox="0 0 27 14" fill="none">
+					<rect x="0.75" y="1.25" width="22" height="11.5" rx="3" stroke="currentColor" stroke-width="1.3"/>
+					<rect x="24.5" y="4.5" width="2.2" height="5" rx="1.1" fill="currentColor"/>
+					<rect id="mbBatteryFill" x="2.25" y="2.75" width="18" height="8.5" rx="1.5" fill="currentColor"/>
+					<path id="mbBatteryBolt" d="M13 3 l-4 5 h3 l-1 3 4 -5 h-3 z" fill="#0b0b0f" style="display:none"/>
+				</svg>
+			</span>
+			<button class="menu-clock" id="menuClock">--:--</button>
+		</div>
+	</div>
 
-		<div class="welcome" id="welcome">
-			<div class="welcome-card">
-				<img class="welcome-icon" src="src/app-icon.svg" alt="" width="84" height="84">
-				<h2 data-i18n="welcome.title">Keep in sync with your browser?</h2>
-				<p data-i18n="welcome.body">Bookmark OS can follow your browser’s Bookmarks bar: each folder becomes a category, and bookmarks outside folders go on the desktop. It updates on every new tab and whenever your bookmarks change.</p>
-				<p class="welcome-note" data-i18n="welcome.note">You can turn this on or off any time in Settings → Always sync with browser.</p>
-				<div class="welcome-actions">
-					<button class="welcome-btn" id="welcomeExplore" data-i18n="welcome.explore">Not Now</button>
-					<button class="welcome-btn primary" id="welcomeSync" data-i18n="welcome.sync">Keep in Sync</button>
-				</div>
-			</div>
-		</div>
-		<div class="cal-popover glass" id="calPopover">
-			<div class="cal-head">
-				<div class="cal-title" id="calTitle"></div>
-				<div class="cal-nav">
-					<button class="cal-arrow" id="calPrev" aria-label="Previous month" data-i18n-aria="cal.prev">‹</button>
-					<button class="cal-today" id="calToday" data-i18n="cal.today">Today</button>
-					<button class="cal-arrow" id="calNext" aria-label="Next month" data-i18n-aria="cal.next">›</button>
-				</div>
-			</div>
-			<div class="cal-grid" id="calGrid"></div>
-		</div>
-
-		<div class="desktop" id="desktop">
-			<div class="desktop-grid" id="desktopGrid"></div>
-		</div>
-
-		<div class="all-apps" id="allApps">
-			<div class="all-apps-window window-glass" id="allAppsWindow">
-				<div class="all-apps-bar window-bar" id="allAppsBar">
-					<div class="traffic-lights">
-						<button class="tl tl-close" aria-label="Close" data-i18n-aria="win.close"></button>
-						<button class="tl tl-minimize"   aria-label="Minimize" data-i18n-aria="win.minimize"></button>
-						<button class="tl tl-zoom"  aria-label="Zoom" data-i18n-aria="win.zoom"></button>
-					</div>
-					<h2 id="allAppsTitle" data-i18n="apps.title">All Apps</h2>
-					<input class="all-apps-search" id="bookmarkSearch" type="search" placeholder="Search apps…" data-i18n-placeholder="apps.search" autocomplete="off">
-					<button class="all-apps-bar-btn" id="bmEditBtn" data-i18n="apps.edit">Edit</button>
-					<button class="all-apps-bar-btn" id="pickCancelBtn" data-i18n="apps.cancel">Cancel</button>
-				</div>
-				<div class="pick-banner">
-					<span data-i18n="apps.pickBanner">Click any app to add it to the desktop</span>
-				</div>
-				<div class="all-apps-scroll" id="allAppsScroll"></div>
+	<div class="welcome" id="welcome">
+		<div class="welcome-card">
+			<img class="welcome-icon" src="src/app-icon.svg" alt="" width="84" height="84">
+			<h2 data-i18n="welcome.title">Keep in sync with your browser?</h2>
+			<p data-i18n="welcome.body">Bookmark OS can follow your browser’s Bookmarks bar: each folder becomes a category, and bookmarks outside folders go on the desktop. It updates on every new tab and whenever your bookmarks change.</p>
+			<p class="welcome-note" data-i18n="welcome.note">You can turn this on or off any time in Settings → Always sync with browser.</p>
+			<div class="welcome-actions">
+				<button class="welcome-btn" id="welcomeExplore" data-i18n="welcome.explore">Not Now</button>
+				<button class="welcome-btn primary" id="welcomeSync" data-i18n="welcome.sync">Keep in Sync</button>
 			</div>
 		</div>
-
-		<div class="dock" id="dock"></div>
-
-		<div class="settings-panel" id="settingsPanel">
-			<div class="settings-card window-glass">
-				<div class="settings-bar window-bar" id="settingsBar">
-					<div class="traffic-lights">
-						<button class="tl tl-close" aria-label="Close" data-i18n-aria="win.close"></button>
-						<button class="tl tl-minimize"   aria-label="Minimize" data-i18n-aria="win.minimize"></button>
-						<button class="tl tl-zoom"  aria-label="Zoom" data-i18n-aria="win.zoom"></button>
-					</div>
-					<h2 data-i18n="settings.title"></h2>
-					<label class="settings-lang" title="Display language" data-i18n-title="settings.languageTitle"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><circle cx="8" cy="8" r="6.5"/><ellipse cx="8" cy="8" rx="2.8" ry="6.5"/><path d="M1.5 8h13M2.6 4.6h10.8M2.6 11.4h10.8"/></svg><select class="settings-select" id="languageSelect" aria-label="Display language" data-i18n-aria="settings.languageTitle"></select></label>
-				</div>
-				<section class="settings-section">
-					<p class="settings-label" data-i18n="settings.wallpaper"></p>
-					<div class="wallpaper-grid" id="wallpaperGrid"></div>
-				</section>
-				<section class="settings-section" id="settingsSync">
-					<p class="settings-label" data-i18n="settings.sync"></p>
-					<div class="settings-row">
-						<span class="settings-row-text">
-							<span class="settings-row-title" data-i18n="settings.syncNowTitle"></span>
-							<span class="settings-row-note" data-i18n="settings.syncNowNote"></span>
-						</span>
-						<button class="settings-btn" id="syncNowBtn" data-i18n="settings.syncNow"></button>
-					</div>
-					<label class="settings-row">
-						<span class="settings-row-text">
-							<span class="settings-row-title" data-i18n="settings.autoSyncTitle"></span>
-							<span class="settings-row-note" data-i18n="settings.autoSyncNote"></span>
-						</span>
-						<input type="checkbox" class="switch" id="autoSyncToggle">
-					</label>
-				</section>
-				<section class="settings-section">
-					<p class="settings-label" data-i18n="settings.privacy"></p>
-					<label class="settings-row">
-						<span class="settings-row-text">
-							<span class="settings-row-title" data-i18n="settings.showIPTitle"></span>
-							<span class="settings-row-note" data-i18n="settings.showIPNote"></span>
-						</span>
-						<input type="checkbox" class="switch" id="showIPToggle">
-					</label>
-				</section>
-				<section class="settings-section">
-					<p class="settings-label" data-i18n="settings.backup"></p>
-					<div class="settings-row">
-						<span class="settings-row-text">
-							<span class="settings-row-title" data-i18n="settings.importTitle"></span>
-							<span class="settings-row-note" data-i18n="settings.importNote"></span>
-						</span>
-						<button class="settings-btn" id="importBtn" data-i18n="settings.import"></button>
-					</div>
-					<div class="settings-row">
-						<span class="settings-row-text">
-							<span class="settings-row-title" data-i18n="settings.exportTitle"></span>
-							<span class="settings-row-note" data-i18n="settings.exportNote"></span>
-						</span>
-						<button class="settings-btn" id="exportBtn" data-i18n="settings.export"></button>
-					</div>
-					<div class="settings-row">
-						<span class="settings-row-text">
-							<span class="settings-row-title" data-i18n="settings.restoreTitle"></span>
-							<span class="settings-row-note" data-i18n="settings.restoreNote"></span>
-						</span>
-						<button class="settings-btn danger" id="restoreBtn" data-i18n="settings.restore"></button>
-					</div>
-				</section>
+	</div>
+	<div class="cal-popover glass" id="calPopover">
+		<div class="cal-head">
+			<div class="cal-title" id="calTitle"></div>
+			<div class="cal-nav">
+				<button class="cal-arrow" id="calPrev" aria-label="Previous month" data-i18n-aria="cal.prev">‹</button>
+				<button class="cal-today" id="calToday" data-i18n="cal.today">Today</button>
+				<button class="cal-arrow" id="calNext" aria-label="Next month" data-i18n-aria="cal.next">›</button>
 			</div>
 		</div>
+		<div class="cal-grid" id="calGrid"></div>
+	</div>
 
-		<div class="about-panel" id="aboutPanel">
-			<div class="card window-glass">
-				<div class="window-bar" id="aboutBar">
-					<div class="traffic-lights">
-						<button class="tl tl-close" aria-label="Close" data-i18n-aria="win.close"></button>
-						<button class="tl tl-minimize"   aria-label="Minimize" data-i18n-aria="win.minimize"></button>
-						<button class="tl tl-zoom"  aria-label="Zoom" data-i18n-aria="win.zoom"></button>
-					</div>
-					<h2 data-i18n="about.title">About This OS</h2>
+	<div class="desktop" id="desktop">
+		<div class="desktop-grid" id="desktopGrid"></div>
+	</div>
+
+	<div class="all-apps" id="allApps">
+		<div class="all-apps-window window-glass" id="allAppsWindow">
+			<div class="all-apps-bar window-bar" id="allAppsBar">
+				<div class="traffic-lights">
+					<button class="tl tl-close" aria-label="Close" data-i18n-aria="win.close"></button>
+					<button class="tl tl-minimize" aria-label="Minimize" data-i18n-aria="win.minimize"></button>
+					<button class="tl tl-zoom" aria-label="Zoom" data-i18n-aria="win.zoom"></button>
 				</div>
-
-        <div class="about-hero">
-            <img class="about-app-icon" src="src/app-icon.svg" alt="" width="112" height="112">
-            <div class="about-hero-text">
-                <p class="about-product">Bookmark OS</p>
-                <p class="about-tagline" data-i18n="about.tagline">Your bookmarks as a desktop — from any browser, no account needed.</p>
-                <div class="about-meta">
-                    <div class="about-chips">
-                        <a href="https://chromewebstore.google.com/detail/bookmark-os/mbfmccadkfdnhojahjehknphgmjkehkp" target="_blank" rel="noopener" class="about-chip">Chrome</a>
-                        <a href="https://microsoftedge.microsoft.com/addons/detail/apjbdkedomhbdmknfhcfiniipcjedibc" target="_blank" rel="noopener" class="about-chip">Edge</a>
-                        <a href="https://addons.mozilla.org/en-US/firefox/addon/bookmark-os/" target="_blank" rel="noopener" class="about-chip">Firefox</a>
-                    </div>
-                    <span class="about-meta-note" data-i18n="about.meta">Open source · CC0</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="card-hsep"></div>
-
-        <div class="card-top">
-            <div class="card-left">
-                <p class="section-label" data-i18n="about.developer">Developer</p>
-                <h1>Marc Cheng</h1>
-                <p class="name-alt">Zhongmang Cheng</p>
-                <div class="contact">
-                    <a href="mailto:marccheng@outlook.com" class="contact-row">
-                        <span class="contact-label" data-i18n="about.industry">Industry</span>
-                        <span class="contact-email">marccheng@outlook.com</span>
-                    </a>
-                    <a href="mailto:marc.cheng@alumni.utoronto.ca" class="contact-row">
-                        <span class="contact-label" data-i18n="about.research">Research</span>
-                        <span class="contact-email">marc.cheng@alumni.utoronto.ca</span>
-                    </a>
-                </div>
-            </div>
-            <div class="card-vsep"></div>
-            <div class="card-right">
-                <p class="note" data-i18n="about.note">Hi there, I’m the developer who built this lightweight web OS. The idea was simple: to access my bookmarks using ANY browser on ANY computer, without logging in to a stupid FUCKING account. To learn more about me, you’re welcome to click one of the icons below.</p>
-            </div>
-        </div>
-
-        <div class="card-hsep"></div>
-
-        <div class="card-bottom">
-            <nav class="icon-strip" aria-label="Social links" data-i18n-aria="about.social">
-
-                <div class="icon-group">
-                    <span class="icon-group-label" data-i18n="about.career">Career & Research</span>
-                    <div class="icons">
-                        <a href="https://www.linkedin.com/in/chengmarc/" target="_blank" rel="noopener me" class="icon-link" aria-label="LinkedIn">
-                            <img src="src/social/linkedin.svg" alt="LinkedIn">
-                        </a>
-                        <a href="https://github.com/chengmarc" target="_blank" rel="noopener me" class="icon-link" aria-label="GitHub">
-                            <img src="src/social/github.svg" alt="GitHub">
-                        </a>
-                        <a href="https://orcid.org/0009-0008-1783-514X" target="_blank" rel="noopener me" class="icon-link" aria-label="ORCID">
-                            <img src="src/social/orcid.svg" alt="ORCID">
-                        </a>
-                        <a href="https://www.researchgate.net/profile/Zhongmang-Cheng" target="_blank" rel="noopener" class="icon-link" aria-label="ResearchGate">
-                            <img src="src/social/researchgate.svg" alt="ResearchGate">
-                        </a>
-                    </div>
-                </div>
-
-                <span class="strip-sep">|</span>
-
-                <div class="icon-group">
-                    <span class="icon-group-label" data-i18n="about.life">Life</span>
-                    <div class="icons">
-                        <a href="https://www.instagram.com/marcc.cheng/" target="_blank" rel="noopener me" class="icon-link" aria-label="Instagram">
-                            <img src="src/social/instagram.svg" alt="Instagram">
-                        </a>
-                        <a href="https://space.bilibili.com/1351785" target="_blank" rel="noopener" class="icon-link" aria-label="Bilibili">
-                            <img src="src/social/bilibili.svg" alt="Bilibili">
-                        </a>
-                        <a href="https://www.xiaohongshu.com/user/profile/5fea4e03000000000100ad52" target="_blank" rel="noopener" class="icon-link" aria-label="Xiaohongshu">
-                            <img src="src/social/xiaohongshu.svg" alt="Xiaohongshu">
-                        </a>
-                        <a href="src/social/wechat.jpg" target="_blank" rel="noopener" class="icon-link" aria-label="WeChat">
-                            <img src="src/social/wechat.svg" alt="WeChat">
-                        </a>
-                    </div>
-                </div>
-
-                <span class="strip-sep">|</span>
-
-                <div class="icon-group">
-                    <span class="icon-group-label" data-i18n="about.crypto">Crypto</span>
-                    <div class="icons">
-                        <a href="https://x.com/chengmarc_" target="_blank" rel="noopener me" class="icon-link" aria-label="X">
-                            <img src="src/social/x.svg" alt="X">
-                        </a>
-                        <a href="https://farcaster.xyz/chengmarc" target="_blank" rel="noopener me" class="icon-link" aria-label="Farcaster">
-                            <img src="src/social/farcaster.svg" alt="Farcaster">
-                        </a>
-                        <a href="https://paragraph.com/@chengmarc" target="_blank" rel="noopener me" class="icon-link" aria-label="Paragraph">
-                            <img src="src/social/paragraph.png" alt="Paragraph" class="icon-img-filtered">
-                        </a>
-                    </div>
-                </div>
-
-                <span class="strip-sep">|</span>
-
-                <div class="icon-group">
-                    <span class="icon-group-label" data-i18n="about.gaming">Gaming</span>
-                    <div class="icons">
-                        <a href="https://steamcommunity.com/id/everwith/" target="_blank" rel="noopener" class="icon-link" aria-label="Steam">
-                            <img src="src/social/steam.svg" alt="Steam">
-                        </a>
-                        <a href="https://discord.gg/PGE98Tu5j4" target="_blank" rel="noopener" class="icon-link" aria-label="Discord">
-                            <img src="src/social/discord.svg" alt="Discord">
-                        </a>
-                    </div>
-                </div>
-
-            </nav>
-        </div>
-
-    </div>
+				<h2 id="allAppsTitle" data-i18n="apps.title">All Apps</h2>
+				<input class="all-apps-search" id="bookmarkSearch" type="search" placeholder="Search apps…" data-i18n-placeholder="apps.search" autocomplete="off">
+				<button class="all-apps-bar-btn" id="bmEditBtn" data-i18n="apps.edit">Edit</button>
+				<button class="all-apps-bar-btn" id="pickCancelBtn" data-i18n="apps.cancel">Cancel</button>
+			</div>
+			<div class="pick-banner">
+				<span data-i18n="apps.pickBanner">Click any app to add it to the desktop</span>
+			</div>
+			<div class="all-apps-scroll" id="allAppsScroll"></div>
 		</div>
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "WebSite",
-                "@id": "https://chengmarc.com/#website",
-                "url": "https://chengmarc.com/",
-                "name": "Marc Cheng",
-                "inLanguage": "en"
-            },
-            {
-                "@type": "ProfilePage",
-                "@id": "https://chengmarc.com/#webpage",
-                "url": "https://chengmarc.com/",
-                "name": "Bookmark OS · Marc Cheng",
-                "isPartOf": { "@id": "https://chengmarc.com/#website" },
-                "about": [
-                    { "@id": "https://chengmarc.com/#person" },
-                    { "@id": "https://chengmarc.com/#bookmark-os" }
-                ],
-                "mainEntity": { "@id": "https://chengmarc.com/#person" },
-                "description": "Personal website of Zhongmang (Marc) Cheng, built on Bookmark OS."
-            },
-            {
-                "@type": "WebApplication",
-                "@id": "https://chengmarc.com/#bookmark-os",
-                "name": "Bookmark OS",
-                "url": "https://chengmarc.com/",
-                "description": "Your bookmarks as a desktop, from any browser, no account needed.",
-                "applicationCategory": "UtilitiesApplication",
-                "operatingSystem": "Any (web browser)",
-                "browserRequirements": "Requires JavaScript",
-                "image": "https://chengmarc.com/src/app-icon.svg",
-                "screenshot": "https://chengmarc.com/store-listing/desktop/screenshot-1-desktop.png",
-                "license": "https://creativecommons.org/publicdomain/zero/1.0/",
-                "isAccessibleForFree": true,
-                "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-                "sameAs": "https://github.com/chengmarc/chengmarc.github.io",
-                "author": { "@id": "https://chengmarc.com/#person" }
-            },
-            {
-                "@type": "Person",
-                "@id": "https://chengmarc.com/#person",
+	</div>
 
-                "name": "Marc Cheng",
-                "alternateName": ["Zhongmang Cheng", "chengmarc"],
-                "givenName": "Zhongmang",
-                "additionalName": "Marc",
-                "familyName": "Cheng",
+	<div class="dock" id="dock"></div>
 
-                "url": "https://chengmarc.com/",
-                "contactPoint": [
-                    {
-                        "@type": "ContactPoint",
-                        "contactType": "industry",
-                        "email": "marccheng@outlook.com"
-                    },
-                    {
-                        "@type": "ContactPoint",
-                        "contactType": "research",
-                        "email": "marc.cheng@alumni.utoronto.ca"
-                    }
-                ],
-                "sameAs": [
-                    "https://www.wikidata.org/wiki/Q138601247",
-                    "https://github.com/chengmarc",
-                    "https://www.linkedin.com/in/chengmarc/",
-                    "https://orcid.org/0009-0008-1783-514X",
-                    "https://www.researchgate.net/profile/Zhongmang-Cheng",
-                    "https://www.instagram.com/marcc.cheng/",
-                    "https://space.bilibili.com/1351785",
-                    "https://www.xiaohongshu.com/user/profile/5fea4e03000000000100ad52",
-                    "https://huggingface.co/chengmarc",
-                    "https://x.com/chengmarc_",
-                    "https://farcaster.xyz/chengmarc",
-                    "https://paragraph.com/@chengmarc",
-                    "https://steamcommunity.com/id/everwith/"
-                ],
+	<div class="settings-panel" id="settingsPanel">
+		<div class="settings-card window-glass">
+			<div class="settings-bar window-bar" id="settingsBar">
+				<div class="traffic-lights">
+					<button class="tl tl-close" aria-label="Close" data-i18n-aria="win.close"></button>
+					<button class="tl tl-minimize" aria-label="Minimize" data-i18n-aria="win.minimize"></button>
+					<button class="tl tl-zoom" aria-label="Zoom" data-i18n-aria="win.zoom"></button>
+				</div>
+				<h2 data-i18n="settings.title">Settings</h2>
+				<label class="settings-lang" title="Display language" data-i18n-title="settings.languageTitle"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><circle cx="8" cy="8" r="6.5"/><ellipse cx="8" cy="8" rx="2.8" ry="6.5"/><path d="M1.5 8h13M2.6 4.6h10.8M2.6 11.4h10.8"/></svg><select class="settings-select" id="languageSelect" aria-label="Display language" data-i18n-aria="settings.languageTitle"></select></label>
+			</div>
+			<section class="settings-section">
+				<p class="settings-label" data-i18n="settings.wallpaper">Wallpaper</p>
+				<div class="wallpaper-grid" id="wallpaperGrid"></div>
+			</section>
+			<section class="settings-section" id="settingsSync">
+				<p class="settings-label" data-i18n="settings.sync">Browser Sync</p>
+				<div class="settings-row">
+					<span class="settings-row-text">
+						<span class="settings-row-title" data-i18n="settings.syncNowTitle">Sync from browser</span>
+						<span class="settings-row-note" data-i18n="settings.syncNowNote">Replace the desktop icons and app categories with your Bookmarks bar, once.</span>
+					</span>
+					<button class="settings-btn" id="syncNowBtn" data-i18n="settings.syncNow">Sync Now</button>
+				</div>
+				<label class="settings-row">
+					<span class="settings-row-text">
+						<span class="settings-row-title" data-i18n="settings.autoSyncTitle">Always sync with browser</span>
+						<span class="settings-row-note" data-i18n="settings.autoSyncNote">Follow the Bookmarks bar on every new tab and every change. Icons keep their place; edits made here are replaced.</span>
+					</span>
+					<input type="checkbox" class="switch" id="autoSyncToggle">
+				</label>
+			</section>
+			<section class="settings-section">
+				<p class="settings-label" data-i18n="settings.privacy">Privacy</p>
+				<label class="settings-row">
+					<span class="settings-row-text">
+						<span class="settings-row-title" data-i18n="settings.showIPTitle">Show location and IP</span>
+						<span class="settings-row-note" data-i18n="settings.showIPNote">Your city, flag and public IP. While off, nothing is looked up from your IP.</span>
+					</span>
+					<input type="checkbox" class="switch" id="showIPToggle">
+				</label>
+			</section>
+			<section class="settings-section">
+				<p class="settings-label" data-i18n="settings.backup">Backup &amp; Restore</p>
+				<div class="settings-row">
+					<span class="settings-row-text">
+						<span class="settings-row-title" data-i18n="settings.importTitle">Import</span>
+						<span class="settings-row-note" data-i18n="settings.importNote">Load a config.js file. It replaces your desktop, dock and apps.</span>
+					</span>
+					<button class="settings-btn" id="importBtn" data-i18n="settings.import">Import…</button>
+				</div>
+				<div class="settings-row">
+					<span class="settings-row-text">
+						<span class="settings-row-title" data-i18n="settings.exportTitle">Export</span>
+						<span class="settings-row-note" data-i18n="settings.exportNote">Save your desktop, dock and apps as a config.js file.</span>
+					</span>
+					<button class="settings-btn" id="exportBtn" data-i18n="settings.export">Export…</button>
+				</div>
+				<div class="settings-row">
+					<span class="settings-row-text">
+						<span class="settings-row-title" data-i18n="settings.restoreTitle">Restore defaults</span>
+						<span class="settings-row-note" data-i18n="settings.restoreNote">Put the desktop, dock and all apps back as they first came.</span>
+					</span>
+					<button class="settings-btn danger" id="restoreBtn" data-i18n="settings.restore">Restore</button>
+				</div>
+			</section>
+		</div>
+	</div>
 
-                "knowsLanguage": ["English", "French", "Chinese"],
+	<div class="about-panel" id="aboutPanel">
+		<div class="card window-glass">
+			<div class="window-bar" id="aboutBar">
+				<div class="traffic-lights">
+					<button class="tl tl-close" aria-label="Close" data-i18n-aria="win.close"></button>
+					<button class="tl tl-minimize" aria-label="Minimize" data-i18n-aria="win.minimize"></button>
+					<button class="tl tl-zoom" aria-label="Zoom" data-i18n-aria="win.zoom"></button>
+				</div>
+				<h2 data-i18n="about.title">About This OS</h2>
+			</div>
 
-                "alumniOf": [
-                    {
-                        "@type": "CollegeOrUniversity",
-                        "name": "University of Toronto",
-                        "sameAs": "https://www.utoronto.ca/"
-                    },
-                    {
-                        "@type": "CollegeOrUniversity",
-                        "name": "Dawson College",
-                        "sameAs": "https://www.dawsoncollege.qc.ca/"
-                    }
-                ],
+			<div class="about-hero">
+				<img class="about-app-icon" src="src/app-icon.svg" alt="" width="112" height="112">
+				<div class="about-hero-text">
+					<p class="about-product">Bookmark OS</p>
+					<p class="about-tagline" data-i18n="about.tagline">Your bookmarks as a desktop — from any browser, no account needed.</p>
+					<div class="about-meta">
+						<div class="about-chips">
+							<a href="https://chromewebstore.google.com/detail/bookmark-os/mbfmccadkfdnhojahjehknphgmjkehkp" target="_blank" rel="noopener" class="about-chip">Chrome</a>
+							<a href="https://microsoftedge.microsoft.com/addons/detail/apjbdkedomhbdmknfhcfiniipcjedibc" target="_blank" rel="noopener" class="about-chip">Edge</a>
+							<a href="https://addons.mozilla.org/en-US/firefox/addon/bookmark-os/" target="_blank" rel="noopener" class="about-chip">Firefox</a>
+						</div>
+						<span class="about-meta-note" data-i18n="about.meta">Open source · CC0</span>
+					</div>
+				</div>
+			</div>
 
-                "hasCredential": [
-                    {
-                        "@type": "EducationalOccupationalCredential",
-                        "credentialCategory": "degree",
-                        "name": "Honours Bachelor of Science in Mathematics",
-                        "description": "Mathematics Specialist (Probability/Statistics) and Mathematics Major, conferred with High Distinction. Cumulative GPA 3.6. Dean's List: 2021 Winter, 2022 Summer, 2023 Winter.",
-                        "dateCreated": "2023-06",
-                        "recognizedBy": {
-                            "@type": "CollegeOrUniversity",
-                            "name": "University of Toronto"
-                        }
-                    },
-                    {
-                        "@type": "EducationalOccupationalCredential",
-                        "credentialCategory": "degree",
-                        "name": "Diplôme d'études collégiales, Science (200.B0)",
-                        "description": "Pre-university Science program, 58.66 credits. R-Score: 31.688.",
-                        "dateCreated": "2019-06",
-                        "recognizedBy": {
-                            "@type": "CollegeOrUniversity",
-                            "name": "Dawson College"
-                        }
-                    },
-                    {
-                        "@type": "EducationalOccupationalCredential",
-                        "credentialCategory": "certificate",
-                        "name": "Pleasure Craft Operator Card (PCOC)",
-                        "description": "Canadian federal boating certification; completed Canada Boat Ed course.",
-                        "recognizedBy": {
-                            "@type": "GovernmentOrganization",
-                            "name": "Transport Canada"
-                        }
-                    },
-                    {
-                        "@type": "EducationalOccupationalCredential",
-                        "credentialCategory": "license",
-                        "name": "Driver's License",
-                        "description": "Ontario Class G (Canada); converted to China C1.",
-                        "recognizedBy": {
-                            "@type": "GovernmentOrganization",
-                            "name": "Ontario Ministry of Transportation"
-                        }
-                    }
-                ],
+			<div class="card-hsep"></div>
 
-                "award": [
-                    "Honours Bachelor of Science with High Distinction, University of Toronto (2023)",
-                    "Dean's List, University of Toronto (2021 Winter, 2022 Summer, 2023 Winter)",
-                    "Concours Opti-math, 5th place provincial (Université Laval, 2015)",
-                    "Concours Opti-math, 7th place provincial (Université Laval, 2014)",
-                    "Gauss Mathematics Contest, Distinction (University of Waterloo, 2013)"
-                ],
+			<div class="card-top">
+				<div class="card-left">
+					<p class="section-label" data-i18n="about.developer">Developer</p>
+					<h1>Marc Cheng</h1>
+					<p class="name-alt">Zhongmang Cheng</p>
+					<div class="contact">
+						<a href="mailto:marccheng@outlook.com" class="contact-row">
+							<span class="contact-label" data-i18n="about.industry">Industry</span>
+							<span class="contact-email">marccheng@outlook.com</span>
+						</a>
+						<a href="mailto:marc.cheng@alumni.utoronto.ca" class="contact-row">
+							<span class="contact-label" data-i18n="about.research">Research</span>
+							<span class="contact-email">marc.cheng@alumni.utoronto.ca</span>
+						</a>
+					</div>
+				</div>
+				<div class="card-vsep"></div>
+				<div class="card-right">
+					<p class="note" data-i18n="about.note">Hi there, I’m the developer who built this lightweight web OS. The idea was simple: to access my bookmarks using ANY browser on ANY computer, without logging in to a stupid FUCKING account. To learn more about me, you’re welcome to click one of the icons below.</p>
+				</div>
+			</div>
 
-                "worksFor": [
-                    {
-                        "@type": "OrganizationRole",
-                        "roleName": "Software Architect",
-                        "startDate": "2025-06",
-                        "worksFor": {
-                            "@type": "Organization",
-                            "name": "DoubleTrends L.L.C.",
-                            "url": "https://doubletrends.com"
-                        }
-                    },
-                    {
-                        "@type": "OrganizationRole",
-                        "roleName": "Product Data Specialist",
-                        "startDate": "2023-06",
-                        "endDate": "2025-05",
-                        "worksFor": {
-                            "@type": "Organization",
-                            "name": "Rexel Canada",
-                            "url": "https://www.rexel.ca"
-                        }
-                    },
-                    {
-                        "@type": "OrganizationRole",
-                        "roleName": "Data Analyst (Co-op)",
-                        "startDate": "2021-07",
-                        "endDate": "2022-04",
-                        "worksFor": {
-                            "@type": "Organization",
-                            "name": "Deloitte Canada",
-                            "url": "https://www2.deloitte.com/ca/en.html"
-                        }
-                    }
-                ]
-            }
-        ]
-    }
-    </script>
+			<div class="card-hsep"></div>
+
+			<div class="card-bottom">
+				<nav class="icon-strip" aria-label="Social links" data-i18n-aria="about.social">
+
+					<div class="icon-group">
+						<span class="icon-group-label" data-i18n="about.career">Career & Research</span>
+						<div class="icons">
+							<a href="https://www.linkedin.com/in/chengmarc/" target="_blank" rel="noopener me" class="icon-link" aria-label="LinkedIn">
+								<img src="src/social/linkedin.svg" alt="LinkedIn">
+							</a>
+							<a href="https://github.com/chengmarc" target="_blank" rel="noopener me" class="icon-link" aria-label="GitHub">
+								<img src="src/social/github.svg" alt="GitHub">
+							</a>
+							<a href="https://orcid.org/0009-0008-1783-514X" target="_blank" rel="noopener me" class="icon-link" aria-label="ORCID">
+								<img src="src/social/orcid.svg" alt="ORCID">
+							</a>
+							<a href="https://www.researchgate.net/profile/Zhongmang-Cheng" target="_blank" rel="noopener me" class="icon-link" aria-label="ResearchGate">
+								<img src="src/social/researchgate.svg" alt="ResearchGate">
+							</a>
+						</div>
+					</div>
+
+					<span class="strip-sep">|</span>
+
+					<div class="icon-group">
+						<span class="icon-group-label" data-i18n="about.life">Life</span>
+						<div class="icons">
+							<a href="https://www.instagram.com/marcc.cheng/" target="_blank" rel="noopener me" class="icon-link" aria-label="Instagram">
+								<img src="src/social/instagram.svg" alt="Instagram">
+							</a>
+							<a href="https://space.bilibili.com/1351785" target="_blank" rel="noopener me" class="icon-link" aria-label="Bilibili">
+								<img src="src/social/bilibili.svg" alt="Bilibili">
+							</a>
+							<a href="https://www.xiaohongshu.com/user/profile/5fea4e03000000000100ad52" target="_blank" rel="noopener me" class="icon-link" aria-label="Xiaohongshu">
+								<img src="src/social/xiaohongshu.svg" alt="Xiaohongshu">
+							</a>
+							<a href="src/social/wechat.jpg" target="_blank" rel="noopener" class="icon-link" aria-label="WeChat">
+								<img src="src/social/wechat.svg" alt="WeChat">
+							</a>
+						</div>
+					</div>
+
+					<span class="strip-sep">|</span>
+
+					<div class="icon-group">
+						<span class="icon-group-label" data-i18n="about.crypto">Crypto</span>
+						<div class="icons">
+							<a href="https://x.com/chengmarc_" target="_blank" rel="noopener me" class="icon-link" aria-label="X">
+								<img src="src/social/x.svg" alt="X">
+							</a>
+							<a href="https://farcaster.xyz/chengmarc" target="_blank" rel="noopener me" class="icon-link" aria-label="Farcaster">
+								<img src="src/social/farcaster.svg" alt="Farcaster">
+							</a>
+							<a href="https://paragraph.com/@chengmarc" target="_blank" rel="noopener me" class="icon-link" aria-label="Paragraph">
+								<img src="src/social/paragraph.png" alt="Paragraph" class="icon-img-filtered">
+							</a>
+						</div>
+					</div>
+
+					<span class="strip-sep">|</span>
+
+					<div class="icon-group">
+						<span class="icon-group-label" data-i18n="about.gaming">Gaming</span>
+						<div class="icons">
+							<a href="https://steamcommunity.com/id/everwith/" target="_blank" rel="noopener me" class="icon-link" aria-label="Steam">
+								<img src="src/social/steam.svg" alt="Steam">
+							</a>
+							<a href="https://discord.gg/PGE98Tu5j4" target="_blank" rel="noopener" class="icon-link" aria-label="Discord">
+								<img src="src/social/discord.svg" alt="Discord">
+							</a>
+						</div>
+					</div>
+
+				</nav>
+			</div>
+
+		</div>
+	</div>
+	<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@graph": [
+				{
+					"@type": "WebSite",
+					"@id": "https://chengmarc.com/#website",
+					"url": "https://chengmarc.com/",
+					"name": "Marc Cheng",
+					"inLanguage": "en"
+				},
+				{
+					"@type": "ProfilePage",
+					"@id": "https://chengmarc.com/#webpage",
+					"url": "https://chengmarc.com/",
+					"name": "Bookmark OS · Marc Cheng",
+					"isPartOf": { "@id": "https://chengmarc.com/#website" },
+					"about": [
+						{ "@id": "https://chengmarc.com/#person" },
+						{ "@id": "https://chengmarc.com/#bookmark-os" }
+					],
+					"mainEntity": { "@id": "https://chengmarc.com/#person" },
+					"description": "Personal website of Zhongmang (Marc) Cheng, built on Bookmark OS."
+				},
+				{
+					"@type": "WebApplication",
+					"@id": "https://chengmarc.com/#bookmark-os",
+					"name": "Bookmark OS",
+					"url": "https://chengmarc.com/",
+					"description": "Your bookmarks as a desktop, from any browser, no account needed.",
+					"applicationCategory": "UtilitiesApplication",
+					"operatingSystem": "Any (web browser)",
+					"browserRequirements": "Requires JavaScript",
+					"image": "https://chengmarc.com/src/app-icon.svg",
+					"screenshot": "https://chengmarc.com/store-listing/desktop/screenshot-1-desktop.png",
+					"license": "https://creativecommons.org/publicdomain/zero/1.0/",
+					"isAccessibleForFree": true,
+					"offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+					"sameAs": "https://github.com/chengmarc/chengmarc.github.io",
+					"author": { "@id": "https://chengmarc.com/#person" }
+				},
+				{
+					"@type": "Person",
+					"@id": "https://chengmarc.com/#person",
+
+					"name": "Marc Cheng",
+					"alternateName": ["Zhongmang Cheng", "chengmarc"],
+					"givenName": "Zhongmang",
+					"additionalName": "Marc",
+					"familyName": "Cheng",
+
+					"url": "https://chengmarc.com/",
+					"contactPoint": [
+						{
+							"@type": "ContactPoint",
+							"contactType": "industry",
+							"email": "marccheng@outlook.com"
+						},
+						{
+							"@type": "ContactPoint",
+							"contactType": "research",
+							"email": "marc.cheng@alumni.utoronto.ca"
+						}
+					],
+					"sameAs": [
+						"https://www.wikidata.org/wiki/Q138601247",
+						"https://github.com/chengmarc",
+						"https://www.linkedin.com/in/chengmarc/",
+						"https://orcid.org/0009-0008-1783-514X",
+						"https://www.researchgate.net/profile/Zhongmang-Cheng",
+						"https://www.instagram.com/marcc.cheng/",
+						"https://space.bilibili.com/1351785",
+						"https://www.xiaohongshu.com/user/profile/5fea4e03000000000100ad52",
+						"https://huggingface.co/chengmarc",
+						"https://x.com/chengmarc_",
+						"https://farcaster.xyz/chengmarc",
+						"https://paragraph.com/@chengmarc",
+						"https://steamcommunity.com/id/everwith/"
+					],
+
+					"knowsLanguage": ["English", "French", "Chinese"],
+
+					"alumniOf": [
+						{
+							"@type": "CollegeOrUniversity",
+							"name": "University of Toronto",
+							"sameAs": "https://www.utoronto.ca/"
+						},
+						{
+							"@type": "CollegeOrUniversity",
+							"name": "Dawson College",
+							"sameAs": "https://www.dawsoncollege.qc.ca/"
+						}
+					],
+
+					"hasCredential": [
+						{
+							"@type": "EducationalOccupationalCredential",
+							"credentialCategory": "degree",
+							"name": "Honours Bachelor of Science in Mathematics",
+							"description": "Mathematics Specialist (Probability/Statistics) and Mathematics Major, conferred with High Distinction. Cumulative GPA 3.6. Dean's List: 2021 Winter, 2022 Summer, 2023 Winter.",
+							"dateCreated": "2023-06",
+							"recognizedBy": {
+								"@type": "CollegeOrUniversity",
+								"name": "University of Toronto"
+							}
+						},
+						{
+							"@type": "EducationalOccupationalCredential",
+							"credentialCategory": "degree",
+							"name": "Diplôme d'études collégiales, Science (200.B0)",
+							"description": "Pre-university Science program, 58.66 credits. R-Score: 31.688.",
+							"dateCreated": "2019-06",
+							"recognizedBy": {
+								"@type": "CollegeOrUniversity",
+								"name": "Dawson College"
+							}
+						},
+						{
+							"@type": "EducationalOccupationalCredential",
+							"credentialCategory": "certificate",
+							"name": "Pleasure Craft Operator Card (PCOC)",
+							"description": "Canadian federal boating certification; completed Canada Boat Ed course.",
+							"recognizedBy": {
+								"@type": "GovernmentOrganization",
+								"name": "Transport Canada"
+							}
+						},
+						{
+							"@type": "EducationalOccupationalCredential",
+							"credentialCategory": "license",
+							"name": "Driver's License",
+							"description": "Ontario Class G (Canada); converted to China C1.",
+							"recognizedBy": {
+								"@type": "GovernmentOrganization",
+								"name": "Ontario Ministry of Transportation"
+							}
+						}
+					],
+
+					"award": [
+						"Honours Bachelor of Science with High Distinction, University of Toronto (2023)",
+						"Dean's List, University of Toronto (2021 Winter, 2022 Summer, 2023 Winter)",
+						"Concours Opti-math, 5th place provincial (Université Laval, 2015)",
+						"Concours Opti-math, 7th place provincial (Université Laval, 2014)",
+						"Gauss Mathematics Contest, Distinction (University of Waterloo, 2013)"
+					],
+
+					"worksFor": [
+						{
+							"@type": "OrganizationRole",
+							"roleName": "Software Architect",
+							"startDate": "2025-06",
+							"worksFor": {
+								"@type": "Organization",
+								"name": "DoubleTrends L.L.C.",
+								"url": "https://doubletrends.com"
+							}
+						},
+						{
+							"@type": "OrganizationRole",
+							"roleName": "Product Data Specialist",
+							"startDate": "2023-06",
+							"endDate": "2025-05",
+							"worksFor": {
+								"@type": "Organization",
+								"name": "Rexel Canada",
+								"url": "https://www.rexel.ca"
+							}
+						},
+						{
+							"@type": "OrganizationRole",
+							"roleName": "Data Analyst (Co-op)",
+							"startDate": "2021-07",
+							"endDate": "2022-04",
+							"worksFor": {
+								"@type": "Organization",
+								"name": "Deloitte Canada",
+								"url": "https://www2.deloitte.com/ca/en.html"
+							}
+						}
+					]
+				}
+			]
+		}
+	</script>
 
 	<!-- defer: download all twelve in parallel during HTML parse, then execute
 	     in source order after the DOM is ready (app.js's init runs last). -->

@@ -1,9 +1,10 @@
-/* ─────────────────────────────────────────────────────────────────────
-   Mobile: drop the desktop metaphor entirely — no menu bar, dock, windows,
-   or About panel. All that's left is the home-screen icons, flattened out
+/* ===================================================================
+   Mobile — drop the desktop metaphor entirely: no menu bar, dock, windows,
+   or About panel. All that's left is the desktop icons, flattened out
    of their absolute col/row positions into a simple 3-wide grid. Purely a
    CSS reshape of the same markup; the JS still renders icons the same way.
-   ───────────────────────────────────────────────────────────────────── */
+   =================================================================== */
+
 @media (max-width: 768px) {
     .menu-bar,
     .dock,

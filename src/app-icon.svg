@@ -50,7 +50,7 @@
   <g clip-path="url(#tile)">
   <rect width="1024" height="1024" fill="url(#base)"/>
   <g filter="url(#soft)">
-      
+
   </g>
   <rect width="1024" height="1024" fill="url(#sheen)"/>
 <g transform="translate(0 -9.6)">  <!-- bm: liquid glass -->
@@ -59,7 +59,7 @@
   <g clip-path="url(#clip-bm)">
     <rect width="1024" height="1024" fill="url(#base)"/>
     <g filter="url(#frost-bm)" transform="translate(512 512) scale(1.12) translate(-512 -530)">
-      
+
     </g>
     <use href="#bm" fill="url(#tint-bm)"/>
     <use href="#bm" fill="url(#gloss-bm)"/>
@@ -73,7 +73,7 @@
   <g clip-path="url(#clip-os)">
     <rect width="1024" height="1024" fill="url(#base)"/>
     <g filter="url(#frost-os)" transform="translate(512 512) scale(1.12) translate(-512 -530)">
-      
+
     </g>
     <use href="#os" fill="url(#tint-os)"/>
     <use href="#os" fill="url(#gloss-os)"/>
