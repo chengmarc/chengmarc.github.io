@@ -34,29 +34,18 @@
 
 /* Hero: app icon + product name, laid out like macOS "About This Mac". */
 .about-panel .about-hero {
-    position: relative;
     display: flex;
     align-items: center;
     gap: 32px;
     padding: 40px 48px 36px;
 }
-/* Soft glow behind the icon so it lifts off the glass. */
-.about-panel .about-hero::before {
-    content: '';
-    position: absolute;
-    left: 20px; top: 50%;
-    width: 220px; height: 220px;
-    translate: 0 -50%;
-    background: radial-gradient(circle, rgba(0,122,255,0.10) 0%, transparent 65%);
-    pointer-events: none;
-}
+/* No shadow or glow of our own: app-icon.svg draws its own contact and
+   ambient shadow, and anything more lifts it off the window. */
 .about-panel .about-app-icon {
-    position: relative;
     width: 112px; height: 112px;
     flex-shrink: 0;
-    filter: drop-shadow(0 7px 18px var(--k-30));
 }
-.about-panel .about-hero-text { position: relative; min-width: 0; }
+.about-panel .about-hero-text { min-width: 0; }
 .about-panel .about-product { font-size: 2rem; font-weight: 600; letter-spacing: -0.01em; color: var(--color-name); line-height: 1.1; }
 .about-panel .about-tagline { font-size: 0.95rem; color: var(--color-subtitle); margin-top: 8px; line-height: 1.4; }
 .about-panel .about-meta { display: flex; align-items: center; gap: 14px; margin-top: 18px; flex-wrap: wrap; }
