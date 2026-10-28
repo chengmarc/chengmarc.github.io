@@ -30,5 +30,4 @@ Clone the repository. Open `index.html` directly in a browser. That's the whole 
 
 ## Build the extension
 
-`python packaging/build.py` packages the site for Chrome, Edge and Firefox. The [release guide](docs/RELEASING.md) covers
-testing it and publishing to the three stores.
+`python packaging/build.py` packages the site for Chrome, Edge and Firefox. The [release guide](docs/RELEASING.md) covers testing it and publishing to the three stores.
