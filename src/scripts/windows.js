@@ -78,9 +78,10 @@ function openWindow(id) {
 	lightMenuItem(w, true);
 	windowStack.push(id);
 	restackWindows();
+	// Filled before it's placed, so centring measures its real height.
+	w.onOpen && w.onOpen();
 	if (w.pos) w.pos = placeWindow(w, w.pos.left, w.pos.top);
 	else centerWindow(w.el);
-	w.onOpen && w.onOpen();
 }
 
 function closeWindow(id) {
