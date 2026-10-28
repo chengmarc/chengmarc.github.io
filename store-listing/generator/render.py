@@ -68,7 +68,7 @@ FAKE_PLACE = {'success': True, 'ip': '203.0.113.42', 'city': 'San Francisco', 'r
 SETTINGS_KEY = 'webos_settings'
 STATE_KEY = 'webos_v1'
 
-BOOT = 2800       # ms: the boot splash lifts at 2.5s
+BOOT = 1300       # ms: the boot splash lifts at 1s
 ICONS = 15000      # ms: the longest wait for site icons (each probe gives up at 5s)
 SETTLE = 700       # ms: a window's spring-in animation, with room to spare
 

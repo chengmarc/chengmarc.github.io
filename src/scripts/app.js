@@ -161,9 +161,10 @@ onLanguageChange(() => {
 
 // ─────────────────────────────────────────────────────────────────────
 // Boot splash — a flat cover over the first-run assembly. It lifts on a
-// fixed 2.5s timer: each site's own icon files cap at 1s, so by then every
-// first-screen tile shows a real icon or its local glyph. The page-aware
-// Google lookup races alongside and, when it answers, just swaps in.
+// fixed 1s timer, the same cap as each site's own icon files (whose probes
+// start just before, as the icons render), so by then every first-screen
+// tile shows a real icon or its local glyph. The page-aware Google lookup
+// races alongside and, when it answers, just swaps in.
 // ─────────────────────────────────────────────────────────────────────
 (function hideBootScreen() {
 	const boot = $('boot');
@@ -172,5 +173,5 @@ onLanguageChange(() => {
 		boot.classList.add('boot-hidden');
 		setTimeout(() => boot.remove(), 500);
 		showWelcome();
-	}, 2500);
+	}, 1000);
 })();
