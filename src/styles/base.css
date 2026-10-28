@@ -39,6 +39,9 @@
     --fill-4: rgba(0,0,0,0.13);        /* pressed */
     --separator: rgba(0,0,0,0.09);
     --control-border: rgba(0,0,0,0.11);
+    /* Buttons and fields are glass too: translucent white over the window. */
+    --control-bg:       rgba(255,255,255,0.50);
+    --control-bg-hover: rgba(255,255,255,0.72);   /* and focus */
     --accent: #007aff;
     --accent-hover: #2a8fff;
 
@@ -89,7 +92,6 @@
     --tl-green: #28c840;
     --danger:        #e5352b;
     --danger-badge:  rgba(200,50,50,0.9);
-    --pick-blue: rgba(0,122,255,0.12);
     --drop-blue: rgba(0,122,255,0.16);
 
     /* Profile-card color tokens */
@@ -144,9 +146,10 @@ body::after {
 }
 
 /* macOS traffic lights — glyphs reveal on hover over the cluster */
-.traffic-lights { display: flex; align-items: center; gap: 9px; margin-right: 10px; flex-shrink: 0; }
+.traffic-lights { display: flex; align-items: center; gap: 10px; margin-right: 10px; flex-shrink: 0; }
 .tl {
-    width: 14px; height: 14px;
+    position: relative;
+    width: 16px; height: 16px;
     border: none; border-radius: 50%; padding: 0;
     box-shadow: inset 0 0 0 0.5px var(--k-18);
     display: flex; align-items: center; justify-content: center;
@@ -159,7 +162,7 @@ body::after {
    tint below and stay crisp at any size. */
 .tl::before {
     content: '';
-    width: 7px; height: 7px;
+    width: 8px; height: 8px;
     background: var(--k-55);
     -webkit-mask: var(--tl-glyph) center / contain no-repeat;
             mask: var(--tl-glyph) center / contain no-repeat;
@@ -167,6 +170,9 @@ body::after {
     transition: opacity 0.12s;
 }
 .traffic-lights:hover .tl::before { opacity: 1; }
+/* Each light takes clicks a little beyond its edge: a 24px target round a
+   16px dot, meeting its neighbour's halfway across the gap. */
+.tl::after { content: ''; position: absolute; inset: -4px; border-radius: 50%; }
 
 /* Window chrome, shared by All Apps, Settings and About (windows.js manages
    them): the glass surface, and the title bar you drag them by. As on macOS

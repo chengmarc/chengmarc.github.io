@@ -27,14 +27,17 @@
 }
 .all-apps.open .all-apps-window { scale: 1; opacity: 1; pointer-events: auto; }
 
-/* The window has a fixed height, so the bar and its title must not shrink. */
+/* The window has a fixed height, so the bar and its title must not shrink.
+   The title takes the free space, so the search and the buttons stay at
+   the right edge whichever of them a mode hides. */
 .all-apps-bar, .all-apps-bar h2 { flex-shrink: 0; }
+.all-apps-bar h2 { margin-right: auto; }
 .all-apps-bar input  { cursor: text; }
 .all-apps-search {
     width: 220px;
     flex-shrink: 0;
     padding: 4px 12px;
-    background: var(--fill-2);
+    background: var(--control-bg);
     border: 1px solid var(--control-border);
     border-radius: 999px;
     color: var(--text);
@@ -43,9 +46,9 @@
     transition: background 0.15s, border-color 0.15s;
 }
 .all-apps-search::placeholder { color: var(--text-3); }
-.all-apps-search:focus { border-color: var(--accent); background: #fff; box-shadow: 0 0 0 3px rgba(0,122,255,0.18); }
+.all-apps-search:focus { border-color: var(--accent); background: var(--control-bg-hover); box-shadow: 0 0 0 3px rgba(0,122,255,0.18); }
 .all-apps-bar-btn {
-    background: var(--fill-2);
+    background: var(--control-bg);
     border: 1px solid var(--control-border);
     color: var(--text);
     padding: 4px 14px;
@@ -56,30 +59,19 @@
     transition: background 0.15s, color 0.15s;
     white-space: nowrap;
 }
-.all-apps-bar-btn:hover { background: var(--fill-3); color: var(--text); }
-.all-apps-bar .all-apps-search { margin-left: auto; }
+.all-apps-bar-btn:hover { background: var(--control-bg-hover); color: var(--text); }
 
-/* Pick mode banner */
+/* Pick mode: a line of instruction under the title bar, and Cancel in
+   the bar where Edit sits otherwise. */
 .pick-banner {
     display: none;
-    align-items: center; justify-content: center;
-    gap: 14px;
-    padding: 9px 20px;
-    background: var(--pick-blue);
-    border-bottom: 1px solid var(--separator);
-    font-size: 0.85rem; color: var(--text);
+    padding: 0 20px 10px;
+    font-size: 0.82rem; color: var(--text-2);
     flex-shrink: 0;
 }
-.all-apps.pick-mode .pick-banner { display: flex; }
-.pick-banner button {
-    background: var(--fill-2);
-    border: 1px solid var(--control-border);
-    color: var(--text); padding: 3px 11px;
-    border-radius: 999px; cursor: pointer;
-    font-family: inherit; font-size: 0.78rem;
-    transition: background 0.15s;
-}
-.pick-banner button:hover { background: var(--fill-3); }
+.all-apps.pick-mode .pick-banner { display: block; }
+#pickCancelBtn { display: none; }
+.all-apps.pick-mode #pickCancelBtn { display: block; }
 
 .all-apps-scroll {
     flex: 1;
@@ -171,7 +163,7 @@
 }
 .miller-rename-input {
     flex: 1; min-width: 0;
-    background: #fff;
+    background: var(--control-bg-hover);
     border: 1px solid var(--accent);
     border-radius: 5px; color: var(--text);
     font: inherit; font-size: 0.9rem; padding: 2px 6px; outline: none;
@@ -182,21 +174,21 @@
 .miller-add-cat, .miller-add-link { display: flex; gap: 6px; padding: 8px; flex-wrap: wrap; }
 .miller-add-input {
     flex: 1; min-width: 0;
-    background: var(--fill-2);
+    background: var(--control-bg);
     border: 1px solid var(--control-border);
     border-radius: 999px; color: var(--text);
     padding: 5px 11px; font: inherit; font-size: 0.82rem; outline: none;
     transition: border-color 0.12s, background 0.12s;
 }
-.miller-add-input:focus { border-color: var(--accent); background: #fff; }
+.miller-add-input:focus { border-color: var(--accent); background: var(--control-bg-hover); }
 .miller-add-input::placeholder { color: var(--text-3); }
 .miller-add-btn {
-    background: var(--fill-2); border: 1px solid var(--control-border);
+    background: var(--control-bg); border: 1px solid var(--control-border);
     color: var(--text); border-radius: 999px; padding: 5px 13px; cursor: pointer;
     font: inherit; font-size: 0.82rem; white-space: nowrap;
     transition: background 0.12s;
 }
-.miller-add-btn:hover { background: var(--fill-3); }
+.miller-add-btn:hover { background: var(--control-bg-hover); }
 @keyframes pickFlash {
     0%   { color: rgba(30,160,70,0.95); }
     100% { color: var(--text); }

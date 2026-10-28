@@ -2,8 +2,9 @@
    Menu bar — the strip along the top: menu items, status (location,
    IP, network, battery), the clock, and its calendar popover.
    As on macOS 26/27 the bar itself is clear: no fill, no edge, no blur,
-   just a faint shade along the top so the words read on a bright
-   wallpaper. Highlights are capsules.
+   just a shade along the top so the words read on a bright or busy
+   wallpaper (Sequoia's trunks and sky are the hardest). Highlights are
+   capsules.
    =================================================================== */
 
 .menu-bar {
@@ -15,13 +16,33 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 15px;
-    background: linear-gradient(var(--k-15), transparent);
-    text-shadow: 0 1px 2px var(--k-30);
+    /* A soft halo, so each word carries its own dark ground. */
+    text-shadow: 0 0 8px var(--k-45), 0 1px 2px var(--k-30);
     font-size: 0.88rem;
     line-height: 1;
     color: var(--w-90);
     user-select: none;
     -webkit-user-select: none;
+    --bar-shade: 0.3;
+}
+/* The shade fades from --bar-shade at the top edge to nothing just below
+   the bar, along an eased curve rather than a straight line, so there's no
+   edge where it ends. The bar's z-index keeps it behind the items. */
+.menu-bar::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 40px;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(
+        rgba(0,0,0,var(--bar-shade)) 0%,
+        rgba(0,0,0,calc(var(--bar-shade) * 0.91)) 15%,
+        rgba(0,0,0,calc(var(--bar-shade) * 0.74)) 32%,
+        rgba(0,0,0,calc(var(--bar-shade) * 0.52)) 50%,
+        rgba(0,0,0,calc(var(--bar-shade) * 0.29)) 68%,
+        rgba(0,0,0,calc(var(--bar-shade) * 0.11)) 85%,
+        transparent 100%);
 }
 .menu-left  { display: flex; align-items: center; gap: 4px; }
 .menu-right { display: flex; align-items: center; gap: 15px; }
@@ -47,7 +68,7 @@
     color: var(--w-85);
     transition: opacity 0.2s ease;
 }
-.menu-status svg { display: block; filter: drop-shadow(0 1px 1px var(--k-30)); }
+.menu-status svg { display: block; filter: drop-shadow(0 0 4px var(--k-45)) drop-shadow(0 1px 1px var(--k-30)); }
 .menu-loc {
     gap: 6px;
     font-size: 0.82rem;

@@ -67,7 +67,7 @@
     height: 30px;
     padding: 0 14px;
     border-radius: 999px;
-    background: #fff;
+    background: var(--control-bg);
     border: 1px solid var(--control-border);
     color: var(--color-name);
     font-size: 0.75rem;
@@ -75,7 +75,7 @@
     text-decoration: none;
     transition: background 0.18s ease, transform 0.18s ease;
 }
-.about-panel .about-chip:hover { background: var(--fill-2); transform: translateY(-1px); }
+.about-panel .about-chip:hover { background: var(--control-bg-hover); transform: translateY(-1px); }
 .about-panel .about-meta-note { font-size: 0.7rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--color-body); }
 
 .about-panel .card-top   { display: flex; align-items: stretch; }
@@ -105,8 +105,8 @@
 .about-panel .contact-email { font-size: 0.72rem; color: var(--color-body); }
 .about-panel .contact-row:hover .contact-email { color: var(--color-subtitle); }
 
-.about-panel .icon-link { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 10px; background: #fff; border: 1px solid var(--control-border); transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease; text-decoration: none; flex-shrink: 0; }
-.about-panel .icon-link:hover { background: #fff; transform: translateY(-3px); box-shadow: 0 6px 18px var(--k-15); }
+.about-panel .icon-link { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 10px; background: var(--control-bg); border: 1px solid var(--control-border); transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease; text-decoration: none; flex-shrink: 0; }
+.about-panel .icon-link:hover { background: var(--control-bg-hover); transform: translateY(-3px); box-shadow: 0 6px 18px var(--k-15); }
 .about-panel .icon-link img,
 .about-panel .icon-link svg { width: 22px; height: 22px; display: block; filter: brightness(0) invert(0.3); }
 /* Paragraph is an opaque blue tile (not a transparent glyph): the silhouette

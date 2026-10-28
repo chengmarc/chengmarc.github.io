@@ -86,13 +86,17 @@
     padding: 0 15px;
     border-radius: 999px;
     border: 1px solid var(--control-border);
-    background: #fff;
+    background: var(--control-bg);
     color: var(--text);
     font: inherit; font-size: 0.82rem; font-weight: 500;
     cursor: pointer;
     transition: background 0.12s;
 }
-.settings-btn:hover { background: var(--fill-2); }
+.settings-btn:hover { background: var(--control-bg-hover); }
+/* Buttons in a section line up at one width: the widest label among the
+   backup buttons, in every language but German, fits 96px. */
+.settings-btn { min-width: 96px; }
+:lang(de) .settings-btn { min-width: 140px; }
 .settings-btn.danger { color: var(--danger); }
 .settings-select {
     flex-shrink: 0;
@@ -101,13 +105,13 @@
     padding: 0 28px 0 13px;
     border-radius: 999px;
     border: 1px solid var(--control-border);
-    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23000' stroke-opacity='.55' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 11px center;
+    background: var(--control-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23000' stroke-opacity='.55' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 11px center;
     color: var(--text);
     font: inherit; font-size: 0.82rem;
     appearance: none; -webkit-appearance: none;
     cursor: pointer;
 }
-.settings-select:hover { background-color: var(--fill-2); }
+.settings-select:hover { background-color: var(--control-bg-hover); }
 .settings-select option { background: #fff; color: var(--text); }
 .settings-btn.danger:hover { background: rgba(229,53,43,0.10); }
 

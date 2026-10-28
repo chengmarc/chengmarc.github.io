@@ -38,12 +38,12 @@
     height: 34px;
     border-radius: 999px;
     border: 1px solid var(--control-border);
-    background: #fff;
+    background: var(--control-bg);
     color: var(--text);
     font: inherit; font-size: 0.86rem; font-weight: 500;
     cursor: pointer;
     transition: background 0.12s;
 }
-.welcome-btn:hover { background: var(--fill-2); }
+.welcome-btn:hover { background: var(--control-bg-hover); }
 .welcome-btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
 .welcome-btn.primary:hover { background: #3396ff; }
