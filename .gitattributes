@@ -1,0 +1,14 @@
+# Derived files, tracked because a reader outside the build needs them (the
+# extension package, the stores, the README) or the build can't make them
+# (they need Chromium). Never edit one by hand: change its source, rerun its
+# generator.
+
+# packaging/render_icons.py, from src/app-icon.svg
+packaging/icons/*.png linguist-generated
+
+# scripts/render_thumbs.py, from src/wallpapers/
+src/thumbs/*.jpg linguist-generated
+
+# store-listing/generator/render.py, from index.html
+store-listing/*.png linguist-generated
+store-listing/desktop/*.png linguist-generated

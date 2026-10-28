@@ -6,7 +6,10 @@ Packages the website as a **New Tab** extension for Chrome, Edge and Firefox. Th
 packaging/
   manifest.json     MV3 manifest (Chrome/Edge); build.py adds Firefox's gecko settings
   build.py          stages the packages in build/ and zips them into dist/
-  icons/            16/32/48/128 px, rendered from src/app-icon.svg
+  render_icons.py   renders icons/ from src/app-icon.svg
+  icons/            16/32/48/128 px
+scripts/
+  render_thumbs.py  renders src/thumbs/, the Settings swatches, from src/wallpapers/
 store-listing/
   LISTING.md        store listing text and privacy answers
   PRIVACY.md        privacy policy (linked from the store listings)
@@ -18,9 +21,17 @@ docs/badges/        store badges shown in the README
 
 ## Build
 
+The icons and thumbnails are committed, not built, so first check they still match their sources. Both generators reproduce the committed files byte for byte, so `git status` should show no change to them:
+
 ```
+pip install pillow playwright && playwright install chromium
+python packaging/render_icons.py
+python scripts/render_thumbs.py
+git status packaging/icons src/thumbs
 python packaging/build.py
 ```
+
+A change there means the icon or a wallpaper was edited without rerunning its generator. Commit the new images.
 
 Produces `dist/bookmark-os-chrome-<version>.zip` (Chrome Web Store and Edge Add-ons) and `dist/bookmark-os-firefox-<version>.zip` (Firefox Add-ons). Bump `version` in `packaging/manifest.json` before each store upload.
 
