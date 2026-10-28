@@ -77,6 +77,9 @@
 .dock-icon.drag-over {
     box-shadow: -3px 0 0 0 var(--w-82);
 }
+.dock-icon.drag-over-after {
+    box-shadow: 3px 0 0 0 var(--w-82);
+}
 
 .dock-sep {
     width: 1px; height: 44px;

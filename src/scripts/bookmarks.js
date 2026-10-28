@@ -120,7 +120,7 @@ function renderMillerLinks() {
 		col.appendChild(empty);
 	} else {
 		entries.forEach(({ link, cat, bi, li }) => {
-			const row = el('div', { class: 'miller-link-row', data: { li } });
+			const row = el('div', { class: 'miller-link-row', data: { bi, li } });
 			if (bmEditing && !bookmarkQuery) row.draggable = true;
 			const art = iconArt(link.url); art.classList.add('miller-link-ico');
 			const a = el('a', { class: 'miller-link', href: link.url, target: '_blank', rel: 'noopener noreferrer', draggable: false, data: { search: link.label.toLowerCase() } },
@@ -141,7 +141,7 @@ function renderMillerLinks() {
 		form.className = 'miller-add-link';
 		form.innerHTML = '<input class="miller-add-input" type="url" placeholder="' + t('apps.url') + '" data-role="link-url">'
 			+ '<input class="miller-add-input" type="text" placeholder="' + t('apps.labelOptional') + '" data-role="link-label">'
-			+ '<button class="miller-add-btn" data-role="link-add">Add</button>';
+			+ '<button class="miller-add-btn" data-role="link-add">' + t('apps.add') + '</button>';
 		col.appendChild(form);
 	}
 }
@@ -343,8 +343,11 @@ function setupAllAppsWindow() {
 			const a = e.target.closest('a.miller-link');
 			if (a) {
 				e.preventDefault();
-				const label = (a.querySelector('.miller-link-label') || a).textContent.trim();
-				if (addDesktopIcon(label, a.href)) { a.classList.add('just-picked'); setTimeout(() => a.classList.remove('just-picked'), 800); }
+				// The link as stored, not a.href, which the browser rewrites
+				// (adding a trailing slash, lower-casing the host).
+				const row  = a.closest('.miller-link-row');
+				const link = cats()[+row.dataset.bi].links[+row.dataset.li];
+				if (addDesktopIcon(link.label, link.url)) { a.classList.add('just-picked'); setTimeout(() => a.classList.remove('just-picked'), 800); }
 			}
 		}
 	});
@@ -376,13 +379,18 @@ function setupAllAppsWindow() {
 function setupBookmarkEditDrag() {
 	const scroll = $('allAppsScroll');
 	const cue = (el, cls) => {
-		scroll.querySelectorAll('.drag-over, .drop-into').forEach(x => x.classList.remove('drag-over', 'drop-into'));
+		scroll.querySelectorAll('.drag-over, .drag-over-after, .drop-into').forEach(x => x.classList.remove('drag-over', 'drag-over-after', 'drop-into'));
 		if (el) el.classList.add(cls);
 	};
 	const clearAll = () => {
-		scroll.querySelectorAll('.drag-over, .drop-into, .bm-dragging')
-			.forEach(x => x.classList.remove('drag-over', 'drop-into', 'bm-dragging'));
+		scroll.querySelectorAll('.drag-over, .drag-over-after, .drop-into, .bm-dragging')
+			.forEach(x => x.classList.remove('drag-over', 'drag-over-after', 'drop-into', 'bm-dragging'));
 	};
+	// Dropped on a row's lower half, an item goes after it rather than
+	// before, so the last place can be reached too.
+	const after = (row, e) => { const r = row.getBoundingClientRect(); return e.clientY > r.top + r.height / 2; };
+	const slot  = (row, e, idx) => idx + (after(row, e) ? 1 : 0);
+	const line  = (row, e) => after(row, e) ? 'drag-over-after' : 'drag-over';
 
 	scroll.addEventListener('dragstart', e => {
 		if (!bmEditing) { e.preventDefault(); return; }
@@ -404,10 +412,10 @@ function setupBookmarkEditDrag() {
 		const catRow  = e.target.closest('.miller-cat');
 		const linkRow = e.target.closest('.miller-link-row');
 		if (dragCatBi !== null) {
-			if (catRow) { e.preventDefault(); cue(catRow, 'drag-over'); }
+			if (catRow) { e.preventDefault(); cue(catRow, line(catRow, e)); }
 		} else {
 			if (catRow)       { e.preventDefault(); cue(catRow, 'drop-into'); }
-			else if (linkRow) { e.preventDefault(); cue(linkRow, 'drag-over'); }
+			else if (linkRow) { e.preventDefault(); cue(linkRow, line(linkRow, e)); }
 		}
 	});
 
@@ -417,11 +425,11 @@ function setupBookmarkEditDrag() {
 		const catRow  = e.target.closest('.miller-cat');
 		const linkRow = e.target.closest('.miller-link-row');
 		if (dragCatBi !== null) {
-			if (catRow) catMove(dragCatBi, +catRow.dataset.bi);
+			if (catRow) catMove(dragCatBi, slot(catRow, e, +catRow.dataset.bi));
 		} else if (catRow) {
 			linkMoveToCat(millerSel, dragLinkLi, +catRow.dataset.bi);
 		} else if (linkRow) {
-			linkMoveWithin(millerSel, dragLinkLi, +linkRow.dataset.li);
+			linkMoveWithin(millerSel, dragLinkLi, slot(linkRow, e, +linkRow.dataset.li));
 		}
 		clearAll(); dragCatBi = null; dragLinkLi = null;
 	});

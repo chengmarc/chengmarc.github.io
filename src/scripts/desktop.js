@@ -221,6 +221,7 @@ let dockDragging = false;
 function setupDockDrag() {
 	const dock = $('dock');
 	let active = false, srcDockIdx = -1, tgtDockIdx = -1, dragEl = null, dragClone = null, overOut = false;
+	const clearDropLine = () => dock.querySelectorAll('.dock-icon').forEach(el => el.classList.remove('drag-over', 'drag-over-after'));
 
 	dock.addEventListener('pointerdown', e => {
 		if (!desktopEditing) return;
@@ -248,17 +249,18 @@ function setupDockDrag() {
 		dragClone.style.visibility = '';
 
 		overOut = !(under && under.closest('#dock'));
-		if (overOut) {
-			dock.querySelectorAll('.dock-icon').forEach(el => el.classList.remove('drag-over'));
-			return;
-		}
+		if (overOut) { clearDropLine(); return; }
 
+		// tgtDockIdx is the slot to insert before: over an icon's right half
+		// that's the slot after it, so the end of the dock can be reached too.
 		const target = under && under.closest('.dock-icon[data-dock-idx]');
 		if (target && target !== dragEl) {
-			const ni = parseInt(target.dataset.dockIdx);
+			const r     = target.getBoundingClientRect();
+			const after = e.clientX > r.left + r.width / 2;
+			const ni    = parseInt(target.dataset.dockIdx) + (after ? 1 : 0);
 			if (ni !== tgtDockIdx && !isNaN(ni)) {
-				dock.querySelectorAll('.dock-icon').forEach(el => el.classList.remove('drag-over'));
-				target.classList.add('drag-over');
+				clearDropLine();
+				target.classList.add(after ? 'drag-over-after' : 'drag-over');
 				tgtDockIdx = ni;
 			}
 		}
@@ -270,11 +272,11 @@ function setupDockDrag() {
 		const fSrc = srcDockIdx, fTgt = tgtDockIdx, fOut = overOut;
 		dragClone && dragClone.remove(); dragClone = null;
 		dragEl && (dragEl.style.opacity = ''); dragEl = null;
-		dock.querySelectorAll('.dock-icon').forEach(el => el.classList.remove('drag-over'));
+		clearDropLine();
 		srcDockIdx = tgtDockIdx = -1; overOut = false;
 
 		if (fOut && fSrc >= 0) { moveDockItemToDesktop(fSrc); return; }
-		if (fTgt !== fSrc && fTgt >= 0 && fSrc >= 0) {
+		if (fTgt !== fSrc && fTgt !== fSrc + 1 && fTgt >= 0 && fSrc >= 0) {
 			const arr = S.dock;
 			const [item] = arr.splice(fSrc, 1);
 			arr.splice(fSrc < fTgt ? fTgt - 1 : fTgt, 0, item);

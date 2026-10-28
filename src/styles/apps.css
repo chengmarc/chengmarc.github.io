@@ -157,6 +157,7 @@
 .miller-cat-delete:hover, .miller-link-delete:hover { color: var(--danger); background: var(--fill-2); }
 .miller-cat.bm-dragging, .miller-link-row.bm-dragging { opacity: 0.4; }
 .miller-cat.drag-over, .miller-link-row.drag-over { box-shadow: inset 0 2px 0 var(--accent); }
+.miller-cat.drag-over-after, .miller-link-row.drag-over-after { box-shadow: inset 0 -2px 0 var(--accent); }
 .miller-cat.drop-into {
     background: var(--drop-blue);
     box-shadow: inset 0 0 0 1px var(--accent);
