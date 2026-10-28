@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Bookmark OS",
   "short_name": "Bookmark OS",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "Turn your browser's bookmarks into a macOS-style desktop on every new tab, kept in sync automatically. No account needed.",
   "homepage_url": "https://github.com/chengmarc/chengmarc.github.io",
   "icons": {
