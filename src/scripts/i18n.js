@@ -41,11 +41,11 @@ const STRINGS = {
 		"win.minimize": "Minimize",
 		"win.zoom": "Zoom",
 		"apps.title": "All Apps",
-		"apps.pickTitle": "Add to Home Screen",
+		"apps.pickTitle": "Add to Desktop",
 		"apps.search": "Search apps…",
 		"apps.edit": "Edit",
 		"apps.done": "Done",
-		"apps.pickBanner": "Tap any app to add it to the home screen",
+		"apps.pickBanner": "Click any app to add it to the desktop",
 		"apps.cancel": "Cancel",
 		"apps.noResults": "No results",
 		"apps.noLinksYet": "No links yet — add one below",
@@ -56,7 +56,8 @@ const STRINGS = {
 		"apps.labelOptional": "Label (optional)",
 		"apps.add": "Add",
 		"apps.uncategorized": "Uncategorized",
-		"apps.deleteCategory": "Delete “{title}” and its {count} link(s)?",
+		"apps.deleteCategory": "Delete “{title}” and its {count} links?",
+		"apps.deleteCategory.one": "Delete “{title}” and its {count} link?",
 		"settings.title": "Settings",
 		"settings.wallpaper": "Wallpaper",
 		"settings.sync": "Browser Sync",
@@ -134,11 +135,11 @@ const STRINGS = {
 		"win.minimize": "最小化",
 		"win.zoom": "缩放",
 		"apps.title": "所有应用",
-		"apps.pickTitle": "添加到主屏幕",
+		"apps.pickTitle": "添加到桌面",
 		"apps.search": "搜索应用…",
 		"apps.edit": "编辑",
 		"apps.done": "完成",
-		"apps.pickBanner": "点按任意应用，将其添加到主屏幕",
+		"apps.pickBanner": "点击任意应用，将其添加到桌面",
 		"apps.cancel": "取消",
 		"apps.noResults": "无结果",
 		"apps.noLinksYet": "还没有链接——在下方添加一个",
@@ -227,11 +228,11 @@ const STRINGS = {
 		"win.minimize": "Minimizar",
 		"win.zoom": "Zoom",
 		"apps.title": "Todas las apps",
-		"apps.pickTitle": "Añadir a la pantalla de inicio",
+		"apps.pickTitle": "Añadir al escritorio",
 		"apps.search": "Buscar apps…",
 		"apps.edit": "Editar",
 		"apps.done": "Listo",
-		"apps.pickBanner": "Toca cualquier app para añadirla a la pantalla de inicio",
+		"apps.pickBanner": "Haz clic en cualquier app para añadirla al escritorio",
 		"apps.cancel": "Cancelar",
 		"apps.noResults": "Sin resultados",
 		"apps.noLinksYet": "Aún no hay enlaces: añade uno abajo",
@@ -242,7 +243,8 @@ const STRINGS = {
 		"apps.labelOptional": "Nombre (opcional)",
 		"apps.add": "Añadir",
 		"apps.uncategorized": "Sin categoría",
-		"apps.deleteCategory": "¿Eliminar «{title}» y sus {count} enlace(s)?",
+		"apps.deleteCategory": "¿Eliminar «{title}» y sus {count} enlaces?",
+		"apps.deleteCategory.one": "¿Eliminar «{title}» y su {count} enlace?",
 		"settings.title": "Ajustes",
 		"settings.wallpaper": "Fondo de pantalla",
 		"settings.sync": "Sincronización",
@@ -320,11 +322,11 @@ const STRINGS = {
 		"win.minimize": "しまう",
 		"win.zoom": "拡大/縮小",
 		"apps.title": "すべてのアプリ",
-		"apps.pickTitle": "ホーム画面に追加",
+		"apps.pickTitle": "デスクトップに追加",
 		"apps.search": "アプリを検索…",
 		"apps.edit": "編集",
 		"apps.done": "完了",
-		"apps.pickBanner": "アプリをタップしてホーム画面に追加",
+		"apps.pickBanner": "アプリをクリックしてデスクトップに追加",
 		"apps.cancel": "キャンセル",
 		"apps.noResults": "結果なし",
 		"apps.noLinksYet": "リンクはまだありません。下から追加してください",
@@ -413,11 +415,11 @@ const STRINGS = {
 		"win.minimize": "Minimieren",
 		"win.zoom": "Zoomen",
 		"apps.title": "Alle Apps",
-		"apps.pickTitle": "Zum Home-Bildschirm",
+		"apps.pickTitle": "Zum Schreibtisch hinzufügen",
 		"apps.search": "Apps suchen …",
 		"apps.edit": "Bearbeiten",
 		"apps.done": "Fertig",
-		"apps.pickBanner": "Tippe auf eine App, um sie zum Home-Bildschirm hinzuzufügen",
+		"apps.pickBanner": "Klicke auf eine App, um sie zum Schreibtisch hinzuzufügen",
 		"apps.cancel": "Abbrechen",
 		"apps.noResults": "Keine Ergebnisse",
 		"apps.noLinksYet": "Noch keine Links – füge unten einen hinzu",
@@ -428,7 +430,8 @@ const STRINGS = {
 		"apps.labelOptional": "Name (optional)",
 		"apps.add": "Hinzufügen",
 		"apps.uncategorized": "Ohne Kategorie",
-		"apps.deleteCategory": "„{title}“ und {count} Link(s) darin löschen?",
+		"apps.deleteCategory": "„{title}“ und die {count} Links darin löschen?",
+		"apps.deleteCategory.one": "„{title}“ und den {count} Link darin löschen?",
 		"settings.title": "Einstellungen",
 		"settings.wallpaper": "Hintergrundbild",
 		"settings.sync": "Browser-Synchronisierung",
@@ -506,11 +509,11 @@ const STRINGS = {
 		"win.minimize": "Réduire",
 		"win.zoom": "Agrandir",
 		"apps.title": "Toutes les apps",
-		"apps.pickTitle": "Ajouter à l’écran d’accueil",
+		"apps.pickTitle": "Ajouter au bureau",
 		"apps.search": "Rechercher des apps…",
 		"apps.edit": "Modifier",
 		"apps.done": "OK",
-		"apps.pickBanner": "Touchez une app pour l’ajouter à l’écran d’accueil",
+		"apps.pickBanner": "Cliquez sur une app pour l’ajouter au bureau",
 		"apps.cancel": "Annuler",
 		"apps.noResults": "Aucun résultat",
 		"apps.noLinksYet": "Aucun lien pour l’instant — ajoutez-en un ci-dessous",
@@ -521,7 +524,8 @@ const STRINGS = {
 		"apps.labelOptional": "Nom (facultatif)",
 		"apps.add": "Ajouter",
 		"apps.uncategorized": "Sans catégorie",
-		"apps.deleteCategory": "Supprimer « {title} » et ses {count} lien(s) ?",
+		"apps.deleteCategory": "Supprimer « {title} » et ses {count} liens ?",
+		"apps.deleteCategory.one": "Supprimer « {title} » et son {count} lien ?",
 		"settings.title": "Réglages",
 		"settings.wallpaper": "Fond d’écran",
 		"settings.sync": "Synchronisation",
@@ -590,8 +594,20 @@ function locale() {
 	return own || LANG;
 }
 
+// A string with a {count} can have plural forms beside it, named by the
+// language's plural rules (key.one, key.few…); the plain key is the rest.
+function lookup(lang, key, vars) {
+	const table = STRINGS[lang];
+	if (!table || !(key in table)) return undefined;
+	if (vars && typeof vars.count === 'number') {
+		const form = table[key + '.' + new Intl.PluralRules(lang).select(vars.count)];
+		if (form !== undefined) return form;
+	}
+	return table[key];
+}
+
 function t(key, vars) {
-	let s = (STRINGS[LANG] && STRINGS[LANG][key]) ?? STRINGS.en[key] ?? key;
+	let s = lookup(LANG, key, vars) ?? lookup('en', key, vars) ?? key;
 	if (vars) s = s.replace(/\{(\w+)\}/g, (m, k) => (k in vars ? vars[k] : m));
 	return s;
 }
