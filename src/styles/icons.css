@@ -15,7 +15,7 @@
     text-decoration: none;
     color: white;
     transition: background 0.15s ease, transform 0.18s cubic-bezier(0.34, 1.4, 0.64, 1);
-    width: 114px;
+    width: var(--tile-w);
     cursor: pointer;
     user-select: none;
     -webkit-user-select: none;

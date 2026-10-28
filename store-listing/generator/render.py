@@ -63,7 +63,12 @@ FAKE_IP = {'ip': '203.0.113.42'}
 FAKE_PLACE = {'success': True, 'ip': '203.0.113.42', 'city': 'San Francisco', 'region': 'California',
               'country': 'United States', 'country_code': 'US'}
 
-BOOT = 2800        # ms: the boot splash lifts at 2.5s
+# Where the page keeps its settings and desktop (SETTINGS_STORE in settings.js,
+# STORE in state.js); the captures seed both before the page loads.
+SETTINGS_KEY = 'webos_settings'
+STATE_KEY = 'webos_v1'
+
+BOOT = 2800       # ms: the boot splash lifts at 2.5s
 ICONS = 15000      # ms: the longest wait for site icons (each probe gives up at 5s)
 SETTLE = 700       # ms: a window's spring-in animation, with room to spare
 
@@ -79,9 +84,20 @@ SETUP = """(() => {
         static now() { return FIXED; }
     };
     const seed = %s;
-    localStorage.setItem('webos_settings', JSON.stringify(seed.settings));
-    if (seed.state) localStorage.setItem('webos_v1', JSON.stringify(seed.state));
+    localStorage.setItem(seed.settingsKey, JSON.stringify(seed.settings));
+    if (seed.state) localStorage.setItem(seed.stateKey, JSON.stringify(seed.state));
 })();"""
+
+# What this script takes for granted about the page. Each check returns true,
+# or what has changed; a capture stops on the first page that fails one, so
+# a renamed key or id can't quietly produce images of the wrong thing.
+CHECKS = """([settingsKey, stateKey, wallpaper]) => [
+    SETTINGS_STORE === settingsKey || `settings.js stores settings under ${SETTINGS_STORE}, not ${settingsKey}`,
+    STORE === stateKey || `state.js stores the desktop under ${STORE}, not ${stateKey}`,
+    WALLPAPERS.some(w => w.id === wallpaper) || `settings.js has no wallpaper "${wallpaper}"`,
+    !!document.getElementById('welcome') || 'index.html has no #welcome window',
+    typeof openWindow === 'function' || 'windows.js has no openWindow()',
+].filter(r => r !== true)"""
 
 
 def capture(browser, size, wallpaper, open_=None, state=None, show_ip=True):
@@ -90,11 +106,14 @@ def capture(browser, size, wallpaper, open_=None, state=None, show_ip=True):
     page = browser.new_page(viewport={'width': width, 'height': height}, locale='en-US')
     page.add_init_script(SETUP % json.dumps({
         'settings': {'wallpaper': wallpaper, 'language': 'en', 'showIP': show_ip, 'autoSync': False},
-        'state': state,
+        'state': state, 'settingsKey': SETTINGS_KEY, 'stateKey': STATE_KEY,
     }))
     page.route('https://api.ipify.org/**', lambda r: r.fulfill(json=FAKE_IP))
     page.route('https://ipwho.is/**', lambda r: r.fulfill(json=FAKE_PLACE))
     page.goto((ROOT / 'index.html').as_uri())
+    changed = page.evaluate(CHECKS, [SETTINGS_KEY, STATE_KEY, wallpaper])
+    if changed:
+        raise SystemExit('render.py no longer matches the page:\n  ' + '\n  '.join(changed))
     page.wait_for_timeout(BOOT)
     try:
         page.wait_for_load_state('networkidle', timeout=ICONS)

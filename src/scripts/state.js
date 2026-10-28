@@ -7,9 +7,13 @@
 const CFG   = window.WEBOS_CONFIG;
 const STORE = 'webos_v1';
 const WELCOME = 'webos_welcome';
-// The desktop grid in px: where the first cell sits, and each cell's size.
-// Matches the icon tile in icons.css.
-const GRID  = { ox: 24, oy: 55, uw: 120, uh: 124 };
+// The desktop grid in px, read from its custom properties in desktop.css:
+// where the first cell sits, each cell's size, and the icon tile's width.
+const GRID  = (() => {
+	const css = getComputedStyle(document.documentElement);
+	const px  = name => parseFloat(css.getPropertyValue(name));
+	return { ox: px('--grid-left'), oy: px('--grid-top'), uw: px('--cell-w'), uh: px('--cell-h'), tile: px('--tile-w') };
+})();
 
 let S = {};
 let desktopEditing = false;

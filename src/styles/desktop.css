@@ -2,6 +2,17 @@
    Desktop — the full-screen surface and its icon grid.
    =================================================================== */
 
+/* The desktop grid, the one place its sizes are set: state.js reads these
+   to place icons. The first cell's corner, each cell's size, and the icon
+   tile's width inside its cell. */
+:root {
+    --grid-left: 24px;
+    --grid-top:  55px;
+    --cell-w:    120px;
+    --cell-h:    124px;
+    --tile-w:    114px;
+}
+
 .desktop {
     position: fixed;
     inset: 0;
@@ -16,7 +27,7 @@
 /* Drop-target ghost shown during icon drag */
 .desktop-icon-ghost {
     position: absolute;
-    width: 114px; height: 109px;
+    width: var(--tile-w); height: 109px;
     border: 2px dashed var(--w-45);
     border-radius: 16px;
     pointer-events: none;

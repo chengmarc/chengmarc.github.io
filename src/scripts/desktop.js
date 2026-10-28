@@ -178,8 +178,9 @@ function setupDesktopIconDrag() {
 		if (ghostEl) ghostEl.style.display = overDock ? 'none' : '';
 		if (overDock) return;
 
-		const col = Math.round((e.clientX - GRID.ox - 57) / GRID.uw);
-		const row = Math.round((e.clientY - GRID.oy - 57) / GRID.uh);
+		// The cell whose tile centre is nearest the pointer.
+		const col = Math.round((e.clientX - GRID.ox - GRID.tile / 2) / GRID.uw);
+		const row = Math.round((e.clientY - GRID.oy - GRID.tile / 2) / GRID.uh);
 		const nc  = Math.max(0, col);
 		const nr  = Math.max(0, row);
 		if (nc !== targetCol || nr !== targetRow) {
