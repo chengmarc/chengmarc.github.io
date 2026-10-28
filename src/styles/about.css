@@ -16,12 +16,6 @@
     pointer-events: none;
     transition: scale 0.3s var(--ease-spring),
                 max-width 0.22s ease;
-    /* Dark theme, matching the All Apps window. Overriding the color
-       tokens here flips every scoped card rule to light-on-dark at once. */
-    --color-name:     #f5f5f7;
-    --color-subtitle: rgba(255, 255, 255, 0.82);
-    --color-body:     rgba(255, 255, 255, 0.60);
-    --color-sep:      rgba(255, 255, 255, 0.12);
 }
 .about-panel.open { scale: 1; pointer-events: auto; }
 
@@ -53,14 +47,14 @@
     left: 20px; top: 50%;
     width: 220px; height: 220px;
     translate: 0 -50%;
-    background: radial-gradient(circle, var(--w-12) 0%, transparent 65%);
+    background: radial-gradient(circle, rgba(0,122,255,0.10) 0%, transparent 65%);
     pointer-events: none;
 }
 .about-panel .about-app-icon {
     position: relative;
     width: 112px; height: 112px;
     flex-shrink: 0;
-    filter: drop-shadow(0 10px 24px var(--k-40));
+    filter: drop-shadow(0 7px 18px var(--k-30));
 }
 .about-panel .about-hero-text { position: relative; min-width: 0; }
 .about-panel .about-product { font-size: 2rem; font-weight: 600; letter-spacing: -0.01em; color: var(--color-name); line-height: 1.1; }
@@ -73,15 +67,15 @@
     height: 30px;
     padding: 0 14px;
     border-radius: 999px;
-    background: var(--w-08);
-    border: 1px solid var(--w-15);
+    background: #fff;
+    border: 1px solid var(--control-border);
     color: var(--color-name);
     font-size: 0.75rem;
     font-weight: 500;
     text-decoration: none;
     transition: background 0.18s ease, transform 0.18s ease;
 }
-.about-panel .about-chip:hover { background: var(--w-20); transform: translateY(-1px); }
+.about-panel .about-chip:hover { background: var(--fill-2); transform: translateY(-1px); }
 .about-panel .about-meta-note { font-size: 0.7rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--color-body); }
 
 .about-panel .card-top   { display: flex; align-items: stretch; }
@@ -99,7 +93,7 @@
 .about-panel .contact-label { font-size: 0.62rem; letter-spacing: 2.5px; text-transform: uppercase; font-weight: 600; color: var(--color-subtitle); }
 .about-panel .section-label { color: var(--color-body); margin-bottom: 10px; }
 .about-panel .icons { display: flex; flex-wrap: nowrap; gap: 8px; }
-.about-panel .strip-sep { color: var(--w-20); font-size: 1.2rem; font-weight: 200; line-height: 1; margin-top: 22px; flex-shrink: 0; }
+.about-panel .strip-sep { color: var(--text-4); font-size: 1.2rem; font-weight: 200; line-height: 1; margin-top: 22px; flex-shrink: 0; }
 
 .about-panel h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--color-name); margin-bottom: 4px; line-height: 1.1; }
 .about-panel .name-alt { font-size: 0.8rem; color: var(--color-subtitle); letter-spacing: 3px; text-transform: uppercase; font-weight: 400; margin-bottom: 20px; }
@@ -111,10 +105,10 @@
 .about-panel .contact-email { font-size: 0.72rem; color: var(--color-body); }
 .about-panel .contact-row:hover .contact-email { color: var(--color-subtitle); }
 
-.about-panel .icon-link { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 10px; background: var(--w-08); border: 1px solid var(--w-15); transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease; text-decoration: none; flex-shrink: 0; }
-.about-panel .icon-link:hover { background: var(--w-20); transform: translateY(-3px); box-shadow: 0 6px 18px var(--k-35); }
+.about-panel .icon-link { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 10px; background: #fff; border: 1px solid var(--control-border); transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease; text-decoration: none; flex-shrink: 0; }
+.about-panel .icon-link:hover { background: #fff; transform: translateY(-3px); box-shadow: 0 6px 18px var(--k-15); }
 .about-panel .icon-link img,
-.about-panel .icon-link svg { width: 22px; height: 22px; display: block; filter: brightness(0) invert(0.75); }
+.about-panel .icon-link svg { width: 22px; height: 22px; display: block; filter: brightness(0) invert(0.3); }
 /* Paragraph is an opaque blue tile (not a transparent glyph): the silhouette
    filter would flatten it to a featureless square, so desaturate instead —
    drops the color to gray while keeping the fan glyph readable. */

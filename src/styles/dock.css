@@ -12,15 +12,17 @@
     align-items: flex-end;
     gap: 12px;
     max-width: calc(100vw - 40px);
-    padding: 10px 14px;
-    background: linear-gradient(180deg, var(--w-20), var(--w-12));
+    padding: 11px 14px;
+    /* Clearer than a window, as on macOS 27: the wallpaper shows through,
+       lightened about as much as the macOS 26 dock lightens it. */
+    background: linear-gradient(180deg, var(--w-24), var(--w-15));
     backdrop-filter: var(--blur-dock);
     -webkit-backdrop-filter: var(--blur-dock);
-    border: 1px solid var(--w-30);
-    border-radius: 24px;
-    box-shadow: 0 12px 40px var(--k-40),
-                inset 0 1px 0 var(--w-20),
-                inset 0 -1px 0 var(--k-15);
+    border: 1px solid var(--w-35);
+    /* Concentric with the icons inside: their corner plus the padding. */
+    border-radius: 26px;
+    --dock-shadow: 0 10px 32px var(--k-30), var(--glass-rim);
+    box-shadow: var(--dock-shadow);
     z-index: 100;
     user-select: none;
     overflow: visible;
@@ -78,19 +80,14 @@
 
 .dock-sep {
     width: 1px; height: 44px;
-    background: var(--w-20);
+    background: var(--fill-4);
     margin: 0 4px;
     align-self: center;
     flex-shrink: 0;
 }
 
 /* Highlight the dock as a drop target while dragging a desktop icon over it */
-.dock.drop-target {
-    box-shadow: 0 12px 40px var(--k-40),
-                inset 0 1px 0 var(--w-20),
-                inset 0 -1px 0 var(--k-15),
-                0 0 0 2px var(--w-62);
-}
+.dock.drop-target { box-shadow: var(--dock-shadow), 0 0 0 2px var(--w-62); }
 
 /* A built-in app (All Apps, Settings) is a <button>, not a link: strip the
    button look so it sizes and moves exactly like .dock-icon. */
@@ -104,10 +101,11 @@
     left: 50%;
     transform: translateX(-50%);
     background: var(--surface-tooltip);
-    color: white;
+    color: var(--text);
+    box-shadow: 0 0 0 0.5px var(--fill-3), 0 2px 8px var(--k-18);
     font-size: 0.7rem;
-    padding: 3px 8px;
-    border-radius: 6px;
+    padding: 3px 9px;
+    border-radius: 999px;
     white-space: nowrap;
     opacity: 0;
     pointer-events: none;

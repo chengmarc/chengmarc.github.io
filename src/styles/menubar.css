@@ -1,6 +1,9 @@
 /* ===================================================================
    Menu bar — the strip along the top: menu items, status (location,
    IP, network, battery), the clock, and its calendar popover.
+   As on macOS 26/27 the bar itself is clear: no fill, no edge, no blur,
+   just a faint shade along the top so the words read on a bright
+   wallpaper. Highlights are capsules.
    =================================================================== */
 
 .menu-bar {
@@ -12,11 +15,8 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 15px;
-    background: var(--surface-menu);
-    backdrop-filter: var(--blur-menu);
-    -webkit-backdrop-filter: var(--blur-menu);
-    border-bottom: 1px solid var(--w-12);
-    box-shadow: 0 1px 3px var(--k-18);
+    background: linear-gradient(var(--k-15), transparent);
+    text-shadow: 0 1px 2px var(--k-30);
     font-size: 0.88rem;
     line-height: 1;
     color: var(--w-90);
@@ -32,8 +32,8 @@
     font: inherit;
     color: var(--w-82);
     cursor: pointer;
-    padding: 3px 9px;
-    border-radius: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
     transition: background 0.12s, color 0.12s;
 }
 .menu-item:hover  { background: var(--w-15); color: #fff; }
@@ -47,7 +47,7 @@
     color: var(--w-85);
     transition: opacity 0.2s ease;
 }
-.menu-status svg { display: block; }
+.menu-status svg { display: block; filter: drop-shadow(0 1px 1px var(--k-30)); }
 .menu-loc {
     gap: 6px;
     font-size: 0.82rem;
@@ -69,8 +69,8 @@
     font-variant-numeric: tabular-nums;
     color: var(--w-85);
     cursor: pointer;
-    padding: 2px 7px;
-    border-radius: 5px;
+    padding: 3px 9px;
+    border-radius: 999px;
     transition: background 0.12s, color 0.12s;
 }
 .menu-ip:hover  { background: var(--w-15); color: #fff; }
@@ -86,8 +86,8 @@
     color: var(--w-90);
     letter-spacing: 0.01em;
     cursor: pointer;
-    padding: 3px 8px;
-    border-radius: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
     transition: background 0.12s, color 0.12s;
 }
 .menu-clock:hover  { background: var(--w-15); color: #fff; }
@@ -100,7 +100,6 @@
     width: 288px;
     padding: 16px;
     z-index: 250;
-    color: #fff;
     opacity: 0;
     transform: scale(0.96) translateY(-6px);
     transform-origin: top right;
@@ -116,9 +115,9 @@
 .cal-nav { display: flex; align-items: center; gap: 4px; }
 .cal-arrow, .cal-today {
     background: none; border: none;
-    color: var(--w-82);
+    color: var(--text-2);
     cursor: pointer; font: inherit;
-    border-radius: 6px;
+    border-radius: 999px;
     transition: background 0.12s, color 0.12s;
 }
 .cal-arrow {
@@ -127,12 +126,12 @@
     display: flex; align-items: center; justify-content: center;
 }
 .cal-today { font-size: 0.74rem; padding: 5px 10px; }
-.cal-arrow:hover, .cal-today:hover { background: var(--w-15); color: #fff; }
+.cal-arrow:hover, .cal-today:hover { background: var(--fill-2); color: var(--text); }
 .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
 .cal-dow {
     text-align: center;
     font-size: 0.66rem; font-weight: 600;
-    color: var(--w-45);
+    color: var(--text-3);
     text-transform: uppercase; letter-spacing: 0.04em;
     padding: 2px 0 6px;
 }
@@ -141,8 +140,8 @@
     display: flex; align-items: center; justify-content: center;
     font-size: 0.8rem;
     border-radius: 50%;
-    color: var(--w-90);
+    color: var(--text);
     font-variant-numeric: tabular-nums;
 }
-.cal-day.other { color: var(--w-30); }
-.cal-day.today { background: #fff; color: #14141a; font-weight: 600; }
+.cal-day.other { color: var(--text-4); }
+.cal-day.today { background: var(--accent); color: #fff; font-weight: 600; }

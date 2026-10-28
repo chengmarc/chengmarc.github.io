@@ -44,13 +44,14 @@
     --squircle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M100.0 50.0L100.0 66.8L99.8 72.1L99.6 76.0L99.3 79.1L98.9 81.8L98.4 84.0L97.9 86.1L97.2 87.9L96.4 89.5L95.6 91.0L94.6 92.3L93.5 93.5L92.3 94.6L91.0 95.6L89.5 96.4L87.9 97.2L86.1 97.9L84.0 98.4L81.8 98.9L79.1 99.3L76.0 99.6L72.1 99.8L66.8 100.0L50.0 100.0L33.2 100.0L27.9 99.8L24.0 99.6L20.9 99.3L18.2 98.9L16.0 98.4L13.9 97.9L12.1 97.2L10.5 96.4L9.0 95.6L7.7 94.6L6.5 93.5L5.4 92.3L4.4 91.0L3.6 89.5L2.8 87.9L2.1 86.1L1.6 84.0L1.1 81.8L0.7 79.1L0.4 76.0L0.2 72.1L0.0 66.8L0.0 50.0L0.0 33.2L0.2 27.9L0.4 24.0L0.7 20.9L1.1 18.2L1.6 16.0L2.1 13.9L2.8 12.1L3.6 10.5L4.4 9.0L5.4 7.7L6.5 6.5L7.7 5.4L9.0 4.4L10.5 3.6L12.1 2.8L13.9 2.1L16.0 1.6L18.2 1.1L20.9 0.7L24.0 0.4L27.9 0.2L33.2 0.0L50.0 0.0L66.8 0.0L72.1 0.2L76.0 0.4L79.1 0.7L81.8 1.1L84.0 1.6L86.1 2.1L87.9 2.8L89.5 3.6L91.0 4.4L92.3 5.4L93.5 6.5L94.6 7.7L95.6 9.0L96.4 10.5L97.2 12.1L97.9 13.9L98.4 16.0L98.9 18.2L99.3 20.9L99.6 24.0L99.8 27.9L100.0 33.2Z'/%3E%3C/svg%3E");
     /* Separation from the wallpaper, in three parts: a hairline that
        traces the edge (does most of the work on busy or light
-       wallpaper), a tight contact shadow, and a soft ambient one. */
-    --icon-shadow: drop-shadow(0 0 0.5px var(--k-55))
-                   drop-shadow(0 1px 1.5px var(--k-30))
-                   drop-shadow(0 4px 8px var(--k-30));
-    --icon-shadow-lift: drop-shadow(0 0 0.5px var(--k-55))
-                        drop-shadow(0 2px 3px var(--k-30))
-                        drop-shadow(0 10px 18px var(--k-35));
+       wallpaper), a tight contact shadow, and a soft ambient one. Kept
+       light, as macOS draws them in its light appearance. */
+    --icon-shadow: drop-shadow(0 0 0.5px var(--k-30))
+                   drop-shadow(0 1px 1.5px var(--k-18))
+                   drop-shadow(0 4px 8px var(--k-18));
+    --icon-shadow-lift: drop-shadow(0 0 0.5px var(--k-30))
+                        drop-shadow(0 2px 3px var(--k-18))
+                        drop-shadow(0 9px 16px var(--k-30));
 }
 .icon-art {
     position: relative;
@@ -117,7 +118,7 @@
 .desktop-icon  .icon-art { width: 68px; height: 68px; }
 .dock-icon     .icon-art { width: 68px; height: 68px; }
 .miller-link   .icon-art { width: 20px; height: 20px;
-                           filter: drop-shadow(0 0 0.5px var(--k-55)) drop-shadow(0 1px 1px var(--k-30)); }
+                           filter: drop-shadow(0 0 0.5px var(--k-30)) drop-shadow(0 1px 1px var(--k-18)); }
 .miller-link  .icon-bloom { filter: blur(6px) saturate(1.6); }
 .desktop-icon-label {
     font-size: 0.78rem;

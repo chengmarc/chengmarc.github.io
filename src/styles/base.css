@@ -27,7 +27,23 @@
     --font-sans: 'DM Sans', system-ui, sans-serif;
     --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
 
-    /* White overlays — backgrounds, borders, text (alpha scale) */
+    /* Light appearance, the only one: macOS's label, fill and separator
+       colours. Everything inside a window or popover draws with these. */
+    --text:   #1d1d1f;                 /* labels, titles */
+    --text-2: rgba(0,0,0,0.62);        /* secondary: notes, captions */
+    --text-3: rgba(0,0,0,0.42);        /* tertiary: placeholders, counts */
+    --text-4: rgba(0,0,0,0.25);        /* disabled, days of other months */
+    --fill-1: rgba(0,0,0,0.035);       /* grouped box, sidebar */
+    --fill-2: rgba(0,0,0,0.06);        /* hover, a control at rest */
+    --fill-3: rgba(0,0,0,0.09);        /* selection, a control hovered */
+    --fill-4: rgba(0,0,0,0.13);        /* pressed */
+    --separator: rgba(0,0,0,0.09);
+    --control-border: rgba(0,0,0,0.11);
+    --accent: #007aff;
+    --accent-hover: #2a8fff;
+
+    /* White overlays — the glass itself, and anything drawn straight on
+       the wallpaper (menu bar, desktop labels) (alpha scale) */
     --w-05: rgba(255,255,255,0.05);  --w-08: rgba(255,255,255,0.08);
     --w-12: rgba(255,255,255,0.12);  --w-15: rgba(255,255,255,0.15);
     --w-20: rgba(255,255,255,0.20);  --w-24: rgba(255,255,255,0.24);
@@ -42,33 +58,39 @@
     --k-30: rgba(0,0,0,0.30);  --k-35: rgba(0,0,0,0.35);  --k-40: rgba(0,0,0,0.40);
     --k-45: rgba(0,0,0,0.45);  --k-55: rgba(0,0,0,0.55);  --k-85: rgba(0,0,0,0.85);
 
-    /* Frosted surfaces */
+    /* Frosted surfaces — Liquid Glass, as macOS 26 and 27 draw it */
     /* backdrop-filter blur is one of the most expensive things the compositor
-       runs, and the menu bar + dock are always on screen — cost scales with
-       radius, so these are kept as low as the glass look tolerates. */
-    --blur-glass: blur(12px) saturate(100%);
-    --blur-menu:  blur(12px) saturate(100%);
-    --blur-panel: blur(20px) saturate(100%);
-    --blur-dock:  blur(12px) saturate(100%);
-    --surface-window:  rgba(20,20,26,0.62);
-    --surface-menu:    rgba(18,18,24,0.28);
-    --surface-card:    rgba(26,26,32,0.55);
-    --surface-tooltip: rgba(20,20,20,0.82);
+       runs, and the dock is always on screen — cost scales with radius, so
+       these are kept as low as the glass look tolerates. The saturate keeps
+       what's behind the glass vivid instead of washing it grey, as macOS
+       does; it's a colour matrix in the same pass, so it costs little. */
+    --blur-glass: blur(12px) saturate(150%);
+    --blur-panel: blur(20px) saturate(150%);
+    --blur-dock:  blur(12px) saturate(150%);
+    /* Light glass. A window is close to opaque, as on macOS, so a busy
+       wallpaper can't muddy its text; a popover is a little clearer (the
+       white measured over macOS 26's menus is about 60%). */
+    --surface-window:  rgba(248,248,250,0.80);
+    --surface-popover: rgba(255,255,255,0.62);
+    --surface-tooltip: rgba(250,250,252,0.86);
     --badge-bg:        rgba(10,10,10,0.82);
-    --shadow-window: 0 30px 80px var(--k-55), inset 0 1px 0 var(--w-12);
+    /* The rim: light catches the top edge and, fainter, the bottom one. */
+    --glass-rim: inset 0 1px 0 var(--w-55), inset 0 -1px 0 var(--w-20);
+    /* Window shadow, measured from macOS 26/27: about 30% just below the
+       window, gone some 60px out, with a hairline to hold the edge. */
+    --shadow-window: 0 0 0 0.5px var(--k-30), 0 2px 8px var(--k-15),
+                     0 22px 60px var(--k-35), inset 0 1px 0 var(--w-82);
 
     /* Accents */
     --tl-red:   #ff5f57;
     --tl-amber: #febc2e;
     --tl-green: #28c840;
-    --danger:        #ff6b6b;
-    --danger-soft:   rgba(255,90,90,0.8);
-    --danger-strong: rgb(255,70,70);
+    --danger:        #e5352b;
     --danger-badge:  rgba(200,50,50,0.9);
-    --pick-blue: rgba(40,110,255,0.22);
-    --drop-blue: rgba(96,165,250,0.30);
+    --pick-blue: rgba(0,122,255,0.12);
+    --drop-blue: rgba(0,122,255,0.16);
 
-    /* Profile-card color tokens (overridden per-theme in .about-panel) */
+    /* Profile-card color tokens */
     --color-name:     #1a1a1a;
     --color-subtitle: #3a3a3a;
     --color-body:     #666;
@@ -79,7 +101,7 @@
 
 body {
     font-family: var(--font-sans);
-    color: white;
+    color: var(--text);
     overflow: hidden;
     height: 100vh;
     width: 100vw;
@@ -98,34 +120,31 @@ body::before {
 /* A wallpaper picked in Settings (settings.js sets the variable). */
 .custom-wallpaper body::before { background: var(--wallpaper); }
 
-/* Ambient scrim: vignette + subtle top-to-bottom darkening so glass
-   pops and labels stay legible over any wallpaper. */
+/* Ambient scrim: a light vignette at the edges only. macOS leaves the
+   wallpaper as it is; the desktop labels carry their own shadow. */
 body::after {
     content: '';
     position: fixed;
     inset: 0;
-    background:
-        radial-gradient(ellipse at 50% 38%, transparent 45%, var(--k-40) 100%),
-        linear-gradient(var(--k-12), var(--k-30));
+    background: radial-gradient(ellipse at 50% 38%, transparent 55%, var(--k-18) 100%);
     z-index: -1;
     pointer-events: none;
 }
 
 .glass {
-    background: linear-gradient(135deg, var(--w-15), var(--w-05));
+    background: var(--surface-popover);
     backdrop-filter: var(--blur-glass);
     -webkit-backdrop-filter: var(--blur-glass);
-    border: 1px solid var(--w-20);
+    border: 1px solid var(--w-50);
+    color: var(--text);
     border-radius: 14px;
-    box-shadow: 0 8px 32px var(--k-35),
-                inset 0 1px 0 var(--w-30),
-                inset 0 -1px 0 var(--k-15);
+    box-shadow: 0 10px 36px var(--k-30), var(--glass-rim);
 }
 
 /* macOS traffic lights — glyphs reveal on hover over the cluster */
-.traffic-lights { display: flex; align-items: center; gap: 10px; margin-right: 10px; flex-shrink: 0; }
+.traffic-lights { display: flex; align-items: center; gap: 9px; margin-right: 10px; flex-shrink: 0; }
 .tl {
-    width: 16px; height: 16px;
+    width: 14px; height: 14px;
     border: none; border-radius: 50%; padding: 0;
     box-shadow: inset 0 0 0 0.5px var(--k-18);
     display: flex; align-items: center; justify-content: center;
@@ -138,7 +157,7 @@ body::after {
    tint below and stay crisp at any size. */
 .tl::before {
     content: '';
-    width: 8px; height: 8px;
+    width: 7px; height: 7px;
     background: var(--k-55);
     -webkit-mask: var(--tl-glyph) center / contain no-repeat;
             mask: var(--tl-glyph) center / contain no-repeat;
@@ -148,13 +167,16 @@ body::after {
 .traffic-lights:hover .tl::before { opacity: 1; }
 
 /* Window chrome, shared by All Apps, Settings and About (windows.js manages
-   them): the glass surface, and the title bar you drag them by. */
+   them): the glass surface, and the title bar you drag them by. As on macOS
+   26/27 the title bar has no fill and no rule under it: the window is one
+   sheet of glass. */
 .window-glass {
     background: var(--surface-window);
     backdrop-filter: var(--blur-panel);
     -webkit-backdrop-filter: var(--blur-panel);
-    border: 1px solid var(--w-15);
+    border: 1px solid var(--w-50);
     border-radius: 16px;
+    color: var(--text);
     box-shadow: var(--shadow-window);
 }
 .window-bar {
@@ -162,21 +184,19 @@ body::after {
     align-items: center;
     gap: 10px;
     padding: 13px 16px;
-    background: var(--w-05);
-    border-bottom: 1px solid var(--w-12);
     cursor: grab;
     user-select: none; -webkit-user-select: none;
 }
 .window.grabbing .window-bar { cursor: grabbing; }
 .window-bar button { cursor: pointer; }
 .window-bar h2 {
-    font-size: 1.3rem; font-weight: 500;
+    font-size: 1.15rem; font-weight: 600;
     letter-spacing: 0.01em;
-    color: #fff;
+    color: var(--text);
     transition: opacity 0.15s;
 }
 
 /* A window behind another looks inactive, as on macOS: grey traffic lights
    (coloured again on hover) and a dimmer title. windows.js sets .focused. */
-.window:not(.focused) .traffic-lights:not(:hover) .tl { background: var(--w-20); box-shadow: inset 0 0 0 0.5px var(--w-15); }
-.window:not(.focused) .window-bar h2 { opacity: 0.55; }
+.window:not(.focused) .traffic-lights:not(:hover) .tl { background: var(--fill-4); box-shadow: inset 0 0 0 0.5px var(--fill-2); }
+.window:not(.focused) .window-bar h2 { opacity: 0.45; }
