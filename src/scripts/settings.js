@@ -6,7 +6,8 @@
 const SETTINGS_STORE = 'webos_settings';
 
 // Built-in wallpapers, in src/wallpapers/, with a 320x180 thumbnail of each
-// under the same name in src/thumbs/ for the Settings swatches. Names are places, so they stay
+// under the same name in src/thumbs/ for the Settings swatches (made by
+// scripts/render_thumbs.py). Names are places, so they stay
 // untranslated. Golden Gate is the default, set in styles/base.css itself; an
 // unknown saved id (such as an older preset) falls back to it.
 const WALLPAPER_DIR = 'src/wallpapers/';
@@ -146,8 +147,9 @@ function showSettings() {
 	$('showIPToggle').checked = settings.showIP;
 }
 
-// Called first thing at init (app.js), since the menu bar reads settings too.
-function setupSettings() {
+// `onConfig` puts a whole new config on the desktop (app.js's applyConfig):
+// Sync Now, Import and Restore Defaults all end there.
+function setupSettings(onConfig) {
 	applyWallpaper();
 
 	const panel = $('settingsPanel');
@@ -162,14 +164,14 @@ function setupSettings() {
 
 	// Syncing reads the browser's bookmarks, which only the extension can do.
 	if (EXT_API) {
-		$('syncNowBtn').addEventListener('click', () => syncFromBrowser(applyConfig));
+		$('syncNowBtn').addEventListener('click', () => syncFromBrowser(onConfig));
 		$('autoSyncToggle').addEventListener('change', e => toggleAutoSync(e.target.checked));
 	} else $('settingsSync').remove();
 
 	renderLanguageSelect();
 	$('languageSelect').addEventListener('change', e => {
 		settings.language = e.target.value;
-		saveSettings(); applyLanguage();
+		saveSettings(); applyLanguage(settings.language);
 	});
 	onLanguageChange(() => { renderLanguageSelect(); renderWallpapers(); });
 
@@ -179,12 +181,12 @@ function setupSettings() {
 	});
 
 	$('exportBtn').addEventListener('click', exportConfig);
-	$('importBtn').addEventListener('click', () => importConfig(applyConfig));
+	$('importBtn').addEventListener('click', () => importConfig(onConfig));
 	$('restoreBtn').addEventListener('click', () => {
 		if (!confirm(t('confirm.restore'))) return;
 		// Drop the cached favicons so a restore re-fetches every icon fresh.
 		clearFaviconCache();
-		applyConfig(CFG);
+		onConfig(CFG);
 	});
 
 	registerWindow('settings', {

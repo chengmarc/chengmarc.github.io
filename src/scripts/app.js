@@ -153,7 +153,7 @@ function setupEvents() {
 // ─────────────────────────────────────────────────────────────────────
 loadSettings();
 loadState();
-applyLanguage();
+applyLanguage(settings.language);
 renderDesktopIcons();
 renderDock();
 setupDesktopIconDrag();
@@ -163,12 +163,12 @@ setupDesktopIconPress();
 setupLongPress();
 setupEvents();
 startClock();
-startStatus();
+startStatus(settings.showIP);
 setupCalendar();
 setupAllAppsWindow();
 setupBookmarkEditDrag();
 setupAboutPanel();
-setupSettings();
+setupSettings(applyConfig);
 startAutoSync();
 
 // Text that depends on state as well as language, redone on a language

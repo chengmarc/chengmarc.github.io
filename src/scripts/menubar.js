@@ -19,7 +19,7 @@ function startClock() {
 // ─────────────────────────────────────────────────────────────────────
 // Menu-bar status: network, battery, public IP
 // ─────────────────────────────────────────────────────────────────────
-function startStatus() {
+function startStatus(showIP) {
 	const wifi = $('mbWifi');
 	function updateNet() {
 		const online = navigator.onLine;
@@ -58,7 +58,7 @@ function startStatus() {
 	}
 
 	setupIPChip();
-	showIPInfo(settings.showIP);
+	showIPInfo(showIP);
 }
 
 // ─────────────────────────────────────────────────────────────────────

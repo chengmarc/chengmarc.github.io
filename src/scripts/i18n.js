@@ -611,9 +611,9 @@ function translatePage(root = document) {
 const languageHooks = [];
 function onLanguageChange(fn) { languageHooks.push(fn); }
 
-// The saved choice ('auto' or a code), else the browser's language.
-function applyLanguage() {
-	LANG = STRINGS[settings.language] ? settings.language : browserLanguage();
+// `choice` is the saved setting: a language code, else ('auto') the browser's language.
+function applyLanguage(choice) {
+	LANG = STRINGS[choice] ? choice : browserLanguage();
 	document.documentElement.lang = LANG;
 	translatePage();
 	languageHooks.forEach(fn => fn());
