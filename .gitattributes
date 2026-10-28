@@ -6,9 +6,6 @@
 # packaging/render_icons.py, from src/app-icon.svg
 packaging/icons/*.png linguist-generated
 
-# scripts/render_thumbs.py, from src/wallpapers/
-src/thumbs/*.jpg linguist-generated
-
 # store-listing/generator/render.py, from index.html
 store-listing/*.png linguist-generated
 store-listing/desktop/*.png linguist-generated
