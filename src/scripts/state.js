@@ -6,7 +6,6 @@
 // set here in code.
 const CFG   = window.WEBOS_CONFIG;
 const STORE = 'webos_v1';
-const WELCOME = 'webos_welcome';
 // The desktop grid in px, read from its custom properties in desktop.css:
 // where the first cell sits, each cell's size, and the icon tile's width.
 const GRID  = (() => {
@@ -94,15 +93,15 @@ function replaceState(cfg) {
 	saveState();
 }
 
+// True on a first run: nothing was saved, so the defaults are loaded.
 function loadState() {
+	let raw = null;
 	try {
-		const raw = localStorage.getItem(STORE);
-		if (raw) { S = JSON.parse(raw); ensureDockApps(); ensureIconPositions(); normalizeBookmarks(); dropIconFields(); saveState(); return; }
-		// Nothing saved: a first run. Flag it so the welcome window shows until
-		// the user picks an option, even if this tab is closed first.
-		else localStorage.setItem(WELCOME, '1');
+		raw = localStorage.getItem(STORE);
+		if (raw) { S = JSON.parse(raw); ensureDockApps(); ensureIconPositions(); normalizeBookmarks(); dropIconFields(); saveState(); return false; }
 	} catch (_) {}
 	replaceState(CFG);
+	return !raw;
 }
 
 function saveState() { localStorage.setItem(STORE, JSON.stringify(S)); }
@@ -153,69 +152,4 @@ function exportConfig() {
 	const a = document.createElement('a');
 	a.href = url; a.download = 'config.js'; a.click();
 	URL.revokeObjectURL(url);
-}
-
-// ─────────────────────────────────────────────────────────────────────
-// Browser bookmark sync (extension only)
-// ─────────────────────────────────────────────────────────────────────
-// The extension API object, or null on the website. `chrome` exists on any
-// Chrome page, so check for `permissions`, which only extension pages get.
-const EXT_API = (globalThis.browser && globalThis.browser.permissions) ? globalThis.browser
-	: (globalThis.chrome && globalThis.chrome.permissions) ? globalThis.chrome : null;
-
-// Read the browser's Bookmarks bar as a config. Each folder in the bar becomes
-// a category holding every link beneath it, however deep; loose links in the
-// bar become desktop icons and also fill an "Uncategorized" category. The dock
-// is kept as is. Needs the `bookmarks` permission already granted.
-function readBrowserBookmarks() {
-	return EXT_API.bookmarks.getTree().then(tree => {
-		const bar = tree[0].children.find(n => n.folderType === 'bookmarks-bar' || n.id === 'toolbar_____' || n.id === '1');
-		if (!bar) throw new Error(t('error.noBookmarksBar'));
-
-		// Only links the page can open; skips Firefox `place:` queries, bookmarklets, etc.
-		const isLink = n => n.url && /^https?:/i.test(n.url);
-		const toLink = n => ({ label: n.title || domainFrom(n.url), url: n.url });
-		const linksUnder = n => isLink(n) ? [toLink(n)] : (n.children || []).flatMap(linksUnder);
-
-		const desktopIcons = [], blocks = [], loose = [], seen = new Set();
-		(bar.children || []).forEach((n, i) => {
-			if (isLink(n)) {
-				if (seen.has(n.url)) return;
-				seen.add(n.url);
-				const { label, url } = toLink(n);
-				loose.push({ label, url });
-				desktopIcons.push({ key: 'icon-' + domainFrom(url).replace(/\./g, '-') + '-' + i, label, url });
-			} else if (n.children) {
-				blocks.push({ title: n.title, links: linksUnder(n) });
-			}
-		});
-		// A bar with no links at all would wipe the desktop and every category,
-		// silently and on every new tab under Always sync: refuse instead.
-		if (!loose.length && !blocks.some(b => b.links.length)) throw new Error(t('error.emptyBookmarksBar'));
-		// Loose links also get a category, so All Apps lists and searches them.
-		if (loose.length) blocks.push({ title: t('apps.uncategorized'), links: loose });
-		return keepIconPositions({ desktopIcons, dock: S.dock, bookmarkSections: [{ blocks }] });
-	});
-}
-
-// A synced icon whose URL is already on the desktop keeps that icon's key and
-// grid cell; the rest are left unplaced, for replaceState to put in free cells.
-function keepIconPositions(cfg) {
-	const current = new Map(S.desktopIcons.map(i => [i.url, i]));
-	cfg.desktopIcons.forEach(icon => {
-		const old = current.get(icon.url);
-		if (old) { icon.key = old.key; icon.col = old.col; icon.row = old.row; }
-	});
-	return cfg;
-}
-
-// Sync once, from a click: hand the Bookmarks bar's config to onConfig.
-// `bookmarks` is an optional permission, requested here — first thing, since
-// Firefox only allows it straight off a click.
-function syncFromBrowser(onConfig) {
-	EXT_API.permissions.request({ permissions: ['bookmarks'] }).then(granted => {
-		if (!granted) return;
-		if (!confirm(t('confirm.sync'))) return;
-		return readBrowserBookmarks().then(onConfig);
-	}).catch(err => alert(t('error.syncFailed', { msg: err.message })));
 }

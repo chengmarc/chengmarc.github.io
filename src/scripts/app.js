@@ -9,27 +9,6 @@ function applyConfig(cfg) {
 }
 
 // ─────────────────────────────────────────────────────────────────────
-// Welcome window — first run in the extension: asks whether to keep the
-// desktop in sync with the browser, before anything is synced
-// ─────────────────────────────────────────────────────────────────────
-function showWelcome() {
-	let pending = false;
-	try { pending = localStorage.getItem(WELCOME) === '1'; } catch (_) {}
-	if (!EXT_API || !pending) return;
-
-	const win  = $('welcome');
-	const done = () => {
-		try { localStorage.removeItem(WELCOME); } catch (_) {}
-		win.classList.remove('open');
-	};
-	$('welcomeExplore').addEventListener('click', done);
-	// Straight from the click: Firefox only grants permissions on a user gesture.
-	// The window was the question, so the toggle doesn't ask again.
-	$('welcomeSync').addEventListener('click', () => { done(); toggleAutoSync(true, false); });
-	win.classList.add('open');
-}
-
-// ─────────────────────────────────────────────────────────────────────
 // Event wiring
 // ─────────────────────────────────────────────────────────────────────
 function setupEvents() {
@@ -152,7 +131,7 @@ function setupEvents() {
 // Init
 // ─────────────────────────────────────────────────────────────────────
 loadSettings();
-loadState();
+const firstRun = loadState();
 applyLanguage(settings.language);
 renderDesktopIcons();
 renderDock();
@@ -169,7 +148,7 @@ setupAllAppsWindow();
 setupBookmarkEditDrag();
 setupAboutPanel();
 setupSettings(applyConfig);
-startAutoSync();
+setupSync(applyConfig, firstRun);
 
 // Text that depends on state as well as language, redone on a language
 // switch: translatePage has just reset each to its data-i18n default.

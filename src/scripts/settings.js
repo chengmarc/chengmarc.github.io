@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────
-// Settings — wallpaper; browser sync, once or always on; and backup:
+// Settings — wallpaper, language, the location/IP switch, and backup:
 // Import, Export and Restore Defaults. Settings are saved apart from the
 // desktop state, so Import and Restore Defaults leave them alone.
 // ─────────────────────────────────────────────────────────────────────
@@ -65,69 +65,6 @@ function renderWallpapers() {
 	});
 }
 
-// ── Always-on browser sync (extension only) ───────────────────────────
-// While on, the desktop and app categories follow the Bookmarks bar: synced
-// on every page load and again whenever a bookmark changes. Icons already on
-// the desktop keep their cell (keepIconPositions); edits made here are
-// replaced on the next sync.
-// onChildrenReordered and onImportEnded are Chrome-only; Firefox skips them.
-const BOOKMARK_EVENTS = ['onCreated', 'onRemoved', 'onChanged', 'onMoved', 'onChildrenReordered', 'onImportEnded'];
-let autoSyncTimer = null;
-
-// An import or a folder delete fires one event per bookmark: sync once after.
-function scheduleAutoSync() {
-	clearTimeout(autoSyncTimer);
-	autoSyncTimer = setTimeout(runAutoSync, 300);
-}
-
-// Sync without asking, and redraw only if something changed: every new tab
-// runs this, and most find the Bookmarks bar as they left it.
-function runAutoSync() {
-	return readBrowserBookmarks().then(cfg => {
-		const before = JSON.stringify(S);
-		replaceState(cfg);
-		if (JSON.stringify(S) === before) return;
-		renderDesktopIcons(); renderDock();
-		if ($('allApps').classList.contains('open')) renderAllBookmarks();
-	}).catch(err => console.warn('Bookmark sync failed:', err));
-}
-
-function watchBookmarks(on) {
-	BOOKMARK_EVENTS.forEach(name => {
-		const ev = EXT_API.bookmarks && EXT_API.bookmarks[name];
-		if (!ev) return;
-		if (on) ev.addListener(scheduleAutoSync); else ev.removeListener(scheduleAutoSync);
-	});
-}
-
-function setAutoSync(on) {
-	settings.autoSync = on;
-	saveSettings();
-	$('autoSyncToggle').checked = on;
-	watchBookmarks(on);
-	if (on) runAutoSync(); else clearTimeout(autoSyncTimer);
-}
-
-// From the toggle's click, or the welcome window's (ask = false: the window
-// already asked). The permission request comes first, since Firefox only
-// grants permissions straight off a user gesture.
-function toggleAutoSync(on, ask = true) {
-	if (!on) { setAutoSync(false); return; }
-	EXT_API.permissions.request({ permissions: ['bookmarks'] }).then(granted => {
-		const ok = granted && (!ask || confirm(t('confirm.autoSync')));
-		setAutoSync(!!ok);
-	}).catch(err => { setAutoSync(false); alert(t('error.syncFailed', { msg: err.message })); });
-}
-
-// On load: pick up where the last tab left off, unless the permission has
-// since been revoked, which turns the setting off.
-function startAutoSync() {
-	if (!EXT_API || !settings.autoSync) return;
-	EXT_API.permissions.contains({ permissions: ['bookmarks'] })
-		.then(granted => setAutoSync(granted))
-		.catch(() => setAutoSync(false));
-}
-
 // ── Language ──────────────────────────────────────────────────────────
 // Automatic first, named with the language it resolves to; then each
 // language in its own name, so anyone can find theirs.
@@ -143,12 +80,12 @@ function renderLanguageSelect() {
 // Each opening shows the settings as they are now.
 function showSettings() {
 	renderWallpapers();
-	if (EXT_API) $('autoSyncToggle').checked = settings.autoSync;
 	$('showIPToggle').checked = settings.showIP;
 }
 
 // `onConfig` puts a whole new config on the desktop (app.js's applyConfig):
-// Sync Now, Import and Restore Defaults all end there.
+// Import and Restore Defaults end there. The Browser Sync section is wired
+// by sync.js.
 function setupSettings(onConfig) {
 	applyWallpaper();
 
@@ -161,12 +98,6 @@ function setupSettings(onConfig) {
 		settings.wallpaper = btn.dataset.id;
 		saveSettings(); applyWallpaper(); renderWallpapers();
 	});
-
-	// Syncing reads the browser's bookmarks, which only the extension can do.
-	if (EXT_API) {
-		$('syncNowBtn').addEventListener('click', () => syncFromBrowser(onConfig));
-		$('autoSyncToggle').addEventListener('change', e => toggleAutoSync(e.target.checked));
-	} else $('settingsSync').remove();
 
 	renderLanguageSelect();
 	$('languageSelect').addEventListener('change', e => {
