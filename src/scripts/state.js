@@ -208,11 +208,10 @@ function keepIconPositions(cfg) {
 // Sync once, from a click: hand the Bookmarks bar's config to onConfig.
 // `bookmarks` is an optional permission, requested here — first thing, since
 // Firefox only allows it straight off a click.
-// `ask` = false skips the replace warning, for when the user already chose to sync.
-function syncFromBrowser(onConfig, ask = true) {
+function syncFromBrowser(onConfig) {
 	EXT_API.permissions.request({ permissions: ['bookmarks'] }).then(granted => {
 		if (!granted) return;
-		if (ask && !confirm(t('confirm.sync'))) return;
+		if (!confirm(t('confirm.sync'))) return;
 		return readBrowserBookmarks().then(onConfig);
 	}).catch(err => alert(t('error.syncFailed', { msg: err.message })));
 }

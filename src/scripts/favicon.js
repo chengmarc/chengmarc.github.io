@@ -5,9 +5,6 @@
 // the link's own URL. There is no per-item icon setting: what a link points
 // at decides what it looks like.
 const FAVICON_STORE = 'webos_icons';
-// Older builds cached per domain under this key (plus a '__no_favicon__'
-// failure sentinel). Per-page keys supersede it, so it's simply dropped.
-try { localStorage.removeItem('webos_favicons'); } catch (_) {}
 
 // Cache key for a link: host + path, so google.com/maps and google.com (or
 // mail.google.com and drive.google.com) keep separate icons.

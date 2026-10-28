@@ -54,7 +54,6 @@ const STRINGS = {
 		"apps.url": "URL",
 		"apps.label": "Label",
 		"apps.labelOptional": "Label (optional)",
-		"apps.add": "Add",
 		"apps.uncategorized": "Uncategorized",
 		"apps.deleteCategory": "Delete “{title}” and its {count} link(s)?",
 		"settings.title": "Settings",
@@ -147,7 +146,6 @@ const STRINGS = {
 		"apps.url": "网址",
 		"apps.label": "名称",
 		"apps.labelOptional": "名称（可选）",
-		"apps.add": "添加",
 		"apps.uncategorized": "未分类",
 		"apps.deleteCategory": "删除“{title}”及其中的 {count} 个链接？",
 		"settings.title": "设置",
@@ -240,7 +238,6 @@ const STRINGS = {
 		"apps.url": "URL",
 		"apps.label": "Nombre",
 		"apps.labelOptional": "Nombre (opcional)",
-		"apps.add": "Añadir",
 		"apps.uncategorized": "Sin categoría",
 		"apps.deleteCategory": "¿Eliminar «{title}» y sus {count} enlace(s)?",
 		"settings.title": "Ajustes",
@@ -333,7 +330,6 @@ const STRINGS = {
 		"apps.url": "URL",
 		"apps.label": "名前",
 		"apps.labelOptional": "名前（任意）",
-		"apps.add": "追加",
 		"apps.uncategorized": "未分類",
 		"apps.deleteCategory": "「{title}」と{count}件のリンクを削除しますか？",
 		"settings.title": "設定",
@@ -426,7 +422,6 @@ const STRINGS = {
 		"apps.url": "URL",
 		"apps.label": "Name",
 		"apps.labelOptional": "Name (optional)",
-		"apps.add": "Hinzufügen",
 		"apps.uncategorized": "Ohne Kategorie",
 		"apps.deleteCategory": "„{title}“ und {count} Link(s) darin löschen?",
 		"settings.title": "Einstellungen",
@@ -519,7 +514,6 @@ const STRINGS = {
 		"apps.url": "URL",
 		"apps.label": "Nom",
 		"apps.labelOptional": "Nom (facultatif)",
-		"apps.add": "Ajouter",
 		"apps.uncategorized": "Sans catégorie",
 		"apps.deleteCategory": "Supprimer « {title} » et ses {count} lien(s) ?",
 		"settings.title": "Réglages",
@@ -599,9 +593,9 @@ function t(key, vars) {
 // data-i18n* attribute → what it fills: null for the text itself.
 const I18N_ATTRS = { 'data-i18n': null, 'data-i18n-title': 'title', 'data-i18n-placeholder': 'placeholder', 'data-i18n-aria': 'aria-label' };
 
-function translatePage(root = document) {
+function translatePage() {
 	for (const [data, attr] of Object.entries(I18N_ATTRS)) {
-		root.querySelectorAll('[' + data + ']').forEach(n => {
+		document.querySelectorAll('[' + data + ']').forEach(n => {
 			const s = t(n.getAttribute(data));
 			if (attr) n.setAttribute(attr, s); else n.textContent = s;
 		});
