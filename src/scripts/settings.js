@@ -7,8 +7,9 @@ const SETTINGS_STORE = 'webos_settings';
 
 // Built-in wallpapers, in src/wallpapers/, with a 320x180 thumbnail of each
 // under the same name in src/thumbs/ for the Settings swatches. Names are
-// places, so they stay untranslated. Golden Gate is the default, set in styles/base.css itself; an
-// unknown saved id (such as an older preset) falls back to it.
+// places, so they stay untranslated. Golden Gate is the default, set in
+// styles/base.css itself; an unknown saved id (such as an older preset)
+// falls back to it.
 const WALLPAPER_DIR = 'src/wallpapers/';
 const THUMB_DIR     = 'src/thumbs/';
 const WALLPAPERS = [

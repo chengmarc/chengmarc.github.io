@@ -1,6 +1,6 @@
 /* ===================================================================
-   About panel — the profile card, opened from the ✦ Bookmark OS
-   wordmark. Every selector is scoped under .about-panel so the card
+   About panel — the profile card, opened from ✦ About This OS in the
+   menu bar. Every selector is scoped under .about-panel so the card
    styles never touch the desktop. Content is authored as static HTML
    in index.html so it renders even with scripts stripped.
    =================================================================== */

@@ -232,8 +232,8 @@ function openAllBookmarks() {
 }
 
 // What closing the window resets, however it's closed (so pick mode lives
-// only as long as the window): edit and pick mode,
-// the title and buttons they change, and the search.
+// only as long as the window): edit and pick mode, the title and buttons
+// they change, and the search.
 function resetAllApps() {
 	$('allApps').classList.remove('pick-mode', 'bm-editing');
 	pickMode = false; bmEditing = false;

@@ -33,8 +33,9 @@ function clearFaviconCache() {
 }
 
 // The site's own host should answer fast if it answers at all — a blocked
-// host never will, so a short cap moves on sooner. The Google lookup and a
-// cached URL are off the boot path, so they get plenty of room.
+// host never will, so a short cap moves on sooner. A cached URL loaded
+// before, so it gets the shortest: a miss just falls back to the full
+// lookup. The Google lookup is off the boot path, so it gets plenty of room.
 const SITE_TIMEOUT   = 1000;
 const CACHE_TIMEOUT  = 500;
 const PROBE_TIMEOUT  = 5000;
@@ -207,7 +208,7 @@ function fallbackIconSrc(domain) {
 	return FALLBACK_ICON_BASE + FALLBACK_ICON_FILES[fig] + variant + '.svg';
 }
 
-function renderIdenticon(bloom, sharp, domain) {
+function showFallbackIcon(bloom, sharp, domain) {
 	const src = fallbackIconSrc(domain);
 	bloom.src = src;
 	sharp.src = src;
@@ -234,8 +235,8 @@ function iconArtShell() {
 function iconArt(url) {
 	const { wrap, bloom, sharp } = iconArtShell();
 	const domain = domainFrom(url);
-	renderIdenticon(bloom, sharp, domain);
-	applyFavicon(sharp, url, () => renderIdenticon(bloom, sharp, domain));
+	showFallbackIcon(bloom, sharp, domain);
+	applyFavicon(sharp, url, () => showFallbackIcon(bloom, sharp, domain));
 	sharp.addEventListener('load', () => {
 		if (bloom.src !== sharp.src) bloom.src = sharp.src;
 	});

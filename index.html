@@ -47,10 +47,9 @@
     <link rel="stylesheet" href="src/styles/about.css">
     <link rel="stylesheet" href="src/styles/mobile.css">
     <style>
-        /* Boot splash — a plain dark cover shown until app.js has assembled the
-           desktop, dock and About card, so the first paint isn't a half-built
-           page. Inlined on the raw markup so it applies before the stylesheets or any
-           script loads; app.js fades and removes it once the OS is ready. */
+        /* Boot splash — a plain dark cover over the first paint, so the page
+           is never seen half built. Inlined so it applies before the
+           stylesheets or any script loads; app.js fades it out after 1s. */
         #boot { position: fixed; inset: 0; z-index: 9999; background: #0b0b0f;
                 display: flex; flex-direction: column; align-items: center; justify-content: center;
                 gap: 18px; transition: opacity .5s ease; }

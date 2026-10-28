@@ -1,8 +1,9 @@
 /* ===================================================================
-   Settings panel — wallpaper, browser sync and backup, opened from the
-   menu bar or the dock. A floating window like About, positioned with
-   left/top. One column: the wallpapers in one row, then each section
-   full width, so the website (no Browser Sync) just has one fewer.
+   Settings panel — language, wallpaper, browser sync, privacy and
+   backup, opened from the menu bar or the dock. A floating window like
+   About, positioned with left/top. The language picker sits in the title
+   bar; below it is one column: the wallpapers in one row, then each
+   section full width, so the website (no Browser Sync) just has one fewer.
    =================================================================== */
 .settings-panel {
     position: fixed;
