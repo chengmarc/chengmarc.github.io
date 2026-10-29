@@ -8,7 +8,7 @@
 
   <h1>Bookmark OS - Desktop in your Browser</h1>
 
-  <img src="store-listing/promo-1400x560.png">
+  <img src="docs/social-preview.png">
 
 </div>
 
