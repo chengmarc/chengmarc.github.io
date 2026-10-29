@@ -4,12 +4,12 @@
     python store-listing/generator/render.py
 
 Writes, from index.html:
-    store-listing/desktop/screenshot-1-desktop.png    1280x800, Golden Gate, the desktop
+    store-listing/desktop/screenshot-1-desktop.png    1280x800, High Sierra, the desktop
     store-listing/desktop/screenshot-2-settings.png   1280x800, Tahoe, Settings open
-    store-listing/desktop/screenshot-3-sync.png       1280x800, Sequoia, the "Keep in sync?" window
+    store-listing/desktop/screenshot-3-apps.png       1280x800, Big Sur, All Apps open
 and the promo tiles, laid out by promo.html around a desktop captured here:
-    store-listing/promo-440x280.png    the store's search tile: a Bookmarks bar, the whole
-                                       desktop it syncs to, and the "Synced" pill
+    store-listing/promo-440x280.png    the store's search tile: the whole desktop, on
+                                       High Sierra, with the "Synced" window
     store-listing/promo-1400x560.png   the marquee: the pitch, beside screenshot 1 in a browser
 
 Every capture starts from a fresh profile, in English, with the clock stopped
@@ -36,27 +36,16 @@ ROOT = LISTING.parent
 SCREENSHOT = (1280, 800)
 # (file, wallpaper id from settings.js, what's open)
 SHOTS = [
-    ('screenshot-1-desktop.png',  'golden-gate', None),
+    ('screenshot-1-desktop.png',  'high-sierra', None),
     ('screenshot-2-settings.png', 'tahoe',       'settings'),
-    ('screenshot-3-sync.png',     'sequoia',     'welcome'),
+    ('screenshot-3-apps.png',     'big-sur',     'apps'),
 ]
 
-# The search tile's desktop: captured at the shape it fills below promo.html's
-# 26px Bookmarks bar (440x254), at a width where its icons stay recognisable.
-# That height holds three rows of icons above the dock, so the desktop gets
-# nine. The location/IP chip is off here, since at this width it would crowd
-# the menu bar.
-TILE_DESKTOP = (1024, 591)
-# Nine of the best-known sites, whose icons are also vivid, in hue order from
-# red to blue.
-TILE_ICONS = [
-    ('Instagram', 'https://www.instagram.com/'), ('YouTube', 'https://www.youtube.com/'), ('Netflix', 'https://www.netflix.com/'),
-    ('Reddit', 'https://www.reddit.com/'), ('Snapchat', 'https://www.snapchat.com/'), ('Spotify', 'https://open.spotify.com/'),
-    ('WhatsApp', 'https://web.whatsapp.com/'), ('Telegram', 'https://web.telegram.org/'), ('Facebook', 'https://www.facebook.com/'),
-]
-# Their cells, filled along the diagonals (red top-left, blue bottom-right),
-# so neighbours across and down are close in colour.
-TILE_CELLS = [(0, 0), (1, 0), (0, 1), (2, 0), (1, 1), (0, 2), (2, 1), (1, 2), (2, 2)]   # (col, row)
+# The search tile's desktop: the sample desktop on High Sierra, captured at the
+# tile's own shape (440x280, scaled 2.5x), at a size where all its icons
+# fit above the dock. The location/IP chip is off here, since
+# at this scale it would only clutter the menu bar.
+TILE_DESKTOP = (1100, 700)
 
 # What the IP and location services answer in the captures, instead of the truth.
 FAKE_IP = {'ip': '203.0.113.42'}
@@ -97,6 +86,7 @@ CHECKS = """([settingsKey, stateKey, wallpaper]) => [
     WALLPAPERS.some(w => w.id === wallpaper) || `settings.js has no wallpaper "${wallpaper}"`,
     !!document.getElementById('welcome') || 'index.html has no #welcome window',
     typeof openWindow === 'function' || 'windows.js has no openWindow()',
+    typeof openAllBookmarks === 'function' || 'bookmarks.js has no openAllBookmarks()',
 ].filter(r => r !== true)"""
 
 
@@ -124,20 +114,13 @@ def capture(browser, size, wallpaper, open_=None, state=None, show_ip=True):
         page.evaluate("document.getElementById('welcome').classList.remove('open')")
     if open_ == 'settings':
         page.evaluate("openWindow('settings')")
+    if open_ == 'apps':
+        page.evaluate("openAllBookmarks()")
     page.mouse.move(width - 1, height // 2)   # away from icons and the dock
     page.wait_for_timeout(SETTLE)
     png = page.screenshot()
     page.close()
     return png
-
-
-def tile_state():
-    """A desktop of TILE_ICONS on a 3x3 grid, with the default dock."""
-    icons = [{'key': 'icon-' + label.lower(), 'label': label, 'url': url, 'col': col, 'row': row}
-             for (label, url), (col, row) in zip(TILE_ICONS, TILE_CELLS)]
-    dock = [{'label': 'ChatGPT', 'url': 'https://chatgpt.com/'}, {'label': 'Claude', 'url': 'https://claude.ai/'},
-            {'label': 'Gmail', 'url': 'https://mail.google.com/'}, {'label': 'Outlook', 'url': 'https://outlook.live.com/'}]
-    return {'desktopIcons': icons, 'dock': dock, 'bookmarkSections': [{'blocks': []}]}
 
 
 def promo(browser, name, layout, size, desktop_png):
@@ -163,7 +146,7 @@ def main():
             shots[name] = capture(browser, SCREENSHOT, wallpaper, open_)
             (LISTING / 'desktop' / name).write_bytes(shots[name])
             print('wrote desktop/' + name)
-        tile_desktop = capture(browser, TILE_DESKTOP, 'golden-gate', state=tile_state(), show_ip=False)
+        tile_desktop = capture(browser, TILE_DESKTOP, 'high-sierra', show_ip=False)
         promo(browser, 'promo-440x280.png', 'small', (440, 280), tile_desktop)
         promo(browser, 'promo-1400x560.png', 'marquee', (1400, 560), shots['screenshot-1-desktop.png'])
         browser.close()

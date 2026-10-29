@@ -6,17 +6,14 @@
   #desktop; opened by hand, the page shows screenshot 1 there instead.
 
   The message, at first sight: this is a desktop, and it's your browser's own
-  Bookmarks bar, kept in sync. Both tiles show a highlighted Bookmarks bar,
-  the whole desktop under it, and the "Synced from your Bookmarks bar" pill
-  joining the two.
-  - small: every pixel is product. The bar runs the full width, the desktop
-    fills the rest, and there is no slogan; the store shows the name and
-    icon beside the tile.
-  - marquee: room for the pitch on the left, and the same picture in a
-    browser window on the right.
+  Bookmarks bar, kept in sync.
+  - small: every pixel is product. The whole desktop fills the tile, with
+    "Synced from your Bookmarks bar" on it in a window, and there is no slogan;
+    the store shows the name and icon beside the tile.
+  - marquee: room for the pitch on the left, and on the right the desktop in
+    a browser window, under a highlighted Bookmarks bar the message points to.
   The bar holds folders only, named after the sample config's categories
-  and ordered to match the small tile's icons (Social, Video & Streaming,
-  Music & Audio, Email & Messaging, then more).
+  (Social, Video & Streaming, Music & Audio, Email & Messaging, then more).
 -->
 <html>
 <head>
@@ -78,21 +75,36 @@ body {
 .bookmarks .more { color: rgba(255, 255, 255, .6); margin-left: auto; }
 .newtab { position: relative; }
 .newtab img { display: block; width: 100%; }
-/* On two lines, so it can be big and still sit in the open desktop right of
-   the three icon columns, clear of the icons. */
+/* The message, as a window of the OS itself: the window glass, rim, shadow
+   and traffic lights from styles/base.css. On two lines, so it can be big.
+   The lights are sized from the text, so they scale with each tile; the
+   top padding leaves them their title bar. */
 .pill {
     position: absolute;
-    display: inline-flex; align-items: center; line-height: 1.12;
-    background: #0a84ff; color: #fff; font-weight: 700; letter-spacing: -.005em;
+    display: inline-flex; align-items: center; line-height: 1.12; text-align: center;
+    color: #1d1d1f; font-weight: 700; letter-spacing: -.005em;
     white-space: nowrap;
-    box-shadow: 0 6px 18px rgba(10, 132, 255, .5), 0 0 0 1.5px rgba(255, 255, 255, .35);
+    background: rgba(248, 248, 250, .65);
+    backdrop-filter: blur(20px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, .5);
+    box-shadow: 0 0 0 .5px rgba(0, 0, 0, .3), 0 2px 8px rgba(0, 0, 0, .15),
+                0 14px 36px rgba(0, 0, 0, .35), inset 0 1px 0 rgba(255, 255, 255, .82);
 }
+.pill .lights { position: absolute; top: .5em; left: .55em; --dot: .5em; }
+.pill .lights i { box-shadow: inset 0 0 0 .5px rgba(0, 0, 0, .18); }
 
-/* 440 × 280 search tile: the bar across the top, the whole desktop below */
-.small .pitch, .small .toolbar { display: none; }
-.small .browser  { inset: 0; --marks: 26px; --pad: 8px; --gap: 11px; --ring-r: 6px; font-size: 10.5px; }
-.small .newtab img { height: 254px; object-fit: cover; }
-.small .pill     { left: 178px; top: 14px; font-size: 17px; gap: 8px; padding: 9px 16px 9px 13px; border-radius: 16px; }   /* icons end at 162px */
+/* The arrow: a white arrow on a filled blue circle, in the system blue of
+   the highlighted bar, as macOS draws its filled symbols. */
+.pill .arrow { width: 1.7em; height: 1.7em; flex-shrink: 0; filter: drop-shadow(0 1px 2px rgba(10, 132, 255, .35)); }
+
+/* 440 × 280 search tile: the whole desktop, and the message on it. It sits
+   a little above the middle, where the eye takes the middle to be, between
+   the menu bar and the dock. */
+.small .pitch, .small .toolbar, .small .bookmarks { display: none; }
+.small .browser  { inset: 0; }
+.small .pill     { left: 50%; top: 44%; transform: translate(-50%, -50%);
+                   font-size: 22px; gap: 12px; padding: 30px 19px 16px 23px; border-radius: 16px; }
+.small .pill .arrow { width: 1.95em; height: 1.95em; }
 
 /* 1400 × 560 marquee */
 .marquee .pitch    { left: 84px; top: 0; bottom: 0; width: 480px; }
@@ -104,7 +116,7 @@ body {
 .marquee .browser  { --tool: 38px; --marks: 34px; --pad: 14px; --dot: 11px; --gap: 18px; --ring-r: 8px;
                      left: 596px; top: 50%; transform: translateY(-50%); width: 740px; font-size: 13.5px;   /* centred top to bottom */
                      border-radius: 14px; box-shadow: 0 0 0 1px rgba(255, 255, 255, .12), 0 24px 60px rgba(0, 0, 0, .6); }
-.marquee .pill     { left: 250px; top: 24px; font-size: 32px; gap: 14px; padding: 16px 30px 16px 24px; border-radius: 28px; }   /* icons end at 218px */
+.marquee .pill     { right: 22px; top: 24px; font-size: 42px; gap: 18px; padding: 56px 31px 26px 39px; border-radius: 26px; }   /* in the open desktop: icons end at 218px, so its left edge must stay right of that */
 </style>
 </head>
 <body>
@@ -120,7 +132,7 @@ body {
     <div class="bookmarks" id="bookmarks"></div>
     <div class="newtab">
         <img id="desktop" src="../desktop/screenshot-1-desktop.png" alt="">
-        <span class="pill"><svg width="1em" height="1em" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V3M3.5 7.5L8 3l4.5 4.5"/></svg><span>Synced from your<br> Bookmarks bar</span></span>
+        <span class="pill"><span class="lights"><i></i><i></i><i></i></span><span>Synced from your<br> Bookmarks bar</span><svg class="arrow" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="#0a84ff"/><path d="M10 14.5V5.8M6.2 9.4L10 5.6l3.8 3.8" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
     </div>
 </div>
 

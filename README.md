@@ -16,7 +16,7 @@
 
 <img src="store-listing/desktop/screenshot-1-desktop.png">
 <img src="store-listing/desktop/screenshot-2-settings.png">
-<img src="store-listing/desktop/screenshot-3-sync.png">
+<img src="store-listing/desktop/screenshot-3-apps.png">
 
 ## Try it locally
 

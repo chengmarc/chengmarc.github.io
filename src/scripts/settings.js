@@ -7,20 +7,20 @@ const SETTINGS_STORE = 'webos_settings';
 
 // Built-in wallpapers, in src/wallpapers/, with a 320x180 thumbnail of each
 // under the same name in src/thumbs/ for the Settings swatches. Names are
-// places, so they stay untranslated. Golden Gate is the default, set in
+// places, so they stay untranslated. High Sierra is the default, set in
 // styles/base.css itself; an unknown saved id (such as an older preset)
 // falls back to it.
 const WALLPAPER_DIR = 'src/wallpapers/';
 const THUMB_DIR     = 'src/thumbs/';
 const WALLPAPERS = [
-	{ id: 'yosemite',    name: 'Yosemite',    file: '10.10_yosemite.jpg' },
 	{ id: 'el-capitan',  name: 'El Capitan',  file: '10.11_el_capitan.jpg' },
+	{ id: 'high-sierra', name: 'High Sierra', file: '10.13_high_sierra.jpg' },
 	{ id: 'mojave',      name: 'Mojave',      file: '10.14_mojave.jpg' },
-	{ id: 'sequoia',     name: 'Sequoia',     file: '15_sequoia.jpg' },
+	{ id: 'catalina',    name: 'Catalina',    file: '10.15_catalina.jpg' },
+	{ id: 'big-sur',     name: 'Big Sur',     file: '11_big_sur.jpg' },
 	{ id: 'tahoe',       name: 'Tahoe',       file: '26_tahoe.jpg' },
-	{ id: 'golden-gate', name: 'Golden Gate', file: '27_golden_gate.jpg' },
 ];
-const DEFAULT_WALLPAPER = WALLPAPERS.find(w => w.id === 'golden-gate');
+const DEFAULT_WALLPAPER = WALLPAPERS.find(w => w.id === 'high-sierra');
 
 let settings = { wallpaper: DEFAULT_WALLPAPER.id, autoSync: false, showIP: true, language: 'auto' };
 

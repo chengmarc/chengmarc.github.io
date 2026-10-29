@@ -69,7 +69,7 @@
     --blur-dock:  blur(12px) saturate(150%);
     /* Light glass. A window is as clear as it can be while its grey notes
        (--text-2) keep 4.5:1 contrast, WCAG AA, over the darkest blurred
-       wallpaper (the Golden Gate rocks); any clearer and they drop below.
+       wallpaper (Catalina's cliffs); any clearer and they drop below.
        A popover is about as clear (the white measured over macOS 26's
        menus is about 60%). */
     --surface-window:  rgba(248,248,250,0.65);
@@ -112,7 +112,7 @@ body::before {
     content: '';
     position: fixed;
     inset: 0;
-    background-image: url('../wallpapers/27_golden_gate.jpg');
+    background-image: url('../wallpapers/10.13_high_sierra.jpg');
     background-size: cover;
     background-position: top center;
     z-index: -2;
