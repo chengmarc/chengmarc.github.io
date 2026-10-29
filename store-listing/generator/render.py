@@ -10,7 +10,7 @@ Writes, from index.html:
 and the promo tiles, laid out by promo.html around a desktop captured here:
     store-listing/promo-440x280.png    the store's search tile: the whole desktop, on
                                        High Sierra, with the "Synced" window
-    store-listing/promo-1400x560.png   the marquee: the pitch, beside screenshot 1 in a browser
+    store-listing/promo-1400x560.png   the marquee: the pitch, beside screenshot 1 with the same window
 
 Every capture starts from a fresh profile, in English, with the clock stopped
 at 09:41. The location/IP chip shows, as it does by default, but with made-up

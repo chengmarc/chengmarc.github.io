@@ -5,15 +5,13 @@
   beside this file, renders both, putting a desktop it captured into
   #desktop; opened by hand, the page shows screenshot 1 there instead.
 
-  The message, at first sight: this is a desktop, and it's your browser's own
-  Bookmarks bar, kept in sync.
-  - small: every pixel is product. The whole desktop fills the tile, with
-    "Synced from your Bookmarks bar" on it in a window, and there is no slogan;
-    the store shows the name and icon beside the tile.
-  - marquee: room for the pitch on the left, and on the right the desktop in
-    a browser window, under a highlighted Bookmarks bar the message points to.
-  The bar holds folders only, named after the sample config's categories
-  (Social, Video & Streaming, Music & Audio, Email & Messaging, then more).
+  The message, at first sight: this is a desktop, synced from your
+  browser's Bookmarks bar. Both tiles show the whole desktop with
+  "Synced from your Bookmarks bar" on it, in a window of the OS itself.
+  - small: every pixel is product. The desktop fills the tile, and there
+    is no slogan; the store shows the name and icon beside the tile.
+  - marquee: room for the pitch on the left, and the same picture on the
+    right, as a screen.
 -->
 <html>
 <head>
@@ -30,10 +28,12 @@ body {
     position: relative;
     font-family: 'DM Sans', sans-serif;
     color: #fff;
+    /* High Sierra's colours, at dusk: its sky above, its autumn gold below,
+       on the dark of the mountain. */
     background:
-        radial-gradient(circle at 8% 10%, rgba(132, 74, 214, .55), transparent 45%),
-        radial-gradient(circle at 25% 105%, rgba(214, 110, 60, .38), transparent 45%),
-        #0c0b12;
+        radial-gradient(circle at 8% 10%, rgba(95, 145, 205, .5), transparent 45%),
+        radial-gradient(circle at 25% 105%, rgba(225, 115, 25, .52), transparent 48%),
+        #15110e;
 }
 
 /* The pitch (marquee only) */
@@ -44,44 +44,21 @@ body {
 .pitch p  { color: rgba(255, 255, 255, .74); line-height: 1.35; text-wrap: pretty; }
 .pitch p.fine { color: rgba(255, 255, 255, .5); }
 
-/* The browser: toolbar (marquee only), Bookmarks bar, and the new tab */
-.browser { position: absolute; overflow: hidden; background: #2a2930; }
-.toolbar { display: flex; align-items: center; height: var(--tool); padding: 0 var(--pad); gap: var(--pad); }
-.lights { display: flex; gap: calc(var(--dot) * .7); }
-.lights i { width: var(--dot); height: var(--dot); border-radius: 50%; }
-.lights i:nth-child(1) { background: #ff5f57; }
-.lights i:nth-child(2) { background: #febc2e; }
-.lights i:nth-child(3) { background: #28c840; }
-.address {
-    flex: 1; height: 62%; border-radius: 999px; background: rgba(255, 255, 255, .08);
-    display: flex; align-items: center; padding-left: var(--pad); color: rgba(255, 255, 255, .55);
-}
-.bookmarks {
-    position: relative;
-    display: flex; align-items: center; gap: var(--gap);
-    height: var(--marks); padding: 0 var(--pad);
-    background: #34333b;
-    white-space: nowrap; overflow: hidden;
-}
-/* The highlight: this bar is what the desktop is made from */
-.bookmarks::after {
-    content: ''; position: absolute; inset: 2px;
-    border-radius: var(--ring-r);
-    box-shadow: 0 0 0 2px #0a84ff, 0 0 18px rgba(10, 132, 255, .65);
-    pointer-events: none;
-}
-.bookmarks span { display: inline-flex; align-items: center; gap: .4em; color: rgba(255, 255, 255, .9); flex-shrink: 0; }
-.bookmarks img, .bookmarks svg { width: 1.2em; height: 1.2em; border-radius: 3px; }
-.bookmarks .more { color: rgba(255, 255, 255, .6); margin-left: auto; }
-.newtab { position: relative; }
-.newtab img { display: block; width: 100%; }
+/* The desktop */
+.screen { position: absolute; overflow: hidden; }
+.screen img { display: block; width: 100%; }
+
 /* The message, as a window of the OS itself: the window glass, rim, shadow
-   and traffic lights from styles/base.css. On two lines, so it can be big.
-   The lights are sized from the text, so they scale with each tile; the
-   top padding leaves them their title bar. */
+   and traffic lights from styles/base.css, then the text and an arrow. On
+   two lines, so it can be big. Everything in it is sized from the text, so
+   each tile sets only its font size. It sits a little above the middle of
+   the desktop, where the eye takes the middle to be, between the menu bar
+   and the dock. */
 .pill {
-    position: absolute;
-    display: inline-flex; align-items: center; line-height: 1.12; text-align: center;
+    position: absolute; left: 50%; top: 44%; transform: translate(-50%, -50%);
+    display: inline-flex; align-items: center; gap: .55em;
+    padding: 1.36em .86em .73em 1.05em; border-radius: .73em;   /* the top padding is the title bar */
+    line-height: 1.12; text-align: center;
     color: #1d1d1f; font-weight: 700; letter-spacing: -.005em;
     white-space: nowrap;
     background: rgba(248, 248, 250, .65);
@@ -90,33 +67,31 @@ body {
     box-shadow: 0 0 0 .5px rgba(0, 0, 0, .3), 0 2px 8px rgba(0, 0, 0, .15),
                 0 14px 36px rgba(0, 0, 0, .35), inset 0 1px 0 rgba(255, 255, 255, .82);
 }
-.pill .lights { position: absolute; top: .5em; left: .55em; --dot: .5em; }
-.pill .lights i { box-shadow: inset 0 0 0 .5px rgba(0, 0, 0, .18); }
+.lights { position: absolute; top: .5em; left: .55em; display: flex; gap: .35em; }
+.lights i { width: .5em; height: .5em; border-radius: 50%; box-shadow: inset 0 0 0 .5px rgba(0, 0, 0, .18); }
+.lights i:nth-child(1) { background: #ff5f57; }
+.lights i:nth-child(2) { background: #febc2e; }
+.lights i:nth-child(3) { background: #28c840; }
+/* The arrow: a white arrow on a filled blue circle, in the system blue, as
+   macOS draws its filled symbols. */
+.arrow { width: 1.95em; height: 1.95em; flex-shrink: 0; filter: drop-shadow(0 1px 2px rgba(10, 132, 255, .35)); }
 
-/* The arrow: a white arrow on a filled blue circle, in the system blue of
-   the highlighted bar, as macOS draws its filled symbols. */
-.pill .arrow { width: 1.7em; height: 1.7em; flex-shrink: 0; filter: drop-shadow(0 1px 2px rgba(10, 132, 255, .35)); }
+/* 440 × 280 search tile: the desktop, edge to edge */
+.small .pitch  { display: none; }
+.small .screen { inset: 0; }
+.small .pill   { font-size: 22px; }
 
-/* 440 × 280 search tile: the whole desktop, and the message on it. It sits
-   a little above the middle, where the eye takes the middle to be, between
-   the menu bar and the dock. */
-.small .pitch, .small .toolbar, .small .bookmarks { display: none; }
-.small .browser  { inset: 0; }
-.small .pill     { left: 50%; top: 44%; transform: translate(-50%, -50%);
-                   font-size: 22px; gap: 12px; padding: 30px 19px 16px 23px; border-radius: 16px; }
-.small .pill .arrow { width: 1.95em; height: 1.95em; }
-
-/* 1400 × 560 marquee */
+/* 1400 × 560 marquee: the window is the same share of the desktop as on
+   the small tile */
 .marquee .pitch    { left: 84px; top: 0; bottom: 0; width: 480px; }
 .marquee .wordmark { font-size: 30px; gap: 16px; margin-bottom: 30px; }
 .marquee .wordmark img { width: 72px; height: 72px; }
 .marquee h1        { font-size: 60px; }
 .marquee .pitch p  { font-size: 23px; margin-top: 20px; }
 .marquee .pitch p.fine { font-size: 17px; margin-top: 22px; }
-.marquee .browser  { --tool: 38px; --marks: 34px; --pad: 14px; --dot: 11px; --gap: 18px; --ring-r: 8px;
-                     left: 596px; top: 50%; transform: translateY(-50%); width: 740px; font-size: 13.5px;   /* centred top to bottom */
+.marquee .screen   { left: 596px; top: 50%; transform: translateY(-50%); width: 740px;   /* centred top to bottom */
                      border-radius: 14px; box-shadow: 0 0 0 1px rgba(255, 255, 255, .12), 0 24px 60px rgba(0, 0, 0, .6); }
-.marquee .pill     { right: 22px; top: 24px; font-size: 42px; gap: 18px; padding: 56px 31px 26px 39px; border-radius: 26px; }   /* in the open desktop: icons end at 218px, so its left edge must stay right of that */
+.marquee .pill     { font-size: 37px; }
 </style>
 </head>
 <body>
@@ -127,26 +102,13 @@ body {
     <p class="fine">No account · Nothing leaves your browser</p>
 </div>
 
-<div class="browser">
-    <div class="toolbar"><div class="lights"><i></i><i></i><i></i></div><div class="address">New Tab</div></div>
-    <div class="bookmarks" id="bookmarks"></div>
-    <div class="newtab">
-        <img id="desktop" src="../desktop/screenshot-1-desktop.png" alt="">
-        <span class="pill"><span class="lights"><i></i><i></i><i></i></span><span>Synced from your<br> Bookmarks bar</span><svg class="arrow" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="#0a84ff"/><path d="M10 14.5V5.8M6.2 9.4L10 5.6l3.8 3.8" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-    </div>
+<div class="screen">
+    <img id="desktop" src="../desktop/screenshot-1-desktop.png" alt="">
+    <span class="pill"><span class="lights"><i></i><i></i><i></i></span><span>Synced from your<br> Bookmarks bar</span><svg class="arrow" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="#0a84ff"/><path d="M10 14.5V5.8M6.2 9.4L10 5.6l3.8 3.8" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
 </div>
 
 <script>
     document.body.className = location.search.slice(1) || 'marquee';
-
-    // The Bookmarks bar: folders, as the categories they sync to.
-    const FOLDER = '<svg viewBox="0 0 16 16" fill="#8ab4f8"><path d="M1.5 4c0-.55.45-1 1-1h3.1c.32 0 .62.15.8.4L7.3 4.5H13.5c.55 0 1 .45 1 1V12c0 .55-.45 1-1 1h-11c-.55 0-1-.45-1-1V4z"/></svg>';
-    const FOLDERS = ['Social', 'Video & Streaming', 'Music & Audio', 'Email & Messaging', 'News', 'Shopping', 'Developer', 'Productivity'];
-    const bar = document.getElementById('bookmarks');
-    bar.innerHTML = FOLDERS.map(name => `<span>${FOLDER}${name}</span>`).join('') + '<span class="more">»</span>';
-    // Like the browser's own bar: what doesn't fit goes behind the » at the end.
-    const more = bar.querySelector('.more');
-    while (bar.scrollWidth > bar.clientWidth && more.previousElementSibling) more.previousElementSibling.remove();
 </script>
 </body>
 </html>
