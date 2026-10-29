@@ -241,7 +241,7 @@ store-listing/desktop/screenshot-3-apps.png
 ## Additional Details
 
 ### Tags
-Pick from the list the closest to: bookmarks, new tab, wallpaper.
+privacy, search, google, youtube, facebook, reddit, twitter, whatsapp, social media, streaming
 
 ### Contribution URL
 Leave blank: there is no GitHub Sponsors page.
