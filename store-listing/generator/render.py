@@ -42,10 +42,11 @@ SHOTS = [
 ]
 
 # The search tile's desktop: the sample desktop on High Sierra, captured at the
-# tile's own shape (440x280, scaled 2.5x), at a size where all its icons
-# fit above the dock. The country chip is off here, since
-# at this scale it would only clutter the menu bar.
-TILE_DESKTOP = (1100, 700)
+# tile's own shape (440x280, scaled 2.6x), tall enough for the grid's five
+# rows above the dock (grid.js), so its icons sit as they do in screenshot 1.
+# The country chip is off here, since at this scale it would only clutter
+# the menu bar.
+TILE_DESKTOP = (1144, 728)
 
 # What the location service answers in the captures, instead of the truth.
 FAKE_PLACE = {'success': True, 'country': 'United States', 'country_code': 'US'}
