@@ -11,7 +11,8 @@
 //   • Icons drag to reorder, or onto another section to move there;
 //     section titles drag to reorder the sections.
 // Add to Desktop switches it to pick mode, where a click puts the app on
-// the desktop instead of opening it, until Done (or Escape).
+// the desktop instead of opening it, until Done (or Escape). Add Icon (menu
+// bar) opens it straight in pick mode; Done then goes back to the desktop.
 // ─────────────────────────────────────────────────────────────────────
 let pickMode      = false;
 let appsQuery = '';
@@ -117,15 +118,20 @@ function openAllApps() {
 
 function closeAllApps() {
 	closeAppMenu(); closeSheet(); hideToast();
+	pickOnly = false;
 	setPickMode(false);
 	$('allApps').classList.remove('open');
 	$('appsSearch').value = '';
 	filterApps('');
 }
 
-// Pick mode lives inside the open launcher: entered from Add to Desktop,
-// left by Done or Escape, back to the launcher as it was.
+// Pick mode lives inside the open launcher. Entered from Add to Desktop,
+// Done or Escape go back to the launcher as it was; entered from Add Icon,
+// with the launcher (pickOnly), they close it, back to the desktop.
+let pickOnly = false;
+
 function setPickMode(on) {
+	if (!on && pickOnly) { pickOnly = false; closeAllApps(); return; }
 	pickMode = on;
 	$('allApps').classList.toggle('pick-mode', on);
 	closeAppMenu();
@@ -377,6 +383,7 @@ function setupAllApps(isSyncOn) {
 	const search = $('appsSearch');
 
 	$('mbAllApps').addEventListener('click', () => openAllApps());
+	$('mbAdd').addEventListener('click', () => { openAllApps(); pickOnly = true; setPickMode(true); });
 	$('pickDoneBtn').addEventListener('click', () => setPickMode(false));
 	$('pickModeBtn').addEventListener('click', () => setPickMode(true));
 	$('addAppBtn').addEventListener('click', () => openAppSheet());
