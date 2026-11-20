@@ -7,7 +7,7 @@ the live page.
 Writes, from index.html:
     store-listing/desktop/screenshot-1-desktop.png    1280x800, High Sierra, the desktop
     store-listing/desktop/screenshot-2-settings.png   1280x800, Tahoe, Settings open
-    store-listing/desktop/screenshot-3-apps.png       1280x800, Big Sur, All Apps open
+    store-listing/desktop/screenshot-3-apps.png       1280x800, El Capitan, All Apps open
 and the promo tiles, laid out by promo.html around a desktop captured here:
     store-listing/promo-440x280.png    the store's search tile: the whole desktop, on
                                        High Sierra, with the "Synced" window
@@ -41,7 +41,7 @@ SCREENSHOT = (1280, 800)
 SHOTS = [
     ('screenshot-1-desktop.png',  'high-sierra', None),
     ('screenshot-2-settings.png', 'tahoe',       'settings'),
-    ('screenshot-3-apps.png',     'big-sur',     'apps'),
+    ('screenshot-3-apps.png',     'el-capitan',  'apps'),
 ]
 
 # The search tile's desktop: the sample desktop on High Sierra, captured at the
