@@ -121,43 +121,6 @@ window.WEBOS_CONFIG = {
     {
       "blocks": [
         {
-          "title": "Search & AI",
-          "links": [
-            {
-              "label": "Google",
-              "url": "https://www.google.com/"
-            },
-            {
-              "label": "Bing",
-              "url": "https://www.bing.com/"
-            },
-            {
-              "label": "DuckDuckGo",
-              "url": "https://duckduckgo.com/"
-            },
-            {
-              "label": "ChatGPT",
-              "url": "https://chatgpt.com/"
-            },
-            {
-              "label": "Gemini",
-              "url": "https://gemini.google.com/"
-            },
-            {
-              "label": "Claude",
-              "url": "https://claude.ai/"
-            },
-            {
-              "label": "Microsoft Copilot",
-              "url": "https://copilot.microsoft.com/"
-            },
-            {
-              "label": "Perplexity",
-              "url": "https://www.perplexity.ai/"
-            }
-          ]
-        },
-        {
           "title": "Social",
           "links": [
             {
@@ -195,43 +158,6 @@ window.WEBOS_CONFIG = {
             {
               "label": "Bluesky",
               "url": "https://bsky.app/"
-            }
-          ]
-        },
-        {
-          "title": "Email & Messaging",
-          "links": [
-            {
-              "label": "Gmail",
-              "url": "https://mail.google.com/"
-            },
-            {
-              "label": "Outlook",
-              "url": "https://outlook.live.com/"
-            },
-            {
-              "label": "Yahoo Mail",
-              "url": "https://mail.yahoo.com/"
-            },
-            {
-              "label": "Proton Mail",
-              "url": "https://mail.proton.me/"
-            },
-            {
-              "label": "WhatsApp",
-              "url": "https://web.whatsapp.com/"
-            },
-            {
-              "label": "Telegram",
-              "url": "https://web.telegram.org/"
-            },
-            {
-              "label": "Messenger",
-              "url": "https://www.messenger.com/"
-            },
-            {
-              "label": "Discord",
-              "url": "https://discord.com/app"
             }
           ]
         },
@@ -294,6 +220,80 @@ window.WEBOS_CONFIG = {
             {
               "label": "Bandcamp",
               "url": "https://bandcamp.com/"
+            }
+          ]
+        },
+        {
+          "title": "Search & AI",
+          "links": [
+            {
+              "label": "Google",
+              "url": "https://www.google.com/"
+            },
+            {
+              "label": "Bing",
+              "url": "https://www.bing.com/"
+            },
+            {
+              "label": "DuckDuckGo",
+              "url": "https://duckduckgo.com/"
+            },
+            {
+              "label": "ChatGPT",
+              "url": "https://chatgpt.com/"
+            },
+            {
+              "label": "Gemini",
+              "url": "https://gemini.google.com/"
+            },
+            {
+              "label": "Claude",
+              "url": "https://claude.ai/"
+            },
+            {
+              "label": "Microsoft Copilot",
+              "url": "https://copilot.microsoft.com/"
+            },
+            {
+              "label": "Perplexity",
+              "url": "https://www.perplexity.ai/"
+            }
+          ]
+        },
+        {
+          "title": "Email & Messaging",
+          "links": [
+            {
+              "label": "Gmail",
+              "url": "https://mail.google.com/"
+            },
+            {
+              "label": "Outlook",
+              "url": "https://outlook.live.com/"
+            },
+            {
+              "label": "Yahoo Mail",
+              "url": "https://mail.yahoo.com/"
+            },
+            {
+              "label": "Proton Mail",
+              "url": "https://mail.proton.me/"
+            },
+            {
+              "label": "WhatsApp",
+              "url": "https://web.whatsapp.com/"
+            },
+            {
+              "label": "Telegram",
+              "url": "https://web.telegram.org/"
+            },
+            {
+              "label": "Messenger",
+              "url": "https://www.messenger.com/"
+            },
+            {
+              "label": "Discord",
+              "url": "https://discord.com/app"
             }
           ]
         },
