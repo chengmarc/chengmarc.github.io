@@ -64,6 +64,8 @@ function renderAllBookmarks() {
 	cats().forEach((c, bi) => {
 		const grid = el('div', { class: 'lp-grid' });
 		c.links.forEach((l, li) => grid.appendChild(appTile(l, bi, li, onDesk.has(l.url))));
+		// An empty category says what to do with it, and gives a drop target.
+		if (!c.links.length) grid.appendChild(el('div', { class: 'lp-empty-cat', text: t('apps.emptyCategory') }));
 		inner.appendChild(el('section', { class: 'lp-section', data: { bi } },
 			el('header', { class: 'lp-head', draggable: true, data: { bi } },
 				el('h3', { text: c.title }),
@@ -137,6 +139,19 @@ function escapeAllBookmarks() {
 	if ($('bookmarkSearch').value) { $('bookmarkSearch').value = ''; filterBookmarks(''); return; }
 	if (pickMode) return setPickMode(false);
 	closeAllBookmarks();
+}
+
+// Scroll the list, and only the list, until node is in view. Not
+// scrollIntoView: when the list can't scroll far enough (the last section),
+// it scrolls whatever holds the list too, and the launcher slides up.
+function revealInList(node) {
+	if (!node) return;
+	const list = $('allAppsScroll');
+	const r = node.getBoundingClientRect(), box = list.getBoundingClientRect();
+	const margin = 16;
+	if (r.top >= box.top + margin && r.bottom <= box.bottom - margin) return;
+	const by = r.top < box.top + margin ? r.top - box.top - margin : r.bottom - box.bottom + margin;
+	list.scrollBy({ top: by, behavior: 'smooth' });
 }
 
 // ── Toast ─────────────────────────────────────────────────────────────
@@ -301,7 +316,7 @@ function openAppSheet(bi = Math.min(lastAddCat, cats().length - 1), li) {
 			// Show where it went: the section a new or moved app landed in.
 			if (!editing || to !== bi) {
 				const tile = $('allAppsScroll').querySelector(`.lp-section[data-bi="${to}"] .lp-app:last-of-type`);
-				if (tile) { tile.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); tile.classList.add('lp-pop'); }
+				if (tile) { revealInList(tile); tile.classList.add('lp-pop'); }
 			}
 		},
 	});
@@ -344,7 +359,7 @@ function openCategorySheet(bi) {
 			if (renaming) cats()[bi].title = title; else cats().push({ title, links: [] });
 			closeSheet();
 			commitApps();
-			if (!renaming) $('allAppsScroll').querySelector('.lp-section:last-of-type')?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+			if (!renaming) revealInList($('allAppsScroll').querySelector('.lp-section:last-of-type'));
 		},
 	});
 	const refresh = () => { ok.disabled = !nameIn.value.trim(); };

@@ -9,7 +9,10 @@
     position: fixed; inset: 0;
     z-index: 900;   /* over the menu bar, dock and windows; under Welcome */
     display: flex; flex-direction: column;
-    overflow: hidden;   /* the blurred wallpaper below bleeds past the edges */
+    /* The blurred wallpaper below bleeds past the edges. clip, not hidden:
+       hidden still lets a script scroll into the bleed, sliding the whole
+       launcher up. */
+    overflow: clip;
     color: #fff;
     opacity: 0;
     visibility: hidden;
@@ -226,6 +229,15 @@
     border: 1.5px dashed var(--w-50);
     color: var(--w-85); font-size: 1.6rem; font-weight: 300;
     transition: border-color 0.15s, background 0.15s;
+}
+
+/* An empty category's hint, where its icons would be: about a row's
+   height, so it is still somewhere to drop an app. */
+.lp-empty-cat {
+    grid-column: 1 / -1;
+    padding: 22px 6px;
+    font-size: 0.84rem; color: var(--w-62);
+    text-shadow: 0 1px 3px var(--k-35);
 }
 
 .lp-empty { padding: 60px 16px; text-align: center; font-size: 0.95rem; color: var(--w-82); text-shadow: 0 1px 3px var(--k-35); }
