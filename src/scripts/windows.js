@@ -9,18 +9,15 @@
 // left, until the page reloads.
 const WINDOW_Z_BASE = 400;   // above the dock (100) and the menu bar (200)
 
-const windows     = {};      // id → { el, root, onOpen, onClose, pos }
+const windows     = {};      // id → { el, menuItem, onOpen, pos }
 const windowStack = [];      // ids of the open windows, bottom → top
 
-// el:   the element that moves and stacks.
-// root: the element that carries .open, if not el.
-// bar:  the drag handle.
-// menuItem: the menu-bar item that opens it, highlighted while it's open; a
-//           function when that depends on the window's mode.
-// onEscape: returns true when it handled Escape itself, so the window stays
-//           open.
-function registerWindow(id, { el, root = el, bar, menuItem, onOpen, onClose, onEscape }) {
-	const w = windows[id] = { el, root, menuItem, onOpen, onClose, onEscape, pos: null, lit: null };
+// el:       the window: it moves, stacks and carries .open.
+// bar:      the drag handle.
+// menuItem: the menu-bar item that opens it, highlighted while it's open.
+// onOpen:   fills it, before it's placed.
+function registerWindow(id, { el, bar, menuItem, onOpen }) {
+	const w = windows[id] = { el, menuItem, onOpen, pos: null };
 	el.classList.add('window');
 	// Red and yellow both close; green does nothing.
 	bar.querySelectorAll('.tl-close, .tl-minimize').forEach(tl =>
@@ -63,20 +60,12 @@ function focusWindow(id) {
 	restackWindows();
 }
 
-// The menu item a window lights while open. Looked up again on every open,
-// so it can depend on the window's mode.
-function lightMenuItem(w, on) {
-	w.lit && w.lit.classList.remove('active');
-	w.lit = on ? (typeof w.menuItem === 'function' ? w.menuItem() : w.menuItem) : null;
-	w.lit && w.lit.classList.add('active');
-}
-
 // Open, or raise if already open.
 function openWindow(id) {
 	const w = windows[id];
-	if (isWindowOpen(id)) { lightMenuItem(w, true); focusWindow(id); return; }
-	w.root.classList.add('open');
-	lightMenuItem(w, true);
+	if (isWindowOpen(id)) { focusWindow(id); return; }
+	w.el.classList.add('open');
+	w.menuItem.classList.add('active');
 	windowStack.push(id);
 	restackWindows();
 	// Filled before it's placed, so centring measures its real height.
@@ -88,17 +77,10 @@ function openWindow(id) {
 function closeWindow(id) {
 	const w = windows[id];
 	if (!isWindowOpen(id)) return;
-	w.root.classList.remove('open');
-	lightMenuItem(w, false);
-	w.el.classList.remove('focused');
+	w.el.classList.remove('open', 'focused');
+	w.menuItem.classList.remove('active');
 	windowStack.splice(windowStack.indexOf(id), 1);
 	restackWindows();
-	w.onClose && w.onClose();
-}
-
-function escapeWindow(id) {
-	const w = windows[id];
-	if (!(w.onEscape && w.onEscape())) closeWindow(id);
 }
 
 // From a menu item or dock icon: close the window if it's the one in front,

@@ -45,7 +45,7 @@ function setupEvents() {
 		// window in front, then desktop edit mode.
 		if (isAllAppsOpen()) { escapeAllBookmarks(); return; }
 		const top = topWindow();
-		if (top) { escapeWindow(top); return; }
+		if (top) { closeWindow(top); return; }
 		if (desktopEditing) exitDesktopEdit();
 	});
 }
