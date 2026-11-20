@@ -136,9 +136,13 @@ function removeDesktopIcon(key) {
 	saveState(); renderDesktopIcons();
 }
 
+// A link is on the desktop, or in the dock, if an icon there has its URL.
+const isOnDesktop = url => S.desktopIcons.some(i => i.url === url);
+const isInDock    = url => S.dock.some(i => i !== 'separator' && i.url === url);
+
 function addDesktopIcon(label, url) {
 	const domain = domainFrom(url);
-	if (S.desktopIcons.some(i => i.url === url)) return false;
+	if (isOnDesktop(url)) return false;
 	const { x, row } = nextFreeCell();
 	S.desktopIcons.push({ key: 'icon-' + domain.replace(/\./g, '-') + '-' + Date.now(), label, url, x, row });
 	saveState(); renderDesktopIcons(); return true;
@@ -152,14 +156,16 @@ function removeDockItem(dockIdx) {
 	saveState(); renderDock();
 }
 
+// At the dock's end, unless it's there already. The caller saves and redraws.
+function addDockLink(label, url) {
+	if (!isInDock(url)) S.dock.push({ label, url });
+}
+
 function moveDesktopIconToDock(key) {
 	const idx = S.desktopIcons.findIndex(i => i.key === key);
 	if (idx < 0) return;
-	const icon = S.desktopIcons[idx];
-	S.desktopIcons.splice(idx, 1);
-	if (!S.dock.some(i => i !== 'separator' && i.url === icon.url)) {
-		S.dock.push({ label: icon.label, url: icon.url });
-	}
+	const [icon] = S.desktopIcons.splice(idx, 1);
+	addDockLink(icon.label, icon.url);
 	saveState(); renderDesktopIcons(); renderDock();
 }
 

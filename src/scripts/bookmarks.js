@@ -198,10 +198,8 @@ function addToDesktop(link) {
 }
 
 function addToDock(link) {
-	if (!S.dock.some(i => i !== 'separator' && i.url === link.url)) {
-		S.dock.push({ label: link.label, url: link.url });
-		saveState(); renderDock();
-	}
+	addDockLink(link.label, link.url);
+	saveState(); renderDock();
 	showToast(t('apps.addedDock', { title: link.label }));
 }
 
@@ -238,8 +236,8 @@ function closeAppMenu() { $('appMenu').classList.remove('open'); }
 
 function appMenuItems(bi, li) {
 	const link   = cats()[bi].links[li];
-	const onDesk = S.desktopIcons.some(i => i.url === link.url);
-	const inDock = S.dock.some(i => i !== 'separator' && i.url === link.url);
+	const onDesk = isOnDesktop(link.url);
+	const inDock = isInDock(link.url);
 	return [
 		{ label: t('apps.open'), run: () => { window.open(link.url, '_blank', 'noopener'); closeAllBookmarks(); } },
 		'-',
