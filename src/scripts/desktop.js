@@ -12,12 +12,12 @@ function makeIconEl(item) {
 // ─────────────────────────────────────────────────────────────────────
 // Render: desktop icons
 // ─────────────────────────────────────────────────────────────────────
-// Each icon in the cell it shows in on this screen (layoutIcons, state.js).
+// Each icon in the cell it shows in on this screen (layoutIcons, grid.js).
 function renderDesktopIcons() {
 	const grid = $('desktopGrid');
 	Array.from(grid.children).forEach(c => { if (!c.classList.contains('desktop-icon-ghost')) c.remove(); });
 	const g = gridSize();
-	const at = layoutIcons();
+	const at = layoutIcons(S.desktopIcons);
 	S.desktopIcons.forEach(item => {
 		const cell = at.get(item.key);
 		if (!cell) return;
@@ -143,7 +143,7 @@ const isInDock    = url => S.dock.some(i => i !== 'separator' && i.url === url);
 function addDesktopIcon(label, url) {
 	const domain = domainFrom(url);
 	if (isOnDesktop(url)) return false;
-	const { x, row } = nextFreeCell();
+	const { x, row } = nextFreeCell(S.desktopIcons);
 	S.desktopIcons.push({ key: 'icon-' + domain.replace(/\./g, '-') + '-' + Date.now(), label, url, x, row });
 	saveState(); renderDesktopIcons(); return true;
 }
@@ -197,7 +197,7 @@ function setupDesktopIconDrag() {
 		dragEl = icon; active = true;
 
 		// From where it shows, which on a small screen may not be its own cell.
-		shown  = layoutIcons();
+		shown  = layoutIcons(S.desktopIcons);
 		target = { ...(shown.get(srcKey) || { x: 0, row: 0 }) };
 
 		const r = icon.getBoundingClientRect();

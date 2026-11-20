@@ -2,11 +2,11 @@
    Desktop — the full-screen surface and its icon grid.
    =================================================================== */
 
-/* The desktop grid, the one place its sizes are set: state.js reads these
+/* The desktop grid, the one place its sizes are set: grid.js reads these
    to place icons. The grid is centred, so --grid-left is the least margin
    at each side; then the first row's top, each cell's size, and the icon
    tile's width, centred in its cell. Icons are always this size; on a
-   short screen only the rows close up (state.js, GRID_ROWS). */
+   short screen only the rows close up (grid.js, GRID_ROWS). */
 :root {
     --grid-left: 24px;
     --grid-top:  55px;
