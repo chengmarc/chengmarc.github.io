@@ -14,8 +14,10 @@ store-listing/
   promo-*.png       the promo tiles (generator/promo.html lays them out)
   logo-300x300.png  Edge's extension logo
   desktop/          the screenshots, 1280x800
-  generator/        render.py renders the screenshots and the promo tiles
+  generator/        render.py renders the screenshots, the promo tiles and
+                    docs/social-preview.png
 docs/badges/        store badges shown in the README
+docs/social-preview.png  GitHub's preview of the repository, also in the README
 ```
 
 ## Build

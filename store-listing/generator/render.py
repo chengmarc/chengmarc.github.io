@@ -1,4 +1,5 @@
-"""Render the store screenshots and promo tiles from the live page.
+"""Render the store screenshots, promo tiles and GitHub social preview from
+the live page.
 
     pip install playwright && playwright install chromium
     python store-listing/generator/render.py
@@ -11,6 +12,8 @@ and the promo tiles, laid out by promo.html around a desktop captured here:
     store-listing/promo-440x280.png    the store's search tile: the whole desktop, on
                                        High Sierra, with the "Synced" window
     store-listing/promo-1400x560.png   the marquee: the pitch, beside screenshot 1 with the same window
+    docs/social-preview.png            GitHub's preview of the repository (also in the
+                                       README): the marquee's layout at 1280x640
 
 Every capture starts from a fresh profile, in English, with the clock stopped
 at 09:41. The country chip shows, as it does by default, but with a made-up
@@ -121,8 +124,9 @@ def capture(browser, size, wallpaper, open_=None, state=None, show_country=True)
     return png
 
 
-def promo(browser, name, layout, size, desktop_png):
-    """promo.html at `size`, with `desktop_png` as the desktop it shows."""
+def promo(browser, out, layout, size, desktop_png):
+    """promo.html at `size`, with `desktop_png` as the desktop it shows,
+    saved at `out` (a path relative to the repository)."""
     width, height = size
     page = browser.new_page(viewport={'width': width, 'height': height})
     page.goto((GENERATOR / 'promo.html').as_uri() + '?' + layout)
@@ -131,9 +135,9 @@ def promo(browser, name, layout, size, desktop_png):
         img.onload = done; img.src = src;
     })""", 'data:image/png;base64,' + base64.b64encode(desktop_png).decode())
     page.evaluate('document.fonts.ready')
-    page.screenshot(path=str(LISTING / name))
+    page.screenshot(path=str(ROOT / out))
     page.close()
-    print('wrote ' + name)
+    print('wrote ' + out)
 
 
 def main():
@@ -145,8 +149,9 @@ def main():
             (LISTING / 'desktop' / name).write_bytes(shots[name])
             print('wrote desktop/' + name)
         tile_desktop = capture(browser, TILE_DESKTOP, 'high-sierra', show_country=False)
-        promo(browser, 'promo-440x280.png', 'small', (440, 280), tile_desktop)
-        promo(browser, 'promo-1400x560.png', 'marquee', (1400, 560), shots['screenshot-1-desktop.png'])
+        promo(browser, 'store-listing/promo-440x280.png', 'small', (440, 280), tile_desktop)
+        promo(browser, 'store-listing/promo-1400x560.png', 'marquee', (1400, 560), shots['screenshot-1-desktop.png'])
+        promo(browser, 'docs/social-preview.png', 'social', (1280, 640), shots['screenshot-1-desktop.png'])
         browser.close()
 
 

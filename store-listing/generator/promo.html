@@ -1,9 +1,11 @@
 <!doctype html>
 <!--
-  Layout for the store promo tiles, at the size given in the query string:
-  ?small 440x280 (the store's search tile), ?marquee 1400x560. render.py,
-  beside this file, renders both, putting a desktop it captured into
-  #desktop; opened by hand, the page shows screenshot 1 there instead.
+  Layout for the store promo tiles and GitHub's social preview, at the size
+  given in the query string: ?small 440x280 (the store's search tile),
+  ?marquee 1400x560, ?social 1280x640 (the repository's preview, also in the
+  README). render.py, beside this file, renders all three, putting a
+  desktop it captured into #desktop; opened by hand, the page shows
+  screenshot 1 there instead.
 
   The message, at first sight: this is a desktop, synced from your
   browser's Bookmarks bar. Both tiles show the whole desktop with
@@ -12,6 +14,7 @@
     is no slogan; the store shows the name and icon beside the tile.
   - marquee: room for the pitch on the left, and the same picture on the
     right, as a screen.
+  - social: the marquee, at GitHub's size.
 -->
 <html>
 <head>
@@ -36,7 +39,7 @@ body {
         #15110e;
 }
 
-/* The pitch (marquee only) */
+/* The pitch (marquee and social) */
 .pitch { position: absolute; display: flex; flex-direction: column; justify-content: center; }
 .wordmark { display: flex; align-items: center; font-weight: 600; letter-spacing: -.01em; }
 .wordmark img { filter: drop-shadow(0 4px 12px rgba(0, 0, 0, .45)); }
@@ -92,6 +95,17 @@ body {
 .marquee .screen   { left: 596px; top: 50%; transform: translateY(-50%); width: 740px;   /* centred top to bottom */
                      border-radius: 14px; box-shadow: 0 0 0 1px rgba(255, 255, 255, .12), 0 24px 60px rgba(0, 0, 0, .6); }
 .marquee .pill     { font-size: 37px; }
+
+/* 1280 × 640 social preview: the marquee's layout, a little smaller */
+.social .pitch     { left: 76px; top: 0; bottom: 0; width: 440px; }
+.social .wordmark  { font-size: 26px; gap: 16px; margin-bottom: 30px; }
+.social .wordmark img { width: 64px; height: 64px; }
+.social h1         { font-size: 56px; }
+.social .pitch p   { font-size: 21px; margin-top: 18px; }
+.social .pitch p.fine { font-size: 16px; margin-top: 20px; }
+.social .screen    { left: 556px; top: 50%; transform: translateY(-50%); width: 652px;
+                     border-radius: 13px; box-shadow: 0 0 0 1px rgba(255, 255, 255, .12), 0 24px 60px rgba(0, 0, 0, .6); }
+.social .pill      { font-size: 33px; }
 </style>
 </head>
 <body>
