@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────
-// Windows — All Apps, Settings and About share one manager: opening and
+// Windows — Settings and About share one manager: opening and
 // closing, focus and stacking, dragging, and where each one sits.
 // ─────────────────────────────────────────────────────────────────────
 // Each window is a fixed element placed with left/top. Open windows form a
@@ -13,13 +13,12 @@ const windows     = {};      // id → { el, root, onOpen, onClose, pos }
 const windowStack = [];      // ids of the open windows, bottom → top
 
 // el:   the element that moves and stacks.
-// root: the element that carries .open, if not el (All Apps keeps its mode
-//       classes on an outer wrapper).
+// root: the element that carries .open, if not el.
 // bar:  the drag handle.
 // menuItem: the menu-bar item that opens it, highlighted while it's open; a
 //           function when that depends on the window's mode.
-// onEscape: returns true when it handled Escape itself (All Apps leaves edit
-//           mode first), so the window stays open.
+// onEscape: returns true when it handled Escape itself, so the window stays
+//           open.
 function registerWindow(id, { el, root = el, bar, menuItem, onOpen, onClose, onEscape }) {
 	const w = windows[id] = { el, root, menuItem, onOpen, onClose, onEscape, pos: null, lit: null };
 	el.classList.add('window');
@@ -65,7 +64,7 @@ function focusWindow(id) {
 }
 
 // The menu item a window lights while open. Looked up again on every open,
-// so a mode change (All Apps' pick mode) moves the highlight.
+// so it can depend on the window's mode.
 function lightMenuItem(w, on) {
 	w.lit && w.lit.classList.remove('active');
 	w.lit = on ? (typeof w.menuItem === 'function' ? w.menuItem() : w.menuItem) : null;

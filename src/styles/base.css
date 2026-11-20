@@ -171,7 +171,7 @@ body::after {
    16px dot, meeting its neighbour's halfway across the gap. */
 .tl::after { content: ''; position: absolute; inset: -4px; border-radius: 50%; }
 
-/* Window chrome, shared by All Apps, Settings and About (windows.js manages
+/* Window chrome, shared by Settings and About (windows.js manages
    them): the glass surface, and the title bar you drag them by. As on macOS
    26/27 the title bar has no fill and no rule under it: the window is one
    sheet of glass. */

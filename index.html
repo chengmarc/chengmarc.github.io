@@ -72,7 +72,6 @@
 			<button class="menu-item menu-brand" id="mbBrand" data-i18n="menu.about">✦ About This OS</button>
 			<button class="menu-item" id="mbSettings"><svg class="menu-ico" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" stroke="currentColor" stroke-width=".9" stroke-linejoin="round" d="M8.00 2.60L9.07 2.71L10.19 1.25L12.75 2.72L12.05 4.43L12.68 5.30L13.12 6.28L14.94 6.52L14.94 9.48L13.12 9.72L12.68 10.70L12.05 11.57L12.75 13.28L10.19 14.75L9.07 13.29L8.00 13.40L6.93 13.29L5.81 14.75L3.25 13.28L3.95 11.57L3.32 10.70L2.88 9.72L1.06 9.48L1.06 6.52L2.88 6.28L3.32 5.30L3.95 4.43L3.25 2.72L5.81 1.25L6.93 2.71ZM10.4 8A2.4 2.4 0 1 0 5.6 8A2.4 2.4 0 1 0 10.4 8Z"/></svg><span data-i18n="menu.settings">Settings</span></button>
 			<button class="menu-item" id="mbBookmarks"><svg class="menu-ico" width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><rect x="0.5" y="0.5" width="4" height="4" rx="1.1"/><rect x="6" y="0.5" width="4" height="4" rx="1.1"/><rect x="11.5" y="0.5" width="4" height="4" rx="1.1"/><rect x="0.5" y="6" width="4" height="4" rx="1.1"/><rect x="6" y="6" width="4" height="4" rx="1.1"/><rect x="11.5" y="6" width="4" height="4" rx="1.1"/><rect x="0.5" y="11.5" width="4" height="4" rx="1.1"/><rect x="6" y="11.5" width="4" height="4" rx="1.1"/><rect x="11.5" y="11.5" width="4" height="4" rx="1.1"/></svg><span data-i18n="menu.allApps">All Apps</span></button>
-			<button class="menu-item" id="mbAdd" data-i18n="menu.addIcon">Add Icon</button>
 			<button class="menu-item" id="mbEdit" data-i18n="menu.editDesktop">Edit Desktop</button>
 		</div>
 		<div class="menu-right">
@@ -126,24 +125,25 @@
 		<div class="desktop-grid" id="desktopGrid"></div>
 	</div>
 
-	<div class="all-apps" id="allApps">
-		<div class="all-apps-window window-glass" id="allAppsWindow">
-			<div class="all-apps-bar window-bar" id="allAppsBar">
-				<div class="traffic-lights">
-					<button class="tl tl-close" aria-label="Close" data-i18n-aria="win.close"></button>
-					<button class="tl tl-minimize" aria-label="Minimize" data-i18n-aria="win.minimize"></button>
-					<button class="tl tl-zoom" aria-label="Zoom" data-i18n-aria="win.zoom"></button>
-				</div>
-				<h2 id="allAppsTitle" data-i18n="apps.title">All Apps</h2>
-				<input class="all-apps-search" id="bookmarkSearch" type="search" placeholder="Search apps…" data-i18n-placeholder="apps.search" autocomplete="off">
-				<button class="all-apps-bar-btn" id="bmEditBtn" data-i18n="apps.edit">Edit</button>
-				<button class="all-apps-bar-btn" id="pickCancelBtn" data-i18n="apps.cancel">Cancel</button>
+	<div class="all-apps" id="allApps" role="dialog" aria-modal="true" aria-label="All Apps" data-i18n-aria="apps.title">
+		<div class="lp-body">
+		<div class="lp-top">
+			<input class="lp-search" id="bookmarkSearch" type="search" placeholder="Search apps…" data-i18n-placeholder="apps.search" autocomplete="off" spellcheck="false">
+			<div class="lp-actions">
+				<button class="lp-tool" id="addAppBtn" type="button"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8M4.75 6.75L8 10l3.25-3.25M2.5 11v1.5a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1V11"/></svg><span data-i18n="apps.installApp">Install App</span></button>
+				<button class="lp-tool" id="addCatBtn" type="button"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M1.75 4a1 1 0 0 1 1-1h3.1a1 1 0 0 1 .8.4l1 1.35h5.6a1 1 0 0 1 1 1V12a1 1 0 0 1-1 1H2.75a1 1 0 0 1-1-1z"/></svg><span data-i18n="apps.newCategory">New Category</span></button>
+				<button class="lp-tool" id="pickModeBtn" type="button"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="9" rx="1.5"/><path d="M5.5 14h5M8 11.5V14" stroke-linecap="round"/></svg><span data-i18n="apps.addToDesktop">Add to Desktop</span></button>
 			</div>
-			<div class="pick-banner">
+			<div class="lp-pick-banner">
 				<span data-i18n="apps.pickBanner">Click any app to add it to the desktop</span>
+				<button class="lp-btn primary" id="pickDoneBtn" type="button" data-i18n="apps.done">Done</button>
 			</div>
-			<div class="all-apps-scroll" id="allAppsScroll"></div>
 		</div>
+		<div class="lp-scroll" id="allAppsScroll"></div>
+		</div>
+		<div class="lp-menu glass" id="appMenu" role="menu"></div>
+		<div class="lp-toast" id="appToast" role="status"></div>
+		<div class="lp-scrim" id="appSheet"></div>
 	</div>
 
 	<div class="dock" id="dock"></div>

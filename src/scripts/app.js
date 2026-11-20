@@ -41,7 +41,9 @@ function setupEvents() {
 
 	document.addEventListener('keydown', e => {
 		if (e.key !== 'Escape') return;
-		// The window in front first, then desktop edit mode.
+		// The All Apps launcher covers everything, so it goes first; then the
+		// window in front, then desktop edit mode.
+		if (isAllAppsOpen()) { escapeAllBookmarks(); return; }
 		const top = topWindow();
 		if (top) { escapeWindow(top); return; }
 		if (desktopEditing) exitDesktopEdit();
@@ -65,8 +67,7 @@ setupEvents();
 startClock();
 startStatus(settings.showIP);
 setupCalendar();
-setupAllAppsWindow();
-setupBookmarkEditDrag();
+setupAllApps();
 setupAboutPanel();
 setupSettings(applyConfig);
 setupSync(applyConfig, firstRun);

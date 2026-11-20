@@ -1,438 +1,493 @@
 // ─────────────────────────────────────────────────────────────────────
-// All Apps — Miller columns UI
+// All Apps — a full-screen launcher over the blurred wallpaper, as
+// Launchpad draws it. Every category is a titled section of big icons;
+// Install App, New Category and Add to Desktop sit beside the search field.
+// There is no edit mode:
+//   • Install App (or a section's ⋯ → Install App) opens the app sheet: paste a
+//     link, and the name and icon fill themselves in.
+//   • An app's ⋯, or a right-click, opens its menu: Open, Add to Desktop,
+//     Add to Dock, Edit…, Delete. Edit… is the same sheet, with Save.
+//   • A delete can be undone from the toast instead of being confirmed.
+//   • Icons drag to reorder, or onto another section to move there;
+//     section titles drag to reorder the sections.
+// Add to Desktop switches it to pick mode, where a click puts the app on
+// the desktop instead of opening it, until Done (or Escape).
 // ─────────────────────────────────────────────────────────────────────
-const FOLDER_SVG = '<svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor"><path d="M1.5 4c0-.55.45-1 1-1h3.1c.32 0 .62.15.8.4L7.3 4.5H13.5c.55 0 1 .45 1 1V12c0 .55-.45 1-1 1h-11c-.55 0-1-.45-1-1V4z"/></svg>';
-
-let bmEditing     = false;
 let pickMode      = false;
-let millerSel     = 0;   // selected category index into cats()
 let bookmarkQuery = '';
-let dragCatBi     = null;   // category being dragged (reorder)
-let dragLinkLi    = null;   // link index being dragged (reorder / move to category)
+let appsDrag      = null;   // { kind: 'app', bi, li } or { kind: 'cat', bi }
+let swallowClick  = false;  // the click that ends the pointerdown which closed the menu
+let toastTimer    = null;
+let lastAddCat    = 0;      // where Install App adds, until another is picked
 
-// ── Inline rename helpers ─────────────────────────────────────────────
-
-function startRename(btn) {
-	const row     = btn.closest('.miller-cat');
-	const labelEl = row.querySelector('.miller-cat-label');
-	const bi = +btn.dataset.bi;
-	row.draggable = false;
-	const input = document.createElement('input');
-	input.className = 'miller-rename-input';
-	input.value = labelEl.textContent;
-	labelEl.replaceWith(input);
-	input.focus(); input.select();
-	const commit = () => { const v = input.value.trim(); v ? catRename(bi, v) : renderMillerCats(); };
-	input.addEventListener('blur', commit);
-	input.addEventListener('keydown', e => {
-		if (e.key === 'Enter')  { e.preventDefault(); input.blur(); }
-		if (e.key === 'Escape') { input.removeEventListener('blur', commit); renderMillerCats(); }
-	});
-}
-
-function startLinkEdit(btn) {
-	const bi = +btn.dataset.bi, li = +btn.dataset.li;
-	const row  = btn.closest('.miller-link-row');
-	const link = cats()[bi].links[li];
-	row.draggable = false;
-	const editor = document.createElement('div');
-	editor.className = 'miller-link-editor';
-	editor.append(
-		el('input', { class: 'miller-rename-input', placeholder: t('apps.label'), data: { role: 'e-label' } }),
-		el('input', { class: 'miller-rename-input', placeholder: t('apps.url'),   data: { role: 'e-url' } }),
-	);
-	const labelIn = editor.querySelector('[data-role="e-label"]');
-	const urlIn   = editor.querySelector('[data-role="e-url"]');
-	labelIn.value = link.label; urlIn.value = link.url;
-	row.innerHTML = '';
-	row.appendChild(editor);
-	labelIn.focus(); labelIn.select();
-	let done = false;
-	const commit = () => {
-		if (done) return; done = true;
-		const l = labelIn.value.trim(), u = urlIn.value.trim();
-		if (u) linkEdit(bi, li, l, u); else renderMillerLinks();
-	};
-	const cancel = () => { if (done) return; done = true; renderMillerLinks(); };
-	editor.addEventListener('focusout', () => { setTimeout(() => { if (!editor.contains(document.activeElement)) commit(); }, 0); });
-	editor.addEventListener('keydown', e => {
-		if (e.key === 'Enter')  { e.preventDefault(); commit(); }
-		if (e.key === 'Escape') { e.preventDefault(); cancel(); }
-	});
-}
-
-// ── Accessors ─────────────────────────────────────────────────────────
 function cats() { return S.bookmarkSections[0].blocks; }
+const isAllAppsOpen = () => $('allApps').classList.contains('open');
 
-// ── Renderers ─────────────────────────────────────────────────────────
-function renderMillerCats() {
-	const col = $('millerCats');
-	if (!col) return;
-	col.innerHTML = '';
-	cats().forEach((c, bi) => {
-		const links   = c.links;
-		const matches = bookmarkQuery
-			? links.filter(l => l.label.toLowerCase().includes(bookmarkQuery)).length
-			: links.length;
-		const item = document.createElement('div');
-		item.className  = 'miller-cat';
-		item.dataset.bi = bi;
-		if (bmEditing) item.draggable = true;
-		if (bookmarkQuery && matches === 0) item.classList.add('dim');
-		if (!bookmarkQuery && bi === millerSel) item.classList.add('sel');
-		item.innerHTML = '<span class="miller-cat-ico">' + FOLDER_SVG + '</span>';
-		item.appendChild(el('span', { class: 'miller-cat-label', text: c.title }));
-		if (bmEditing) {
-			item.appendChild(el('button', { class: 'miller-cat-rename', text: '✎', data: { bi } }));
-			item.appendChild(el('button', { class: 'miller-cat-delete', text: '✕', data: { bi } }));
-		} else {
-			item.appendChild(el('span', { class: 'miller-cat-count', text: matches }));
-			item.appendChild(el('span', { class: 'miller-chevron', text: '›' }));
-		}
-		col.appendChild(item);
-	});
-	if (bmEditing) {
-		const form = document.createElement('div');
-		form.className = 'miller-add-cat';
-		form.innerHTML = '<input class="miller-add-input" type="text" placeholder="' + t('apps.newCategory') + '" data-role="cat-title">'
-			+ '<button class="miller-add-btn" data-role="cat-add">＋</button>';
-		col.appendChild(form);
-	}
+// ── URL helpers ───────────────────────────────────────────────────────
+function normalizeUrl(u) {
+	u = u.trim();
+	if (u && !/^[a-z][a-z0-9+.-]*:/i.test(u)) u = 'https://' + u;
+	return u;
 }
 
-function renderMillerLinks() {
-	const col = $('millerLinks');
-	if (!col) return;
-	col.innerHTML = '';
-	const entries = [];
-	if (bookmarkQuery) {
-		cats().forEach((c, bi) => c.links.forEach((l, li) => {
-			if (l.label.toLowerCase().includes(bookmarkQuery)) entries.push({ link: l, cat: c.title, bi, li });
-		}));
-	} else {
-		const blk = cats()[millerSel];
-		if (blk) blk.links.forEach((l, li) => entries.push({ link: l, cat: null, bi: millerSel, li }));
-	}
-	if (!entries.length) {
-		const empty = document.createElement('div');
-		empty.className   = 'miller-empty';
-		empty.textContent = t(bookmarkQuery ? 'apps.noResults' : (bmEditing ? 'apps.noLinksYet' : 'apps.noLinks'));
-		col.appendChild(empty);
-	} else {
-		entries.forEach(({ link, cat, bi, li }) => {
-			const row = el('div', { class: 'miller-link-row', data: { bi, li } });
-			if (bmEditing && !bookmarkQuery) row.draggable = true;
-			const art = iconArt(link.url); art.classList.add('miller-link-ico');
-			const a = el('a', { class: 'miller-link', href: link.url, target: '_blank', rel: 'noopener noreferrer', draggable: false },
-				art,
-				el('span', { class: 'miller-link-label', text: link.label }),
-			);
-			if (cat) a.appendChild(el('span', { class: 'miller-link-cat', text: cat }));
-			row.appendChild(a);
-			if (bmEditing) {
-				row.appendChild(el('button', { class: 'miller-link-rename', text: '✎', data: { bi, li } }));
-				row.appendChild(el('button', { class: 'miller-link-delete', text: '✕', data: { bi, li } }));
-			}
-			col.appendChild(row);
-		});
-	}
-	if (bmEditing && !bookmarkQuery) {
-		const form = document.createElement('div');
-		form.className = 'miller-add-link';
-		form.innerHTML = '<input class="miller-add-input" type="url" placeholder="' + t('apps.url') + '" data-role="link-url">'
-			+ '<input class="miller-add-input" type="text" placeholder="' + t('apps.labelOptional') + '" data-role="link-label">'
-			+ '<button class="miller-add-btn" data-role="link-add">' + t('apps.add') + '</button>';
-		col.appendChild(form);
-	}
+// The name a link gets when none is typed: the site's own name,
+// capitalized. "news.ycombinator.com" → "Ycombinator", "bbc.co.uk" → "Bbc".
+const SECOND_LEVEL = ['co', 'com', 'net', 'org', 'gov', 'edu', 'ac', 'ne', 'or'];
+function nameFromUrl(url) {
+	const parts = domainFrom(url).split('.').filter(Boolean);
+	if (parts.length < 2) return parts[0] || url;
+	let i = parts.length - 2;
+	if (i > 0 && SECOND_LEVEL.includes(parts[i])) i--;
+	return parts[i][0].toUpperCase() + parts[i].slice(1);
+}
+
+// Worth asking for an icon: a host with a dot in it, not half-typed.
+const looksLikeSite = u => /\.[a-z]{2,}$/i.test(domainFrom(u));
+
+// ── Render ────────────────────────────────────────────────────────────
+function appTile(link, bi, li, onDesk) {
+	return el('a', { class: 'lp-tile lp-app', href: link.url, target: '_blank', rel: 'noopener noreferrer', title: link.url, draggable: true,
+			data: { bi, li, q: (link.label + ' ' + link.url).toLowerCase() } },
+		el('span', { class: 'lp-art' },
+			iconArt(link.url),
+			onDesk ? el('span', { class: 'lp-check', text: '✓' }) : null),
+		el('span', { class: 'lp-label', text: link.label }),
+		el('button', { class: 'lp-more', type: 'button', text: '⋯', title: t('apps.more'), data: { bi, li } }),
+	);
 }
 
 function renderAllBookmarks() {
 	const scroll = $('allAppsScroll');
-	scroll.innerHTML = '';
-	const miller = document.createElement('div');
-	miller.className = 'miller';
-	miller.innerHTML = '<div class="miller-col miller-cats" id="millerCats"></div>'
-		+ '<div class="miller-col miller-links" id="millerLinks"></div>';
-	scroll.appendChild(miller);
-
-	if (millerSel >= cats().length) millerSel = 0;
-
-	renderMillerCats();
-	renderMillerLinks();
+	const keep   = scroll.scrollTop;
+	const onDesk = new Set(S.desktopIcons.map(i => i.url));
+	const inner  = el('div', { class: 'lp-inner' });
+	cats().forEach((c, bi) => {
+		const grid = el('div', { class: 'lp-grid' });
+		c.links.forEach((l, li) => grid.appendChild(appTile(l, bi, li, onDesk.has(l.url))));
+		inner.appendChild(el('section', { class: 'lp-section', data: { bi } },
+			el('header', { class: 'lp-head', draggable: true, data: { bi } },
+				el('h3', { text: c.title }),
+				el('span', { class: 'lp-count', text: c.links.length }),
+				el('button', { class: 'lp-more', type: 'button', text: '⋯', title: t('apps.more'), data: { bi } }),
+				el('span', { class: 'lp-rule' })),
+			grid));
+	});
+	inner.appendChild(el('div', { class: 'lp-empty', id: 'lpEmpty', hidden: true, text: t('apps.noResults') }));
+	scroll.replaceChildren(inner);
+	scroll.scrollTop = keep;
+	$('addAppBtn').disabled = !cats().length;
+	filterBookmarks($('bookmarkSearch').value);
 }
 
-// After a whole new config (app.js's applyConfig): back to the first category.
+// After a whole new config (app.js's applyConfig).
 function resetAllBookmarks() {
-	millerSel = 0;
-	renderAllBookmarks();
+	if (isAllAppsOpen()) renderAllBookmarks();
 }
 
-// ── Mutations: categories ─────────────────────────────────────────────
-function catAdd(title) {
-	if (!title) return;
-	cats().push({ title, links: [] });
-	saveState(); renderMillerCats();
-}
-function catRename(bi, title) {
-	if (!title) return;
-	cats()[bi].title = title;
-	saveState(); renderMillerCats();
-}
-function catDelete(bi) {
-	cats().splice(bi, 1);
-	if (millerSel >= cats().length) millerSel = Math.max(0, cats().length - 1);
-	saveState(); renderMillerCats(); renderMillerLinks();
-}
-function catMove(from, to) {
-	const arr = cats();
-	const [b] = arr.splice(from, 1);
-	arr.splice(from < to ? to - 1 : to, 0, b);
-	millerSel = arr.indexOf(b);
-	saveState(); renderMillerCats(); renderMillerLinks();
-}
-
-// ── Mutations: links ──────────────────────────────────────────────────
-function linkAdd(bi, url, label) {
-	if (!url || !cats()[bi]) return;
-	if (!/^[a-z][a-z0-9+.-]*:/i.test(url)) url = 'https://' + url;
-	if (!label) label = domainFrom(url);
-	cats()[bi].links.push({ label, url });
-	saveState(); renderMillerLinks(); renderMillerCats();
-}
-function linkEdit(bi, li, label, url) {
-	if (!url) { renderMillerLinks(); return; }
-	if (!/^[a-z][a-z0-9+.-]*:/i.test(url)) url = 'https://' + url;
-	const link = cats()[bi].links[li];
-	link.url = url;
-	link.label = label || domainFrom(url);
-	saveState(); renderMillerLinks();
-}
-function linkDelete(bi, li) {
-	cats()[bi].links.splice(li, 1);
-	saveState(); renderMillerLinks(); renderMillerCats();
-}
-function linkMoveWithin(bi, from, to) {
-	const arr = cats()[bi].links;
-	const [l] = arr.splice(from, 1);
-	arr.splice(from < to ? to - 1 : to, 0, l);
-	saveState(); renderMillerLinks();
-}
-function linkMoveToCat(fromBi, li, toBi) {
-	if (fromBi === toBi) return;
-	const [l] = cats()[fromBi].links.splice(li, 1);
-	cats()[toBi].links.push(l);
-	saveState(); renderMillerCats(); renderMillerLinks();
-}
-
-// ── Open / close / modes ──────────────────────────────────────────────
-function openAllBookmarks() {
-	renderAllBookmarks();
-	openWindow('allApps');
-	setTimeout(() => $('bookmarkSearch').focus(), 260);
-}
-
-// What closing the window resets, however it's closed (so pick mode lives
-// only as long as the window): edit and pick mode, the title and buttons
-// they change, and the search.
-function resetAllApps() {
-	$('allApps').classList.remove('pick-mode', 'bm-editing');
-	pickMode = false; bmEditing = false;
-	$('allAppsTitle').textContent     = t('apps.title');
-	$('bmEditBtn').textContent        = t('apps.edit');
-	$('bmEditBtn').style.display      = '';
-	$('bookmarkSearch').style.display = '';
-	$('bookmarkSearch').value         = '';
-	filterBookmarks('');
-}
-
-function enterBmEdit() {
-	bmEditing = true;
-	$('allApps').classList.add('bm-editing');
-	$('bmEditBtn').textContent = t('apps.done');
-	const search = $('bookmarkSearch');
-	search.style.display = 'none';
-	search.value = ''; bookmarkQuery = '';
-	$('allApps').classList.remove('searching');
-	renderMillerCats(); renderMillerLinks();
-}
-function exitBmEdit() {
-	bmEditing = false;
-	$('allApps').classList.remove('bm-editing');
-	$('bmEditBtn').textContent        = t('apps.edit');
-	$('bookmarkSearch').style.display = '';
-	renderMillerCats(); renderMillerLinks();
-}
-
-function openPickMode() {
-	pickMode = true;
-	if (bmEditing) exitBmEdit();
-	$('allApps').classList.add('pick-mode');
-	$('allAppsTitle').textContent = t('apps.pickTitle');
-	$('bmEditBtn').style.display  = 'none';
-	openWindow('allApps');
-	setTimeout(() => $('bookmarkSearch').focus(), 260);
-}
-
-// ── Search / filter ───────────────────────────────────────────────────
+// Search hides what doesn't match rather than redrawing, so the icons
+// don't reload on every key.
 function filterBookmarks(query) {
 	bookmarkQuery = query.trim().toLowerCase();
 	$('allApps').classList.toggle('searching', !!bookmarkQuery);
-	renderMillerCats();
-	renderMillerLinks();
+	let any = false;
+	$('allAppsScroll').querySelectorAll('.lp-section').forEach(sec => {
+		let n = 0;
+		sec.querySelectorAll('.lp-app').forEach(a => {
+			const hit = !bookmarkQuery || a.dataset.q.includes(bookmarkQuery);
+			a.hidden = !hit; if (hit) n++;
+		});
+		sec.hidden = !!bookmarkQuery && !n;
+		if (n) any = true;
+	});
+	const empty = $('lpEmpty');
+	if (empty) empty.hidden = !bookmarkQuery || any;
 }
 
-// ── The window ────────────────────────────────────────────────────────
-// .open and the mode classes stay on the #allApps wrapper, which the CSS
-// keys on; the window inside is what moves and stacks.
-function setupAllAppsWindow() {
-	registerWindow('allApps', { el: $('allAppsWindow'), root: $('allApps'), bar: $('allAppsBar'), menuItem: () => $(pickMode ? 'mbAdd' : 'mbBookmarks'), onClose: resetAllApps,
-		onEscape: () => { if (!bmEditing) return false; exitBmEdit(); return true; } });
+// ── Open / close ──────────────────────────────────────────────────────
+function openAllBookmarks() {
+	$('bookmarkSearch').value = '';
+	renderAllBookmarks();
+	$('allAppsScroll').scrollTop = 0;
+	$('allApps').classList.add('open');
+	setTimeout(() => $('bookmarkSearch').focus(), 60);
+}
 
-	$('mbBookmarks').addEventListener('click', () => {
-		if (topWindow() === 'allApps') closeWindow('allApps'); else openAllBookmarks();
-	});
-	$('mbAdd').addEventListener('click', () => {
-		renderAllBookmarks(); openPickMode();
-	});
-	$('bmEditBtn').addEventListener('click',    () => { if (bmEditing) exitBmEdit(); else enterBmEdit(); });
-	$('pickCancelBtn').addEventListener('click', () => closeWindow('allApps'));
+function closeAllBookmarks() {
+	closeAppMenu(); closeSheet(); hideToast();
+	setPickMode(false);
+	$('allApps').classList.remove('open');
+	$('bookmarkSearch').value = '';
+	filterBookmarks('');
+}
 
-	$('allAppsScroll').addEventListener('click', e => {
-		const catRen = e.target.closest('.miller-cat-rename');
-		if (catRen) { e.stopPropagation(); startRename(catRen); return; }
-		const catDel = e.target.closest('.miller-cat-delete');
-		if (catDel) {
-			const bi = +catDel.dataset.bi, b = cats()[bi];
-			if (!b.links.length || confirm(t('apps.deleteCategory', { title: b.title, count: b.links.length }))) catDelete(bi);
-			return;
-		}
-		const linkRen = e.target.closest('.miller-link-rename');
-		if (linkRen) { e.stopPropagation(); startLinkEdit(linkRen); return; }
-		const linkDel = e.target.closest('.miller-link-delete');
-		if (linkDel) { linkDelete(+linkDel.dataset.bi, +linkDel.dataset.li); return; }
-		const catAddBtn = e.target.closest('[data-role="cat-add"]');
-		if (catAddBtn) {
-			const inp = catAddBtn.closest('.miller-add-cat').querySelector('[data-role="cat-title"]');
-			catAdd(inp.value.trim());
-			return;
-		}
-		const linkAddBtn = e.target.closest('[data-role="link-add"]');
-		if (linkAddBtn) {
-			const form = linkAddBtn.closest('.miller-add-link');
-			linkAdd(millerSel,
-				form.querySelector('[data-role="link-url"]').value.trim(),
-				form.querySelector('[data-role="link-label"]').value.trim());
-			return;
-		}
+// Pick mode lives inside the open launcher: entered from Add to Desktop,
+// left by Done or Escape, back to the launcher as it was.
+function setPickMode(on) {
+	pickMode = on;
+	$('allApps').classList.toggle('pick-mode', on);
+	closeAppMenu();
+	if (on) $('bookmarkSearch').focus();
+}
 
-		if (bmEditing && e.target.closest('a.miller-link')) { e.preventDefault(); return; }
+// Escape peels one layer at a time: menu, sheet, search, pick mode, then
+// the launcher.
+function escapeAllBookmarks() {
+	if ($('appMenu').classList.contains('open')) return closeAppMenu();
+	if ($('appSheet').classList.contains('open')) return closeSheet();
+	if ($('bookmarkSearch').value) { $('bookmarkSearch').value = ''; filterBookmarks(''); return; }
+	if (pickMode) return setPickMode(false);
+	closeAllBookmarks();
+}
 
-		const cat = e.target.closest('.miller-cat');
-		if (cat) {
-			millerSel = +cat.dataset.bi;
-			if (bookmarkQuery) {
-				$('bookmarkSearch').value = '';
-				bookmarkQuery = '';
-				$('allApps').classList.remove('searching');
-			}
-			renderMillerCats(); renderMillerLinks();
-			return;
-		}
+// ── Toast ─────────────────────────────────────────────────────────────
+function showToast(message, actionLabel, action) {
+	const toast = $('appToast');
+	toast.replaceChildren(el('span', { text: message }));
+	if (actionLabel) toast.appendChild(el('button', { type: 'button', text: actionLabel,
+		onclick: () => { hideToast(); action(); } }));
+	toast.classList.add('open');
+	clearTimeout(toastTimer);
+	toastTimer = setTimeout(hideToast, actionLabel ? 6000 : 2400);
+}
+function hideToast() { clearTimeout(toastTimer); $('appToast').classList.remove('open'); }
 
-		if (pickMode) {
-			const a = e.target.closest('a.miller-link');
-			if (a) {
-				e.preventDefault();
-				// The link as stored, not a.href, which the browser rewrites
-				// (adding a trailing slash, lower-casing the host).
-				const row  = a.closest('.miller-link-row');
-				const link = cats()[+row.dataset.bi].links[+row.dataset.li];
-				if (addDesktopIcon(link.label, link.url)) { a.classList.add('just-picked'); setTimeout(() => a.classList.remove('just-picked'), 800); }
-			}
-		}
-	});
+// ── Mutations ─────────────────────────────────────────────────────────
+function commitApps() { saveState(); renderAllBookmarks(); }
 
-	$('allAppsScroll').addEventListener('keydown', e => {
-		if (e.key !== 'Enter') return;
-		const catInp = e.target.closest('[data-role="cat-title"]');
-		if (catInp) { catAdd(catInp.value.trim()); return; }
-		const form = e.target.closest('.miller-add-link');
-		if (form && e.target.closest('[data-role="link-url"], [data-role="link-label"]')) {
-			linkAdd(millerSel,
-				form.querySelector('[data-role="link-url"]').value.trim(),
-				form.querySelector('[data-role="link-label"]').value.trim());
-		}
-	});
-
-	$('bookmarkSearch').addEventListener('input', function () { filterBookmarks(this.value); });
-
-	// Text that depends on the mode as well as the language: translatePage
-	// has just reset it to its data-i18n default.
-	onLanguageChange(() => {
-		$('allAppsTitle').textContent = t(pickMode ? 'apps.pickTitle' : 'apps.title');
-		$('bmEditBtn').textContent    = t(bmEditing ? 'apps.done' : 'apps.edit');
-		if ($('allApps').classList.contains('open')) renderAllBookmarks();
+function deleteApp(bi, li) {
+	const [link] = cats()[bi].links.splice(li, 1);
+	commitApps();
+	showToast(t('apps.deleted', { title: link.label }), t('apps.undo'), () => {
+		const c = cats()[bi];
+		if (!c) return;
+		c.links.splice(Math.min(li, c.links.length), 0, link);
+		commitApps();
 	});
 }
 
-// ── Bookmark edit drag-and-drop ───────────────────────────────────────
-function setupBookmarkEditDrag() {
+function deleteCategory(bi) {
+	const [cat] = cats().splice(bi, 1);
+	commitApps();
+	showToast(t('apps.deleted', { title: cat.title }), t('apps.undo'), () => {
+		cats().splice(Math.min(bi, cats().length), 0, cat);
+		commitApps();
+	});
+}
+
+function addToDesktop(link) {
+	if (addDesktopIcon(link.label, link.url)) {
+		renderAllBookmarks();
+		showToast(t('apps.addedDesktop', { title: link.label }));
+	} else showToast(t('apps.onDesktop'));
+}
+
+function addToDock(link) {
+	if (!S.dock.some(i => i !== 'separator' && i.url === link.url)) {
+		S.dock.push({ label: link.label, url: link.url });
+		saveState(); renderDock();
+	}
+	showToast(t('apps.addedDock', { title: link.label }));
+}
+
+function moveApp(fromBi, fromLi, toBi, toLi) {
+	const src = cats()[fromBi].links;
+	const [link] = src.splice(fromLi, 1);
+	if (fromBi === toBi && fromLi < toLi) toLi--;
+	cats()[toBi].links.splice(toLi, 0, link);
+	commitApps();
+}
+
+// `to`: the index the section ends up at.
+function moveCategory(from, to) {
+	const arr = cats();
+	arr.splice(to, 0, arr.splice(from, 1)[0]);
+	commitApps();
+}
+
+// ── Context menu ──────────────────────────────────────────────────────
+// items: { label, run, disabled, danger } or '-' for a separator.
+function openAppMenu(items, x, y) {
+	const menu = $('appMenu');
+	menu.replaceChildren(...items.map(it => it === '-'
+		? el('div', { class: 'lp-menu-sep' })
+		: el('button', { type: 'button', class: 'lp-menu-item' + (it.danger ? ' danger' : ''), text: it.label, disabled: !!it.disabled,
+			onclick: () => { closeAppMenu(); it.run(); } })));
+	menu.classList.add('open');
+	const r = menu.getBoundingClientRect();
+	menu.style.left = Math.max(8, Math.min(x, innerWidth  - r.width  - 8)) + 'px';
+	menu.style.top  = Math.max(8, Math.min(y, innerHeight - r.height - 8)) + 'px';
+	menu.querySelector('.lp-menu-item:not(:disabled)')?.focus({ preventScroll: true });
+}
+function closeAppMenu() { $('appMenu').classList.remove('open'); }
+
+function appMenuItems(bi, li) {
+	const link   = cats()[bi].links[li];
+	const onDesk = S.desktopIcons.some(i => i.url === link.url);
+	const inDock = S.dock.some(i => i !== 'separator' && i.url === link.url);
+	return [
+		{ label: t('apps.open'), run: () => { window.open(link.url, '_blank', 'noopener'); closeAllBookmarks(); } },
+		'-',
+		{ label: onDesk ? '✓ ' + t('apps.onDesktop') : t('apps.addToDesktop'), disabled: onDesk, run: () => addToDesktop(link) },
+		{ label: inDock ? '✓ ' + t('apps.inDock')    : t('apps.addToDock'),    disabled: inDock, run: () => addToDock(link) },
+		'-',
+		{ label: t('apps.editMenu'), run: () => openAppSheet(bi, li) },
+		{ label: t('apps.delete'), danger: true, run: () => deleteApp(bi, li) },
+	];
+}
+
+function catMenuItems(bi) {
+	return [
+		{ label: t('apps.installApp'), run: () => openAppSheet(bi) },
+		{ label: t('apps.renameMenu'), run: () => openCategorySheet(bi) },
+		'-',
+		{ label: t('apps.deleteCategoryMenu'), danger: true, run: () => deleteCategory(bi) },
+	];
+}
+
+// ── Sheets: add / edit an app, add / rename a category ────────────────
+function closeSheet() { $('appSheet').classList.remove('open'); $('appSheet').replaceChildren(); }
+
+// fields: [label, control] pairs. Returns the form; onSubmit runs on
+// Enter or the primary button.
+function showSheet({ title, head, fields, primary, onSubmit, onDelete }) {
+	const ok = el('button', { type: 'submit', class: 'lp-btn primary', text: primary });
+	const form = el('form', { class: 'lp-sheet window-glass', noValidate: true },
+		head || null,
+		el('h3', { text: title }),
+		...fields.map(([label, control]) => el('label', { class: 'lp-field-row' }, el('span', { text: label }), control)),
+		settings.autoSync ? el('p', { class: 'lp-sheet-note', text: t('apps.syncNote') }) : null,
+		el('div', { class: 'lp-sheet-actions' },
+			onDelete ? el('button', { type: 'button', class: 'lp-btn danger', text: t('apps.delete'), onclick: () => { closeSheet(); onDelete(); } }) : null,
+			el('span', { class: 'lp-spacer' }),
+			el('button', { type: 'button', class: 'lp-btn', text: t('apps.cancel'), onclick: closeSheet }),
+			ok));
+	form.addEventListener('submit', e => { e.preventDefault(); if (!ok.disabled) onSubmit(); });
+	$('appSheet').replaceChildren(form);
+	$('appSheet').classList.add('open');
+	closeAppMenu();
+	return { form, ok };
+}
+
+// li given: edit that app. Otherwise add one, to category bi if given.
+function openAppSheet(bi = Math.min(lastAddCat, cats().length - 1), li) {
+	const editing = li !== undefined;
+	const link    = editing ? cats()[bi].links[li] : null;
+	const urlIn   = el('input', { class: 'lp-input', type: 'text', inputMode: 'url', autocomplete: 'off', spellcheck: false,
+		placeholder: t('apps.urlPlaceholder'), value: link ? link.url : '' });
+	const nameIn  = el('input', { class: 'lp-input', type: 'text', autocomplete: 'off', value: link ? link.label : '' });
+	const catSel  = el('select', { class: 'lp-input' },
+		...cats().map((c, i) => el('option', { value: i, text: c.title, selected: i === bi })));
+	const art      = el('span', { class: 'lp-sheet-art' });
+	const artLabel = el('span', { class: 'lp-sheet-art-label' });
+	const head     = el('div', { class: 'lp-sheet-preview' }, art, artLabel);
+
+	const { ok } = showSheet({
+		title: t(editing ? 'apps.editApp' : 'apps.installApp'),
+		head,
+		fields: [[t('apps.url'), urlIn], [t('apps.label'), nameIn], [t('apps.category'), catSel]],
+		primary: t(editing ? 'apps.save' : 'apps.install'),
+		onDelete: editing ? () => deleteApp(bi, li) : null,
+		onSubmit: () => {
+			const url   = normalizeUrl(urlIn.value);
+			const label = nameIn.value.trim() || nameFromUrl(url);
+			const to    = +catSel.value;
+			if (editing) {
+				const l = cats()[bi].links[li];
+				l.url = url; l.label = label;
+				if (to !== bi) { cats()[bi].links.splice(li, 1); cats()[to].links.push(l); }
+			} else { cats()[to].links.push({ label, url }); lastAddCat = to; }
+			closeSheet();
+			commitApps();
+			// Show where it went: the section a new or moved app landed in.
+			if (!editing || to !== bi) {
+				const tile = $('allAppsScroll').querySelector(`.lp-section[data-bi="${to}"] .lp-app:last-of-type`);
+				if (tile) { tile.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); tile.classList.add('lp-pop'); }
+			}
+		},
+	});
+
+	// The preview follows the typing: the name at once, the icon once the
+	// link stops changing.
+	let shown = null, timer = null;
+	const refresh = () => {
+		const url = normalizeUrl(urlIn.value);
+		const auto = url ? nameFromUrl(url) : '';
+		nameIn.placeholder = auto || t('apps.label');
+		artLabel.textContent = nameIn.value.trim() || auto || ' ';
+		ok.disabled = !url;
+		clearTimeout(timer);
+		timer = setTimeout(() => {
+			const want = looksLikeSite(url) ? url : '';
+			if (want === shown) return;
+			shown = want;
+			art.replaceChildren(want ? iconArt(want) : el('span', { class: 'lp-add-art', text: '＋' }));
+		}, shown === null ? 0 : 350);
+	};
+	urlIn.addEventListener('input', refresh);
+	nameIn.addEventListener('input', refresh);
+	refresh();
+	(editing ? nameIn : urlIn).focus();
+	if (editing) nameIn.select();
+}
+
+// bi given: rename it. Otherwise make a new one.
+function openCategorySheet(bi) {
+	const renaming = bi !== undefined;
+	const nameIn = el('input', { class: 'lp-input', type: 'text', autocomplete: 'off',
+		placeholder: t('apps.categoryName'), value: renaming ? cats()[bi].title : '' });
+	const { ok } = showSheet({
+		title: t(renaming ? 'apps.renameCategory' : 'apps.newCategory'),
+		fields: [[t('apps.categoryName'), nameIn]],
+		primary: t(renaming ? 'apps.save' : 'apps.add'),
+		onSubmit: () => {
+			const title = nameIn.value.trim();
+			if (renaming) cats()[bi].title = title; else cats().push({ title, links: [] });
+			closeSheet();
+			commitApps();
+			if (!renaming) $('allAppsScroll').querySelector('.lp-section:last-of-type')?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+		},
+	});
+	const refresh = () => { ok.disabled = !nameIn.value.trim(); };
+	nameIn.addEventListener('input', refresh);
+	refresh();
+	nameIn.focus(); nameIn.select();
+}
+
+// ── Wiring ────────────────────────────────────────────────────────────
+function setupAllApps() {
+	const root   = $('allApps');
 	const scroll = $('allAppsScroll');
-	const cue = (el, cls) => {
-		scroll.querySelectorAll('.drag-over, .drag-over-after, .drop-into').forEach(x => x.classList.remove('drag-over', 'drag-over-after', 'drop-into'));
-		if (el) el.classList.add(cls);
-	};
-	const clearAll = () => {
-		scroll.querySelectorAll('.drag-over, .drag-over-after, .drop-into, .bm-dragging')
-			.forEach(x => x.classList.remove('drag-over', 'drag-over-after', 'drop-into', 'bm-dragging'));
-	};
-	// Dropped on a row's lower half, an item goes after it rather than
-	// before, so the last place can be reached too.
-	const after = (row, e) => { const r = row.getBoundingClientRect(); return e.clientY > r.top + r.height / 2; };
-	const slot  = (row, e, idx) => idx + (after(row, e) ? 1 : 0);
-	const line  = (row, e) => after(row, e) ? 'drag-over-after' : 'drag-over';
+	const search = $('bookmarkSearch');
+
+	$('mbBookmarks').addEventListener('click', () => openAllBookmarks());
+	$('pickDoneBtn').addEventListener('click', () => setPickMode(false));
+	$('pickModeBtn').addEventListener('click', () => setPickMode(true));
+	$('addAppBtn').addEventListener('click', () => openAppSheet());
+	$('addCatBtn').addEventListener('click', () => openCategorySheet());
+
+	search.addEventListener('input', () => filterBookmarks(search.value));
+	// Enter opens (or, picking, adds) the first match.
+	search.addEventListener('keydown', e => {
+		if (e.key !== 'Enter') return;
+		const first = scroll.querySelector('.lp-app:not([hidden])');
+		if (first) { e.preventDefault(); first.click(); }
+	});
+
+	// Typing anywhere searches, as in Launchpad.
+	document.addEventListener('keydown', e => {
+		if (!isAllAppsOpen() || e.ctrlKey || e.metaKey || e.altKey || e.key.length !== 1) return;
+		if (e.target.closest('input, select, textarea') || $('appSheet').classList.contains('open')) return;
+		search.focus();
+	});
+
+	// A pointerdown outside the open menu closes it, and the click it
+	// becomes does nothing else.
+	root.addEventListener('pointerdown', e => {
+		if ($('appMenu').classList.contains('open') && !e.target.closest('#appMenu')) {
+			closeAppMenu(); swallowClick = true;
+		}
+	}, true);
+	scroll.addEventListener('scroll', closeAppMenu, { passive: true });
+
+	root.addEventListener('click', e => {
+		if (swallowClick) { swallowClick = false; e.preventDefault(); return; }
+		if (e.target.closest('#appMenu, #appSheet, #appToast')) return;
+
+		const more = e.target.closest('.lp-more');
+		if (more) {
+			e.preventDefault();
+			const r = more.getBoundingClientRect();
+			const items = more.dataset.li !== undefined ? appMenuItems(+more.dataset.bi, +more.dataset.li) : catMenuItems(+more.dataset.bi);
+			openAppMenu(items, r.left, r.bottom + 4);
+			return;
+		}
+		const app = e.target.closest('.lp-app');
+		if (app) {
+			const link = cats()[+app.dataset.bi].links[+app.dataset.li];
+			if (pickMode) { e.preventDefault(); addToDesktop(link); }
+			else closeAllBookmarks();   // the link opens itself in a new tab
+			return;
+		}
+		// Empty space closes the launcher, as in Launchpad.
+		if (e.target.matches('.all-apps, .lp-body, .lp-top, .lp-scroll, .lp-inner, .lp-section, .lp-grid')) closeAllBookmarks();
+	});
+
+	root.addEventListener('contextmenu', e => {
+		const app  = e.target.closest('.lp-app');
+		const head = e.target.closest('.lp-head');
+		if (!app && !head) return;
+		e.preventDefault();
+		const bi = +(app || head).dataset.bi;
+		openAppMenu(app ? appMenuItems(bi, +app.dataset.li) : catMenuItems(bi), e.clientX, e.clientY);
+	});
+
+	// A click on the dimmed space round a sheet cancels it.
+	$('appSheet').addEventListener('click', e => { if (e.target === e.currentTarget) closeSheet(); });
+
+	setupAllAppsDrag();
+
+	onLanguageChange(() => { if (isAllAppsOpen()) renderAllBookmarks(); });
+}
+
+// ── Drag to reorder ───────────────────────────────────────────────────
+// An icon drops before or after another (by which half it's over), or
+// onto a section's empty space or title to go last there. A section,
+// dragged by its title, drops anywhere on another and takes its place, as
+// in any sortable list: dragged down it lands below that section, dragged
+// up, above it.
+function setupAllAppsDrag() {
+	const scroll = $('allAppsScroll');
+	const DROPS = ['drop-before', 'drop-after', 'drop-into', 'drop-above', 'drop-below'];
+	const uncue = () => scroll.querySelectorAll('.' + DROPS.join(', .')).forEach(n => n.classList.remove(...DROPS));
+	const clear = () => { uncue(); scroll.querySelectorAll('.lp-dragging').forEach(n => n.classList.remove('lp-dragging')); };
+	const cue = (node, cls) => { uncue(); if (cls) node.classList.add(cls); };
+	const afterX = (node, e) => { const r = node.getBoundingClientRect(); return e.clientX > r.left + r.width / 2; };
+
+	// Where a drop at this event would land, or null.
+	function target(e) {
+		if (!appsDrag) return null;
+		if (appsDrag.kind === 'cat') {
+			const sec = e.target.closest('.lp-section');
+			if (!sec) return null;
+			const to = +sec.dataset.bi;
+			// Over itself: a valid place to let go, where nothing changes.
+			return { node: sec, cls: to === appsDrag.bi ? null : to > appsDrag.bi ? 'drop-below' : 'drop-above', to };
+		}
+		const tile = e.target.closest('.lp-app');
+		if (tile) {
+			const after = afterX(tile, e);
+			return { node: tile, cls: after ? 'drop-after' : 'drop-before', bi: +tile.dataset.bi, li: +tile.dataset.li + (after ? 1 : 0) };
+		}
+		const sec = e.target.closest('.lp-section');
+		if (sec) { const bi = +sec.dataset.bi; return { node: sec, cls: 'drop-into', bi, li: cats()[bi].links.length }; }
+		return null;
+	}
 
 	scroll.addEventListener('dragstart', e => {
-		if (!bmEditing) { e.preventDefault(); return; }
-		const linkRow = e.target.closest('.miller-link-row');
-		const catRow  = e.target.closest('.miller-cat');
-		if (linkRow && linkRow.draggable) {
-			dragLinkLi = +linkRow.dataset.li; dragCatBi = null;
-			e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', '');
-			requestAnimationFrame(() => linkRow.classList.add('bm-dragging'));
-		} else if (catRow) {
-			dragCatBi = +catRow.dataset.bi; dragLinkLi = null;
-			e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', '');
-			requestAnimationFrame(() => catRow.classList.add('bm-dragging'));
-		} else e.preventDefault();
+		const tile = e.target.closest('.lp-app');
+		const head = e.target.closest('.lp-head');
+		if (bookmarkQuery || (!tile && !head)) { e.preventDefault(); return; }
+		closeAppMenu();
+		appsDrag = tile ? { kind: 'app', bi: +tile.dataset.bi, li: +tile.dataset.li } : { kind: 'cat', bi: +head.dataset.bi };
+		e.dataTransfer.effectAllowed = 'move';
+		e.dataTransfer.setData('text/plain', '');
+		const node = tile || head.parentNode;
+		requestAnimationFrame(() => node.classList.add('lp-dragging'));
 	});
-
 	scroll.addEventListener('dragover', e => {
-		if (dragCatBi === null && dragLinkLi === null) return;
-		const catRow  = e.target.closest('.miller-cat');
-		const linkRow = e.target.closest('.miller-link-row');
-		if (dragCatBi !== null) {
-			if (catRow) { e.preventDefault(); cue(catRow, line(catRow, e)); }
-		} else {
-			if (catRow)       { e.preventDefault(); cue(catRow, 'drop-into'); }
-			else if (linkRow) { e.preventDefault(); cue(linkRow, line(linkRow, e)); }
-		}
-	});
-
-	scroll.addEventListener('drop', e => {
-		if (dragCatBi === null && dragLinkLi === null) return;
+		const at = target(e);
+		if (!at) return;
 		e.preventDefault();
-		const catRow  = e.target.closest('.miller-cat');
-		const linkRow = e.target.closest('.miller-link-row');
-		if (dragCatBi !== null) {
-			if (catRow) catMove(dragCatBi, slot(catRow, e, +catRow.dataset.bi));
-		} else if (catRow) {
-			linkMoveToCat(millerSel, dragLinkLi, +catRow.dataset.bi);
-		} else if (linkRow) {
-			linkMoveWithin(millerSel, dragLinkLi, slot(linkRow, e, +linkRow.dataset.li));
-		}
-		clearAll(); dragCatBi = null; dragLinkLi = null;
+		cue(at.node, at.cls);
 	});
-
-	scroll.addEventListener('dragend', () => { clearAll(); dragCatBi = null; dragLinkLi = null; });
+	scroll.addEventListener('drop', e => {
+		const at = target(e);
+		const d = appsDrag;
+		clear(); appsDrag = null;
+		if (!at) return;
+		e.preventDefault();
+		if (d.kind === 'cat') { if (at.to !== d.bi) moveCategory(d.bi, at.to); }
+		else if (!(at.bi === d.bi && (at.li === d.li || at.li === d.li + 1))) moveApp(d.bi, d.li, at.bi, at.li);
+	});
+	scroll.addEventListener('dragend', () => { clear(); appsDrag = null; });
 }
