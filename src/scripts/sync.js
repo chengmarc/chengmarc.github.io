@@ -91,7 +91,7 @@ function runAutoSync() {
 		replaceState(cfg);
 		if (JSON.stringify(S) === before) return;
 		renderDesktopIcons(); renderDock();
-		if ($('allApps').classList.contains('open')) renderAllBookmarks();
+		if ($('allApps').classList.contains('open')) renderAllApps();
 	}).catch(err => console.warn('Bookmark sync failed:', err));
 }
 

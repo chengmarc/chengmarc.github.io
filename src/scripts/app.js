@@ -3,7 +3,7 @@
 // ─────────────────────────────────────────────────────────────────────
 function applyConfig(cfg) {
 	replaceState(cfg);
-	renderDock(); renderDesktopIcons(); resetAllBookmarks();   // the dock first: the grid's rows stop above it
+	renderDock(); renderDesktopIcons(); resetAllApps();   // the dock first: the grid's rows stop above it
 	exitDesktopEdit();
 }
 
@@ -17,7 +17,7 @@ function setupEvents() {
 		if (e.key !== 'Escape') return;
 		// The All Apps launcher covers everything, so it goes first; then the
 		// window in front, then desktop edit mode.
-		if (isAllAppsOpen()) { escapeAllBookmarks(); return; }
+		if (isAllAppsOpen()) { escapeAllApps(); return; }
 		const top = topWindow();
 		if (top) { closeWindow(top); return; }
 		exitDesktopEdit();
@@ -38,7 +38,7 @@ setupDockDrag();
 setupDockMagnification();
 setupDesktopIconPress();
 setupLongPress();
-setupDesktopClicks(app => app === 'allApps' ? openAllBookmarks() : toggleWindow(app));
+setupDesktopClicks(app => app === 'allApps' ? openAllApps() : toggleWindow(app));
 setupEvents();
 startClock();
 startStatus(settings.showLocation);

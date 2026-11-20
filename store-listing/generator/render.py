@@ -84,7 +84,7 @@ CHECKS = """([settingsKey, stateKey, wallpaper]) => [
     WALLPAPERS.some(w => w.id === wallpaper) || `settings.js has no wallpaper "${wallpaper}"`,
     !!document.getElementById('welcome') || 'index.html has no #welcome window',
     typeof openWindow === 'function' || 'windows.js has no openWindow()',
-    typeof openAllBookmarks === 'function' || 'bookmarks.js has no openAllBookmarks()',
+    typeof openAllApps === 'function' || 'apps.js has no openAllApps()',
 ].filter(r => r !== true)"""
 
 
@@ -112,7 +112,7 @@ def capture(browser, size, wallpaper, open_=None, state=None, show_country=True)
     if open_ == 'settings':
         page.evaluate("openWindow('settings')")
     if open_ == 'apps':
-        page.evaluate("openAllBookmarks()")
+        page.evaluate("openAllApps()")
     page.mouse.move(width - 1, height // 2)   # away from icons and the dock
     page.wait_for_timeout(SETTLE)
     png = page.screenshot()

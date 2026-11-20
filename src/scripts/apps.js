@@ -14,7 +14,7 @@
 // the desktop instead of opening it, until Done (or Escape).
 // ─────────────────────────────────────────────────────────────────────
 let pickMode      = false;
-let bookmarkQuery = '';
+let appsQuery = '';
 let appsDrag      = null;   // { kind: 'app', bi, li } or { kind: 'cat', bi }
 let swallowClick  = false;  // the click that ends the pointerdown which closed the menu
 let toastTimer    = null;
@@ -57,7 +57,7 @@ function appTile(link, bi, li, onDesk) {
 	);
 }
 
-function renderAllBookmarks() {
+function renderAllApps() {
 	const scroll = $('allAppsScroll');
 	const keep   = scroll.scrollTop;
 	const onDesk = new Set(S.desktopIcons.map(i => i.url));
@@ -79,48 +79,48 @@ function renderAllBookmarks() {
 	scroll.replaceChildren(inner);
 	scroll.scrollTop = keep;
 	$('addAppBtn').disabled = !cats().length;
-	filterBookmarks($('bookmarkSearch').value);
+	filterApps($('appsSearch').value);
 }
 
 // After a whole new config (app.js's applyConfig).
-function resetAllBookmarks() {
-	if (isAllAppsOpen()) renderAllBookmarks();
+function resetAllApps() {
+	if (isAllAppsOpen()) renderAllApps();
 }
 
 // Search hides what doesn't match rather than redrawing, so the icons
 // don't reload on every key.
-function filterBookmarks(query) {
-	bookmarkQuery = query.trim().toLowerCase();
-	$('allApps').classList.toggle('searching', !!bookmarkQuery);
+function filterApps(query) {
+	appsQuery = query.trim().toLowerCase();
+	$('allApps').classList.toggle('searching', !!appsQuery);
 	let any = false;
 	$('allAppsScroll').querySelectorAll('.lp-section').forEach(sec => {
 		let n = 0;
 		sec.querySelectorAll('.lp-app').forEach(a => {
-			const hit = !bookmarkQuery || a.dataset.q.includes(bookmarkQuery);
+			const hit = !appsQuery || a.dataset.q.includes(appsQuery);
 			a.hidden = !hit; if (hit) n++;
 		});
-		sec.hidden = !!bookmarkQuery && !n;
+		sec.hidden = !!appsQuery && !n;
 		if (n) any = true;
 	});
 	const empty = $('lpEmpty');
-	if (empty) empty.hidden = !bookmarkQuery || any;
+	if (empty) empty.hidden = !appsQuery || any;
 }
 
 // ── Open / close ──────────────────────────────────────────────────────
-function openAllBookmarks() {
-	$('bookmarkSearch').value = '';
-	renderAllBookmarks();
+function openAllApps() {
+	$('appsSearch').value = '';
+	renderAllApps();
 	$('allAppsScroll').scrollTop = 0;
 	$('allApps').classList.add('open');
-	setTimeout(() => $('bookmarkSearch').focus(), 60);
+	setTimeout(() => $('appsSearch').focus(), 60);
 }
 
-function closeAllBookmarks() {
+function closeAllApps() {
 	closeAppMenu(); closeSheet(); hideToast();
 	setPickMode(false);
 	$('allApps').classList.remove('open');
-	$('bookmarkSearch').value = '';
-	filterBookmarks('');
+	$('appsSearch').value = '';
+	filterApps('');
 }
 
 // Pick mode lives inside the open launcher: entered from Add to Desktop,
@@ -129,17 +129,17 @@ function setPickMode(on) {
 	pickMode = on;
 	$('allApps').classList.toggle('pick-mode', on);
 	closeAppMenu();
-	if (on) $('bookmarkSearch').focus();
+	if (on) $('appsSearch').focus();
 }
 
 // Escape peels one layer at a time: menu, sheet, search, pick mode, then
 // the launcher.
-function escapeAllBookmarks() {
+function escapeAllApps() {
 	if ($('appMenu').classList.contains('open')) return closeAppMenu();
 	if ($('appSheet').classList.contains('open')) return closeSheet();
-	if ($('bookmarkSearch').value) { $('bookmarkSearch').value = ''; filterBookmarks(''); return; }
+	if ($('appsSearch').value) { $('appsSearch').value = ''; filterApps(''); return; }
 	if (pickMode) return setPickMode(false);
-	closeAllBookmarks();
+	closeAllApps();
 }
 
 // Scroll the list, and only the list, until node is in view. Not
@@ -168,7 +168,7 @@ function showToast(message, actionLabel, action) {
 function hideToast() { clearTimeout(toastTimer); $('appToast').classList.remove('open'); }
 
 // ── Mutations ─────────────────────────────────────────────────────────
-function commitApps() { saveState(); renderAllBookmarks(); }
+function commitApps() { saveState(); renderAllApps(); }
 
 function deleteApp(bi, li) {
 	const [link] = cats()[bi].links.splice(li, 1);
@@ -192,7 +192,7 @@ function deleteCategory(bi) {
 
 function addToDesktop(link) {
 	if (addDesktopIcon(link.label, link.url)) {
-		renderAllBookmarks();
+		renderAllApps();
 		showToast(t('apps.addedDesktop', { title: link.label }));
 	} else showToast(t('apps.onDesktop'));
 }
@@ -239,7 +239,7 @@ function appMenuItems(bi, li) {
 	const onDesk = isOnDesktop(link.url);
 	const inDock = isInDock(link.url);
 	return [
-		{ label: t('apps.open'), run: () => { window.open(link.url, '_blank', 'noopener'); closeAllBookmarks(); } },
+		{ label: t('apps.open'), run: () => { window.open(link.url, '_blank', 'noopener'); closeAllApps(); } },
 		'-',
 		{ label: onDesk ? '✓ ' + t('apps.onDesktop') : t('apps.addToDesktop'), disabled: onDesk, run: () => addToDesktop(link) },
 		{ label: inDock ? '✓ ' + t('apps.inDock')    : t('apps.addToDock'),    disabled: inDock, run: () => addToDock(link) },
@@ -374,15 +374,15 @@ function setupAllApps(isSyncOn) {
 	syncIsOn = isSyncOn;
 	const root   = $('allApps');
 	const scroll = $('allAppsScroll');
-	const search = $('bookmarkSearch');
+	const search = $('appsSearch');
 
-	$('mbBookmarks').addEventListener('click', () => openAllBookmarks());
+	$('mbAllApps').addEventListener('click', () => openAllApps());
 	$('pickDoneBtn').addEventListener('click', () => setPickMode(false));
 	$('pickModeBtn').addEventListener('click', () => setPickMode(true));
 	$('addAppBtn').addEventListener('click', () => openAppSheet());
 	$('addCatBtn').addEventListener('click', () => openCategorySheet());
 
-	search.addEventListener('input', () => filterBookmarks(search.value));
+	search.addEventListener('input', () => filterApps(search.value));
 	// Enter opens (or, picking, adds) the first match.
 	search.addEventListener('keydown', e => {
 		if (e.key !== 'Enter') return;
@@ -422,11 +422,11 @@ function setupAllApps(isSyncOn) {
 		if (app) {
 			const link = cats()[+app.dataset.bi].links[+app.dataset.li];
 			if (pickMode) { e.preventDefault(); addToDesktop(link); }
-			else closeAllBookmarks();   // the link opens itself in a new tab
+			else closeAllApps();   // the link opens itself in a new tab
 			return;
 		}
 		// Empty space closes the launcher, as in Launchpad.
-		if (e.target.matches('.all-apps, .lp-body, .lp-top, .lp-scroll, .lp-inner, .lp-section, .lp-grid')) closeAllBookmarks();
+		if (e.target.matches('.all-apps, .lp-body, .lp-top, .lp-scroll, .lp-inner, .lp-section, .lp-grid')) closeAllApps();
 	});
 
 	root.addEventListener('contextmenu', e => {
@@ -443,7 +443,7 @@ function setupAllApps(isSyncOn) {
 
 	setupAllAppsDrag();
 
-	onLanguageChange(() => { if (isAllAppsOpen()) renderAllBookmarks(); });
+	onLanguageChange(() => { if (isAllAppsOpen()) renderAllApps(); });
 }
 
 // ── Drag to reorder ───────────────────────────────────────────────────
@@ -483,7 +483,7 @@ function setupAllAppsDrag() {
 	scroll.addEventListener('dragstart', e => {
 		const tile = e.target.closest('.lp-app');
 		const head = e.target.closest('.lp-head');
-		if (bookmarkQuery || (!tile && !head)) { e.preventDefault(); return; }
+		if (appsQuery || (!tile && !head)) { e.preventDefault(); return; }
 		closeAppMenu();
 		appsDrag = tile ? { kind: 'app', bi: +tile.dataset.bi, li: +tile.dataset.li } : { kind: 'cat', bi: +head.dataset.bi };
 		e.dataTransfer.effectAllowed = 'move';
