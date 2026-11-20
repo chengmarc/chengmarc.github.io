@@ -76,7 +76,6 @@
 		</div>
 		<div class="menu-right">
 			<span class="menu-status menu-loc" id="mbLoc" title="Location" data-i18n-title="status.location"></span>
-			<button class="menu-status menu-ip" id="mbIP" title="Click to copy IP" data-i18n-title="status.copyIP"></button>
 			<span class="menu-status" id="mbWifi" title="Network" data-i18n-title="status.network">
 				<svg width="18" height="14" viewBox="0 0 18 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
 					<path d="M2 5 A10 10 0 0 1 16 5"/>
@@ -184,10 +183,10 @@
 				<p class="settings-label" data-i18n="settings.privacy">Privacy</p>
 				<label class="settings-row">
 					<span class="settings-row-text">
-						<span class="settings-row-title" data-i18n="settings.showIPTitle">Show location and IP</span>
-						<span class="settings-row-note" data-i18n="settings.showIPNote">Your city, flag and public IP. While off, nothing is looked up from your IP.</span>
+						<span class="settings-row-title" data-i18n="settings.showLocationTitle">Show country</span>
+						<span class="settings-row-note" data-i18n="settings.showLocationNote">Your country and its flag, found from your IP address. While off, nothing is looked up.</span>
 					</span>
-					<input type="checkbox" class="switch" id="showIPToggle">
+					<input type="checkbox" class="switch" id="showLocationToggle">
 				</label>
 			</section>
 			<section class="settings-section">

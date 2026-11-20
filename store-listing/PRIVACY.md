@@ -1,6 +1,6 @@
 # Bookmark OS — Privacy Policy
 
-_Last updated: 2026-10-28_
+_Last updated: 2026-11-20_
 
 Bookmark OS replaces your browser's new tab page with a desktop of your bookmarks. It has no account, no analytics, no ads, and no server of its own. The developer never receives any of your data.
 
@@ -14,13 +14,12 @@ Like any web page, the new tab page loads a few things from the internet. Each r
 
 | Service | Why | What it receives |
 |---|---|---|
-| `ipwho.is` | Shows your approximate city and country flag in the menu bar | Your IP address |
-| `api.ipify.org` | Shows your public IPv4 address in the menu bar | Your IP address |
+| `ipwho.is` | Shows your country and its flag in the menu bar | Your IP address |
 | `flagcdn.com` | Loads the flag image for your country | Your country code |
 | `www.google.com/s2/favicons` | Looks up the icon for each link on screen | The URL of each link being displayed |
 | Each linked website | Loads that site's own icon file (e.g. `/favicon.ico`) | A request for its icon |
 
-The first three are only contacted while **Settings → Privacy → Show location and IP** is on (the default); turn it off and none of them is asked.
+The first two are only contacted while **Settings → Privacy → Show country** is on (the default); turn it off and neither is asked.
 
 These services have their own privacy policies. Bookmark OS does not send them anything beyond what is listed here, and does not set cookies or use tracking of any kind.
 

@@ -65,7 +65,7 @@ setupDesktopIconPress();
 setupLongPress();
 setupEvents();
 startClock();
-startStatus(settings.showIP);
+startStatus(settings.showLocation);
 setupCalendar();
 setupAllApps();
 setupAboutPanel();

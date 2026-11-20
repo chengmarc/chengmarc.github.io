@@ -17,9 +17,9 @@ function startClock() {
 }
 
 // ─────────────────────────────────────────────────────────────────────
-// Menu-bar status: network, battery, public IP
+// Menu-bar status: country, network, battery
 // ─────────────────────────────────────────────────────────────────────
-function startStatus(showIP) {
+function startStatus(showCountry) {
 	const wifi = $('mbWifi');
 	function updateNet() {
 		const online = navigator.onLine;
@@ -57,81 +57,51 @@ function startStatus(showIP) {
 		bat.dataset.i18nTitle = 'status.batteryUnavailable'; bat.title = t('status.batteryUnavailable');
 	}
 
-	setupIPChip();
-	showIPInfo(showIP);
+	showLocation(showCountry);
 }
 
 // ─────────────────────────────────────────────────────────────────────
-// Menu-bar location and IP — everything that needs the user's IP. Settings
-// can hide both; while hidden, ipwho.is, api.ipify.org and flagcdn.com are
-// never asked, and turning them back on asks then.
+// Menu-bar country: the flag and the country's name, from the user's IP.
+// Settings can hide it; while hidden, ipwho.is and flagcdn.com are never
+// asked, and turning it back on asks then.
 // ─────────────────────────────────────────────────────────────────────
-let currentIP = '';
-let ipLooked  = false;   // the lookups run once, the first time they're shown
+let countryCode = '';      // e.g. 'US', once looked up
+let countryLooked = false; // the lookup runs once, the first time it's shown
 
-function setupIPChip() {
-	const ipEl = $('mbIP');
-	ipEl.addEventListener('click', () => {
-		if (!currentIP || !navigator.clipboard) return;
-		navigator.clipboard.writeText(currentIP).then(() => {
-			ipEl.textContent = t('status.copied');
-			ipEl.classList.add('copied');
-			clearTimeout(ipEl._copyT);
-			ipEl._copyT = setTimeout(() => {
-				ipEl.textContent = currentIP;
-				ipEl.classList.remove('copied');
-			}, 1000);
-		}).catch(() => {});
-	});
+// The country's name in the page's language, from the browser's own table
+// (ipwho.is answers in English only); its English name if that's missing.
+function countryName(code, fallback) {
+	try { return new Intl.DisplayNames([locale()], { type: 'region' }).of(code) || fallback; }
+	catch (_) { return fallback; }
 }
 
-function showIPInfo(on) {
+function showLocation(on) {
 	const locEl = $('mbLoc');
-	const ipEl  = $('mbIP');
-	locEl.hidden = ipEl.hidden = !on;
-	if (!on || ipLooked) return;
-	ipLooked = true;
+	locEl.hidden = !on;
+	if (!on || countryLooked) return;
+	countryLooked = true;
 
-	// ipwho.is is dual-stack, so on an IPv6 network it sees (and returns) the
-	// IPv6 address. api.ipify.org has no AAAA record — reaching it forces IPv4 —
-	// so it supplies the IP chip, and ipwho.is supplies location. Both run in
-	// parallel; on an IPv6-only network ipify fails and ipwho.is's IP is used.
-	const ipv4 = fetch('https://api.ipify.org?format=json')
-		.then(r => r.json())
-		.then(d => d && d.ip)
-		.catch(() => null);
-
-	const geo = fetch('https://ipwho.is/')
+	fetch('https://ipwho.is/')
 		.then(r => r.json())
 		.then(d => {
-			if (!d || d.success === false) throw new Error('lookup failed');
-			const code = (d.country_code || '').toLowerCase();
-			const city = d.city || d.region || d.country || '';
-			locEl.innerHTML = '';
-			if (code) {
-				const img = document.createElement('img');
-				img.src    = 'https://flagcdn.com/40x30/' + code + '.png';
-				img.srcset = 'https://flagcdn.com/80x60/' + code + '.png 2x';
-				img.alt    = d.country || code.toUpperCase();
-				img.decoding = 'async';
-				locEl.appendChild(img);
-			}
-			if (city) locEl.appendChild(document.createTextNode(city));
+			if (!d || d.success === false || !d.country_code) throw new Error('lookup failed');
+			countryCode = d.country_code.toUpperCase();
+			const code = countryCode.toLowerCase();
+			const img = document.createElement('img');
+			img.src    = 'https://flagcdn.com/40x30/' + code + '.png';
+			img.srcset = 'https://flagcdn.com/80x60/' + code + '.png 2x';
+			img.alt    = '';
+			img.decoding = 'async';
+			const label = document.createElement('span');
+			locEl.replaceChildren(img, label);
 			locEl.removeAttribute('data-i18n-title');   // a place name, not a word to translate
-			locEl.title = [d.city, d.region, d.country].filter(Boolean).join(', ');
-			return d.ip;
+			const name = () => { label.textContent = locEl.title = countryName(countryCode, d.country || countryCode); };
+			name();
+			onLanguageChange(name);
 		})
 		.catch(() => {
 			locEl.textContent = ''; locEl.dataset.i18nTitle = 'status.locationUnavailable'; locEl.title = t('status.locationUnavailable');
-			return null;
 		});
-
-	ipv4.then(ip => ip || geo).then(ip => {
-		ipEl.dataset.i18nTitle = ip ? 'status.copyIP' : 'status.ipUnavailable';
-		ipEl.title = t(ipEl.dataset.i18nTitle);
-		if (ip) { currentIP = ip; ipEl.textContent = ip; }
-		else    { ipEl.textContent = ''; }
-	});
 }
 
 // ─────────────────────────────────────────────────────────────────────

@@ -13,9 +13,9 @@ and the promo tiles, laid out by promo.html around a desktop captured here:
     store-listing/promo-1400x560.png   the marquee: the pitch, beside screenshot 1 with the same window
 
 Every capture starts from a fresh profile, in English, with the clock stopped
-at 09:41. The location/IP chip shows, as it does by default, but with made-up
-answers (San Francisco, and 203.0.113.42 from the range reserved for
-documentation), so your own city and IP never end up in a store image. The
+at 09:41. The country chip shows, as it does by default, but with a made-up
+answer (the United States), so your own country never ends up in a store
+image. The
 page acts as the extension (its APIs stubbed), so Settings shows Browser Sync
 and the welcome window can appear. Site icons come from the network, as for a
 visitor; offline, the local fallback tiles show.
@@ -43,14 +43,12 @@ SHOTS = [
 
 # The search tile's desktop: the sample desktop on High Sierra, captured at the
 # tile's own shape (440x280, scaled 2.5x), at a size where all its icons
-# fit above the dock. The location/IP chip is off here, since
+# fit above the dock. The country chip is off here, since
 # at this scale it would only clutter the menu bar.
 TILE_DESKTOP = (1100, 700)
 
-# What the IP and location services answer in the captures, instead of the truth.
-FAKE_IP = {'ip': '203.0.113.42'}
-FAKE_PLACE = {'success': True, 'ip': '203.0.113.42', 'city': 'San Francisco', 'region': 'California',
-              'country': 'United States', 'country_code': 'US'}
+# What the location service answers in the captures, instead of the truth.
+FAKE_PLACE = {'success': True, 'country': 'United States', 'country_code': 'US'}
 
 # Where the page keeps its settings and desktop (SETTINGS_STORE in settings.js,
 # STORE in state.js); the captures seed both before the page loads.
@@ -90,15 +88,14 @@ CHECKS = """([settingsKey, stateKey, wallpaper]) => [
 ].filter(r => r !== true)"""
 
 
-def capture(browser, size, wallpaper, open_=None, state=None, show_ip=True):
+def capture(browser, size, wallpaper, open_=None, state=None, show_country=True):
     """The page at `size`, as PNG bytes. `state` replaces the sample desktop."""
     width, height = size
     page = browser.new_page(viewport={'width': width, 'height': height}, locale='en-US')
     page.add_init_script(SETUP % json.dumps({
-        'settings': {'wallpaper': wallpaper, 'language': 'en', 'showIP': show_ip, 'autoSync': False},
+        'settings': {'wallpaper': wallpaper, 'language': 'en', 'showLocation': show_country, 'autoSync': False},
         'state': state, 'settingsKey': SETTINGS_KEY, 'stateKey': STATE_KEY,
     }))
-    page.route('https://api.ipify.org/**', lambda r: r.fulfill(json=FAKE_IP))
     page.route('https://ipwho.is/**', lambda r: r.fulfill(json=FAKE_PLACE))
     page.goto((ROOT / 'index.html').as_uri())
     changed = page.evaluate(CHECKS, [SETTINGS_KEY, STATE_KEY, wallpaper])
@@ -146,7 +143,7 @@ def main():
             shots[name] = capture(browser, SCREENSHOT, wallpaper, open_)
             (LISTING / 'desktop' / name).write_bytes(shots[name])
             print('wrote desktop/' + name)
-        tile_desktop = capture(browser, TILE_DESKTOP, 'high-sierra', show_ip=False)
+        tile_desktop = capture(browser, TILE_DESKTOP, 'high-sierra', show_country=False)
         promo(browser, 'promo-440x280.png', 'small', (440, 280), tile_desktop)
         promo(browser, 'promo-1400x560.png', 'marquee', (1400, 560), shots['screenshot-1-desktop.png'])
         browser.close()

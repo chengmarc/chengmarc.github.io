@@ -1,6 +1,6 @@
 /* ===================================================================
    Menu bar — the strip along the top: menu items, status (location,
-   IP, network, battery), the clock, and its calendar popover.
+   network, battery), the clock, and its calendar popover.
    As on macOS 26/27 the bar itself is clear: no fill, no edge, no blur,
    just a shade along the top so the words read on a bright or busy
    wallpaper (Catalina's island against the sky is the hardest).
@@ -81,21 +81,6 @@
     object-fit: cover;
     box-shadow: 0 0 0 1px var(--w-20);
 }
-.menu-ip {
-    background: none;
-    border: none;
-    font: inherit;
-    font-size: 0.82rem;
-    letter-spacing: 0.02em;
-    font-variant-numeric: tabular-nums;
-    color: var(--w-85);
-    cursor: pointer;
-    padding: 3px 9px;
-    border-radius: 999px;
-    transition: background 0.12s, color 0.12s;
-}
-.menu-ip:hover  { background: var(--w-15); color: #fff; }
-.menu-ip.copied { color: #7ee87e; }
 .menu-status.offline { opacity: 0.35; }
 .menu-status[hidden] { display: none; }   /* its flex would override [hidden] */
 .menu-clock {

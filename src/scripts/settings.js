@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────
-// Settings — wallpaper, language, the location/IP switch, and backup:
+// Settings — wallpaper, language, the country switch, and backup:
 // Import, Export and Restore Defaults. Settings are saved apart from the
 // desktop state, so Import and Restore Defaults leave them alone.
 // ─────────────────────────────────────────────────────────────────────
@@ -22,10 +22,12 @@ const WALLPAPERS = [
 ];
 const DEFAULT_WALLPAPER = WALLPAPERS.find(w => w.id === 'high-sierra');
 
-let settings = { wallpaper: DEFAULT_WALLPAPER.id, autoSync: false, showIP: true, language: 'auto' };
+let settings = { wallpaper: DEFAULT_WALLPAPER.id, autoSync: false, showLocation: true, language: 'auto' };
 
 function loadSettings() {
 	try { Object.assign(settings, JSON.parse(localStorage.getItem(SETTINGS_STORE)) || {}); } catch (_) {}
+	// Saved before the IP chip went, as showIP: the same switch, kept as it was.
+	if ('showIP' in settings) { settings.showLocation = settings.showIP; delete settings.showIP; }
 }
 function saveSettings() {
 	try { localStorage.setItem(SETTINGS_STORE, JSON.stringify(settings)); } catch (_) {}
@@ -79,7 +81,7 @@ function renderLanguageSelect() {
 // ── Settings window ───────────────────────────────────────────────────
 function showSettings() {
 	renderWallpapers();
-	$('showIPToggle').checked = settings.showIP;
+	$('showLocationToggle').checked = settings.showLocation;
 }
 
 // `onConfig` puts a whole new config on the desktop (app.js's applyConfig):
@@ -105,9 +107,9 @@ function setupSettings(onConfig) {
 	});
 	onLanguageChange(() => { renderLanguageSelect(); renderWallpapers(); });
 
-	$('showIPToggle').addEventListener('change', e => {
-		settings.showIP = e.target.checked;
-		saveSettings(); showIPInfo(settings.showIP);
+	$('showLocationToggle').addEventListener('change', e => {
+		settings.showLocation = e.target.checked;
+		saveSettings(); showLocation(settings.showLocation);
 	});
 
 	$('exportBtn').addEventListener('click', exportConfig);
