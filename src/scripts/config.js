@@ -1,120 +1,131 @@
 window.WEBOS_CONFIG = {
   "desktopIcons": [
     {
-      "key": "icon-youtube",
-      "label": "YouTube",
-      "url": "https://www.youtube.com/",
-      "col": 0,
-      "row": 2
-    },
-    {
-      "key": "icon-facebook",
-      "label": "Facebook",
-      "url": "https://www.facebook.com/",
-      "col": 0,
-      "row": 1
-    },
-    {
-      "key": "icon-instagram",
-      "label": "Instagram",
-      "url": "https://www.instagram.com/",
-      "col": 0,
-      "row": 3
-    },
-    {
       "key": "icon-x",
       "label": "X",
       "url": "https://x.com/",
       "col": 0,
-      "row": 0
+      "row": 4
     },
     {
       "key": "icon-reddit",
       "label": "Reddit",
       "url": "https://www.reddit.com/",
       "col": 0,
-      "row": 4
-    },
-    {
-      "key": "icon-wikipedia",
-      "label": "Wikipedia",
-      "url": "https://www.wikipedia.org/",
-      "col": 2,
-      "row": 2
+      "row": 1
     },
     {
       "key": "icon-amazon",
       "label": "Amazon",
       "url": "https://www.amazon.com/",
-      "col": 1,
-      "row": 4
+      "col": 0,
+      "row": 2
     },
     {
       "key": "icon-netflix",
       "label": "Netflix",
       "url": "https://www.netflix.com/",
-      "col": 1,
-      "row": 3
-    },
-    {
-      "key": "icon-github",
-      "label": "GitHub",
-      "url": "https://github.com/",
-      "col": 2,
-      "row": 3
+      "col": 0,
+      "row": 0
     },
     {
       "key": "icon-google-drive",
       "label": "Google Drive",
       "url": "https://drive.google.com/",
-      "col": 1,
-      "row": 1
+      "col": 2,
+      "row": 2
     },
     {
       "key": "icon-canva",
       "label": "Canva",
       "url": "https://www.canva.com/",
-      "col": 2,
-      "row": 1
-    },
-    {
-      "key": "icon-news-google-com-1790511738389",
-      "label": "Google News",
-      "url": "https://news.google.com/",
-      "col": 2,
-      "row": 0
-    },
-    {
-      "key": "icon-google-com-1790511750919",
-      "label": "Google",
-      "url": "https://www.google.com/",
       "col": 1,
-      "row": 0
+      "row": 3
     },
     {
       "key": "icon-hulu-com-1790511789831",
       "label": "Hulu",
       "url": "https://www.hulu.com/",
       "col": 1,
+      "row": 0
+    },
+    {
+      "key": "icon-twitch-tv-1795173597057",
+      "label": "Twitch",
+      "url": "https://www.twitch.tv/",
+      "col": 1,
+      "row": 1
+    },
+    {
+      "key": "icon-discord-com-1795173608940",
+      "label": "Discord",
+      "url": "https://discord.com/app",
+      "col": 1,
       "row": 2
+    },
+    {
+      "key": "icon-expedia-com-1795173622987",
+      "label": "Expedia",
+      "url": "https://www.expedia.com/",
+      "col": 0,
+      "row": 3
+    },
+    {
+      "key": "icon-music-apple-com-1795173655629",
+      "label": "Apple Music",
+      "url": "https://music.apple.com/",
+      "col": 1,
+      "row": 4
+    },
+    {
+      "key": "icon-news-google-com-1795173776780",
+      "label": "Google News",
+      "url": "https://news.google.com/",
+      "col": 2,
+      "row": 3
+    },
+    {
+      "key": "icon-claude-ai-1795173916743",
+      "label": "Claude",
+      "url": "https://claude.ai/",
+      "col": 2,
+      "row": 1
+    },
+    {
+      "key": "icon-chatgpt-com-1795173917343",
+      "label": "ChatGPT",
+      "url": "https://chatgpt.com/",
+      "col": 2,
+      "row": 0
     }
   ],
   "dock": [
     {
-      "label": "ChatGPT",
-      "url": "https://chatgpt.com/"
+      "app": "allApps"
+    },
+    "separator",
+    {
+      "label": "Facebook",
+      "url": "https://www.facebook.com/"
     },
     {
-      "label": "Claude",
-      "url": "https://claude.ai/"
+      "label": "Instagram",
+      "url": "https://www.instagram.com/"
     },
     {
-      "label": "Gmail",
-      "url": "https://mail.google.com/"
+      "label": "YouTube",
+      "url": "https://www.youtube.com/"
     },
     {
-      "label": "Outlook",
-      "url": "https://outlook.live.com/"
+      "label": "Google",
+      "url": "https://www.google.com/"
+    },
+    {
+      "label": "Google Calendar",
+      "url": "https://calendar.google.com/"
+    },
+    {
+      "app": "settings"
     }
   ],
   "bookmarkSections": [
@@ -132,94 +143,28 @@ window.WEBOS_CONFIG = {
               "url": "https://www.instagram.com/"
             },
             {
-              "label": "X",
-              "url": "https://x.com/"
-            },
-            {
               "label": "Reddit",
               "url": "https://www.reddit.com/"
-            },
-            {
-              "label": "TikTok",
-              "url": "https://www.tiktok.com/"
-            },
-            {
-              "label": "LinkedIn",
-              "url": "https://www.linkedin.com/"
             },
             {
               "label": "Pinterest",
               "url": "https://www.pinterest.com/"
             },
             {
+              "label": "TikTok",
+              "url": "https://www.tiktok.com/"
+            },
+            {
+              "label": "X",
+              "url": "https://x.com/"
+            },
+            {
               "label": "Threads",
               "url": "https://www.threads.com/"
             },
             {
-              "label": "Bluesky",
-              "url": "https://bsky.app/"
-            }
-          ]
-        },
-        {
-          "title": "Video & Streaming",
-          "links": [
-            {
-              "label": "YouTube",
-              "url": "https://www.youtube.com/"
-            },
-            {
-              "label": "Netflix",
-              "url": "https://www.netflix.com/"
-            },
-            {
-              "label": "Prime Video",
-              "url": "https://www.primevideo.com/"
-            },
-            {
-              "label": "Disney+",
-              "url": "https://www.disneyplus.com/"
-            },
-            {
-              "label": "HBO Max",
-              "url": "https://www.hbomax.com/"
-            },
-            {
-              "label": "Hulu",
-              "url": "https://www.hulu.com/"
-            },
-            {
-              "label": "Twitch",
-              "url": "https://www.twitch.tv/"
-            },
-            {
-              "label": "Crunchyroll",
-              "url": "https://www.crunchyroll.com/"
-            }
-          ]
-        },
-        {
-          "title": "Music & Audio",
-          "links": [
-            {
-              "label": "Spotify",
-              "url": "https://open.spotify.com/"
-            },
-            {
-              "label": "YouTube Music",
-              "url": "https://music.youtube.com/"
-            },
-            {
-              "label": "Apple Music",
-              "url": "https://music.apple.com/"
-            },
-            {
-              "label": "SoundCloud",
-              "url": "https://soundcloud.com/"
-            },
-            {
-              "label": "Bandcamp",
-              "url": "https://bandcamp.com/"
+              "label": "LinkedIn",
+              "url": "https://www.linkedin.com/"
             }
           ]
         },
@@ -231,32 +176,77 @@ window.WEBOS_CONFIG = {
               "url": "https://www.google.com/"
             },
             {
-              "label": "Bing",
-              "url": "https://www.bing.com/"
-            },
-            {
-              "label": "DuckDuckGo",
-              "url": "https://duckduckgo.com/"
+              "label": "Gemini",
+              "url": "https://gemini.google.com/"
             },
             {
               "label": "ChatGPT",
               "url": "https://chatgpt.com/"
             },
             {
-              "label": "Gemini",
-              "url": "https://gemini.google.com/"
-            },
-            {
               "label": "Claude",
               "url": "https://claude.ai/"
+            },
+            {
+              "label": "DuckDuckGo",
+              "url": "https://duckduckgo.com/"
             },
             {
               "label": "Microsoft Copilot",
               "url": "https://copilot.microsoft.com/"
             },
             {
+              "label": "Bing",
+              "url": "https://www.bing.com/"
+            },
+            {
               "label": "Perplexity",
               "url": "https://www.perplexity.ai/"
+            }
+          ]
+        },
+        {
+          "title": "Video & Music",
+          "links": [
+            {
+              "label": "YouTube",
+              "url": "https://www.youtube.com/"
+            },
+            {
+              "label": "YouTube Music",
+              "url": "https://music.youtube.com/"
+            },
+            {
+              "label": "Netflix",
+              "url": "https://www.netflix.com/"
+            },
+            {
+              "label": "Crunchyroll",
+              "url": "https://www.crunchyroll.com/"
+            },
+            {
+              "label": "SoundCloud",
+              "url": "https://soundcloud.com/"
+            },
+            {
+              "label": "Hulu",
+              "url": "https://www.hulu.com/"
+            },
+            {
+              "label": "Prime Video",
+              "url": "https://www.primevideo.com/"
+            },
+            {
+              "label": "Twitch",
+              "url": "https://www.twitch.tv/"
+            },
+            {
+              "label": "Apple Music",
+              "url": "https://music.apple.com/"
+            },
+            {
+              "label": "HBO Max",
+              "url": "https://www.hbomax.com/"
             }
           ]
         },
@@ -268,20 +258,12 @@ window.WEBOS_CONFIG = {
               "url": "https://mail.google.com/"
             },
             {
-              "label": "Outlook",
-              "url": "https://outlook.live.com/"
-            },
-            {
-              "label": "Yahoo Mail",
-              "url": "https://mail.yahoo.com/"
-            },
-            {
-              "label": "Proton Mail",
-              "url": "https://mail.proton.me/"
-            },
-            {
               "label": "WhatsApp",
               "url": "https://web.whatsapp.com/"
+            },
+            {
+              "label": "Outlook",
+              "url": "https://outlook.live.com/"
             },
             {
               "label": "Telegram",
@@ -294,6 +276,51 @@ window.WEBOS_CONFIG = {
             {
               "label": "Discord",
               "url": "https://discord.com/app"
+            },
+            {
+              "label": "Yahoo Mail",
+              "url": "https://mail.yahoo.com/"
+            }
+          ]
+        },
+        {
+          "title": "Productivity",
+          "links": [
+            {
+              "label": "Google Drive",
+              "url": "https://drive.google.com/"
+            },
+            {
+              "label": "Google Docs",
+              "url": "https://docs.google.com/"
+            },
+            {
+              "label": "Google Calendar",
+              "url": "https://calendar.google.com/"
+            },
+            {
+              "label": "Microsoft 365",
+              "url": "https://www.office.com/"
+            },
+            {
+              "label": "Notion",
+              "url": "https://www.notion.so/"
+            },
+            {
+              "label": "Dropbox",
+              "url": "https://www.dropbox.com/"
+            },
+            {
+              "label": "Zoom",
+              "url": "https://zoom.us/"
+            },
+            {
+              "label": "Canva",
+              "url": "https://www.canva.com/"
+            },
+            {
+              "label": "Figma",
+              "url": "https://www.figma.com/"
             }
           ]
         },
@@ -305,12 +332,12 @@ window.WEBOS_CONFIG = {
               "url": "https://news.google.com/"
             },
             {
-              "label": "BBC News",
-              "url": "https://www.bbc.com/news"
-            },
-            {
               "label": "Reuters",
               "url": "https://www.reuters.com/"
+            },
+            {
+              "label": "BBC News",
+              "url": "https://www.bbc.com/news"
             },
             {
               "label": "AP News",
@@ -342,14 +369,6 @@ window.WEBOS_CONFIG = {
               "url": "https://www.amazon.com/"
             },
             {
-              "label": "eBay",
-              "url": "https://www.ebay.com/"
-            },
-            {
-              "label": "Walmart",
-              "url": "https://www.walmart.com/"
-            },
-            {
               "label": "AliExpress",
               "url": "https://www.aliexpress.com/"
             },
@@ -362,53 +381,20 @@ window.WEBOS_CONFIG = {
               "url": "https://www.etsy.com/"
             },
             {
+              "label": "Walmart",
+              "url": "https://www.walmart.com/"
+            },
+            {
               "label": "Best Buy",
               "url": "https://www.bestbuy.com/"
             },
             {
               "label": "IKEA",
               "url": "https://www.ikea.com/"
-            }
-          ]
-        },
-        {
-          "title": "Productivity",
-          "links": [
-            {
-              "label": "Google Drive",
-              "url": "https://drive.google.com/"
             },
             {
-              "label": "Google Docs",
-              "url": "https://docs.google.com/"
-            },
-            {
-              "label": "Google Calendar",
-              "url": "https://calendar.google.com/"
-            },
-            {
-              "label": "Microsoft 365",
-              "url": "https://www.office.com/"
-            },
-            {
-              "label": "Dropbox",
-              "url": "https://www.dropbox.com/"
-            },
-            {
-              "label": "Notion",
-              "url": "https://www.notion.so/"
-            },
-            {
-              "label": "Canva",
-              "url": "https://www.canva.com/"
-            },
-            {
-              "label": "Figma",
-              "url": "https://www.figma.com/"
-            },
-            {
-              "label": "Zoom",
-              "url": "https://zoom.us/"
+              "label": "eBay",
+              "url": "https://www.ebay.com/"
             }
           ]
         },
@@ -416,20 +402,20 @@ window.WEBOS_CONFIG = {
           "title": "Learning & Reference",
           "links": [
             {
-              "label": "Wikipedia",
-              "url": "https://www.wikipedia.org/"
-            },
-            {
               "label": "Google Scholar",
               "url": "https://scholar.google.com/"
             },
             {
-              "label": "Khan Academy",
-              "url": "https://www.khanacademy.org/"
-            },
-            {
               "label": "Coursera",
               "url": "https://www.coursera.org/"
+            },
+            {
+              "label": "Quizlet",
+              "url": "https://quizlet.com/"
+            },
+            {
+              "label": "Khan Academy",
+              "url": "https://www.khanacademy.org/"
             },
             {
               "label": "Duolingo",
@@ -440,8 +426,8 @@ window.WEBOS_CONFIG = {
               "url": "https://www.wolframalpha.com/"
             },
             {
-              "label": "Quizlet",
-              "url": "https://quizlet.com/"
+              "label": "Wikipedia",
+              "url": "https://www.wikipedia.org/"
             },
             {
               "label": "Internet Archive",
@@ -461,10 +447,6 @@ window.WEBOS_CONFIG = {
               "url": "https://stackoverflow.com/"
             },
             {
-              "label": "MDN Web Docs",
-              "url": "https://developer.mozilla.org/"
-            },
-            {
               "label": "GitLab",
               "url": "https://gitlab.com/"
             },
@@ -477,16 +459,12 @@ window.WEBOS_CONFIG = {
               "url": "https://huggingface.co/"
             },
             {
-              "label": "Vercel",
-              "url": "https://vercel.com/"
-            },
-            {
               "label": "Cloudflare",
               "url": "https://dash.cloudflare.com/"
             },
             {
-              "label": "CodePen",
-              "url": "https://codepen.io/"
+              "label": "Vercel",
+              "url": "https://vercel.com/"
             }
           ]
         },
@@ -502,10 +480,6 @@ window.WEBOS_CONFIG = {
               "url": "https://finance.yahoo.com/"
             },
             {
-              "label": "Google Finance",
-              "url": "https://www.google.com/finance/"
-            },
-            {
               "label": "TradingView",
               "url": "https://www.tradingview.com/"
             },
@@ -516,6 +490,39 @@ window.WEBOS_CONFIG = {
             {
               "label": "CoinMarketCap",
               "url": "https://coinmarketcap.com/"
+            },
+            {
+              "label": "Google Finance",
+              "url": "https://www.google.com/finance/"
+            }
+          ]
+        },
+        {
+          "title": "Utilities",
+          "links": [
+            {
+              "label": "Google Translate",
+              "url": "https://translate.google.com/"
+            },
+            {
+              "label": "The Weather Channel",
+              "url": "https://weather.com/"
+            },
+            {
+              "label": "DeepL",
+              "url": "https://www.deepl.com/translator"
+            },
+            {
+              "label": "Speedtest",
+              "url": "https://www.speedtest.net/"
+            },
+            {
+              "label": "Time.is",
+              "url": "https://time.is/"
+            },
+            {
+              "label": "iLovePDF",
+              "url": "https://www.ilovepdf.com/"
             }
           ]
         },
@@ -580,49 +587,12 @@ window.WEBOS_CONFIG = {
               "url": "https://www.nintendo.com/"
             },
             {
-              "label": "Chess.com",
-              "url": "https://www.chess.com/"
-            },
-            {
               "label": "itch.io",
               "url": "https://itch.io/"
             },
             {
               "label": "IGN",
               "url": "https://www.ign.com/"
-            }
-          ]
-        },
-        {
-          "title": "Utilities",
-          "links": [
-            {
-              "label": "Google Translate",
-              "url": "https://translate.google.com/"
-            },
-            {
-              "label": "DeepL",
-              "url": "https://www.deepl.com/translator"
-            },
-            {
-              "label": "The Weather Channel",
-              "url": "https://weather.com/"
-            },
-            {
-              "label": "Speedtest",
-              "url": "https://www.speedtest.net/"
-            },
-            {
-              "label": "iLovePDF",
-              "url": "https://www.ilovepdf.com/"
-            },
-            {
-              "label": "Time.is",
-              "url": "https://time.is/"
-            },
-            {
-              "label": "Have I Been Pwned",
-              "url": "https://haveibeenpwned.com/"
             }
           ]
         }
