@@ -50,7 +50,7 @@ function keepIconPositions(cfg) {
 	const current = new Map(S.desktopIcons.map(i => [i.url, i]));
 	cfg.desktopIcons.forEach(icon => {
 		const old = current.get(icon.url);
-		if (old) { icon.key = old.key; icon.col = old.col; icon.row = old.row; }
+		if (old) { icon.key = old.key; icon.x = old.x; icon.row = old.row; }
 	});
 	return cfg;
 }

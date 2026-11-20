@@ -12,17 +12,30 @@ function makeIconEl(item) {
 // ─────────────────────────────────────────────────────────────────────
 // Render: desktop icons
 // ─────────────────────────────────────────────────────────────────────
+// Each icon in the cell it shows in on this screen (layoutIcons, state.js).
 function renderDesktopIcons() {
 	const grid = $('desktopGrid');
 	Array.from(grid.children).forEach(c => { if (!c.classList.contains('desktop-icon-ghost')) c.remove(); });
+	const g = gridSize();
+	const at = layoutIcons();
 	S.desktopIcons.forEach(item => {
+		const cell = at.get(item.key);
+		if (!cell) return;
 		const a = makeIconEl(item);
-		Object.assign(a.style, {
-			position: 'absolute',
-			left: (GRID.ox + item.col * GRID.uw) + 'px',
-			top:  (GRID.oy + item.row * GRID.uh) + 'px',
-		});
+		Object.assign(a.style, { position: 'absolute', left: cellLeft(cell.x, g) + 'px', top: cellTop(cell.row, g) + 'px' });
 		grid.appendChild(a);
+	});
+}
+
+// The grid spans the screen, its rows close up on a short one, and it stops
+// above the dock, so a new window size can mean new cells: lay the icons
+// out again, once a frame at most. Set up once the desktop is loaded (app.js):
+// a resize can come before that.
+function setupDesktopRelayout() {
+	let frame = 0;
+	window.addEventListener('resize', () => {
+		cancelAnimationFrame(frame);
+		frame = requestAnimationFrame(renderDesktopIcons);
 	});
 }
 
@@ -90,8 +103,8 @@ function removeDesktopIcon(key) {
 function addDesktopIcon(label, url) {
 	const domain = domainFrom(url);
 	if (S.desktopIcons.some(i => i.url === url)) return false;
-	const { col, row } = nextFreeCell(occupiedCells());
-	S.desktopIcons.push({ key: 'icon-' + domain.replace(/\./g, '-') + '-' + Date.now(), label, url, col, row });
+	const { x, row } = nextFreeCell();
+	S.desktopIcons.push({ key: 'icon-' + domain.replace(/\./g, '-') + '-' + Date.now(), label, url, x, row });
 	saveState(); renderDesktopIcons(); return true;
 }
 
@@ -124,12 +137,13 @@ function moveDockItemToDesktop(dockIdx) {
 }
 
 // ─────────────────────────────────────────────────────────────────────
-// Desktop icon drag: snap to grid cell, swap
+// Desktop icon drag: snap to a grid cell, swapping with an icon there
 // ─────────────────────────────────────────────────────────────────────
 function setupDesktopIconDrag() {
 	const desktop = $('desktop');
 	let active = false, srcKey = null, dragClone = null, dragEl = null, ghostEl = null;
-	let targetCol = -1, targetRow = -1, overDock = false;
+	let target = null, overDock = false, shown = null;   // shown: where each icon is on screen
+	const placeGhost = () => { ghostEl.style.left = cellLeft(target.x) + 'px'; ghostEl.style.top = cellTop(target.row) + 'px'; };
 
 	desktop.addEventListener('pointerdown', e => {
 		if (!desktopEditing) return;
@@ -140,9 +154,9 @@ function setupDesktopIconDrag() {
 		srcKey = icon.dataset.key;
 		dragEl = icon; active = true;
 
-		const item = S.desktopIcons.find(i => i.key === srcKey);
-		targetCol = item ? item.col : 0;
-		targetRow = item ? item.row : 0;
+		// From where it shows, which on a small screen may not be its own cell.
+		shown  = layoutIcons();
+		target = { ...(shown.get(srcKey) || { x: 0, row: 0 }) };
 
 		const r = icon.getBoundingClientRect();
 		dragClone = makeDragClone(icon, r);
@@ -150,9 +164,8 @@ function setupDesktopIconDrag() {
 
 		ghostEl = document.createElement('div');
 		ghostEl.className = 'desktop-icon-ghost';
-		ghostEl.style.left = (GRID.ox + targetCol * GRID.uw) + 'px';
-		ghostEl.style.top  = (GRID.oy + targetRow * GRID.uh) + 'px';
 		$('desktopGrid').appendChild(ghostEl);
+		placeGhost();
 
 		desktop.setPointerCapture(e.pointerId);
 	});
@@ -174,38 +187,36 @@ function setupDesktopIconDrag() {
 		if (ghostEl) ghostEl.style.display = overDock ? 'none' : '';
 		if (overDock) return;
 
-		// The cell whose tile centre is nearest the pointer.
-		const col = Math.round((e.clientX - GRID.ox - GRID.tile / 2) / GRID.uw);
-		const row = Math.round((e.clientY - GRID.oy - GRID.tile / 2) / GRID.uh);
-		const nc  = Math.max(0, col);
-		const nr  = Math.max(0, row);
-		if (nc !== targetCol || nr !== targetRow) {
-			targetCol = nc; targetRow = nr;
-			if (ghostEl) {
-				ghostEl.style.left = (GRID.ox + targetCol * GRID.uw) + 'px';
-				ghostEl.style.top  = (GRID.oy + targetRow * GRID.uh) + 'px';
-			}
+		// The cell under the pointer, kept on the screen and above the dock.
+		const cell = cellAt(e.clientX, e.clientY);
+		if (cell.x !== target.x || cell.row !== target.row) {
+			target = cell;
+			if (ghostEl) placeGhost();
 		}
 	});
 
 	function endDesktopDrag() {
 		if (!active) return;
 		active = false;
-		const fKey = srcKey, fCol = targetCol, fRow = targetRow, fOverDock = overDock;
+		const fKey = srcKey, to = target, fOverDock = overDock, was = shown && shown.get(srcKey);
 		dragClone && dragClone.remove(); dragClone = null;
 		if (dragEl) { dragEl.style.opacity = ''; dragEl = null; }
 		if (ghostEl) { ghostEl.remove(); ghostEl = null; }
 		$('dock').classList.remove('drop-target');
-		srcKey = null; targetCol = targetRow = -1; overDock = false;
+		srcKey = null; target = null; overDock = false;
 
 		if (!fKey) return;
 		if (fOverDock) { moveDesktopIconToDock(fKey); return; }
-		if (fCol < 0 || fRow < 0) return;
 		const src = S.desktopIcons.find(i => i.key === fKey);
-		if (!src || (src.col === fCol && src.row === fRow)) return;
-		const tgt = S.desktopIcons.find(i => i.col === fCol && i.row === fRow && i.key !== fKey);
-		if (tgt) { const oc = src.col, or = src.row; src.col = fCol; src.row = fRow; tgt.col = oc; tgt.row = or; }
-		else { src.col = fCol; src.row = fRow; }
+		if (!src || !to || !was || (was.x === to.x && was.row === to.row)) return;
+		// The icon showing in that cell, if any, trades places: it takes the
+		// cell the dragged one was showing in.
+		let tgtKey = null;
+		shown.forEach((c, key) => { if (key !== fKey && c.x === to.x && c.row === to.row) tgtKey = key; });
+		const tgt = tgtKey && S.desktopIcons.find(i => i.key === tgtKey);
+		if (tgt) { tgt.x = was.x; tgt.row = was.row; }
+		src.x = to.x; src.row = to.row;
+		shown = null;
 		saveState(); renderDesktopIcons();
 	}
 

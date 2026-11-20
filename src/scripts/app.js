@@ -3,7 +3,7 @@
 // ─────────────────────────────────────────────────────────────────────
 function applyConfig(cfg) {
 	replaceState(cfg);
-	renderDesktopIcons(); renderDock(); resetAllBookmarks();
+	renderDock(); renderDesktopIcons(); resetAllBookmarks();   // the dock first: the grid's rows stop above it
 	exitDesktopEdit();
 }
 
@@ -56,8 +56,9 @@ function setupEvents() {
 loadSettings();
 const firstRun = loadState();
 applyLanguage(settings.language);
+renderDock();           // before the icons: the grid's rows stop above it
 renderDesktopIcons();
-renderDock();
+setupDesktopRelayout();
 setupDesktopIconDrag();
 setupDockDrag();
 setupDockMagnification();
