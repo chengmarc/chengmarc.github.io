@@ -76,6 +76,8 @@ function renderDock() {
 // ─────────────────────────────────────────────────────────────────────
 // Desktop edit mode
 // ─────────────────────────────────────────────────────────────────────
+let desktopEditing = false;
+
 function enterDesktopEdit() {
 	desktopEditing = true;
 	$('desktop').classList.add('editing');
@@ -90,6 +92,40 @@ function exitDesktopEdit() {
 	$('dock').classList.remove('editing');
 	const btn = $('mbEdit');
 	btn.classList.remove('active'); btn.textContent = t('menu.editDesktop');
+}
+
+const toggleDesktopEdit = () => desktopEditing ? exitDesktopEdit() : enterDesktopEdit();
+
+// ─────────────────────────────────────────────────────────────────────
+// Clicks on the desktop, the dock and Edit Desktop
+// ─────────────────────────────────────────────────────────────────────
+// A ✕ removes its icon; in edit mode, icons don't open. A dock link opens
+// itself; a built-in app ({ app: id }) is opened by openApp(id), which the
+// caller hands in (the apps' windows load after this file).
+function setupDesktopClicks(openApp) {
+	$('mbEdit').addEventListener('click', toggleDesktopEdit);
+	// Its label says which mode it's in, as well as the language.
+	onLanguageChange(() => { $('mbEdit').textContent = t(desktopEditing ? 'menu.doneEditing' : 'menu.editDesktop'); });
+
+	$('desktopGrid').addEventListener('click', e => {
+		const del  = e.target.closest('.icon-delete');
+		const icon = e.target.closest('.desktop-icon');
+		if (del)  { e.preventDefault(); e.stopPropagation(); removeDesktopIcon(del.dataset.key); return; }
+		if (desktopEditing && icon) e.preventDefault();
+	});
+
+	$('dock').addEventListener('click', e => {
+		const del  = e.target.closest('.dock-icon-delete');
+		const icon = e.target.closest('.dock-icon');
+		if (del) { e.preventDefault(); e.stopPropagation(); removeDockItem(+del.dataset.dockIdx); return; }
+		if (!icon) return;
+		if (desktopEditing) { e.preventDefault(); return; }
+		if (icon.dataset.app) openApp(icon.dataset.app);
+		icon.classList.remove('bouncing');
+		void icon.offsetWidth;
+		icon.classList.add('bouncing');
+		icon.addEventListener('animationend', () => icon.classList.remove('bouncing'), { once: true });
+	});
 }
 
 // ─────────────────────────────────────────────────────────────────────
@@ -405,5 +441,5 @@ function setupLongPress() {
 	desktop.addEventListener('pointermove',   cancel);
 	desktop.addEventListener('pointerup',     cancel);
 	desktop.addEventListener('pointercancel', cancel);
-	desktop.addEventListener('contextmenu',   e => { e.preventDefault(); desktopEditing ? exitDesktopEdit() : enterDesktopEdit(); });
+	desktop.addEventListener('contextmenu',   e => { e.preventDefault(); toggleDesktopEdit(); });
 }

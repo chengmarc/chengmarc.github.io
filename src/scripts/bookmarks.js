@@ -19,6 +19,7 @@ let appsDrag      = null;   // { kind: 'app', bi, li } or { kind: 'cat', bi }
 let swallowClick  = false;  // the click that ends the pointerdown which closed the menu
 let toastTimer    = null;
 let lastAddCat    = 0;      // where Install App adds, until another is picked
+let syncIsOn      = () => false;   // handed in by setupAllApps
 
 function cats() { return S.bookmarkSections[0].blocks; }
 const isAllAppsOpen = () => $('allApps').classList.contains('open');
@@ -270,7 +271,7 @@ function showSheet({ title, head, fields, primary, onSubmit, onDelete }) {
 		head || null,
 		el('h3', { text: title }),
 		...fields.map(([label, control]) => el('label', { class: 'lp-field-row' }, el('span', { text: label }), control)),
-		settings.autoSync ? el('p', { class: 'lp-sheet-note', text: t('apps.syncNote') }) : null,
+		syncIsOn() ? el('p', { class: 'lp-sheet-note', text: t('apps.syncNote') }) : null,
 		el('div', { class: 'lp-sheet-actions' },
 			onDelete ? el('button', { type: 'button', class: 'lp-btn danger', text: t('apps.delete'), onclick: () => { closeSheet(); onDelete(); } }) : null,
 			el('span', { class: 'lp-spacer' }),
@@ -369,7 +370,10 @@ function openCategorySheet(bi) {
 }
 
 // ── Wiring ────────────────────────────────────────────────────────────
-function setupAllApps() {
+// isSyncOn: whether Always sync with browser is on, so the sheets can say
+// edits will be replaced (settings.js, which knows, loads after this file).
+function setupAllApps(isSyncOn) {
+	syncIsOn = isSyncOn;
 	const root   = $('allApps');
 	const scroll = $('allAppsScroll');
 	const search = $('bookmarkSearch');

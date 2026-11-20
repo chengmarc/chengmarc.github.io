@@ -126,7 +126,7 @@ function setupCalendar() {
 		for (let i = 0; i < 7; i++) {
 			const name = new Date(2023, 0, 1 + i).toLocaleDateString(locale(), { weekday: 'short' });
 			const el = document.createElement('div');
-			el.className = 'cal-dow'; el.textContent = LANG === 'en' ? name.slice(0, 2) : name;
+			el.className = 'cal-dow'; el.textContent = /^en/i.test(locale()) ? name.slice(0, 2) : name;
 			grid.appendChild(el);
 		}
 		for (let i = 0; i < cells; i++) {

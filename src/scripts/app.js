@@ -12,32 +12,6 @@ function applyConfig(cfg) {
 // ─────────────────────────────────────────────────────────────────────
 function setupEvents() {
 	$('mbBrand').addEventListener('click', e => { e.stopPropagation(); toggleWindow('about'); });
-	$('mbEdit').addEventListener('click', () => {
-		if (desktopEditing) exitDesktopEdit(); else enterDesktopEdit();
-	});
-
-	$('desktopGrid').addEventListener('click', e => {
-		const del  = e.target.closest('.icon-delete');
-		const icon = e.target.closest('.desktop-icon');
-		if (del)  { e.preventDefault(); e.stopPropagation(); removeDesktopIcon(del.dataset.key); return; }
-		if (desktopEditing && icon) e.preventDefault();
-	});
-
-	$('dock').addEventListener('click', e => {
-		const del  = e.target.closest('.dock-icon-delete');
-		const icon = e.target.closest('.dock-icon');
-		if (del) { e.preventDefault(); e.stopPropagation(); removeDockItem(+del.dataset.dockIdx); return; }
-		if (desktopEditing && icon) { e.preventDefault(); return; }
-		// The built-in apps open their window; links open themselves.
-		if (icon && icon.dataset.app === 'allApps')  openAllBookmarks();
-		if (icon && icon.dataset.app === 'settings') toggleWindow('settings');
-		if (icon) {
-			icon.classList.remove('bouncing');
-			void icon.offsetWidth;
-			icon.classList.add('bouncing');
-			icon.addEventListener('animationend', () => icon.classList.remove('bouncing'), { once: true });
-		}
-	});
 
 	document.addEventListener('keydown', e => {
 		if (e.key !== 'Escape') return;
@@ -46,7 +20,7 @@ function setupEvents() {
 		if (isAllAppsOpen()) { escapeAllBookmarks(); return; }
 		const top = topWindow();
 		if (top) { closeWindow(top); return; }
-		if (desktopEditing) exitDesktopEdit();
+		exitDesktopEdit();
 	});
 }
 
@@ -64,20 +38,15 @@ setupDockDrag();
 setupDockMagnification();
 setupDesktopIconPress();
 setupLongPress();
+setupDesktopClicks(app => app === 'allApps' ? openAllBookmarks() : toggleWindow(app));
 setupEvents();
 startClock();
 startStatus(settings.showLocation);
 setupCalendar();
-setupAllApps();
+setupAllApps(() => settings.autoSync);
 setupAboutPanel();
 setupSettings(applyConfig);
 setupSync(applyConfig, firstRun);
-
-// Text that depends on state as well as language, redone on a language
-// switch: translatePage has just reset it to its data-i18n default.
-onLanguageChange(() => {
-	$('mbEdit').textContent = t(desktopEditing ? 'menu.doneEditing' : 'menu.editDesktop');
-});
 
 // ─────────────────────────────────────────────────────────────────────
 // Boot splash — a flat cover over the first-run assembly. It lifts on a
