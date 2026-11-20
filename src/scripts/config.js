@@ -4,99 +4,106 @@ window.WEBOS_CONFIG = {
       "key": "icon-x",
       "label": "X",
       "url": "https://x.com/",
-      "col": 0,
-      "row": 4
+      "row": 4,
+      "x": -8
     },
     {
       "key": "icon-reddit",
       "label": "Reddit",
       "url": "https://www.reddit.com/",
-      "col": 0,
-      "row": 1
+      "row": 3,
+      "x": -8
     },
     {
       "key": "icon-amazon",
       "label": "Amazon",
       "url": "https://www.amazon.com/",
-      "col": 0,
-      "row": 2
+      "row": 0,
+      "x": -7
     },
     {
       "key": "icon-netflix",
       "label": "Netflix",
       "url": "https://www.netflix.com/",
-      "col": 0,
-      "row": 0
+      "row": 0,
+      "x": -8
     },
     {
       "key": "icon-google-drive",
       "label": "Google Drive",
       "url": "https://drive.google.com/",
-      "col": 2,
-      "row": 2
+      "row": 3,
+      "x": -6
     },
     {
       "key": "icon-canva",
       "label": "Canva",
       "url": "https://www.canva.com/",
-      "col": 1,
-      "row": 3
+      "row": 3,
+      "x": -7
     },
     {
       "key": "icon-hulu-com-1790511789831",
       "label": "Hulu",
       "url": "https://www.hulu.com/",
-      "col": 1,
-      "row": 0
+      "row": 2,
+      "x": -7
     },
     {
       "key": "icon-twitch-tv-1795173597057",
       "label": "Twitch",
       "url": "https://www.twitch.tv/",
-      "col": 1,
-      "row": 1
+      "row": 4,
+      "x": -6
     },
     {
       "key": "icon-discord-com-1795173608940",
       "label": "Discord",
       "url": "https://discord.com/app",
-      "col": 1,
-      "row": 2
+      "row": 4,
+      "x": -7
     },
     {
       "key": "icon-expedia-com-1795173622987",
       "label": "Expedia",
       "url": "https://www.expedia.com/",
-      "col": 0,
-      "row": 3
+      "row": 1,
+      "x": -7
     },
     {
-      "key": "icon-music-apple-com-1795173655629",
-      "label": "Apple Music",
-      "url": "https://music.apple.com/",
-      "col": 1,
-      "row": 4
-    },
-    {
-      "key": "icon-news-google-com-1795173776780",
-      "label": "Google News",
-      "url": "https://news.google.com/",
-      "col": 2,
-      "row": 3
-    },
-    {
-      "key": "icon-claude-ai-1795173916743",
-      "label": "Claude",
-      "url": "https://claude.ai/",
-      "col": 2,
+      "key": "icon-music-youtube-com-1795176576847",
+      "label": "YouTube Music",
+      "url": "https://music.youtube.com/",
+      "x": -8,
       "row": 1
     },
     {
-      "key": "icon-chatgpt-com-1795173917343",
+      "key": "icon-instagram-com-1795176652636",
+      "label": "Instagram",
+      "url": "https://www.instagram.com/",
+      "x": -8,
+      "row": 2
+    },
+    {
+      "key": "icon-mail-google-com-1795176675777",
+      "label": "Gmail",
+      "url": "https://mail.google.com/",
+      "x": -6,
+      "row": 2
+    },
+    {
+      "key": "icon-claude-ai-1795176801279",
+      "label": "Claude",
+      "url": "https://claude.ai/",
+      "x": -6,
+      "row": 0
+    },
+    {
+      "key": "icon-chatgpt-com-1795176801905",
       "label": "ChatGPT",
       "url": "https://chatgpt.com/",
-      "col": 2,
-      "row": 0
+      "x": -6,
+      "row": 1
     }
   ],
   "dock": [
@@ -104,14 +111,6 @@ window.WEBOS_CONFIG = {
       "app": "allApps"
     },
     "separator",
-    {
-      "label": "Facebook",
-      "url": "https://www.facebook.com/"
-    },
-    {
-      "label": "Instagram",
-      "url": "https://www.instagram.com/"
-    },
     {
       "label": "YouTube",
       "url": "https://www.youtube.com/"
@@ -123,6 +122,14 @@ window.WEBOS_CONFIG = {
     {
       "label": "Google Calendar",
       "url": "https://calendar.google.com/"
+    },
+    {
+      "label": "Facebook",
+      "url": "https://www.facebook.com/"
+    },
+    {
+      "label": "WhatsApp",
+      "url": "https://web.whatsapp.com/"
     },
     {
       "app": "settings"
