@@ -50,10 +50,8 @@ setupSync(applyConfig, firstRun);
 
 // ─────────────────────────────────────────────────────────────────────
 // Boot splash — a flat cover over the first-run assembly. It lifts on a
-// fixed 1s timer, the same cap as each site's own icon files (whose probes
-// start just before, as the icons render), so by then every first-screen
-// tile shows a real icon or the gray placeholder. The page-aware Google lookup
-// races alongside and, when it answers, just swaps in.
+// fixed 1s timer. Saved icons are on their tiles by then; icons still being
+// looked up show the gray placeholder and swap in as they resolve.
 // ─────────────────────────────────────────────────────────────────────
 (function hideBootScreen() {
 	const boot = $('boot');

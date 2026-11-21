@@ -34,11 +34,14 @@ function clearFaviconCache() {
 
 // Time limits. A cached URL loaded before, so it gets the shortest: a miss
 // just falls back to the full lookup. The site's own files should answer fast
-// if they answer at all — a blocked host never will. Google and icon.horse are
-// off the boot path, so they get plenty of room.
+// if they answer at all — a blocked host never will. icon.horse typically
+// answers in ~1.5s. Google gets the most room, but the backups don't wait for
+// it: they start once Google has taken HEDGE_DELAY without a usable answer.
 const CACHE_TIMEOUT  = 500;
 const SITE_TIMEOUT   = 1000;
-const PROBE_TIMEOUT  = 5000;
+const HORSE_TIMEOUT  = 3000;
+const GOOGLE_TIMEOUT = 5000;
+const HEDGE_DELAY    = 1500;
 
 // Load `url` as an image; call cb(ok) exactly once — false on error or
 // timeout. A timed-out probe is aborted (src → data:,) so its socket is freed
@@ -74,32 +77,44 @@ const loadIcon = (url, timeout) => new Promise(resolve =>
 // through www.google.com/s2/favicons (which only 301-redirects here, costing
 // a round trip). Two domains serve identical images: gstatic.com, and
 // gstatic.cn — Google's mainland-China domain, which loads where google.com
-// and gstatic.com are blocked.
+// and gstatic.com are blocked. index.html preconnects to both.
 const GSTATIC_HOSTS = ['https://t0.gstatic.com', 'https://t0.gstatic.cn'];
+const GSTATIC_STORE = 'webos_gstatic';
 const gstaticFor = (base, url) => base +
 	'/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=128&url=' +
 	encodeURIComponent(url);
 
-// Which gstatic domain to use, decided once per session: both are pinged and
-// the first to answer wins. Resolves to null if neither answers, and every
-// icon then goes straight to the backups. A no-cors fetch, not an <img>: the
-// ping URL returns an empty 204, which an <img> would report as an error.
-let googleHostPromise = null;
-function googleHost() {
-	if (googleHostPromise) return googleHostPromise;
-	googleHostPromise = new Promise(resolve => {
-		const ctrl = new AbortController();
-		let left = GSTATIC_HOSTS.length;
-		const timer = setTimeout(() => { ctrl.abort(); resolve(null); }, PROBE_TIMEOUT);
-		GSTATIC_HOSTS.forEach(base => {
-			fetch(base + '/generate_204', { mode: 'no-cors', cache: 'no-store', signal: ctrl.signal }).then(
-				() => { clearTimeout(timer); resolve(base); ctrl.abort(); },
-				() => { if (--left === 0) { clearTimeout(timer); resolve(null); } },
-			);
-		});
+// Which gstatic domain to use. Both are pinged as soon as this script loads,
+// and the first to answer wins and is remembered for the next visit. Until the
+// ping settles, lookups use the remembered domain, so only a first-ever visit
+// waits for it. If neither answers, Google is skipped and every icon goes
+// straight to the backups. A no-cors fetch, not an <img>: the ping URL returns
+// an empty 204, which an <img> would report as an error.
+let googleBase = (() => {
+	try {
+		const saved = localStorage.getItem(GSTATIC_STORE);
+		return GSTATIC_HOSTS.includes(saved) ? saved : null;
+	} catch (_) { return null; }
+})();
+const googlePing = new Promise(resolve => {
+	const ctrl = new AbortController();
+	let left = GSTATIC_HOSTS.length;
+	const timer = setTimeout(() => { ctrl.abort(); resolve(null); }, GOOGLE_TIMEOUT);
+	GSTATIC_HOSTS.forEach(base => {
+		fetch(base + '/generate_204', { mode: 'no-cors', cache: 'no-store', signal: ctrl.signal }).then(
+			() => { clearTimeout(timer); resolve(base); ctrl.abort(); },
+			() => { if (--left === 0) { clearTimeout(timer); resolve(null); } },
+		);
 	});
-	return googleHostPromise;
-}
+}).then(base => {
+	googleBase = base;
+	try {
+		if (base) localStorage.setItem(GSTATIC_STORE, base);
+		else localStorage.removeItem(GSTATIC_STORE);
+	} catch (_) {}
+	return base;
+});
+const googleHost = () => googleBase ? Promise.resolve(googleBase) : googlePing;
 
 // Google answers a miss with a 16px generic globe rather than a usable error.
 // (s2/favicons still matches URLs cached by older versions.)
@@ -109,6 +124,11 @@ const isGooglePlaceholder = (url, size) => (
 	size.width <= 16 &&
 	size.height <= 16
 );
+
+// The size asked of Google, and so the most it returns: a page answer this
+// big can't be beaten (the page wins ties), so it is used without waiting
+// for the origin answer.
+const GOOGLE_MAX = 128;
 
 // icon.horse: a free favicon API that reads a host's <link>, manifest and
 // touch icons and returns the largest (up to 256px). `fallback=404` makes a
@@ -128,18 +148,20 @@ const largest = icons => icons.reduce((best, i) => (i && (!best || i.width > bes
 // Icon lookup
 // ─────────────────────────────────────────────────────────────────────
 // Resolve the icon for the page at `pageUrl` onto the tile's sharp <img>.
-// The caller has already shown the gray placeholder; `onFail` re-asserts it when
-// nothing loads.
+// The caller has already shown the gray placeholder; `onFail` re-asserts it
+// when nothing loads.
 //
 //   1. Saved icon from a prior visit, if it still loads.
-//   2. Google, on the session's gstatic domain, asked about both the full page
+//   2. Google, on the chosen gstatic domain, asked about both the full page
 //      URL and the site's origin. The page answer tells product pages apart
 //      from their host (Gmail vs. Google, Flights vs. Google); the origin
 //      answer covers deep pages that only get 32px (youtube.com/feed/...).
-//      The larger wins, the page on a tie. At SHARP_MIN or above: done.
+//      The larger wins, the page on a tie; a GOOGLE_MAX page answer is taken
+//      at once. At SHARP_MIN or above: done.
 //   3. Otherwise the backups — icon.horse, /favicon.ico, /apple-touch-icon.png
 //      — and the largest of those and Google's small answer wins (Google on a
-//      tie).
+//      tie). They are requested as soon as Google is ruled out, or after
+//      HEDGE_DELAY if Google is still out, so a slow Google costs little.
 // Whatever is shown is saved, so the next visit skips the lookup.
 async function applyFavicon(sharp, pageUrl, onFail) {
 	const key = iconKey(pageUrl);
@@ -164,24 +186,42 @@ async function applyFavicon(sharp, pageUrl, onFail) {
 	let host, origin;
 	try { ({ hostname: host, origin } = new URL(pageUrl)); } catch (_) { onFail && onFail(); return; }
 
+	// The backups, started at most once: by the hedge timer, or when Google
+	// falls short.
+	let backups = null;
+	const startBackups = () => backups || (backups = Promise.all([
+		loadIcon(iconHorseFor(host), HORSE_TIMEOUT),
+		loadIcon('https://' + host + '/favicon.ico', SITE_TIMEOUT),
+		loadIcon('https://' + host + '/apple-touch-icon.png', SITE_TIMEOUT),
+	]));
+	const hedge = setTimeout(startBackups, HEDGE_DELAY);
+
 	// 2. Google: the page, and the origin unless that is the same URL.
+	const originUrl = origin + '/';
+	const valid = a => (a && !isGooglePlaceholder(a.url, a)) ? a : null;
+	const askGoogle = async base => {
+		const page = loadIcon(gstaticFor(base, pageUrl), GOOGLE_TIMEOUT).then(valid);
+		const home = pageUrl === originUrl ? null : loadIcon(gstaticFor(base, originUrl), GOOGLE_TIMEOUT).then(valid);
+		const p = await page;
+		if (p && p.width >= GOOGLE_MAX) return p;
+		return largest([p, await home]);
+	};
 	let google = null;
 	const base = await googleHost();
 	if (base) {
-		const originUrl = origin + '/';
-		const asks = pageUrl === originUrl ? [pageUrl] : [pageUrl, originUrl];
-		const answers = await Promise.all(asks.map(u => loadIcon(gstaticFor(base, u), PROBE_TIMEOUT)));
-		google = largest(answers.filter(a => a && !isGooglePlaceholder(a.url, a)));
-		if (google && google.width >= SHARP_MIN) { show(google); return; }
+		google = await askGoogle(base);
+		// Nothing from a domain remembered from an earlier visit: the network
+		// may have changed. If the ping picked the other domain, ask it.
+		if (!google) {
+			const fresh = await googlePing;
+			if (fresh && fresh !== base) google = await askGoogle(fresh);
+		}
 	}
+	clearTimeout(hedge);
+	if (google && google.width >= SHARP_MIN) { show(google); return; }
 
 	// 3. Backups, compared with Google's small answer if there was one.
-	const backups = await Promise.all([
-		loadIcon(iconHorseFor(host), PROBE_TIMEOUT),
-		loadIcon('https://' + host + '/favicon.ico', SITE_TIMEOUT),
-		loadIcon('https://' + host + '/apple-touch-icon.png', SITE_TIMEOUT),
-	]);
-	const best = largest([google, ...backups]);
+	const best = largest([google, ...await startBackups()]);
 	if (best) { show(best); return; }
 
 	faviconFailed.add(key);
