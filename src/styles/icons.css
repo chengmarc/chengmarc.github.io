@@ -61,6 +61,11 @@
 .icon-tile {
     position: absolute; inset: 0;
     overflow: hidden;
+    /* Opaque white behind the bloom. blur() fades the bloom's own edges
+       (white background included) toward transparent, and on a tile this
+       small the fade reaches the middle — without this the wallpaper shows
+       through, most at the corners. */
+    background: #fff;
     -webkit-mask: var(--squircle) center / 100% 100% no-repeat;
             mask: var(--squircle) center / 100% 100% no-repeat;
 }
