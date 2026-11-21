@@ -14,7 +14,9 @@
     is no slogan; the store shows the name and icon beside the tile.
   - marquee: room for the pitch on the left, and the same picture on the
     right, as a screen.
-  - social: the marquee, at GitHub's size.
+  - social: the marquee, at GitHub's size, with the vision line ("A new
+    era of web browsing") above the slogan: people reach the repository
+    from a link, so they have the moment to take in the bigger claim.
 -->
 <html>
 <head>
@@ -46,6 +48,10 @@ body {
 .pitch h1 { font-weight: 700; letter-spacing: -.025em; line-height: 1.04; }
 .pitch p  { color: rgba(255, 255, 255, .74); line-height: 1.35; text-wrap: pretty; }
 .pitch p.fine { color: rgba(255, 255, 255, .5); }
+/* The vision line, in the app icon's gradient, lightened to read on the dark */
+.pitch p.era { display: none; font-weight: 700; letter-spacing: -.015em; line-height: 1.1;
+       background: linear-gradient(90deg, #a79fff, #ff7cbc 55%, #ffb07a);
+       -webkit-background-clip: text; background-clip: text; color: transparent; }
 
 /* The desktop */
 .screen { position: absolute; overflow: hidden; }
@@ -100,6 +106,7 @@ body {
 .social .pitch     { left: 76px; top: 0; bottom: 0; width: 440px; }
 .social .wordmark  { font-size: 26px; gap: 16px; margin-bottom: 30px; }
 .social .wordmark img { width: 64px; height: 64px; }
+.social .pitch p.era { display: block; font-size: 34px; margin: 0 0 16px; }
 .social h1         { font-size: 56px; }
 .social .pitch p   { font-size: 21px; margin-top: 18px; }
 .social .pitch p.fine { font-size: 16px; margin-top: 20px; }
@@ -110,8 +117,9 @@ body {
 </head>
 <body>
 <div class="pitch">
-    <div class="wordmark"><img src="../../src/app-icon.svg" alt="">Bookmark OS</div>
-    <h1>Your bookmarks,<br>as a desktop.</h1>
+    <div class="wordmark"><img src="../../src/app-icon.svg" alt="">Home Page OS</div>
+    <p class="era">A new era of web browsing.</p>
+    <h1>The only home<br>page you need.</h1>
     <p>Syncs with your browser’s Bookmarks bar: folders become app categories, links become icons. Change a bookmark, and the desktop follows.</p>
     <p class="fine">No account · Nothing leaves your browser</p>
 </div>

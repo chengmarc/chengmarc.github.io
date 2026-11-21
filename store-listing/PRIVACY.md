@@ -1,8 +1,8 @@
-# Bookmark OS — Privacy Policy
+# Home Page OS — Privacy Policy
 
 _Last updated: 2026-11-20_
 
-Bookmark OS replaces your browser's new tab page with a desktop of your bookmarks. It has no account, no analytics, no ads, and no server of its own. The developer never receives any of your data.
+Home Page OS replaces your browser's new tab page with a desktop of your bookmarks. It has no account, no analytics, no ads, and no server of its own. The developer never receives any of your data.
 
 ## What stays on your device
 
@@ -22,7 +22,7 @@ Like any web page, the new tab page loads a few things from the internet. Each r
 
 The first two are only contacted while **Settings → Privacy → Show country** is on (the default); turn it off and neither is asked.
 
-These services have their own privacy policies. Bookmark OS does not send them anything beyond what is listed here, and does not set cookies or use tracking of any kind.
+These services have their own privacy policies. Home Page OS does not send them anything beyond what is listed here, and does not set cookies or use tracking of any kind.
 
 ## Permissions
 

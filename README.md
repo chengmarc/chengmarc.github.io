@@ -6,7 +6,8 @@
   <a href="https://addons.mozilla.org/en-US/firefox/addon/bookmark-os/"><img src="docs/badges/badge-firefox.svg" height="50"></a>
   <a href="https://microsoftedge.microsoft.com/addons/detail/apjbdkedomhbdmknfhcfiniipcjedibc"><img src="docs/badges/badge-edge.svg" height="50"></a>
 
-  <h1>Bookmark OS - Desktop in your Browser</h1>
+  <h1>Home Page OS - A New Era of Web Browsing</h1>
+  <p><b>The only home page you need.</b><br>Your bookmarks, synced from your browser, laid out as a desktop on every new tab.</p>
 
   <img src="docs/social-preview.png">
 
@@ -21,13 +22,3 @@
 ## Try it locally
 
 Clone the repository. Open `index.html` directly in a browser. That's the whole setup.
-
-## Make it yours
-
-1. Fork the repo and delete `CNAME`, or point it at your own domain.
-2. Replace `src/scripts/config.js` with your own bookmarks.
-3. Turn on GitHub Pages for `main` branch.
-
-## Build the extension
-
-`python packaging/build.py` packages the site for Chrome, Edge and Firefox. The [release guide](docs/RELEASING.md) covers testing it and publishing to the three stores.

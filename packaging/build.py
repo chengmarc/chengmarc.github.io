@@ -3,8 +3,8 @@
 The extension ships the exact same index.html and src/ as the website —
 this script only adds a manifest and icons, then zips one package per store:
 
-    dist/bookmark-os-chrome-<ver>.zip      Chrome Web Store + Edge Add-ons
-    dist/bookmark-os-firefox-<ver>.zip     Firefox Add-ons (AMO)
+    dist/home-page-os-chrome-<ver>.zip      Chrome Web Store + Edge Add-ons
+    dist/home-page-os-firefox-<ver>.zip     Firefox Add-ons (AMO)
 
 Each package is staged unpacked in build/<target>/ and kept there for
 "Load unpacked" / about:debugging testing.
@@ -25,6 +25,8 @@ BUILD = ROOT / 'build'
 # Firefox needs a stable add-on ID and, for new AMO listings, a declaration of
 # what data leaves the browser. Icons are looked up by sending each bookmark's
 # URL to Google's favicon service (gstatic), so bookmark URLs are declared.
+# The ID keeps the pre-2.0 name on purpose: changing it would make AMO treat
+# the build as a different add-on, cutting existing users off from updates.
 GECKO = {
     'id': 'bookmark-os@chengmarc.com',
     'strict_min_version': '140.0',
@@ -33,7 +35,7 @@ GECKO = {
 
 # Firefox opens new windows on the homepage, not the new tab page, so
 # chrome_url_overrides alone only covers new tabs. Pointing the homepage at the
-# same page makes new windows (and the Home button) open Bookmark OS too.
+# same page makes new windows (and the Home button) open Home Page OS too.
 # Chrome already uses the new tab page for new windows and doesn't need this.
 FIREFOX_HOMEPAGE = {'homepage': 'index.html'}
 
@@ -79,7 +81,7 @@ def main() -> None:
     }
     for target, manifest in targets.items():
         folder = stage(target, manifest)
-        zip_path = DIST / f'bookmark-os-{target}-{version}.zip'
+        zip_path = DIST / f'home-page-os-{target}-{version}.zip'
         pack(folder, zip_path)
         files = sum(1 for f in folder.rglob('*') if f.is_file())
         print(f'{zip_path.relative_to(ROOT)}  {files} files, {zip_path.stat().st_size / 1024:.0f} KB')
