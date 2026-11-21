@@ -6,8 +6,8 @@ the live page.
 
 Writes, from index.html:
     store-listing/desktop/screenshot-1-desktop.png    1280x800, High Sierra, the desktop
-    store-listing/desktop/screenshot-2-settings.png   1280x800, Tahoe, Settings open
-    store-listing/desktop/screenshot-3-apps.png       1280x800, El Capitan, All Apps open
+    store-listing/desktop/screenshot-2-apps.png       1280x800, High Sierra, All Apps open
+    store-listing/desktop/screenshot-3-settings.png   1280x800, Tahoe, Settings open
 and the promo tiles, laid out by promo.html around a desktop captured here:
     store-listing/promo-440x280.png    the store's search tile: the whole desktop, on
                                        High Sierra, with the "Synced" window
@@ -21,7 +21,7 @@ answer (the United States), so your own country never ends up in a store
 image. The
 page acts as the extension (its APIs stubbed), so Settings shows Browser Sync
 and the welcome window can appear. Site icons come from the network, as for a
-visitor; offline, the local fallback tiles show.
+visitor; offline, the gray placeholder shows.
 
 Run from anywhere. Set CHROMIUM_PATH to use a Chromium other than Playwright's.
 """
@@ -40,8 +40,8 @@ SCREENSHOT = (1280, 800)
 # (file, wallpaper id from settings.js, what's open)
 SHOTS = [
     ('screenshot-1-desktop.png',  'high-sierra', None),
-    ('screenshot-2-settings.png', 'tahoe',       'settings'),
-    ('screenshot-3-apps.png',     'el-capitan',  'apps'),
+    ('screenshot-2-apps.png',     'high-sierra', 'apps'),
+    ('screenshot-3-settings.png', 'tahoe',       'settings'),
 ]
 
 # The search tile's desktop: the sample desktop on High Sierra, captured at the

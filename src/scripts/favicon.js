@@ -23,7 +23,7 @@ const faviconCache = (() => {
 // Pages whose every icon source failed this session. Kept in memory only —
 // never persisted — so an icon that was merely blocked (e.g. the page was
 // loaded behind a network that filters the CDN) is retried on the next visit
-// instead of being stuck on the local glyph forever.
+// instead of being stuck on the placeholder forever.
 const faviconFailed = new Set();
 
 function clearFaviconCache() {
@@ -128,7 +128,7 @@ const largest = icons => icons.reduce((best, i) => (i && (!best || i.width > bes
 // Icon lookup
 // ─────────────────────────────────────────────────────────────────────
 // Resolve the icon for the page at `pageUrl` onto the tile's sharp <img>.
-// The caller has already shown the local glyph; `onFail` re-asserts it when
+// The caller has already shown the gray placeholder; `onFail` re-asserts it when
 // nothing loads.
 //
 //   1. Saved icon from a prior visit, if it still loads.
@@ -189,58 +189,18 @@ async function applyFavicon(sharp, pageUrl, onFail) {
 }
 
 // ─────────────────────────────────────────────────────────────────────
-// Static app-icon fallback
+// Placeholder icon
 // ─────────────────────────────────────────────────────────────────────
-// Polished local SVG tiles, chosen deterministically from the domain. They
-// appear only when every favicon route fails, so restricted networks still get
-// icons that look intentional without generating SVG artwork at runtime.
-const FALLBACK_ICON_BASE = 'src/icons/';
-const FALLBACK_ICON_FILES = [
-	'search',
-	'video',
-	'mail',
-	'code',
-	'chart',
-	'book',
-	'globe',
-	'chat',
-	'cloud',
-	'profile',
-	'document',
-	'compass',
-];
-const FALLBACK_ICON_VARIANTS = ['', '-alt'];
+// A gray tile with a white "apps" mark, for a link with no icon: shown while
+// the lookup runs, and kept if it finds nothing. Two files, not one: the bloom
+// gets the plain gray plate, the sharp layer the white mark on a transparent
+// ground. A bloom made from the mark would blow its white up into a pale wash.
+const PLACEHOLDER_PLATE = 'src/icons/placeholder.svg';
+const PLACEHOLDER_GLYPH = 'src/icons/placeholder-glyph.svg';
 
-function hashStr(s) {
-	let h = 5381;
-	for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0;
-	return h >>> 0;
-}
-
-function fallbackGlyphIndex(domain, h) {
-	const d = domain.toLowerCase();
-	if (/mail|gmail|outlook|zoho/.test(d)) return 2;
-	if (/video|tube|bilibili|stream|anime|iyf|agefans/.test(d)) return 1;
-	if (/git|code|dev|overleaf|claude|chatgpt|openai/.test(d)) return 3;
-	if (/trade|coin|market|stock|fin|view|crypto/.test(d)) return 4;
-	if (/search|google|earth|map/.test(d)) return 0;
-	if (/cloud|dash|worker/.test(d)) return 8;
-	if (/book|read|paper|research|orcid|gate/.test(d)) return 5;
-	if (/social|reddit|insta|linkedin|x\.com/.test(d)) return 7;
-	return h % FALLBACK_ICON_FILES.length;
-}
-
-function fallbackIconSrc(domain) {
-	const h       = hashStr(domain);
-	const fig     = fallbackGlyphIndex(domain, h);
-	const variant = FALLBACK_ICON_VARIANTS[Math.floor(h / FALLBACK_ICON_FILES.length) % FALLBACK_ICON_VARIANTS.length];
-	return FALLBACK_ICON_BASE + FALLBACK_ICON_FILES[fig] + variant + '.svg';
-}
-
-function showFallbackIcon(bloom, sharp, domain) {
-	const src = fallbackIconSrc(domain);
-	bloom.src = src;
-	sharp.src = src;
+function showPlaceholderIcon(bloom, sharp) {
+	bloom.src = PLACEHOLDER_PLATE;
+	sharp.src = PLACEHOLDER_GLYPH;
 }
 
 // ─────────────────────────────────────────────────────────────────────
@@ -281,13 +241,14 @@ function iconArtShell() {
 	return { wrap, bloom, sharp };
 }
 
-// Tile for the link at `url`: local glyph first, then the resolved icon.
+// Tile for the link at `url`: gray placeholder first, then the resolved icon.
+// The bloom follows the sharp layer, except for the placeholder's mark.
 function iconArt(url) {
 	const { wrap, bloom, sharp } = iconArtShell();
-	const domain = domainFrom(url);
-	showFallbackIcon(bloom, sharp, domain);
-	applyFavicon(sharp, url, () => showFallbackIcon(bloom, sharp, domain));
+	showPlaceholderIcon(bloom, sharp);
+	applyFavicon(sharp, url, () => showPlaceholderIcon(bloom, sharp));
 	sharp.addEventListener('load', () => {
+		if (sharp.src.endsWith(PLACEHOLDER_GLYPH)) return;
 		if (bloom.src !== sharp.src) bloom.src = sharp.src;
 	});
 	return wrap;

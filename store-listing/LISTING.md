@@ -55,8 +55,8 @@ packaging/icons/icon-128.png
 
 ### Screenshots (1280x800)
 store-listing/desktop/screenshot-1-desktop.png
-store-listing/desktop/screenshot-2-settings.png
-store-listing/desktop/screenshot-3-apps.png
+store-listing/desktop/screenshot-2-apps.png
+store-listing/desktop/screenshot-3-settings.png
 
 ### Small promo tile (440x280)
 store-listing/promo-440x280.png
@@ -157,8 +157,8 @@ store-listing/promo-440x280.png
 
 ### Screenshots (1280x800)
 store-listing/desktop/screenshot-1-desktop.png
-store-listing/desktop/screenshot-2-settings.png
-store-listing/desktop/screenshot-3-apps.png
+store-listing/desktop/screenshot-2-apps.png
+store-listing/desktop/screenshot-3-settings.png
 
 ### Large promotional tile (1400x560)
 store-listing/promo-1400x560.png
@@ -235,8 +235,8 @@ packaging/icons/icon-128.png
 
 ### Screenshots (1280x800)
 store-listing/desktop/screenshot-1-desktop.png
-store-listing/desktop/screenshot-2-settings.png
-store-listing/desktop/screenshot-3-apps.png
+store-listing/desktop/screenshot-2-apps.png
+store-listing/desktop/screenshot-3-settings.png
 
 ## Additional Details
 
