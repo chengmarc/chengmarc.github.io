@@ -96,7 +96,9 @@
 }
 /* Crisp favicon at 80%, drawn flat onto the plate. No shadow of its
    own: a shadow would outline a square favicon and turn it back into
-   a card floating on the tile. */
+   a card floating on the tile. A favicon under 48px is drawn smaller
+   than this box: sizeSharp() in favicon.js overrides the size and
+   position below once the image has loaded. */
 .icon-sharp {
     position: absolute;
     top: 10%; left: 10%;

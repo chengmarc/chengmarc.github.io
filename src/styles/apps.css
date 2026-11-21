@@ -337,8 +337,8 @@
 .lp-sheet h3 { font-size: 1.05rem; font-weight: 600; text-align: center; }
 .lp-sheet-preview { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: -2px; }
 .lp-sheet-art { display: flex; }
-.lp-sheet-art .icon-art { width: 64px; height: 64px; }
-.lp-sheet-art .lp-add-art { width: 64px; height: 64px; border-color: var(--text-4); color: var(--text-3); }
+.lp-sheet-art .icon-art { width: 68px; height: 68px; }
+.lp-sheet-art .lp-add-art { width: 68px; height: 68px; border-color: var(--text-4); color: var(--text-3); }
 .lp-sheet-art-label { font-size: 0.82rem; color: var(--text-2); min-height: 1.2em; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 .lp-field-row { display: flex; flex-direction: column; gap: 5px; font-size: 0.78rem; font-weight: 500; color: var(--text-2); }

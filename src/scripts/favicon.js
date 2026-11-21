@@ -249,6 +249,26 @@ function showFallbackIcon(bloom, sharp, domain) {
 // Icon as a floating tile: a sharp favicon over a blurred, enlarged copy
 // of itself (self-bloom). Used everywhere icons appear.
 
+// Favicon box = 80% of the tile. A favicon at least this many pixels fills
+// the box; a smaller one fills the same fraction of it on every tile size —
+// this is the All Apps box (60px tile × 80%), so there it is never enlarged,
+// and on the 68px home tiles at most by 54.4 / 48 ≈ 1.13×.
+const SHARP_BOX = 80;     // % of the tile
+const SHARP_REF = 48;     // px
+
+// Size the sharp <img> to its favicon: min(1, size / SHARP_REF) of the box,
+// centred. Resizing the element itself (not just the drawn image) keeps the
+// rounded corners on the favicon at whatever size it ends up. Vector images,
+// and any without a natural size, fill the box.
+function sizeSharp(sharp) {
+	const n = Math.max(sharp.naturalWidth, sharp.naturalHeight);
+	const vector = /\.svg(\?|#|$)/i.test(sharp.src) || sharp.src.startsWith('data:image/svg');
+	const fill = (vector || !n) ? 1 : Math.min(1, n / SHARP_REF);
+	const size = SHARP_BOX * fill;
+	sharp.style.width = sharp.style.height = size + '%';
+	sharp.style.top = sharp.style.left = (100 - size) / 2 + '%';
+}
+
 // Shared scaffold: span.icon-art (shadow) > span.icon-tile (squircle mask)
 // wrapping a blurred bloom + a crisp sharp img.
 function iconArtShell() {
@@ -256,6 +276,7 @@ function iconArtShell() {
 	const tile  = document.createElement('span'); tile.className = 'icon-tile';
 	const bloom = document.createElement('img');  bloom.className = 'icon-bloom'; bloom.alt = ''; bloom.decoding = 'async';
 	const sharp = document.createElement('img');  sharp.className = 'icon-sharp'; sharp.alt = ''; sharp.decoding = 'async';
+	sharp.addEventListener('load', () => sizeSharp(sharp));
 	tile.appendChild(bloom); tile.appendChild(sharp); wrap.appendChild(tile);
 	return { wrap, bloom, sharp };
 }
