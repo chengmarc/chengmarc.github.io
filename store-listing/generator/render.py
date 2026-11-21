@@ -6,8 +6,8 @@ the live page.
 
 Writes, from index.html:
     store-listing/desktop/screenshot-1-desktop.png    1280x800, High Sierra, the desktop
-    store-listing/desktop/screenshot-2-apps.png       1280x800, High Sierra, All Apps open
-    store-listing/desktop/screenshot-3-settings.png   1280x800, Tahoe, Settings open
+    store-listing/desktop/screenshot-2-apps.png       1280x800, Tahoe, All Apps open
+    store-listing/desktop/screenshot-3-settings.png   1280x800, El Capitan, Settings open
 and the promo tiles, laid out by promo.html around a desktop captured here:
     store-listing/promo-440x280.png    the store's search tile: the whole desktop, on
                                        High Sierra, with the "Synced" window
@@ -40,8 +40,8 @@ SCREENSHOT = (1280, 800)
 # (file, wallpaper id from settings.js, what's open)
 SHOTS = [
     ('screenshot-1-desktop.png',  'high-sierra', None),
-    ('screenshot-2-apps.png',     'high-sierra', 'apps'),
-    ('screenshot-3-settings.png', 'tahoe',       'settings'),
+    ('screenshot-2-apps.png',     'tahoe',       'apps'),
+    ('screenshot-3-settings.png', 'el-capitan',  'settings'),
 ]
 
 # The search tile's desktop: the sample desktop on High Sierra, captured at the
@@ -61,6 +61,7 @@ STATE_KEY = 'webos_v1'
 
 BOOT = 1300        # ms: the boot splash lifts at 1s
 ICONS = 15000      # ms: the longest wait for site icons (each probe gives up at 5s)
+LOOKUP = 8000      # ms: the longest wait for icons first shown in an opened window
 SETTLE = 700       # ms: a window's spring-in animation, with room to spare
 
 # Runs before the page's own scripts, in its own scope: the page declares
@@ -117,6 +118,16 @@ def capture(browser, size, wallpaper, open_=None, state=None, show_country=True)
         page.evaluate("openWindow('settings')")
     if open_ == 'apps':
         page.evaluate("openAllApps()")
+    if open_ in ('settings', 'apps'):
+        # Tiles that weren't on the desktop start their icon lookup only now.
+        # Wait until none shows the gray placeholder; a site with no icon
+        # keeps it, hence the cap.
+        try:
+            page.wait_for_function(
+                "![...document.querySelectorAll('.icon-sharp')].some(i => i.src.endsWith('placeholder-glyph.svg'))",
+                timeout=LOOKUP)
+        except Exception:
+            pass
     page.mouse.move(width - 1, height // 2)   # away from icons and the dock
     page.wait_for_timeout(SETTLE)
     png = page.screenshot()
