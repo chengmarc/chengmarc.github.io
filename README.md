@@ -3,7 +3,7 @@
   <img src="src/app-icon.svg" width="180"><br>
 
   <a href="https://chromewebstore.google.com/detail/bookmark-os/mbfmccadkfdnhojahjehknphgmjkehkp"><img src="docs/badges/badge-chrome.svg" height="50"></a>
-  <a href="https://addons.mozilla.org/en-US/firefox/addon/bookmark-os/"><img src="docs/badges/badge-firefox.svg" height="50"></a>
+  <a href="https://addons.mozilla.org/en-US/firefox/addon/homepage-os/"><img src="docs/badges/badge-firefox.svg" height="50"></a>
   <a href="https://microsoftedge.microsoft.com/addons/detail/apjbdkedomhbdmknfhcfiniipcjedibc"><img src="docs/badges/badge-edge.svg" height="50"></a>
 
   <h1>Home Page OS - A New Era of Web Browsing</h1>

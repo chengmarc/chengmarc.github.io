@@ -174,7 +174,7 @@ new tab · bookmarks · bookmark sync · bookmarks bar · bookmark manager · st
 Home Page OS
 
 ### Add-on URL
-bookmark-os (addons.mozilla.org/firefox/addon/bookmark-os/)
+homepage-os (addons.mozilla.org/firefox/addon/homepage-os/)
 
 ### Summary (250 characters max)
 The only home page you need. Your bookmarks, synced from your browser, laid out as a desktop on every new tab. No account needed.
