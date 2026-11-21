@@ -24,7 +24,7 @@ BUILD = ROOT / 'build'
 
 # Firefox needs a stable add-on ID and, for new AMO listings, a declaration of
 # what data leaves the browser. Icons are looked up by sending each bookmark's
-# URL to Google's favicon service, so bookmark URLs are declared.
+# URL to Google's favicon service (gstatic), so bookmark URLs are declared.
 GECKO = {
     'id': 'bookmark-os@chengmarc.com',
     'strict_min_version': '140.0',

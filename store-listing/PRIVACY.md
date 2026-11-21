@@ -16,7 +16,8 @@ Like any web page, the new tab page loads a few things from the internet. Each r
 |---|---|---|
 | `ipwho.is` | Shows your country and its flag in the menu bar | Your IP address |
 | `flagcdn.com` | Loads the flag image for your country | Your country code |
-| `www.google.com/s2/favicons` | Looks up the icon for each link on screen | The URL of each link being displayed |
+| `t0.gstatic.com` and `t0.gstatic.cn` (Google's favicon service) | Looks up the icon for each link on screen | The URL of each link being displayed, and its site's home address |
+| `icon.horse` | Looks up the icon for each link on screen | The domain of each link being displayed |
 | Each linked website | Loads that site's own icon file (e.g. `/favicon.ico`) | A request for its icon |
 
 The first two are only contacted while **Settings → Privacy → Show country** is on (the default); turn it off and neither is asked.
