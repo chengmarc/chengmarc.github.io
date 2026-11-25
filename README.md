@@ -13,9 +13,9 @@
 
 ## Screenshots
 
-<img src="promo/out/store/desktop/screenshot-1-desktop.png">
-<img src="promo/out/store/desktop/screenshot-2-apps.png">
-<img src="promo/out/store/desktop/screenshot-3-settings.png">
+<img src="promo/out/store/screenshot-1-desktop.png">
+<img src="promo/out/store/screenshot-2-apps.png">
+<img src="promo/out/store/screenshot-3-settings.png">
 
 ## Try it locally
 

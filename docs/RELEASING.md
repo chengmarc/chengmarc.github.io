@@ -15,11 +15,11 @@ promo/
     LISTING.md      every store dashboard field, per store
     PRIVACY.md      privacy policy (linked from the store listings)
   out/              the images, by where each goes; all kept in git
-    store/          what the three stores share: the promo tiles, Edge's
-                    logo-300x300.png and desktop/, the screenshots at 1280x800
-                    (also the README's and the site's og:image)
-    github/         social-preview.png, uploaded in the repo's Settings
-    portfolio/      portfolio.png, a square tile for a job profile's portfolio
+    store/          what the three stores share: the screenshots at 1280x800
+                    (also the README's and the site's og:image), the promo
+                    tiles and Edge's logo-300x300.png
+    social-preview.png  uploaded in the repo's Settings
+    portfolio.png   a square tile for a job profile's portfolio
 docs/badges/        store badges shown in the README
 ```
 
@@ -60,4 +60,4 @@ pip install playwright && playwright install chromium
 python promo/generator/render.py              # --no-store: only the social preview and portfolio tile
 ```
 
-Listing text and privacy answers are in [`promo/listing/LISTING.md`](../promo/listing/LISTING.md); the images are in `promo/out/store/`, the screenshots in its `desktop/`.
+Listing text and privacy answers are in [`promo/listing/LISTING.md`](../promo/listing/LISTING.md); the images, screenshots included, are in `promo/out/store/`.

@@ -6,17 +6,17 @@ promo/out/, by where each goes.
 
 Writes, from index.html, the images the three stores share (and the README and
 the site's og:image show, so git keeps them):
-    promo/out/store/desktop/screenshot-1-desktop.png    1280x800, High Sierra, the desktop
-    promo/out/store/desktop/screenshot-2-apps.png       1280x800, Tahoe, All Apps open
-    promo/out/store/desktop/screenshot-3-settings.png   1280x800, El Capitan, Settings open
+    promo/out/store/screenshot-1-desktop.png    1280x800, High Sierra, the desktop
+    promo/out/store/screenshot-2-apps.png       1280x800, Tahoe, All Apps open
+    promo/out/store/screenshot-3-settings.png   1280x800, El Capitan, Settings open
 and the promo tiles, laid out by promo.html around a desktop captured here:
     promo/out/store/promo-440x280.png    the store's search tile: the whole desktop, on
                                          High Sierra, with the "Synced" window
     promo/out/store/promo-1400x560.png   the marquee: the pitch, beside screenshot 1 with the same window
-    promo/out/github/social-preview.png  GitHub's preview of the repository, uploaded in its
+    promo/out/social-preview.png         GitHub's preview of the repository, uploaded in its
                                          Settings: the marquee's layout at 1280x640
 and portfolio.html's square tile for a job profile's portfolio:
-    promo/out/portfolio/portfolio.png    1080x1080, screenshot 1 with the same window
+    promo/out/portfolio.png              1080x1080, screenshot 1 with the same window
 
 With --no-store, only the social preview and the portfolio tile, from the
 screenshot 1 already there, in a few seconds.
@@ -175,21 +175,20 @@ def main():
     no_store = '--no-store' in sys.argv[1:]
     with sync_playwright() as p:
         browser = p.chromium.launch(executable_path=os.environ.get('CHROMIUM_PATH') or None)
-        desktop = STORE / 'desktop'
         if no_store:
-            shots = {'screenshot-1-desktop.png': (desktop / 'screenshot-1-desktop.png').read_bytes()}
+            shots = {'screenshot-1-desktop.png': (STORE / 'screenshot-1-desktop.png').read_bytes()}
         else:
             shots = {}
-            desktop.mkdir(parents=True, exist_ok=True)
+            STORE.mkdir(parents=True, exist_ok=True)
             for name, wallpaper, open_ in SHOTS:
                 shots[name] = capture(browser, SCREENSHOT, wallpaper, open_)
-                (desktop / name).write_bytes(shots[name])
-                print('wrote promo/out/store/desktop/' + name)
+                (STORE / name).write_bytes(shots[name])
+                print('wrote promo/out/store/' + name)
             tile_desktop = capture(browser, TILE_DESKTOP, 'high-sierra', show_country=False)
             promo(browser, 'promo/out/store/promo-440x280.png', 'small', (440, 280), tile_desktop)
             promo(browser, 'promo/out/store/promo-1400x560.png', 'marquee', (1400, 560), shots['screenshot-1-desktop.png'])
-        promo(browser, 'promo/out/github/social-preview.png', 'social', (1280, 640), shots['screenshot-1-desktop.png'])
-        page_shot(browser, 'promo/out/portfolio/portfolio.png', 'portfolio.html', (1080, 1080))
+        promo(browser, 'promo/out/social-preview.png', 'social', (1280, 640), shots['screenshot-1-desktop.png'])
+        page_shot(browser, 'promo/out/portfolio.png', 'portfolio.html', (1080, 1080))
         browser.close()
 
 

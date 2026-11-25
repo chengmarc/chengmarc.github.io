@@ -54,9 +54,9 @@ English
 packaging/icons/icon-128.png
 
 ### Screenshots (1280x800)
-promo/out/store/desktop/screenshot-1-desktop.png
-promo/out/store/desktop/screenshot-2-apps.png
-promo/out/store/desktop/screenshot-3-settings.png
+promo/out/store/screenshot-1-desktop.png
+promo/out/store/screenshot-2-apps.png
+promo/out/store/screenshot-3-settings.png
 
 ### Small promo tile (440x280)
 promo/out/store/promo-440x280.png
@@ -156,9 +156,9 @@ promo/out/store/logo-300x300.png
 promo/out/store/promo-440x280.png
 
 ### Screenshots (1280x800)
-promo/out/store/desktop/screenshot-1-desktop.png
-promo/out/store/desktop/screenshot-2-apps.png
-promo/out/store/desktop/screenshot-3-settings.png
+promo/out/store/screenshot-1-desktop.png
+promo/out/store/screenshot-2-apps.png
+promo/out/store/screenshot-3-settings.png
 
 ### Large promotional tile (1400x560)
 promo/out/store/promo-1400x560.png
@@ -234,9 +234,9 @@ https://github.com/chengmarc/chengmarc.github.io/issues
 packaging/icons/icon-128.png
 
 ### Screenshots (1280x800)
-promo/out/store/desktop/screenshot-1-desktop.png
-promo/out/store/desktop/screenshot-2-apps.png
-promo/out/store/desktop/screenshot-3-settings.png
+promo/out/store/screenshot-1-desktop.png
+promo/out/store/screenshot-2-apps.png
+promo/out/store/screenshot-3-settings.png
 
 ## Additional Details
 
