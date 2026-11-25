@@ -1,19 +1,25 @@
-"""Render the store screenshots, promo tiles and GitHub social preview from
-the live page.
+"""Render every designed image of the extension from the live page, into
+promo/out/, by where each goes.
 
     pip install playwright && playwright install chromium
-    python store-listing/generator/render.py
+    python promo/generator/render.py [--no-store]
 
-Writes, from index.html:
-    store-listing/desktop/screenshot-1-desktop.png    1280x800, High Sierra, the desktop
-    store-listing/desktop/screenshot-2-apps.png       1280x800, Tahoe, All Apps open
-    store-listing/desktop/screenshot-3-settings.png   1280x800, El Capitan, Settings open
+Writes, from index.html, the images the three stores share (and the README and
+the site's og:image show, so git keeps them):
+    promo/out/store/desktop/screenshot-1-desktop.png    1280x800, High Sierra, the desktop
+    promo/out/store/desktop/screenshot-2-apps.png       1280x800, Tahoe, All Apps open
+    promo/out/store/desktop/screenshot-3-settings.png   1280x800, El Capitan, Settings open
 and the promo tiles, laid out by promo.html around a desktop captured here:
-    store-listing/promo-440x280.png    the store's search tile: the whole desktop, on
-                                       High Sierra, with the "Synced" window
-    store-listing/promo-1400x560.png   the marquee: the pitch, beside screenshot 1 with the same window
-    docs/social-preview.png            GitHub's preview of the repository (also in the
-                                       README): the marquee's layout at 1280x640
+    promo/out/store/promo-440x280.png    the store's search tile: the whole desktop, on
+                                         High Sierra, with the "Synced" window
+    promo/out/store/promo-1400x560.png   the marquee: the pitch, beside screenshot 1 with the same window
+    promo/out/github/social-preview.png  GitHub's preview of the repository, uploaded in its
+                                         Settings: the marquee's layout at 1280x640
+and portfolio.html's square tile for a job profile's portfolio:
+    promo/out/portfolio/portfolio.png    1080x1080, screenshot 1 with the same window
+
+With --no-store, only the social preview and the portfolio tile, from the
+screenshot 1 already there, in a few seconds.
 
 Every capture starts from a fresh profile, in English, with the clock stopped
 at 09:41. The country chip shows, as it does by default, but with a made-up
@@ -28,13 +34,14 @@ Run from anywhere. Set CHROMIUM_PATH to use a Chromium other than Playwright's.
 import base64
 import json
 import os
+import sys
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
 
 GENERATOR = Path(__file__).resolve().parent
-LISTING = GENERATOR.parent
-ROOT = LISTING.parent
+ROOT = GENERATOR.parents[1]
+STORE = ROOT / 'promo' / 'out' / 'store'
 
 SCREENSHOT = (1280, 800)
 # (file, wallpaper id from settings.js, what's open)
@@ -151,18 +158,38 @@ def promo(browser, out, layout, size, desktop_png):
     print('wrote ' + out)
 
 
+def page_shot(browser, out, page_name, size):
+    """A page beside this script at `size`, saved at `out` (relative to the repository)."""
+    width, height = size
+    page = browser.new_page(viewport={'width': width, 'height': height})
+    page.goto((GENERATOR / page_name).as_uri())
+    page.wait_for_load_state('networkidle')
+    page.evaluate('document.fonts.ready')
+    (ROOT / out).parent.mkdir(parents=True, exist_ok=True)
+    page.screenshot(path=str(ROOT / out))
+    page.close()
+    print('wrote ' + out)
+
+
 def main():
+    no_store = '--no-store' in sys.argv[1:]
     with sync_playwright() as p:
         browser = p.chromium.launch(executable_path=os.environ.get('CHROMIUM_PATH') or None)
-        shots = {}
-        for name, wallpaper, open_ in SHOTS:
-            shots[name] = capture(browser, SCREENSHOT, wallpaper, open_)
-            (LISTING / 'desktop' / name).write_bytes(shots[name])
-            print('wrote desktop/' + name)
-        tile_desktop = capture(browser, TILE_DESKTOP, 'high-sierra', show_country=False)
-        promo(browser, 'store-listing/promo-440x280.png', 'small', (440, 280), tile_desktop)
-        promo(browser, 'store-listing/promo-1400x560.png', 'marquee', (1400, 560), shots['screenshot-1-desktop.png'])
-        promo(browser, 'docs/social-preview.png', 'social', (1280, 640), shots['screenshot-1-desktop.png'])
+        desktop = STORE / 'desktop'
+        if no_store:
+            shots = {'screenshot-1-desktop.png': (desktop / 'screenshot-1-desktop.png').read_bytes()}
+        else:
+            shots = {}
+            desktop.mkdir(parents=True, exist_ok=True)
+            for name, wallpaper, open_ in SHOTS:
+                shots[name] = capture(browser, SCREENSHOT, wallpaper, open_)
+                (desktop / name).write_bytes(shots[name])
+                print('wrote promo/out/store/desktop/' + name)
+            tile_desktop = capture(browser, TILE_DESKTOP, 'high-sierra', show_country=False)
+            promo(browser, 'promo/out/store/promo-440x280.png', 'small', (440, 280), tile_desktop)
+            promo(browser, 'promo/out/store/promo-1400x560.png', 'marquee', (1400, 560), shots['screenshot-1-desktop.png'])
+        promo(browser, 'promo/out/github/social-preview.png', 'social', (1280, 640), shots['screenshot-1-desktop.png'])
+        page_shot(browser, 'promo/out/portfolio/portfolio.png', 'portfolio.html', (1080, 1080))
         browser.close()
 
 

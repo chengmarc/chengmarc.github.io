@@ -1,0 +1,72 @@
+<!doctype html>
+<!-- A portfolio tile for a job profile (Boss 直聘, 猎聘, 脉脉): render.py loads this page at 1080 x 1080 into
+     promo/out/portfolio/portfolio.png. It's mostly seen as a thumbnail about 1.5 cm wide, four to a row, so the desktop fills the
+     square and only the name, at the top, has to read at that size; the tag under it is for when the tile is opened.
+     The same layout on every repo's tile, so they read as a set. The desktop and the "Synced" window are the Store
+     promo's (promo.html, promo/out/store/desktop/screenshot-1-desktop.png by render.py). -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: 'DM Sans'; font-weight: 300 700; src: url('../../src/fonts/dm-sans-latin.woff2') format('woff2'); }
+  * { margin: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1080px; overflow: hidden; }
+  body {
+    position: relative; font-family: 'DM Sans', sans-serif; color: #fff;
+    /* The promo's: High Sierra's sky above, its autumn gold below, on the dark of the mountain. */
+    background:
+      radial-gradient(circle at 8% 6%, rgba(95, 145, 205, .55), transparent 45%),
+      radial-gradient(circle at 95% 30%, rgba(225, 115, 25, .4), transparent 45%),
+      #15110e;
+  }
+
+  /* The label: icon and name in the top-left corner. */
+  .label { position: absolute; left: 0; right: 0; top: 0; z-index: 5; display: flex; align-items: center; gap: 30px; padding: 52px 56px 0; }
+  .label img { width: 156px; height: 156px; flex: none; filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5)); }
+  .label b { display: block; width: max-content; white-space: nowrap; font-size: 124px; line-height: 0.95; font-weight: 700; letter-spacing: -0.035em; }
+  .label small { display: block; margin-top: 14px; font-size: 40px; font-weight: 600; color: rgba(255, 255, 255, 0.8); }
+  /* The vision line's gradient, from the icon. */
+  .brand { background: linear-gradient(90deg, #a79fff, #ff7cbc 55%, #ffb07a); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+  /* The desktop, bleeding off the right and the bottom, with the promo's window on it. */
+  .screen {
+    position: absolute; left: 40px; top: 290px; width: 1272px; overflow: hidden; border-radius: 18px 0 0 0;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, .12), 0 24px 60px rgba(0, 0, 0, .6);
+  }
+  .screen img { display: block; width: 100%; }
+  .pill {
+    position: absolute; left: 42%; top: 44%; transform: translate(-50%, -50%); font-size: 54px;
+    display: inline-flex; align-items: center; gap: .55em;
+    padding: 1.36em .86em .73em 1.05em; border-radius: .73em;
+    line-height: 1.12; text-align: center; color: #1d1d1f; font-weight: 700; letter-spacing: -.005em; white-space: nowrap;
+    background: rgba(248, 248, 250, .65); backdrop-filter: blur(20px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, .5);
+    box-shadow: 0 0 0 .5px rgba(0, 0, 0, .3), 0 2px 8px rgba(0, 0, 0, .15), 0 14px 36px rgba(0, 0, 0, .35), inset 0 1px 0 rgba(255, 255, 255, .82);
+  }
+  .lights { position: absolute; top: .5em; left: .55em; display: flex; gap: .35em; }
+  .lights i { width: .5em; height: .5em; border-radius: 50%; box-shadow: inset 0 0 0 .5px rgba(0, 0, 0, .18); }
+  .lights i:nth-child(1) { background: #ff5f57; }
+  .lights i:nth-child(2) { background: #febc2e; }
+  .lights i:nth-child(3) { background: #28c840; }
+  .arrow { width: 1.95em; height: 1.95em; flex-shrink: 0; filter: drop-shadow(0 1px 2px rgba(10, 132, 255, .35)); }
+</style>
+</head>
+<body>
+  <div class="screen">
+    <img src="../out/store/desktop/screenshot-1-desktop.png" alt="">
+    <span class="pill"><span class="lights"><i></i><i></i><i></i></span><span>Synced from your<br> Bookmarks bar</span><svg class="arrow" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="#0a84ff"/><path d="M10 14.5V5.8M6.2 9.4L10 5.6l3.8 3.8" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+  </div>
+  <div class="label">
+    <img src="../../src/app-icon.svg" alt="">
+    <span><b>Home Page <span class="brand">OS</span></b><small>Browser extension</small></span>
+  </div>
+<script>
+  // The name shrinks, if it must, to fit beside the icon.
+  document.fonts.ready.then(() => {
+    const name = document.querySelector(".label b"), room = 1080 - 2 * 56 - 156 - 30;
+    const width = name.getBoundingClientRect().width;
+    if (width > room) name.style.fontSize = 124 * room / width + "px";
+  });
+</script>
+</body>
+</html>

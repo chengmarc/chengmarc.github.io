@@ -8,16 +8,19 @@ packaging/
   build.py          stages the packages in build/ and zips them into dist/
   render_icons.py   renders icons/ and Edge's store logo from src/app-icon.svg
   icons/            16/32/48/128 px
-store-listing/
-  LISTING.md        every store dashboard field, per store
-  PRIVACY.md        privacy policy (linked from the store listings)
-  promo-*.png       the promo tiles (generator/promo.html lays them out)
-  logo-300x300.png  Edge's extension logo
-  desktop/          the screenshots, 1280x800
-  generator/        render.py renders the screenshots, the promo tiles and
-                    docs/social-preview.png
+promo/
+  generator/        render.py renders every image below from the live page;
+                    promo.html and portfolio.html lay out the designed ones
+  listing/
+    LISTING.md      every store dashboard field, per store
+    PRIVACY.md      privacy policy (linked from the store listings)
+  out/              the images, by where each goes; all kept in git
+    store/          what the three stores share: the promo tiles, Edge's
+                    logo-300x300.png and desktop/, the screenshots at 1280x800
+                    (also the README's and the site's og:image)
+    github/         social-preview.png, uploaded in the repo's Settings
+    portfolio/      portfolio.png, a square tile for a job profile's portfolio
 docs/badges/        store badges shown in the README
-docs/social-preview.png  GitHub's preview of the repository, also in the README
 ```
 
 ## Build
@@ -54,7 +57,7 @@ Refresh the images after a UI change, then check them before uploading:
 
 ```
 pip install playwright && playwright install chromium
-python store-listing/generator/render.py
+python promo/generator/render.py              # --no-store: only the social preview and portfolio tile
 ```
 
-Listing text and privacy answers are in [`store-listing/LISTING.md`](../store-listing/LISTING.md); the promo tiles are beside it, the screenshots in `store-listing/desktop/`.
+Listing text and privacy answers are in [`promo/listing/LISTING.md`](../promo/listing/LISTING.md); the images are in `promo/out/store/`, the screenshots in its `desktop/`.

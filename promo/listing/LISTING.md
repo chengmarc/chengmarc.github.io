@@ -54,15 +54,15 @@ English
 packaging/icons/icon-128.png
 
 ### Screenshots (1280x800)
-store-listing/desktop/screenshot-1-desktop.png
-store-listing/desktop/screenshot-2-apps.png
-store-listing/desktop/screenshot-3-settings.png
+promo/out/store/desktop/screenshot-1-desktop.png
+promo/out/store/desktop/screenshot-2-apps.png
+promo/out/store/desktop/screenshot-3-settings.png
 
 ### Small promo tile (440x280)
-store-listing/promo-440x280.png
+promo/out/store/promo-440x280.png
 
 ### Marquee promo tile (1400x560)
-store-listing/promo-1400x560.png
+promo/out/store/promo-1400x560.png
 
 ## Additional fields
 
@@ -84,7 +84,7 @@ Replaces the new tab page with a desktop built from, and kept in sync with, the 
 `bookmarks` — optional, requested at runtime. Read when the user clicks Settings → Browser Sync → Sync Now, or, if they turn on Settings → Browser Sync → Always sync with browser, each time the new tab page opens and whenever a bookmark changes, to rebuild the new tab desktop and folders from their Bookmarks bar. Bookmarks are read only, never changed, and never leave the browser.
 
 ### Privacy policy URL
-https://github.com/chengmarc/chengmarc.github.io/blob/main/store-listing/PRIVACY.md
+https://github.com/chengmarc/chengmarc.github.io/blob/main/promo/listing/PRIVACY.md
 
 # Edge Add-ons
 
@@ -107,7 +107,7 @@ https://github.com/chengmarc/chengmarc.github.io/issues
 Replaces the new tab page with a desktop built from, and kept in sync with, the user's browser bookmarks.
 
 ### Privacy policy URL
-https://github.com/chengmarc/chengmarc.github.io/blob/main/store-listing/PRIVACY.md
+https://github.com/chengmarc/chengmarc.github.io/blob/main/promo/listing/PRIVACY.md
 
 ## Store listings
 
@@ -150,18 +150,18 @@ https://github.com/chengmarc/chengmarc.github.io/blob/main/store-listing/PRIVACY
 • Pas de compte. L’extension lit vos favoris sans jamais les modifier, et tout reste dans votre navigateur.
 
 ### Extension logo (300x300)
-store-listing/logo-300x300.png
+promo/out/store/logo-300x300.png
 
 ### Small promotional tile (440x280)
-store-listing/promo-440x280.png
+promo/out/store/promo-440x280.png
 
 ### Screenshots (1280x800)
-store-listing/desktop/screenshot-1-desktop.png
-store-listing/desktop/screenshot-2-apps.png
-store-listing/desktop/screenshot-3-settings.png
+promo/out/store/desktop/screenshot-1-desktop.png
+promo/out/store/desktop/screenshot-2-apps.png
+promo/out/store/desktop/screenshot-3-settings.png
 
 ### Large promotional tile (1400x560)
-store-listing/promo-1400x560.png
+promo/out/store/promo-1400x560.png
 
 ### Search terms
 new tab · bookmarks · bookmark sync · bookmarks bar · bookmark manager · start page · macos desktop
@@ -234,9 +234,9 @@ https://github.com/chengmarc/chengmarc.github.io/issues
 packaging/icons/icon-128.png
 
 ### Screenshots (1280x800)
-store-listing/desktop/screenshot-1-desktop.png
-store-listing/desktop/screenshot-2-apps.png
-store-listing/desktop/screenshot-3-settings.png
+promo/out/store/desktop/screenshot-1-desktop.png
+promo/out/store/desktop/screenshot-2-apps.png
+promo/out/store/desktop/screenshot-3-settings.png
 
 ## Additional Details
 

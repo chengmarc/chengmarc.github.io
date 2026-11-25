@@ -2,8 +2,7 @@
 <!--
   Layout for the store promo tiles and GitHub's social preview, at the size
   given in the query string: ?small 440x280 (the store's search tile),
-  ?marquee 1400x560, ?social 1280x640 (the repository's preview, also in the
-  README). render.py, beside this file, renders all three, putting a
+  ?marquee 1400x560, ?social 1280x640 (the repository's preview). render.py, beside this file, renders all three, putting a
   desktop it captured into #desktop; opened by hand, the page shows
   screenshot 1 there instead.
 
@@ -110,6 +109,10 @@ body {
 .social h1         { font-size: 56px; }
 .social .pitch p   { font-size: 21px; margin-top: 18px; }
 .social .pitch p.fine { font-size: 16px; margin-top: 20px; }
+/* The README's badges, in its order, on the social preview only. */
+.badges { display: none; }
+.social .badges { display: flex; gap: 8px; margin-top: 18px; }
+.social .badges img { display: block; height: 36px; }
 .social .screen    { left: 556px; top: 50%; transform: translateY(-50%); width: 652px;
                      border-radius: 13px; box-shadow: 0 0 0 1px rgba(255, 255, 255, .12), 0 24px 60px rgba(0, 0, 0, .6); }
 .social .pill      { font-size: 33px; }
@@ -122,10 +125,11 @@ body {
     <h1>The only home<br>page you need.</h1>
     <p>Syncs with your browser’s Bookmarks bar: folders become app categories, links become icons. Change a bookmark, and the desktop follows.</p>
     <p class="fine">No account · Nothing leaves your browser</p>
+    <div class="badges"><img src="../../docs/badges/badge-chrome.svg" alt=""><img src="../../docs/badges/badge-firefox.svg" alt=""><img src="../../docs/badges/badge-edge.svg" alt=""></div>
 </div>
 
 <div class="screen">
-    <img id="desktop" src="../desktop/screenshot-1-desktop.png" alt="">
+    <img id="desktop" src="../out/store/desktop/screenshot-1-desktop.png" alt="">
     <span class="pill"><span class="lights"><i></i><i></i><i></i></span><span>Synced from your<br> Bookmarks bar</span><svg class="arrow" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="#0a84ff"/><path d="M10 14.5V5.8M6.2 9.4L10 5.6l3.8 3.8" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
 </div>
 

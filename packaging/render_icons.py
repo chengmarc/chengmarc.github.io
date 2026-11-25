@@ -4,7 +4,7 @@
     python packaging/render_icons.py
 
 Writes packaging/icons/icon-<size>.png at 16, 32, 48 and 128 px, the sizes
-manifest.json names, and store-listing/logo-300x300.png, the logo Edge
+manifest.json names, and promo/out/store/logo-300x300.png, the logo Edge
 Add-ons asks for (kept out of icons/ so it isn't packaged). Each is drawn by
 Chromium straight at its size, not scaled down from a large render, so small
 sizes stay crisp.
@@ -22,7 +22,7 @@ ROOT = PACKAGING.parent
 SVG = ROOT / 'src' / 'app-icon.svg'
 ICONS = PACKAGING / 'icons'
 SIZES = [16, 32, 48, 128]
-STORE_LOGO = (ROOT / 'store-listing' / 'logo-300x300.png', 300)
+STORE_LOGO = (ROOT / 'promo' / 'out' / 'store' / 'logo-300x300.png', 300)
 
 
 def main():
