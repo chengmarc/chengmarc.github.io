@@ -101,21 +101,24 @@ body {
                      border-radius: 14px; box-shadow: 0 0 0 1px rgba(255, 255, 255, .12), 0 24px 60px rgba(0, 0, 0, .6); }
 .marquee .pill     { font-size: 37px; }
 
-/* 1280 × 640 social preview: the marquee's layout, a little smaller */
-.social .pitch     { left: 76px; top: 0; bottom: 0; width: 440px; }
-.social .wordmark  { font-size: 26px; gap: 16px; margin-bottom: 30px; }
-.social .wordmark img { width: 64px; height: 64px; }
-.social .pitch p.era { display: block; font-size: 34px; margin: 0 0 16px; }
-.social h1         { font-size: 56px; }
-.social .pitch p   { font-size: 21px; margin-top: 18px; }
-.social .pitch p.fine { font-size: 16px; margin-top: 20px; }
+/* 1280 × 640 social preview: the marquee's layout, its desktop larger and off
+   the right, so the card has no empty margin; the words stay 56px clear of the
+   edges, which GitHub crops in places */
+.social .pitch     { left: 68px; top: 0; bottom: 0; width: 466px; }
+.social .wordmark  { font-size: 30px; gap: 18px; margin-bottom: 28px; }
+.social .wordmark img { width: 72px; height: 72px; }
+.social .pitch p.era { display: block; font-size: 36px; margin: 0 0 14px; }
+.social h1         { font-size: 60px; }
+.social .pitch p   { font-size: 22px; margin-top: 18px; }
+.social .pitch p.fine { font-size: 17px; margin-top: 18px; }
 /* The README's badges, in its order, on the social preview only. */
 .badges { display: none; }
 .social .badges { display: flex; gap: 8px; margin-top: 18px; }
-.social .badges img { display: block; height: 36px; }
-.social .screen    { left: 556px; top: 50%; transform: translateY(-50%); width: 652px;
-                     border-radius: 13px; box-shadow: 0 0 0 1px rgba(255, 255, 255, .12), 0 24px 60px rgba(0, 0, 0, .6); }
-.social .pill      { font-size: 33px; }
+.social .badges img { display: block; height: 38px; }
+.social .screen    { left: 566px; top: 52px; width: 930px;
+                     border-radius: 14px; box-shadow: 0 0 0 1px rgba(255, 255, 255, .12), 0 24px 60px rgba(0, 0, 0, .6); }
+/* Left of the desktop's middle, so the window stays clear of the card's right edge. */
+.social .pill      { font-size: 44px; left: 41%; }
 </style>
 </head>
 <body>
