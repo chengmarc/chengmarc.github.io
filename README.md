@@ -9,8 +9,6 @@
   <h1>Home Page OS - A New Era of Web Browsing</h1>
   <p><b>The only home page you need.</b><br>Your bookmarks, synced from your browser, laid out as a desktop on every new tab.</p>
 
-  <img src="docs/social-preview.png">
-
 </div>
 
 ## Screenshots
