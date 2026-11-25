@@ -6,16 +6,13 @@
   <a href="https://addons.mozilla.org/en-US/firefox/addon/homepage-os/"><img src="docs/badges/badge-firefox.svg" height="50"></a>
   <a href="https://microsoftedge.microsoft.com/addons/detail/apjbdkedomhbdmknfhcfiniipcjedibc"><img src="docs/badges/badge-edge.svg" height="50"></a>
 
-  <h1>Home Page OS - A New Era of Web Browsing</h1>
-  <p><b>The only home page you need.</b><br>Your bookmarks, synced from your browser, laid out as a desktop on every new tab.</p>
-
+  <h1>Home Page OS - Desktop in a Single HTML Page</h1>
+  
+  <img src="docs/screenshots/screenshot-1-desktop.png">
+  <img src="docs/screenshots/screenshot-2-apps.png">
+  <img src="docs/screenshots/screenshot-3-settings.png">
+  
 </div>
-
-## Screenshots
-
-<img src="docs/screenshots/screenshot-1-desktop.png">
-<img src="docs/screenshots/screenshot-2-apps.png">
-<img src="docs/screenshots/screenshot-3-settings.png">
 
 ## Try it locally
 
