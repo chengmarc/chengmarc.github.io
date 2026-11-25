@@ -14,13 +14,13 @@ promo/
   listing/
     LISTING.md      every store dashboard field, per store
     PRIVACY.md      privacy policy (linked from the store listings)
-  out/              the images, by where each goes; all kept in git
-    store/          what the three stores share: the screenshots at 1280x800
-                    (also the README's and the site's og:image), the promo
-                    tiles and Edge's logo-300x300.png
+  out/              the images uploaded by hand, by where each goes; not in git
+    store/          what the three stores share: the screenshots at 1280x800,
+                    the promo tiles and Edge's logo-300x300.png
     social-preview.png  uploaded in the repo's Settings
     portfolio.png   a square tile for a job profile's portfolio
 docs/badges/        store badges shown in the README
+docs/screenshots/   the screenshots again, for the README and the site's og:image
 ```
 
 ## Build

@@ -1,11 +1,10 @@
 # Derived files, tracked because a reader outside the build needs them (the
-# extension package, the stores, the README) or the build can't make them
+# extension package, the README, the site) or the build can't make them
 # (they need Chromium). Never edit one by hand: change its source, rerun its
 # generator.
 
 # packaging/render_icons.py, from src/app-icon.svg
 packaging/icons/*.png linguist-generated
 
-# promo/generator/render.py, from index.html
-promo/out/*.png linguist-generated
-promo/out/store/*.png linguist-generated
+# promo/generator/render.py, from index.html: the README's screenshots, also the site's og:image
+docs/screenshots/*.png linguist-generated

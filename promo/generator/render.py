@@ -4,8 +4,7 @@ promo/out/, by where each goes.
     pip install playwright && playwright install chromium
     python promo/generator/render.py [--no-store]
 
-Writes, from index.html, the images the three stores share (and the README and
-the site's og:image show, so git keeps them):
+Writes, from index.html, the images the three stores share (none kept in git):
     promo/out/store/screenshot-1-desktop.png    1280x800, High Sierra, the desktop
     promo/out/store/screenshot-2-apps.png       1280x800, Tahoe, All Apps open
     promo/out/store/screenshot-3-settings.png   1280x800, El Capitan, Settings open
@@ -17,9 +16,11 @@ and the promo tiles, laid out by promo.html around a desktop captured here:
                                          Settings: the marquee's layout at 1280x640
 and portfolio.html's square tile for a job profile's portfolio:
     promo/out/portfolio.png              1080x1080, screenshot 1 with the same window
+and copies the screenshots into docs/screenshots/, which git keeps: the README
+shows them, and the site's og:image is the first.
 
 With --no-store, only the social preview and the portfolio tile, from the
-screenshot 1 already there, in a few seconds.
+screenshot 1 in docs/screenshots/, in a few seconds.
 
 Every capture starts from a fresh profile, in English, with the clock stopped
 at 09:41. The country chip shows, as it does by default, but with a made-up
@@ -42,6 +43,7 @@ from playwright.sync_api import sync_playwright
 GENERATOR = Path(__file__).resolve().parent
 ROOT = GENERATOR.parents[1]
 STORE = ROOT / 'promo' / 'out' / 'store'
+README_SHOTS = ROOT / 'docs' / 'screenshots'
 
 SCREENSHOT = (1280, 800)
 # (file, wallpaper id from settings.js, what's open)
@@ -176,14 +178,16 @@ def main():
     with sync_playwright() as p:
         browser = p.chromium.launch(executable_path=os.environ.get('CHROMIUM_PATH') or None)
         if no_store:
-            shots = {'screenshot-1-desktop.png': (STORE / 'screenshot-1-desktop.png').read_bytes()}
+            shots = {'screenshot-1-desktop.png': (README_SHOTS / 'screenshot-1-desktop.png').read_bytes()}
         else:
             shots = {}
             STORE.mkdir(parents=True, exist_ok=True)
+            README_SHOTS.mkdir(parents=True, exist_ok=True)
             for name, wallpaper, open_ in SHOTS:
                 shots[name] = capture(browser, SCREENSHOT, wallpaper, open_)
                 (STORE / name).write_bytes(shots[name])
-                print('wrote promo/out/store/' + name)
+                (README_SHOTS / name).write_bytes(shots[name])
+                print('wrote promo/out/store/' + name + ', docs/screenshots/' + name)
             tile_desktop = capture(browser, TILE_DESKTOP, 'high-sierra', show_country=False)
             promo(browser, 'promo/out/store/promo-440x280.png', 'small', (440, 280), tile_desktop)
             promo(browser, 'promo/out/store/promo-1400x560.png', 'marquee', (1400, 560), shots['screenshot-1-desktop.png'])
